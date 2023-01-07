@@ -245,7 +245,7 @@ public class W3WOcrNative: W3WOcrProtocol {
       for words in candidates {
         if let s = try? sdk.convertToSquare(words: words) {
           if s.coordinates != nil {
-            let ocrSuggestion = W3WOcrSuggestion(words: s.words, country: s.country, nearestPlace: s.nearestPlace, distanceToFocus: s.distanceToFocus, language: s.language)
+            let ocrSuggestion = W3WOcrSuggestion(words: s.words, country: s.country?.code, nearestPlace: s.nearestPlace, distanceToFocus: s.distanceToFocus?.kilometers, language: s.language?.code)
             suggestions.append(ocrSuggestion)
           }
         }
