@@ -336,17 +336,20 @@ public class W3WOcrCamera: W3WVideoStream {
       // make an empty list of cameras
       cameraList = [W3WOcrCamera]()
       
-      var deviceTypes = [AVCaptureDevice.DeviceType]()
-      
-      // iOS 13 brings tripple and dual wide cameras
-      if #available(iOS 13.0, *) {
-        deviceTypes.append(.builtInTripleCamera)
-        deviceTypes.append(.builtInDualWideCamera)
-      }
-      
-      // iOS 10 required to query cameras
       if #available(iOS 10.0, *) {
-        deviceTypes.append(.builtInDualCamera)
+        var deviceTypes = [AVCaptureDevice.DeviceType]()
+        
+        // iOS 13 brings tripple and dual wide cameras
+        if #available(iOS 13.0, *) {
+          deviceTypes.append(.builtInTripleCamera)
+          deviceTypes.append(.builtInDualWideCamera)
+        }
+        
+        // iOS 10.2 required for Dual Camera
+        if #available(iOS 10.2, *) {
+          deviceTypes.append(.builtInDualCamera)
+        }
+       
         deviceTypes.append(.builtInWideAngleCamera)
         
         let discorverySession = AVCaptureDevice.DiscoverySession(deviceTypes: deviceTypes, mediaType: .video, position: .unspecified)
