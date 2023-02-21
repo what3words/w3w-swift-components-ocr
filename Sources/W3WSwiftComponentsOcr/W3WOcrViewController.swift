@@ -193,27 +193,8 @@ open class W3WOcrViewController: UIViewController {
       self?.onInteruption()
     }
     
-    //    debugImage.frame = CGRect(origin: .zero, size: CGSize(width: 300.0, height: 200.0))
-    //    ocrView.addSubview(debugImage)
-    //    ocrView.newImage = { image in
-    //      if let i = ocr?.thereAndBackAgain(image: image) {
-    //        DispatchQueue.main.async {
-    //          self.debugImage.image = UIImage(cgImage: i)
-    //        }
-    //      }
-    //    }
-    
-    //    _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.debugforceredraw), userInfo: nil, repeats: true)
-    
   }
-  
-//  var debugImage = UIImageView()
-  
-  
-  //  @objc func debugforceredraw() {
-  //    self.ocrView.setNeedsLayout()
-  //  }
-  
+    
   
   /// give this view a what3words engine or api
   /// - Parameters:

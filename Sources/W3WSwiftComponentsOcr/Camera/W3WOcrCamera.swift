@@ -302,10 +302,12 @@ public class W3WOcrCamera: W3WVideoStream {
     var camera: W3WOcrCamera?
     
     let list = W3WOcrCamera.list()
+    
+    // return the first matching camera - they are in order of the best to worst for the job
     for cam in list {
       if let c = cam as? W3WOcrCamera {
         if c.camera?.position == position {
-          camera = c
+          return c
         }
       }
     }
@@ -334,9 +336,20 @@ public class W3WOcrCamera: W3WVideoStream {
       // make an empty list of cameras
       cameraList = [W3WOcrCamera]()
       
-      // fill up the list
+      var deviceTypes = [AVCaptureDevice.DeviceType]()
+      
+      // iOS 13 brings tripple and dual wide cameras
+      if #available(iOS 13.0, *) {
+        deviceTypes.append(.builtInTripleCamera)
+        deviceTypes.append(.builtInDualWideCamera)
+      }
+      
+      // iOS 10 required to query cameras
       if #available(iOS 10.0, *) {
-        let discorverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified)
+        deviceTypes.append(.builtInDualCamera)
+        deviceTypes.append(.builtInWideAngleCamera)
+        
+        let discorverySession = AVCaptureDevice.DiscoverySession(deviceTypes: deviceTypes, mediaType: .video, position: .unspecified)
         for device in discorverySession.devices {
           cameraList?.append(W3WOcrCamera(camera: device))
         }
