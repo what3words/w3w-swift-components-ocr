@@ -37,7 +37,7 @@ class ViewController: UIViewController {
       //self?.ocrViewController.stop()
     }
 
-    // if there is an error show the user
+    // if there is an error show the u ser
     ocrViewController.onError = { [weak self] error in
       self?.ocrViewController.stop()
       self?.showError(error: error)
