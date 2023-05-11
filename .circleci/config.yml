@@ -10,7 +10,7 @@ commands:
     steps:
       - checkout  # pull down code from
       - aws-s3/copy:
-          from: '${SOURCE_BUCKET}/swift-packages/w3w-swift-wrapper/${W3W_API_WRAPPER_VERSION}/W3WSwiftApi-${W3W_API_WRAPPER_VERSION}.tar.gz'
+          from: '${SOURCE_BUCKET}/swift-packages/w3w-swift-wrapper/${W3W_API_WRAPPER_VERSION}/W3WSwiftApi-${W3W_API_WRAPPER_VERSION}-[sdk-${W3W_SDK_VERSION}].tar.gz'
           to: .
       - aws-s3/copy:
           from: '${SOURCE_BUCKET}/ocr-ios/${W3W_OCR_SDK_VERSION}/what3words-ios-sdk-${W3W_OCR_SDK_VERSION}.tar.gz'
@@ -26,7 +26,7 @@ commands:
             echo "'${SOURCE_BUCKET}/ios/${W3W_SDK_VERSION}/what3words-ios-sdk-${W3W_SDK_VERSION}.tar.gz"
             mkdir Frameworks
             ls -la .
-            tar -zxvf W3WSwiftApi-${W3W_API_WRAPPER_VERSION}.tar.gz -C Frameworks/
+            tar -zxvf W3WSwiftApi-${W3W_API_WRAPPER_VERSION}-[sdk-${W3W_SDK_VERSION}].tar.gz -C Frameworks/
             tar -zxvf what3words-ios-sdk-${W3W_OCR_SDK_VERSION}.tar.gz -C Frameworks/
             tar -zxvf what3words-ios-sdk-${W3W_SDK_VERSION}.tar.gz -C Frameworks/
             mv Frameworks/lib/w3w.xcframework/ Frameworks/
