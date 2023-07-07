@@ -72,9 +72,6 @@ open class W3WOcrViewController: UIViewController {
   /// ensures output is stopped, as there can be suggestion stragglers
   var stopOutput = false
 
-  /// keeps track of interuptions, such as telephone calls, and stops the camera
-  let interuptionObserver = W3WOcrInteruptionObserver()
-  
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   var customCrop: CGRect?
   
@@ -186,13 +183,6 @@ open class W3WOcrViewController: UIViewController {
     if camera == nil {
       self.camera = W3WOcrCamera.get(camera: .back)
     }
-    
-    
-    // if a phone call or something comes in, then let anyone interest know about it
-    interuptionObserver.onInteruption = { [weak self] in
-      self?.onInteruption()
-    }
-    
   }
     
   
@@ -271,9 +261,6 @@ open class W3WOcrViewController: UIViewController {
   public func start() {
     stopOutput = false
 
-    // look for interuptions, like telephone calls etc
-    interuptionObserver.startListeningForInteruptions(camera: camera)
-    
     if let c = camera, let o = ocr {
       state = .scanning
       c.start()
@@ -301,9 +288,6 @@ open class W3WOcrViewController: UIViewController {
   
   /// stop scanning
   public func stop() {  // completion: @escaping () -> () = { }) {
-    
-    // stop watching for interuptions, like telephone calls etc
-    interuptionObserver.stopListeningForInteruptions(camera: camera)
     
     if scanMode == .stopOnFirstResult {
       stopOutput = true
