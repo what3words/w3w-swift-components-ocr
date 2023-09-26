@@ -71,7 +71,7 @@ jobs: # the jobs
     environment:
       W3W_API_WRAPPER_VERSION: v3.9.5
       W3W_OCR_SDK_VERSION: v2.4.0
-      W3W_SDK_VERSION: v4.0.2
+      W3W_SDK_VERSION: v4.0.0
     steps:
       - download_dependancies
 #      - test
