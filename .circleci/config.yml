@@ -70,7 +70,7 @@ jobs: # the jobs
       xcode: 14.0.0 # version of Xcode
     environment:
       W3W_API_WRAPPER_VERSION: v3.9.5
-      W3W_OCR_SDK_VERSION: v2.4.0
+      W3W_OCR_SDK_VERSION: v2.0.3
       W3W_SDK_VERSION: v4.0.0
     steps:
       - download_dependancies
