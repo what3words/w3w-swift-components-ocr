@@ -39,8 +39,13 @@ open class W3WOcrViewController: UIViewController {
   /// callback closure for when a three word address is found - defaults to just printing out the 3wa
   lazy public var onSuggestions: ([W3WOcrSuggestion]) -> () = { _ in }
   
+  /// This crazy construct is to get around an issue where Xcode15+ doesn't allow @available on variables.  In the next version this will be removed anyways.
   @available(swift, obsoleted: 4.1, renamed: "onSuggestions")
-  public var onSuggestion: (W3WOcrSuggestion) -> () = { _ in }
+  public var onSuggestion: (W3WOcrSuggestion) -> () {
+    get { return _onSuggestion }
+    set { _onSuggestion = newValue }
+  }
+  var _onSuggestion: (W3WOcrSuggestion) -> () = { _ in }
   
   /// callback closure for any errors occurring
   public var onError: (W3WOcrError) -> () = { _ in }
