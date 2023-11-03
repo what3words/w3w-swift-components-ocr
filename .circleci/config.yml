@@ -57,8 +57,6 @@ jobs: # the jobs
     steps:
       - download_dependancies
       - test
-      - build
-      - deploy
 
 workflows:
 
