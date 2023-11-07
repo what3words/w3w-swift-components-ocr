@@ -43,24 +43,6 @@ commands:
               swift test --enable-code-coverage
               xcrun llvm-cov show .build/debug/w3w-swift-wrapperPackageTests.xctest/Contents/MacOS/w3w-swift-wrapperPackageTests -instr-profile .build/debug/codecov/default.profdata > .build/cov.txt
               sonar-scanner -Dsonar.projectKey=what3words_w3w-swift-wrapper -Dsonar.organization=what3words -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=$SONAR_TOKEN -Dsonar.sources=Sources -Dsonar.swift.coverage.reportPath=.build/cov.txt
-   
-  build:
-    steps:
-      - checkout  # pull down code from
-      - run:
-          name: Build Framework
-          command: |-
-              ./build.sh
-              mkdir -p s3
-              cd build
-              tar zcf ../s3/W3WSwiftComponentsOcr-${CIRCLE_TAG:-$CIRCLE_BRANCH}-[api-${W3W_API_WRAPPER_VERSION}][ocr-${W3W_OCR_SDK_VERSION}].tar.gz W3WSwiftComponentsOcr.xcframework
-              cd ..
-
-  deploy:
-    steps:
-      - aws-s3/sync:
-          from: ./s3
-          to: '${SOURCE_BUCKET}/swift-packages/w3w-swift-components-ocr/${CIRCLE_TAG:-$CIRCLE_BRANCH}/'
 
 
 jobs: # the jobs
@@ -75,8 +57,6 @@ jobs: # the jobs
     steps:
       - download_dependancies
 #      - test
-      - build
-      - deploy
 
 workflows:
 
