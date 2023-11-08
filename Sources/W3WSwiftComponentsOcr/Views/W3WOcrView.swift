@@ -5,6 +5,7 @@
 //  Created by Dave Duprey on 23/06/2021.
 //
 
+#if canImport(UIKit)
 import Foundation
 import UIKit
 import W3WSwiftApi
@@ -153,4 +154,4 @@ public class W3WOcrView: W3WOcrBasicView {
   }
   
 }
-
+#endif
