@@ -196,7 +196,9 @@ class W3WOcrCoordinateMaths {
         width: rect.size.height / cameraResolution.height,
         height: rect.size.width / cameraResolution.width
       )
-      retval = videoPreviewLayer.layerRectConverted(fromMetadataOutputRect: cameraRectNormalized)
+      if #available(macOS 10.15, *) {
+        retval = videoPreviewLayer.layerRectConverted(fromMetadataOutputRect: cameraRectNormalized)
+      }
     }
     
     return retval
@@ -213,7 +215,9 @@ class W3WOcrCoordinateMaths {
     if let resolution = camera?.getResolution() {
       let x = point.x / resolution.width
       let y = point.y / resolution.height
-      retval = videoPreviewLayer.layerPointConverted(fromCaptureDevicePoint: CGPoint(x: x, y: y))
+      if #available(macOS 10.15, *) {
+        retval = videoPreviewLayer.layerPointConverted(fromCaptureDevicePoint: CGPoint(x: x, y: y))
+      }
     }
     
     return retval
@@ -225,7 +229,10 @@ class W3WOcrCoordinateMaths {
   ///     - point: the point in unit coordinates [0.0 -> 1.0]
   /// - Returns: view coordinate of the passed in camera coordinate
   func cameraToLayer(normalizedPoint: CGPoint) -> CGPoint? {
-    return videoPreviewLayer.layerPointConverted(fromCaptureDevicePoint: CGPoint(x: normalizedPoint.x, y: normalizedPoint.y))
+    if #available(macOS 10.15, *) {
+      return videoPreviewLayer.layerPointConverted(fromCaptureDevicePoint: CGPoint(x: normalizedPoint.x, y: normalizedPoint.y))
+    }
+    return .zero
   }
   
   
@@ -235,7 +242,10 @@ class W3WOcrCoordinateMaths {
   /// - Returns: camera coordinate of the passed in view coordinate
   func layerToCameraCoords(point: CGPoint) -> CGPoint? {
     //return videoPreviewLayer?.captureDevicePointConverted(fromLayerPoint: point)
-    return videoPreviewLayer.layerPointConverted(fromCaptureDevicePoint: point)
+    if #available(macOS 10.15, *) {
+      return videoPreviewLayer.layerPointConverted(fromCaptureDevicePoint: point)
+    }
+    return .zero
   }
   
   

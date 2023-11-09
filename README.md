@@ -86,11 +86,6 @@ Here's a typical use example set in a UIViewController's IBOutlet function that 
 }
 ```
 
-Example Code
-------------
-
-An example called `OcrComponent` can be found [here](Examples/OcrComponent/OcrComponent.xcodeproj/) in the `Examples/OcrComponent` directory of this repository.
-
 
 ### OCR Reference
 
