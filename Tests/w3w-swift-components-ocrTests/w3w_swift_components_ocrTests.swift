@@ -1,5 +1,5 @@
 import XCTest
-//import W3WSwiftApi
+import W3WSwiftApi
 @testable import W3WSwiftComponentsOcr
 
 
@@ -10,6 +10,7 @@ final class w3w_swift_components_ocrTests: XCTestCase {
 
 
   /// Basic test to make sure it works from begining to end
+#if canImport(UIKit)
   @available(iOS 13.0, *)
   func testInstantiation() {
     let expectation = self.expectation(description: "Sanity Check")
@@ -30,5 +31,5 @@ final class w3w_swift_components_ocrTests: XCTestCase {
     // but we use a long timeout to make a false negative a million to one chance.
     waitForExpectations(timeout: 300.0, handler: nil)
   }
-
+#endif
 }

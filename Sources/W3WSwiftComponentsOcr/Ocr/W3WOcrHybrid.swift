@@ -5,6 +5,7 @@
 //  Created by Dave Duprey on 23/11/2021.
 //
 
+#if canImport(UIKit)
 import Foundation
 import UIKit
 #if canImport(W3WOcrSdk)
@@ -124,3 +125,4 @@ public class W3WOcrHybrid: W3WOcrProtocol {
   
   
 }
+#endif

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -30,6 +30,7 @@
 		01EF31B7291E6CFB002710D9 /* w3w.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B4291E6CFA002710D9 /* w3w.xcframework */; platformFilter = ios; };
 		01EF31B9291E6CFB002710D9 /* W3WOcrSdk.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B5291E6CFA002710D9 /* W3WOcrSdk.xcframework */; platformFilter = ios; };
 		01EF31BB291E6CFB002710D9 /* W3WSwiftApi.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B6291E6CFA002710D9 /* W3WSwiftApi.xcframework */; platformFilter = ios; };
+		767B16042AFB589D00A63038 /* FakeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767B16032AFB589D00A63038 /* FakeApi.swift */; };
 		OBJ_100 /* W3WCameraImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* W3WCameraImageProcessor.swift */; };
 		OBJ_101 /* W3WOcrCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* W3WOcrCamera.swift */; };
 		OBJ_102 /* W3WOcrBackgroundLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* W3WOcrBackgroundLayer.swift */; };
@@ -50,7 +51,6 @@
 		OBJ_135 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* XCTestManifests.swift */; };
 		OBJ_136 /* w3w_swift_components_ocrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* w3w_swift_components_ocrTests.swift */; };
 		OBJ_138 /* W3WSwiftComponentsOcr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "w3w-swift-components-ocr::W3WSwiftComponentsOcr::Product" /* W3WSwiftComponentsOcr.framework */; };
-		OBJ_139 /* W3WSwiftApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "w3w-swift-wrapper::W3WSwiftApi::Product" /* W3WSwiftApi.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,13 +60,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = "w3w-swift-components-ocr::W3WSwiftComponentsOcr";
 			remoteInfo = W3WSwiftComponentsOcr;
-		};
-		01CB048B2795C35B007723AC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "w3w-swift-wrapper::W3WSwiftApi";
-			remoteInfo = W3WSwiftApi;
 		};
 		01CB049227972BA2007723AC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -87,6 +80,7 @@
 		01EF31B4291E6CFA002710D9 /* w3w.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = w3w.xcframework; path = Frameworks/w3w.xcframework; sourceTree = "<group>"; };
 		01EF31B5291E6CFA002710D9 /* W3WOcrSdk.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = W3WOcrSdk.xcframework; path = Frameworks/W3WOcrSdk.xcframework; sourceTree = "<group>"; };
 		01EF31B6291E6CFA002710D9 /* W3WSwiftApi.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = W3WSwiftApi.xcframework; path = Frameworks/W3WSwiftApi.xcframework; sourceTree = "<group>"; };
+		767B16032AFB589D00A63038 /* FakeApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeApi.swift; sourceTree = "<group>"; };
 		OBJ_10 /* W3WCameraImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WCameraImageProcessor.swift; sourceTree = "<group>"; };
 		OBJ_11 /* W3WOcrCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WOcrCamera.swift; sourceTree = "<group>"; };
 		OBJ_13 /* W3WOcrBackgroundLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WOcrBackgroundLayer.swift; sourceTree = "<group>"; };
@@ -110,7 +104,6 @@
 		OBJ_69 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		"w3w-swift-components-ocr::W3WSwiftComponentsOcr::Product" /* W3WSwiftComponentsOcr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = W3WSwiftComponentsOcr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"w3w-swift-components-ocr::w3w-swift-components-ocrTests::Product" /* w3w-swift-components-ocrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "w3w-swift-components-ocrTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		"w3w-swift-wrapper::W3WSwiftApi::Product" /* W3WSwiftApi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = W3WSwiftApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,14 +122,6 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_138 /* W3WSwiftComponentsOcr.framework in Frameworks */,
-				OBJ_139 /* W3WSwiftApi.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_94 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +195,7 @@
 		OBJ_30 /* w3w-swift-components-ocrTests */ = {
 			isa = PBXGroup;
 			children = (
+				767B16032AFB589D00A63038 /* FakeApi.swift */,
 				OBJ_31 /* XCTestManifests.swift */,
 				OBJ_32 /* w3w_swift_components_ocrTests.swift */,
 			);
@@ -241,7 +227,6 @@
 		OBJ_64 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"w3w-swift-wrapper::W3WSwiftApi::Product" /* W3WSwiftApi.framework */,
 				"w3w-swift-components-ocr::W3WSwiftComponentsOcr::Product" /* W3WSwiftComponentsOcr.framework */,
 				"w3w-swift-components-ocr::w3w-swift-components-ocrTests::Product" /* w3w-swift-components-ocrTests.xctest */,
 			);
@@ -324,7 +309,6 @@
 			);
 			dependencies = (
 				OBJ_140 /* PBXTargetDependency */,
-				OBJ_141 /* PBXTargetDependency */,
 			);
 			name = "w3w-swift-components-ocrTests";
 			productName = w3w_swift_components_ocrTests;
@@ -343,22 +327,6 @@
 			);
 			name = "w3w-swift-wrapperPackageDescription";
 			productName = "w3w-swift-wrapperPackageDescription";
-			productType = "com.apple.product-type.framework";
-		};
-		"w3w-swift-wrapper::W3WSwiftApi" /* W3WSwiftApi */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_71 /* Build configuration list for PBXNativeTarget "W3WSwiftApi" */;
-			buildPhases = (
-				OBJ_74 /* Sources */,
-				OBJ_94 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = W3WSwiftApi;
-			productName = W3WSwiftApi;
-			productReference = "w3w-swift-wrapper::W3WSwiftApi::Product" /* W3WSwiftApi.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -382,7 +350,6 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				"w3w-swift-wrapper::W3WSwiftApi" /* W3WSwiftApi */,
 				"w3w-swift-components-ocr::W3WSwiftComponentsOcr" /* W3WSwiftComponentsOcr */,
 				"w3w-swift-components-ocr::SwiftPMPackageDescription" /* w3w-swift-components-ocrPackageDescription */,
 				"w3w-swift-components-ocr::w3w-swift-components-ocrPackageTests::ProductTarget" /* w3w-swift-components-ocrPackageTests */,
@@ -406,18 +373,12 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_135 /* XCTestManifests.swift in Sources */,
+				767B16042AFB589D00A63038 /* FakeApi.swift in Sources */,
 				OBJ_136 /* w3w_swift_components_ocrTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		OBJ_146 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_74 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
@@ -465,11 +426,6 @@
 			isa = PBXTargetDependency;
 			target = "w3w-swift-components-ocr::W3WSwiftComponentsOcr" /* W3WSwiftComponentsOcr */;
 			targetProxy = 01CB048A2795C35B007723AC /* PBXContainerItemProxy */;
-		};
-		OBJ_141 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "w3w-swift-wrapper::W3WSwiftApi" /* W3WSwiftApi */;
-			targetProxy = 01CB048B2795C35B007723AC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -642,72 +598,6 @@
 			};
 			name = Release;
 		};
-		OBJ_72 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1;
-				DRIVERKIT_DEPLOYMENT_TARGET = 19.0;
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "w3w-swift-components-ocr.xcodeproj/W3WSwiftApi_Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = W3WSwiftApi;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = W3WSwiftApi;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Debug;
-		};
-		OBJ_73 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1;
-				DRIVERKIT_DEPLOYMENT_TARGET = 19.0;
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "w3w-swift-components-ocr.xcodeproj/W3WSwiftApi_Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = W3WSwiftApi;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = W3WSwiftApi;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Release;
-		};
 		OBJ_97 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -812,15 +702,6 @@
 			buildConfigurations = (
 				OBJ_3 /* Debug */,
 				OBJ_4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_71 /* Build configuration list for PBXNativeTarget "W3WSwiftApi" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_72 /* Debug */,
-				OBJ_73 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
