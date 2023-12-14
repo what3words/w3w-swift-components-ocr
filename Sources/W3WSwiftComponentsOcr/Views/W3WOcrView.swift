@@ -152,5 +152,36 @@ public class W3WOcrView: W3WOcrBasicView {
     recalculateAndPositionLayers()
   }
   
+  
+  public func setViewFinderLineColor(_ color: UIColor) {
+    viewfinderLayer.setLineColor(color)
+  }
+  
+  public func setViewFinderLineWidth(_ width: CGFloat) {
+    viewfinderLayer.setLineWidth(width)
+  }
+  
+  public func setViewFinderLineLength(_ length: CGFloat) {
+    viewfinderLayer.setLineLength(length)
+  }
+  
+  public func setViewFinderLineInset(_ inset: CGFloat) {
+    viewfinderLayer.setLineInset(inset)
+  }
+  
+  public func setViewFinderCurveRadius(_ radius: CGFloat) {
+    viewfinderLayer.setLineCurveRadius(radius)
+  }
+  
+  public func setViewFinderGap(_ gap: CGFloat) {
+    viewfinderLayer.setGap(gap)
+  }
+  
+  public func setStyle(_ style: W3WOcrStyle) {
+    setViewFinderLineColor(style.viewFinderLineColor)
+    setViewFinderLineWidth(style.viewFinderLineWidth)
+    setViewFinderLineLength(style.viewFinderLineLength)
+    setViewFinderLineInset(style.viewFinderLineInset)
+    setViewFinderCurveRadius(style.viewFinderLineCurveRadius)
+  }
 }
-

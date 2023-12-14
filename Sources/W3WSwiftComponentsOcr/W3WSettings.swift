@@ -20,6 +20,7 @@ public extension W3WSettings {
   static let ocrTextResultColour:         UIColor   = .black
   static let ocrOverlayColour:            UIColor   = UIColor.black.withAlphaComponent(0.6)
   static let ocrTargetSuccess:            UIColor   = #colorLiteral(red: 0.3705701232, green: 0.7888284326, blue: 0.5609446168, alpha: 1)
+  static let ocrTargetFailed:             UIColor   = #colorLiteral(red: 0.9490196078, green: 0.4235294118, blue: 0.3137254902, alpha: 1)
   static let ocrIconColour:               UIColor   = #colorLiteral(red: 0.8836055398, green: 0.1235802993, blue: 0.1483977437, alpha: 1)
   static let ocrIconBackground:           UIColor   = .white
   static let ocrTimoutBackground:     	  UIColor   = #colorLiteral(red: 0.1628443599, green: 0.2728673518, blue: 0.3541108966, alpha: 1).withAlphaComponent(0.5)

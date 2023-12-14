@@ -20,8 +20,23 @@ public enum W3WOcrScanMode {
 
 
 public enum W3WOcrState {
+  case detecting
   case scanning
   case idle
+  case error
+  
+  var style: W3WOcrStyle {
+    switch self {
+    case .detecting:
+      return W3WOcrStyle(viewFinderLineColor: .white, viewFinderLineWidth: 12.0, viewFinderLineLength: 48.0, viewFinderLineInset: 0.0, viewFinderLineCurveRadius: 6.0)
+    case .scanning:
+      return W3WOcrStyle(viewFinderLineColor: W3WSettings.ocrTargetSuccess, viewFinderLineWidth: 12.0, viewFinderLineLength: 48.0, viewFinderLineInset: 0.0, viewFinderLineCurveRadius: 6.0)
+    case .idle:
+      return W3WOcrStyle(viewFinderLineColor: .white, viewFinderLineWidth: 6.0, viewFinderLineLength: 24.0, viewFinderLineInset: 0.0, viewFinderLineCurveRadius: 3.0)
+    case .error:
+      return W3WOcrStyle(viewFinderLineColor: W3WSettings.ocrTargetFailed, viewFinderLineWidth: 12.0, viewFinderLineLength: 48.0, viewFinderLineInset: 0.0, viewFinderLineCurveRadius: 6.0)
+    }
+  }
 }
 
 
@@ -54,7 +69,11 @@ open class W3WOcrViewController: UIViewController {
   public var onInteruption: () -> () = { }
   
   /// indicates it's current state: scanning/stopped
-  public var state = W3WOcrState.idle
+  public var state = W3WOcrState.idle {
+    didSet {
+      ocrView.setStyle(state.style)
+    }
+  }
   
   // camera
   var camera: W3WOcrCamera?
@@ -72,7 +91,7 @@ open class W3WOcrViewController: UIViewController {
   //var showAutosuggest = false
   
   /// by default we stop scanning when one result is produced
-  var scanMode = W3WOcrScanMode.stopOnFirstResult
+  public var scanMode = W3WOcrScanMode.stopOnFirstResult
   
   /// ensures output is stopped, as there can be suggestion stragglers
   var stopOutput = false

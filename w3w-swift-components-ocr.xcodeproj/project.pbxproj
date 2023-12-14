@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -30,6 +30,7 @@
 		01EF31B7291E6CFB002710D9 /* w3w.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B4291E6CFA002710D9 /* w3w.xcframework */; platformFilter = ios; };
 		01EF31B9291E6CFB002710D9 /* W3WOcrSdk.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B5291E6CFA002710D9 /* W3WOcrSdk.xcframework */; platformFilter = ios; };
 		01EF31BB291E6CFB002710D9 /* W3WSwiftApi.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B6291E6CFA002710D9 /* W3WSwiftApi.xcframework */; platformFilter = ios; };
+		76339BBA2B2AF8E70013F9A6 /* W3WOcrStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76339BB92B2AF8E70013F9A6 /* W3WOcrStyle.swift */; };
 		OBJ_100 /* W3WCameraImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* W3WCameraImageProcessor.swift */; };
 		OBJ_101 /* W3WOcrCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* W3WOcrCamera.swift */; };
 		OBJ_102 /* W3WOcrBackgroundLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* W3WOcrBackgroundLayer.swift */; };
@@ -87,6 +88,7 @@
 		01EF31B4291E6CFA002710D9 /* w3w.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = w3w.xcframework; path = Frameworks/w3w.xcframework; sourceTree = "<group>"; };
 		01EF31B5291E6CFA002710D9 /* W3WOcrSdk.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = W3WOcrSdk.xcframework; path = Frameworks/W3WOcrSdk.xcframework; sourceTree = "<group>"; };
 		01EF31B6291E6CFA002710D9 /* W3WSwiftApi.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = W3WSwiftApi.xcframework; path = Frameworks/W3WSwiftApi.xcframework; sourceTree = "<group>"; };
+		76339BB92B2AF8E70013F9A6 /* W3WOcrStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WOcrStyle.swift; sourceTree = "<group>"; };
 		OBJ_10 /* W3WCameraImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WCameraImageProcessor.swift; sourceTree = "<group>"; };
 		OBJ_11 /* W3WOcrCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WOcrCamera.swift; sourceTree = "<group>"; };
 		OBJ_13 /* W3WOcrBackgroundLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WOcrBackgroundLayer.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				OBJ_22 /* Views */,
 				OBJ_27 /* W3WOcrViewController.swift */,
 				OBJ_28 /* W3WSettings.swift */,
+				76339BB92B2AF8E70013F9A6 /* W3WOcrStyle.swift */,
 			);
 			name = W3WSwiftComponentsOcr;
 			path = Sources/W3WSwiftComponentsOcr;
@@ -378,6 +381,9 @@
 				en,
 			);
 			mainGroup = OBJ_5;
+			packageReferences = (
+				76339BB62B2AC58B0013F9A6 /* XCRemoteSwiftPackageReference "w3w-swift-design" */,
+			);
 			productRefGroup = OBJ_64 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -448,6 +454,7 @@
 				OBJ_111 /* W3WOcrBox.swift in Sources */,
 				OBJ_112 /* W3WOcrScannerAddressLabel.swift in Sources */,
 				OBJ_113 /* W3WOcrView.swift in Sources */,
+				76339BBA2B2AF8E70013F9A6 /* W3WOcrStyle.swift in Sources */,
 				OBJ_114 /* W3WOcrViewController.swift in Sources */,
 				OBJ_115 /* W3WSettings.swift in Sources */,
 			);
@@ -835,6 +842,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		76339BB62B2AC58B0013F9A6 /* XCRemoteSwiftPackageReference "w3w-swift-design" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/what3words/w3w-swift-design.git";
+			requirement = {
+				branch = v4/main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = OBJ_1 /* Project object */;
 }
