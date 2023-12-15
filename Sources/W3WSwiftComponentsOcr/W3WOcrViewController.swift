@@ -20,8 +20,10 @@ public enum W3WOcrScanMode {
 
 
 public enum W3WOcrState {
-  case scanning
   case idle
+  case detecting
+  case scanning
+  case error
 }
 
 
@@ -54,7 +56,11 @@ open class W3WOcrViewController: UIViewController {
   public var onInteruption: () -> () = { }
   
   /// indicates it's current state: scanning/stopped
-  public var state = W3WOcrState.idle
+  public var state = W3WOcrState.idle {
+    didSet {
+      onStateChange()
+    }
+  }
   
   // camera
   var camera: W3WOcrCamera?
@@ -72,7 +78,7 @@ open class W3WOcrViewController: UIViewController {
   //var showAutosuggest = false
   
   /// by default we stop scanning when one result is produced
-  var scanMode = W3WOcrScanMode.stopOnFirstResult
+  public var scanMode = W3WOcrScanMode.stopOnFirstResult
   
   /// ensures output is stopped, as there can be suggestion stragglers
   var stopOutput = false
@@ -80,15 +86,14 @@ open class W3WOcrViewController: UIViewController {
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   var customCrop: CGRect?
   
+  /// user defined theme, if user doesn't define another theme then use the default one
+  var theme: W3WOcrTheme = .defaultTheme
   
   // MARK:- Init
-  
-  
   public convenience init(ocr: W3WOcrProtocol) {
     self.init()
     set(ocr: ocr)
   }
-  
   
 #if canImport(W3WOcrSdk)
   public convenience init(ocr: W3WOcr) {
@@ -136,9 +141,8 @@ open class W3WOcrViewController: UIViewController {
   func arrangeSubviews() {
     if let crop = customCrop {
       ocrView.set(crop: crop)
-      
     } else {
-      let inset   = W3WSettings.ocrCropInset
+      let inset = W3WSettings.ocrCropInset
       
       // calculate the crop region for portrait mode
       if ocrView.frame.width < ocrView.frame.height {
@@ -183,7 +187,7 @@ open class W3WOcrViewController: UIViewController {
   public func set(ocr: W3WOcrProtocol?) {
     self.ocr = ocr
     
-    ocrView.set(boxStyle: .outline)
+//    ocrView.set(boxStyle: .outline)
     
     if camera == nil {
       self.camera = W3WOcrCamera.get(camera: .back)
@@ -316,6 +320,19 @@ open class W3WOcrViewController: UIViewController {
     }
   }
   
+  /// Apply target theme on state change
+  public func onStateChange() {
+    switch state {
+    case .idle:
+      ocrView.setStyle(theme.idleStyle)
+    case .detecting:
+      ocrView.setStyle(theme.detectingStyle)
+    case .scanning:
+      ocrView.setStyle(theme.scanningStyle)
+    case .error:
+      ocrView.setStyle(theme.errorStyle)
+    }
+  }
   
   // MARK:- UIVewController overrides
   
