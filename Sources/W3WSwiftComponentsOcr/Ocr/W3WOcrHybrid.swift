@@ -24,6 +24,16 @@ public class W3WOcrHybrid: W3WOcrProtocol {
   
   var ocrs = [W3WOcrProtocol]()
   var currentOcrIndex = 0
+  
+  public var onNewImage: (() -> Void)? {
+    didSet {
+      for ocr in ocrs {
+        if #available(iOS 13.0, *) {
+          (ocr as? W3WOcrNative)?.onNewImage = onNewImage
+        }
+      }
+    }
+  }
 
   
   /// Initialises with multiple Ocr systems

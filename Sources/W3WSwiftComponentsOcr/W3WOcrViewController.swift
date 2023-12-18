@@ -23,6 +23,7 @@ public enum W3WOcrState {
   case idle
   case detecting
   case scanning
+  case scanned
   case error
 }
 
@@ -40,6 +41,15 @@ open class W3WOcrViewController: UIViewController {
   
   /// callback closure for when a three word address is found - defaults to just printing out the 3wa
   lazy public var onSuggestions: ([W3WOcrSuggestion]) -> () = { _ in }
+  
+  public var onNewImage: (() -> Void)? {
+    didSet {
+      (ocr as? W3WOcrHybrid)?.onNewImage = onNewImage
+      if #available(iOS 13.0, *) {
+        (ocr as? W3WOcrNative)?.onNewImage = onNewImage
+      }
+    }
+  }
   
   /// This crazy construct is to get around an issue where Xcode15+ doesn't allow @available on variables.  In the next version this will be removed anyways.
   @available(swift, obsoleted: 4.1, renamed: "onSuggestions")
@@ -329,6 +339,8 @@ open class W3WOcrViewController: UIViewController {
       ocrView.setStyle(theme.detectingStyle)
     case .scanning:
       ocrView.setStyle(theme.scanningStyle)
+    case .scanned:
+      ocrView.setStyle(theme.idleStyle)
     case .error:
       ocrView.setStyle(theme.errorStyle)
     }

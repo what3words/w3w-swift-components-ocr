@@ -37,6 +37,8 @@ public class W3WOcrNative: W3WOcrProtocol {
   
   /// called when a new image frame is available from the camera
   var info: (W3WOcrInfo) -> () = { _ in }
+  
+  var onNewImage: (() -> Void)?
 
   /// called when something has been found
   var completion: ([W3WOcrSuggestion], W3WOcrError?) -> () = { _,_ in }
@@ -180,6 +182,7 @@ public class W3WOcrNative: W3WOcrProtocol {
     self.info       = { info in video.onFrameInfo(info) }
     
     video.onNewImage = { [weak self] image in
+      self?.onNewImage?()
       self?.lastImageResolution = CGSize(width: image.width, height: image.height)
       self?.autosuggest(image: image, info: self?.info ?? { _ in }, completion: { suggestions, error in self?.completion(suggestions, error) })
     }
