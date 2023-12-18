@@ -7,7 +7,7 @@
 
 import UIKit
 import AVFoundation
-import W3WSwiftApi
+import W3WSwiftCore
 
 //#if canImport(W3WOcrSdk)
 

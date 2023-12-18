@@ -7,7 +7,7 @@
 
 #if canImport(UIKit)
 
-import W3WSwiftApi
+import W3WSwiftCore
 import UIKit
 
 

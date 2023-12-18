@@ -9,7 +9,7 @@
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
 import Foundation
-import W3WSwiftApi
+import W3WSwiftCore
 
 
 extension W3WOcrSuggestion: W3WSuggestion { }
