@@ -11,7 +11,7 @@ import W3WOcrSdk
 
 import Foundation
 import CoreImage
-import W3WSwiftApi
+import W3WSwiftCore
 
 
 public protocol W3WOcrProtocol {

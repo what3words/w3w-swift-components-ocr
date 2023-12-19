@@ -11,7 +11,7 @@
 import Foundation
 import CoreLocation
 import CoreImage
-import W3WSwiftApi
+import W3WSwiftCore
 
 
 // If the Ocr Framework is present then these types are available through that
@@ -104,13 +104,13 @@ public struct W3WOcrLanguage { //}: Hashable {
 // as in the Sdk
 public struct W3WOcrSuggestion: W3WSuggestion {
   public var words: String?
-  public var country: String?
+  public var country: W3WCountry?
   public var nearestPlace: String?
-  public var distanceToFocus: Double?
-  public var language: String?
+  public var distanceToFocus: W3WDistance?
+  public var language: W3WLanguage?
   public var image: CGImage?
   public init() {}  /// this is to make the initializer public
-  public init(words: String?, country: String?, nearestPlace: String?, distanceToFocus: Double?, language: String?) {
+  public init(words: String?, country: W3WCountry?, nearestPlace: String?, distanceToFocus: W3WDistance?, language: W3WLanguage?) {
     self.words      = words
     self.country      = country
     self.nearestPlace   = nearestPlace

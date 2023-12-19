@@ -7,7 +7,8 @@
 
 import Foundation
 import UIKit
-import W3WSwiftApi
+import W3WSwiftCore
+import W3WSwiftThemes
 
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
@@ -152,5 +153,44 @@ public class W3WOcrView: W3WOcrBasicView {
     recalculateAndPositionLayers()
   }
   
+  // MARK: - Apply scheme
+  public func set(scheme: W3WScheme?) {
+    setViewFinderLineColor(scheme?.colors?.line?.uiColor)
+    setViewFinderLineWidth(scheme?.styles?.lineThickness?.value)
+    setViewFinderLineLength(scheme?.styles?.rowHeight?.value)
+    setViewFinderLineInset(scheme?.styles?.padding?.top)
+    setViewFinderCurveRadius(scheme?.styles?.cornerRadius?.value)
+  }
+  
+  // MARK: - Helpers
+  public func setViewFinderLineColor(_ color: UIColor?) {
+    if let color = color {
+      viewfinderLayer.setLineColor(color)
+    }
+  }
+  
+  public func setViewFinderLineWidth(_ width: CGFloat?) {
+    if let width = width {
+      viewfinderLayer.setLineWidth(width)
+    }
+  }
+  
+  public func setViewFinderLineLength(_ length: CGFloat?) {
+    if let length = length {
+      viewfinderLayer.setLineLength(length)
+    }
+  }
+
+  public func setViewFinderLineInset(_ inset: CGFloat?) {
+    if let inset = inset {
+      viewfinderLayer.setLineInset(inset)
+    }
+  }
+  
+  public func setViewFinderCurveRadius(_ radius: CGFloat?) {
+    if let radius = radius {
+      viewfinderLayer.setLineCurveRadius(radius)
+    }
+  }
 }
 

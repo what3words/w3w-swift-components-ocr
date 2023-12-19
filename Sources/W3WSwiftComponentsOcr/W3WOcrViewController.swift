@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import W3WSwiftApi
+import W3WSwiftCore
+import W3WSwiftDesign
 
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
@@ -19,9 +20,12 @@ public enum W3WOcrScanMode {
 }
 
 
-public enum W3WOcrState {
-  case scanning
+public enum W3WOcrState: String {
   case idle
+  case detecting
+  case scanning
+  case scanned
+  case error
 }
 
 
@@ -32,12 +36,21 @@ public typealias W3WOcrScannerViewController = W3WOcrViewController
 
 /// component for three word address OCR scanning
 @available(macCatalyst 14.0, *)
-open class W3WOcrViewController: UIViewController {
+open class W3WOcrViewController: W3WViewController {
   
   // MARK: Vars
   
   /// callback closure for when a three word address is found - defaults to just printing out the 3wa
   lazy public var onSuggestions: ([W3WOcrSuggestion]) -> () = { _ in }
+  
+  public var onNewImage: (() -> Void)? {
+    didSet {
+      (ocr as? W3WOcrHybrid)?.onNewImage = onNewImage
+      if #available(iOS 13.0, *) {
+        (ocr as? W3WOcrNative)?.onNewImage = onNewImage
+      }
+    }
+  }
   
   /// This crazy construct is to get around an issue where Xcode15+ doesn't allow @available on variables.  In the next version this will be removed anyways.
   @available(swift, obsoleted: 4.1, renamed: "onSuggestions")
@@ -54,7 +67,11 @@ open class W3WOcrViewController: UIViewController {
   public var onInteruption: () -> () = { }
   
   /// indicates it's current state: scanning/stopped
-  public var state = W3WOcrState.idle
+  public var state = W3WOcrState.idle {
+    didSet {
+      onStateChange()
+    }
+  }
   
   // camera
   var camera: W3WOcrCamera?
@@ -72,7 +89,7 @@ open class W3WOcrViewController: UIViewController {
   //var showAutosuggest = false
   
   /// by default we stop scanning when one result is produced
-  var scanMode = W3WOcrScanMode.stopOnFirstResult
+  public var scanMode = W3WOcrScanMode.stopOnFirstResult
   
   /// ensures output is stopped, as there can be suggestion stragglers
   var stopOutput = false
@@ -80,34 +97,20 @@ open class W3WOcrViewController: UIViewController {
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   var customCrop: CGRect?
   
-  
   // MARK:- Init
-  
-  
-  public convenience init(ocr: W3WOcrProtocol) {
-    self.init()
+  public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = nil) {
+    self.init(theme: theme)
     set(ocr: ocr)
+    setupOcrScheme()
   }
-  
   
 #if canImport(W3WOcrSdk)
-  public convenience init(ocr: W3WOcr) {
-    self.init()
+  public convenience init(ocr: W3WOcr, theme: W3WTheme? = nil) {
+    self.init(theme: theme)
     set(ocr: ocr)
+    setupOcrScheme()
   }
 #endif // W3WOcrSdk
-  
-  /// initializer override to instantiate the W3WOcrScannerView
-  public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)   {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-  }
-  
-  
-  /// initializer override to instantiate the `W3WOcrScannerView`
-  public required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-  }
-  
 
   deinit {
     //print("OCR: OcrVC DEINIT")
@@ -121,7 +124,6 @@ open class W3WOcrViewController: UIViewController {
   public override func loadView() {
     view = W3WOcrView()
   }
-  
   
   /// Convenience wrapper to get layer as its statically known type.
   public var ocrView: W3WOcrView {
@@ -336,6 +338,11 @@ open class W3WOcrViewController: UIViewController {
     stop()
   }
   
+  /// Apply target theme on state change
+  public func onStateChange() {
+    let targetScheme = theme?[.ocr]?.subschemes?[state.rawValue]
+    ocrView.set(scheme: targetScheme)
+  }
 }
 
 //#endif // W3WOcrSdk

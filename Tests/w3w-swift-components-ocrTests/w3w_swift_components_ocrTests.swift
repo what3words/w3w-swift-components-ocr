@@ -1,5 +1,6 @@
 import XCTest
-//import W3WSwiftApi
+import W3WSwiftCore
+
 @testable import W3WSwiftComponentsOcr
 
 

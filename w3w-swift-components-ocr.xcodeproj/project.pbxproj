@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -30,6 +30,9 @@
 		01EF31B7291E6CFB002710D9 /* w3w.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B4291E6CFA002710D9 /* w3w.xcframework */; platformFilter = ios; };
 		01EF31B9291E6CFB002710D9 /* W3WOcrSdk.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B5291E6CFA002710D9 /* W3WOcrSdk.xcframework */; platformFilter = ios; };
 		01EF31BB291E6CFB002710D9 /* W3WSwiftApi.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B6291E6CFA002710D9 /* W3WSwiftApi.xcframework */; platformFilter = ios; };
+		76530B862B3183D000367864 /* W3WSwiftDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 76530B852B3183D000367864 /* W3WSwiftDesign */; };
+		76530B882B318A3900367864 /* FakeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76530B872B318A3900367864 /* FakeApi.swift */; };
+		76530B912B318F6600367864 /* W3WOcrViewController+theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76530B902B318F6600367864 /* W3WOcrViewController+theme.swift */; };
 		OBJ_100 /* W3WCameraImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* W3WCameraImageProcessor.swift */; };
 		OBJ_101 /* W3WOcrCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* W3WOcrCamera.swift */; };
 		OBJ_102 /* W3WOcrBackgroundLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* W3WOcrBackgroundLayer.swift */; };
@@ -87,6 +90,8 @@
 		01EF31B4291E6CFA002710D9 /* w3w.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = w3w.xcframework; path = Frameworks/w3w.xcframework; sourceTree = "<group>"; };
 		01EF31B5291E6CFA002710D9 /* W3WOcrSdk.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = W3WOcrSdk.xcframework; path = Frameworks/W3WOcrSdk.xcframework; sourceTree = "<group>"; };
 		01EF31B6291E6CFA002710D9 /* W3WSwiftApi.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = W3WSwiftApi.xcframework; path = Frameworks/W3WSwiftApi.xcframework; sourceTree = "<group>"; };
+		76530B872B318A3900367864 /* FakeApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeApi.swift; sourceTree = "<group>"; };
+		76530B902B318F6600367864 /* W3WOcrViewController+theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "W3WOcrViewController+theme.swift"; sourceTree = "<group>"; };
 		OBJ_10 /* W3WCameraImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WCameraImageProcessor.swift; sourceTree = "<group>"; };
 		OBJ_11 /* W3WOcrCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WOcrCamera.swift; sourceTree = "<group>"; };
 		OBJ_13 /* W3WOcrBackgroundLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WOcrBackgroundLayer.swift; sourceTree = "<group>"; };
@@ -120,6 +125,7 @@
 			files = (
 				01EF31BB291E6CFB002710D9 /* W3WSwiftApi.xcframework in Frameworks */,
 				01EF31B7291E6CFB002710D9 /* w3w.xcframework in Frameworks */,
+				76530B862B3183D000367864 /* W3WSwiftDesign in Frameworks */,
 				01EF31B9291E6CFB002710D9 /* W3WOcrSdk.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -210,6 +216,7 @@
 		OBJ_30 /* w3w-swift-components-ocrTests */ = {
 			isa = PBXGroup;
 			children = (
+				76530B872B318A3900367864 /* FakeApi.swift */,
 				OBJ_31 /* XCTestManifests.swift */,
 				OBJ_32 /* w3w_swift_components_ocrTests.swift */,
 			);
@@ -266,6 +273,7 @@
 				OBJ_22 /* Views */,
 				OBJ_27 /* W3WOcrViewController.swift */,
 				OBJ_28 /* W3WSettings.swift */,
+				76530B902B318F6600367864 /* W3WOcrViewController+theme.swift */,
 			);
 			name = W3WSwiftComponentsOcr;
 			path = Sources/W3WSwiftComponentsOcr;
@@ -309,6 +317,9 @@
 			dependencies = (
 			);
 			name = W3WSwiftComponentsOcr;
+			packageProductDependencies = (
+				76530B852B3183D000367864 /* W3WSwiftDesign */,
+			);
 			productName = W3WSwiftComponentsOcr;
 			productReference = "w3w-swift-components-ocr::W3WSwiftComponentsOcr::Product" /* W3WSwiftComponentsOcr.framework */;
 			productType = "com.apple.product-type.framework";
@@ -378,6 +389,9 @@
 				en,
 			);
 			mainGroup = OBJ_5;
+			packageReferences = (
+				76530B842B31828B00367864 /* XCRemoteSwiftPackageReference "w3w-swift-design" */,
+			);
 			productRefGroup = OBJ_64 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -406,6 +420,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_135 /* XCTestManifests.swift in Sources */,
+				76530B882B318A3900367864 /* FakeApi.swift in Sources */,
 				OBJ_136 /* w3w_swift_components_ocrTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,6 +458,7 @@
 				OBJ_106 /* W3WOcrFakeImage.swift in Sources */,
 				OBJ_107 /* W3WOcrInteruptionObserver.swift in Sources */,
 				OBJ_108 /* W3WOcrOrientationObserver.swift in Sources */,
+				76530B912B318F6600367864 /* W3WOcrViewController+theme.swift in Sources */,
 				OBJ_109 /* W3WOcrThread.swift in Sources */,
 				OBJ_110 /* W3WOcrBasicView.swift in Sources */,
 				OBJ_111 /* W3WOcrBox.swift in Sources */,
@@ -717,7 +733,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "w3w-swift-components-ocr.xcodeproj/W3WSwiftComponentsOcr_Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
@@ -747,7 +763,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "w3w-swift-components-ocr.xcodeproj/W3WSwiftComponentsOcr_Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
@@ -835,6 +851,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		76530B842B31828B00367864 /* XCRemoteSwiftPackageReference "w3w-swift-design" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/what3words/w3w-swift-design.git";
+			requirement = {
+				branch = v4/main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		76530B852B3183D000367864 /* W3WSwiftDesign */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76530B842B31828B00367864 /* XCRemoteSwiftPackageReference "w3w-swift-design" */;
+			productName = W3WSwiftDesign;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = OBJ_1 /* Project object */;
 }
