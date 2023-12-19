@@ -108,9 +108,20 @@ open class W3WOcrViewController: W3WViewController {
   public convenience init(ocr: W3WOcr, theme: W3WTheme? = nil) {
     self.init(theme: theme)
     set(ocr: ocr)
-    setupOcrScheme()
   }
 #endif // W3WOcrSdk
+  
+  /// initializer override to instantiate the W3WOcrScannerView
+  public override init(theme: W3WTheme? = nil) {
+    super.init(theme: theme)
+    setupOcrScheme()
+  }
+  
+  /// initializer override to instantiate the `W3WOcrScannerView`
+  public required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    setupOcrScheme()
+  }
 
   deinit {
     //print("OCR: OcrVC DEINIT")
