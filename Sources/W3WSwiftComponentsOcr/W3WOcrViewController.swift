@@ -20,14 +20,17 @@ public enum W3WOcrScanMode {
 }
 
 
-public enum W3WOcrState: String {
+public enum W3WOcrState: String, CustomStringConvertible, CaseIterable {
   case idle
   case detecting
   case scanning
   case scanned
   case error
+  
+  public var description: String {
+    return "ocr." + rawValue
+  }
 }
-
 
 #if !targetEnvironment(macCatalyst)
 @available(*, deprecated, message: "use W3WOcrViewController instead")
@@ -351,7 +354,7 @@ open class W3WOcrViewController: W3WViewController {
   
   /// Apply target theme on state change
   public func onStateChange() {
-    let targetScheme = theme?[.ocr]?.subschemes?[state.rawValue]
+    let targetScheme = theme?.getScheme(ocrState: state)
     ocrView.set(scheme: targetScheme)
   }
 }
