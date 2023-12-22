@@ -7,7 +7,7 @@
 
 #if canImport(UIKit) && !os(watchOS)
 import UIKit
-import W3WSwiftApi
+import W3WSwiftCore
 
 
 /// draws a translucent background with a hole cut out for the camera crop

@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import W3WSwiftApi
+import W3WSwiftCore
+import W3WSwiftDesign
 
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
@@ -19,9 +20,12 @@ public enum W3WOcrScanMode {
 }
 
 
-public enum W3WOcrState {
-  case scanning
+public enum W3WOcrState: String, CaseIterable {
   case idle
+  case detecting
+  case scanning
+  case scanned
+  case error
 }
 
 
@@ -32,7 +36,7 @@ public typealias W3WOcrScannerViewController = W3WOcrViewController
 
 /// component for three word address OCR scanning
 @available(macCatalyst 14.0, *)
-open class W3WOcrViewController: UIViewController {
+open class W3WOcrViewController: W3WViewController {
   
   // MARK: Vars
   
@@ -54,7 +58,11 @@ open class W3WOcrViewController: UIViewController {
   public var onInteruption: () -> () = { }
   
   /// indicates it's current state: scanning/stopped
-  public var state = W3WOcrState.idle
+  public var state = W3WOcrState.idle {
+    didSet {
+      onStateChange()
+    }
+  }
   
   // camera
   var camera: W3WOcrCamera?
@@ -63,7 +71,7 @@ open class W3WOcrViewController: UIViewController {
   var ocr: W3WOcrProtocol?
   
   /// optional w3w query engine
-  var w3w: W3WProtocolV3?
+  var w3w: W3WProtocolV4?
   
   /// UILabel for when a address is found
   var wordsLabel: W3WOcrScannerAddressLabel!
@@ -84,24 +92,25 @@ open class W3WOcrViewController: UIViewController {
   // MARK:- Init
   
   
-  public convenience init(ocr: W3WOcrProtocol) {
-    self.init()
+  public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = nil) {
+    self.init(theme: theme)
     set(ocr: ocr)
+    setupOcrScheme()
   }
   
   
 #if canImport(W3WOcrSdk)
-  public convenience init(ocr: W3WOcr) {
-    self.init()
+  public convenience init(ocr: W3WOcr, theme: W3WTheme? = nil) {
+    self.init(theme: theme)
     set(ocr: ocr)
   }
 #endif // W3WOcrSdk
   
   /// initializer override to instantiate the W3WOcrScannerView
-  public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)   {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+  public override init(theme: W3WTheme? = nil) {
+    super.init(theme: theme)
+    setupOcrScheme()
   }
-  
   
   /// initializer override to instantiate the `W3WOcrScannerView`
   public required init?(coder aDecoder: NSCoder) {
@@ -194,7 +203,7 @@ open class W3WOcrViewController: UIViewController {
   /// give this view a what3words engine or api
   /// - Parameters:
   ///     - w3w: API or SDK for what3words to query with
-  public func set(_ w3w: W3WProtocolV3?) { //}, autosuggest: Bool = true) {
+  public func set(_ w3w: W3WProtocolV4?) { //}, autosuggest: Bool = true) {
     if let w = w3w {
       self.w3w = w
     }
@@ -336,6 +345,12 @@ open class W3WOcrViewController: UIViewController {
     stop()
   }
   
+  /// Perform actions needed on state change
+  public func onStateChange() {
+    // Apply target scheme on ocr view
+    let targetScheme = theme?.getOcrScheme(state: state)
+    // TODO: Update ocr view with targetScheme
+  }
 }
 
 //#endif // W3WOcrSdk

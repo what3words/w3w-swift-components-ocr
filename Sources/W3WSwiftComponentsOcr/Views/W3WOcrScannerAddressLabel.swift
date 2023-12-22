@@ -9,7 +9,7 @@
 
 import Foundation
 import UIKit
-import W3WSwiftApi
+import W3WSwiftCore
 
 
 /// A UILabel for the W3WOcrView to display a three word address
