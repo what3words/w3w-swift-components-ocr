@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "w3w-swift-components-ocr",
+    defaultLocalization: "en",
     platforms: [
       .macOS(.v10_13), .iOS(.v12), .tvOS(.v11), .watchOS(.v4)
     ],
@@ -25,7 +26,9 @@ let package = Package(
             name: "W3WSwiftComponentsOcr",
             dependencies: [
               .product(name: "W3WSwiftDesign", package: "w3w-swift-design"),
-            ]),
+            ],
+            resources: [.process("Resources")]
+        ),
         .testTarget(
             name: "w3w-swift-components-ocrTests",
             dependencies: ["W3WSwiftComponentsOcr"]),
