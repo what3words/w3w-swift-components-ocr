@@ -1,0 +1,1542 @@
+/* Accessibility */
+"acc_3wa" = "Adresa od 3 reči";
+
+"acc_action_panel_delete_saved" = "Obrišite sačuvanu adresu";
+
+"acc_action_panel_navigate" = "Navigirajte do ove adrese";
+
+"acc_action_panel_save" = "Sačuvajte ovu adresu";
+
+"acc_action_panel_share" = "Podelite ovu adresu";
+
+"acc_address_options_menu" = "Izbor opcija za adrese";
+
+"acc_back" = "Nazad";
+
+"acc_carousel_image_1_voiceover" = "Ilustracija sportskog stadiona sa nekoliko označenih nepoznatih lokacija u okruženju.";
+
+"acc_carousel_image_2_voiceover" = "Prikazan je isti sportski stadion, ali su nepoznate lokacije sada označene adresama od 3 reči. Na primer jedan ulaz je ///brdo.kore.odjek, a dalji ulaz je ///ključ.gost.zečić.";
+
+"acc_carousel_image_3_voiceover" = "Ilustracija žene koja izlazi iz automobila i dolazi do ulaza u zgradu sa tačnom lokacijom obeleženom kao ///uski.ručak.noćas";
+
+"acc_carousel_image_4_voiceover" = "Ilustracija dve osobe na vidikovcu u prirodi, sa tačnom lokacijom obeleženom kao ///zalazak.zamak.obećanje.";
+
+"acc_clear_search_history" = "Obrišite istoriju pretrage";
+
+"acc_directions_3wa" = "Opcije za putanju";
+
+"acc_list_color_button" = "Boja liste %@";
+
+"acc_list_color_coral" = "Koralna";
+
+"acc_list_color_green" = "Zelena";
+
+"acc_list_color_light_blue" = "Svetloplava";
+
+"acc_list_color_orange" = "Narandžasta";
+
+"acc_list_color_pink" = "Roze";
+
+"acc_list_color_purple" = "Ljubičasta";
+
+"acc_list_color_red" = "Crvena";
+
+"acc_list_color_royal_blue" = "Kraljevskoplava";
+
+"acc_list_color_turquoise" = "Tirkizna";
+
+"acc_list_color_yellow" = "Žuta";
+
+"acc_map_my_location" = "Prikaži moju približnu adresu od 3 reči na osnovu GPS podataka";
+
+"acc_map_type_regular" = "Pređite na satelitski prikaz";
+
+"acc_map_type_sattelite" = "Pređite na standardni prikaz mape";
+
+"acc_options_menu" = "Opcije";
+
+"acc_read_aloud" = "Pročitaj naglas ovu adresu";
+
+"acc_recall_button" = "Povratak na prethodnu adresu od 3 reči";
+
+"acc_saved_list_delete_label" = "Obrišite belešku";
+
+"acc_saved_list_label_name" = "Beleška %@";
+
+"acc_saved_list_option_button" = "Izbor opcija za listu";
+
+"acc_saved_list_toggle_list" = "Pređite na prikaz liste";
+
+"acc_saved_list_toggle_map" = "Pređite na prikaz mape";
+
+"acc_saved_place_to_multiple_lists" = "Sačuvano u liste %@ dodirnite da vidite liste";
+
+"acc_saved_place_to_single_list" = "Sačuvano u %@ dodirnite da vidite listu";
+
+"acc_search_bar" = "Polje za pretragu";
+
+"acc_search_filter" = "Suzite rezultate pretrage";
+
+"acc_search_scan" = "Skenirajte adresu od 3 reči";
+
+"acc_search_voice" = "Glasovna pretraga adrese od 3 reči";
+
+"acc_selected" = "izabrano";
+
+"acc_share_list_step_1" = "Korak 1";
+
+"acc_share_list_step_2" = "Korak 2";
+
+"acc_side_menu_account" = "Pogledajte nalog korisnika %@";
+
+"acc_tab_map" = "Mapa";
+
+"acc_toolbar_account" = "Nalog";
+
+"acc_toolbar_navigate" = "Navigacija";
+
+"acc_unselected" = "izbor poništen";
+
+"acc_wtu_boat_img" = "Čamac usidren u pristaništu sa lokacijom obeleženom kao ///trout.bulb.line";
+
+"acc_wtu_camping_img" = "Izletnik pored šatora za kampovanje na udaljenom mestu sa lokacijom obeleženom kao ///others.rugs.yarn";
+
+"acc_wtu_climbing_img" = "Dve osobe se penju uz liticu sa lokacijom obeleženom kao ///ever.haircuts.given";
+
+"acc_wtu_emergencies_img" = "Dve osobe stoje kraj mesta udesa sa lokacijom obeleženom kao ///brick.tallest.soup";
+
+"acc_wtu_farming_img" = "Zemljoradnik dovozi traktor do kapije na njivi sa lokacijom obeleženom kao ///fancy.mouths.enter";
+
+"acc_wtu_fishing_img" = "Dve osobe pecaju sa lokacijom obeleženom kao ///caves.ships.pens";
+
+"acc_wtu_hiking_img" = "Dve osobe na planinarenju sa lokacijom obeleženom kao ///dairies.lean.grunt";
+
+"acc_wtu_photography_img" = "Fotograf slika planinski pejzaž sa lokacijom obeleženom kao ///sketch.crate.bulge";
+
+"acc_wtu_picnic_img" = "Porodica se igra u parku sa lokacijom obeleženom kao ///songs.forest.final";
+
+"acc_wtu_runners_img" = "Trkači se sastaju na lokaciji obeleženoj kao ///grin.fled.bossy";
+
+"acc_wtu_scouts_img" = "Grupa mladih izviđača istražuje okruženje sa lokacijom obeleženom kao ///plant.profited.fear";
+
+"acc_wtu_wildlife_img" = "Prirodnjak dvogledom posmatra pticu sa lokacijom obeleženom kao ///riches.count.cable";
+
+/* Accessibility settings */
+"accessibility" = "Pristupačnost";
+
+"accessibility_readAloudDescription" = "Ovo se pojavljuje na dnu mape na ekranu i naglas čita odabranu what3words adresu od 3 reči koristeći zvučnik Vašeg uređaja.";
+
+"accessibility_showReadAloud" = "Prikažite dugme za čitanje naglas adresa od 3 reči";
+
+"account_already_have" = "Već imate nalog?";
+
+"account_already_have_3wa" = "Već imam adresu od 3 reči";
+
+"account_create_account_btn" = "KREIRAJTE NALOG";
+
+/* Account */
+"account_create_title" = "Još uvek nemate nalog?";
+
+/* Account edit */
+"account_edit_navigation_title" = "Izmenite detalje";
+
+"account_edit_save_btn" = "SAČUVAJTE";
+
+"account_edit_saved" = "Sačuvano";
+
+"account_logout_btn" = "ODJAVITE SE";
+
+"account_logout_confirmation" = "Da li ste sigurni da želite da se odjavite?";
+
+"api_error_accounts_unavailable" = "Sign-up/Log in is currently unavailable due to technical issues. We are working to fix this. Please try again later today.";
+
+"api_error_code_701" = "Adresa e-pošte i/ili lozinka ne odgovaraju. Molimo pokušajte ponovo.";
+
+"api_error_code_702" = "Došlo je do greške. Molimo prijavite se ponovo.";
+
+"api_error_code_703" = "Molimo potvrdite svoj nalog kako biste se prijavili.";
+
+"api_error_code_704" = "Vaš nalog je privremeno suspendovan iz bezbednosnih razloga.";
+
+"api_error_code_705" = "Molimo unesite validnu adresu e-pošte.";
+
+"api_error_code_706" = "Ova adresa e-pošte se već koristi.";
+
+"api_error_code_707" = "Lozinka mora da sadrži najmanje 8 znakova.";
+
+"api_error_code_709" = "Molimo unesite ime.";
+
+"api_error_code_710" = "Molimo unesite prezime.";
+
+"api_error_code_711" = "Molimo unesite validnu zemlju.";
+
+"api_error_code_712" = "Molimo unesite validnu adresu elektronske pošte.";
+
+"api_error_code_750" = "The Oauth provider supplied does not match the supplier previously used";
+
+"api_error_code_796" = "Molimo unesite staru lozinku";
+
+/* Api errors */
+"api_error_internal_server" = "Došlo je do greške. Žao nam je što opcija trenutno ne radi, molimo pokušajte kasnije.";
+
+"api_error_save_unavailable" = "Opcija za čuvanje trenutno nije u funkciji zbog tehničkog problema. Očekujemo da će to ubrzo biti rešeno. Molimo Vas pokušajte kasnije tokom dana.";
+
+"api_error_unknown" = "Došlo je do greške. Žao nam je što opcija trenutno ne radi, molimo pokušajte kasnije.";
+
+"camera_setup" = "Podešenja kamere";
+
+"camera_setup_allow_access" = "Dozvolite pristup kameri kako biste uneli adresu od 3 reči putem funkcije skeniranja.";
+
+"cancel" = "Otkažite";
+
+/* Carousel addresses */
+"carousel_address_1" = "///brdo.kore.odjek";
+
+"carousel_address_2" = "///nebo.broj.knjiga";
+
+"carousel_address_3" = "///zora.magla.snovi";
+
+"carousel_address_4" = "///ključ.gost.zečić";
+
+"carousel_address_5" = "///uski.ručak.noćas";
+
+"carousel_address_6" = "///jaje.nagib.opet";
+
+"carousel_address_7" = "///zalazak.zamak.obećanje";
+
+/* Carousel */
+"carousel_line_1" = "Poštanske adrese Vas ne odvedu uvek na pravo mesto, a neka mesta čak i nemaju ulicu i broj. ";
+
+"carousel_line_2" = "what3words je za svaka 3 metra kvadratna na svetu odredio jedinstvenu šifru. Ili adresu od 3 reči, kako je mi zovemo. ";
+
+"carousel_line_3" = "Reči su nasumično dodeljene - nema skrivenog značenja! - i ostaju uvek iste. ";
+
+"carousel_line_4" = "Pronalaženje i deljenje veoma preciznih lokacija? Nikad jednostavnije!";
+
+"catalyst_location_permission_description" = "Kako biste dozvolili da what3words odredi Vašu trenutnu lokaciju, koristite Podešnja Zaštite podataka u Sistemskim podešenjima.";
+
+"catalyst_location_permission_open_settings" = "Otvorite Podešenja Zaštite podataka…";
+
+/* Catalyst */
+"catalyst_location_permission_title" = "what3words nema ovlašćenje da pristupi Vašoj lokaciji.";
+
+"catalyst_no_available_location_description" = "Uključite bežični internet da bi what3words mogao da odredi Vašu trenutnu lokaciju.";
+
+"catalyst_no_available_location_title" = "Ne možemo da prikažemo Vašu lokaciju";
+
+"catalyst_onboarding_box1_description" = "Pretražite bilo koje mesto ili lokaciju da biste pronašli adresu od 3 reči";
+
+"catalyst_onboarding_box2_description" = "Podelite precizne lokacije sa prijateljima i kolegama i nećete zalutati i gubiti vreme";
+
+"catalyst_onboarding_box3_description" = "Pošaljite odmah svoju lokaciju sa adresom od 3 reči na Apple mape radi brže i lakše navigacije";
+
+"catalyst_onboarding_box4_description" = "Sačvajte svoje omiljene adrese od 3 reči za brzi pristup i organizujte ih u liste";
+
+"catalyst_view_help" = "Prikaži pomoć";
+
+/* this is for accessibility 'read aloud' purposes - helping people with visual impairments to locate where the 'close' button is on the screen. so it will not be seen as text, just as spoken word for people using that feature */
+"cd_close_button" = "Dugme za gašenje";
+
+/* Permissions */
+"CFBundleDisplayName" = "what3words";
+
+"change" = "Izmenite";
+
+/* Change password */
+"change_password" = "Promenite lozinku";
+
+"change_password_confirmation_msg" = "Lozinka je promenjena";
+
+"close" = "Zatvorite";
+
+"compass_accelerometer_sensor_unavailable" = "Akcelerometar nije dostupan - molimo obratite se proizvođaču za pomoć";
+
+"compass_arrived" = "Stigli ste!";
+
+"compass_away" = "Udaljenost %@";
+
+/* Compass screens */
+"compass_backToMap" = "Povratak na mapu";
+
+"compass_calibrateDescription" = "Pomerite telefon 3 puta u obliku broja 8";
+
+"compass_calibrateTitle" = "Izvršite kalibraciju radi veće preciznosti";
+
+"compass_dontAskMeAgain" = "Ne nudi više ovu opciju";
+
+"compass_footer_location_title" = "Vaša trenutna lokacija";
+
+"compass_gps_accuracy" = "GPS preciznost";
+
+"compass_header_destination_title" = "Vaše odredište";
+
+"compass_infoPanelSubtitle" = "Bilo da ste u gradskom okruženju ili u divljini, ovaj kompas je jednostavan za korišćenje i pokazuje u pravcu odabrane what3words adrese od 3 reči. ";
+
+"compass_infoPanelTitle" = "what3words Compass";
+
+"compass_magnetic_sensor_unavailable" = "Magnetni senzor nije dostupan - molimo obratite se proizvođaču za pomoć";
+
+/* Compass */
+"compass_navigation_title" = "Compass";
+
+"compass_no_location_data" = "Pažnja - trenutno nema podataka o lokaciji. Molimo da proverite i dozvolite korišćenje lokacije u podešenjima telefona i pokušate ponovo.";
+
+"compass_precise_location_warning_cta" = "Uključite Precizno lociranje";
+
+"compass_precise_location_warning_description" = "Kompasu je potrebna Vaša precizna lokacija kako bi Vas usmerio u pravom pravcu.";
+
+"compass_precise_location_warning_title" = "Precizno lociranje je isključeno";
+
+"copied_to_clipboard" = "Kopirano u privremenu memoriju";
+
+"criticalUpdate_accuracyLongDescription" = "Na osnovu GPS preciznosti od %@ Vaša adresa od 3 reči je:";
+
+/* Critical update */
+"criticalUpdate_accuracyShortDescription" = "GPS preciznosti od %@";
+
+"criticalUpdate_appStore" = "Idite na App Store";
+
+"criticalUpdate_completed" = "%@%% završeno";
+
+"criticalUpdate_downloadLatestVersion" = "Molimo da preuzmete najnoviju verziju";
+
+"criticalUpdate_noLocation" = "Nije pronađena trenutna lokacija";
+
+"criticalUpdate_noLocationDescription" = "Molimo proverite da ste dozvolili korišćenje lokalizacije ili koristite online mapu.";
+
+"criticalUpdate_refreshGPS" = "Dodirnite da osvežite GPS";
+
+"criticalUpdate_retry" = "Pokušajte ponovo";
+
+"criticalUpdate_updateRequired" = "Potrebno obavezno ažuriranje";
+
+"criticalUpdate_viewOnlineMap" = "Prikaz online mape";
+
+"criticalUpdate_waitWhileDownloading" = "Molimo sačekajte dok traje preuzimanje";
+
+/* Dark Mode */
+"dark_mode" = "Tamni režim rada";
+
+"dark_mode_device_settings" = "Koristite podešenja uređaja";
+
+"dark_mode_device_settings_details" = "Podeseite tamni režim rada za korišćenje svetle ili tamne opcije u podešenjima ekrana i osvetljenja na uređaju";
+
+"defaultAddressSelection_goBack" = "Povratak ";
+
+"defaultAddressSelection_subtitle" = "Pokušavate da upotrebite našu podrazumevanu lokaciju u what3words aplikaciji. Da li ste sigurni da želite da nastavite?";
+
+/* Default Address */
+"defaultAddressSelection_title" = "Upozorenje";
+
+"defaultAddressSelection_useAnyway" = "Ipak upotrebite";
+
+"delete" = "Obrišite";
+
+/* Delete account */
+"delete_account" = "Obrišite nalog";
+
+"delete_account_cancel_error1" = "Ne možete ugasiti plaćenu pretplatu. Obratite nam se na support@what3words.com";
+
+"delete_account_cancel_error2" = "Ne možete ugasiti pretplatu ili preći u nižu kategoriju ukoliko imate zaostale obaveze. Obratite nam se na support@what3words.com";
+
+"delete_account_cancel_error3" = "Ne možete ugasiti pretplatu ili preći u nižu kategoriju ukoliko ste prekoračili kvotu. Obratite nam se na support@what3words.com";
+
+"delete_account_info_details" = "Ukoliko odlučite da obrišete nalog, svi Vaši podaci biće uklonjeni. Ovaj postupak je nepovratan.";
+
+"deleted_account_details" = "This user has deactivated their account";
+
+"deleted_account_name" = "what3words user";
+
+"demo_splash_message" = "Ova verzija what3words napravljena je isključivo kao demonstracija";
+
+"dismiss" = "Odbacite";
+
+"displaySettings" = "Podešenja prikaza";
+
+"displaySettings_10digit" = "10-cifrene UK koordinate";
+
+"displaySettings_6digit" = "6-cifrene UK koordinate";
+
+"displaySettings_8digit" = "8-cifrene UK koordinate";
+
+"displaySettings_britishNational" = "Koordinatni sistem UK (British National Grid)";
+
+"displaySettings_countrySpecific" = "Sistemi po zemljama";
+
+"displaySettings_decimalDegrees" = "Decimalni stepeni";
+
+"displaySettings_degreesDecimalMinutes" = "Stepeni, decimalne minute";
+
+"displaySettings_degreesMinutesSeconds" = "Stepeni, minute i sekunde";
+
+"displaySettings_description" = "Odaberite šta se prikazuje ispod adrese od 3 reči kada koristite mapu";
+
+"displaySettings_eastingNorting" = "Kartezijanski koordinatni sistem";
+
+"displaySettings_latitudeLongitude" = "Geografska širina i dužina";
+
+"displaySettings_longitudeLatitude" = "Zamenite redosled koordinata";
+
+"displaySettings_none" = "Nema";
+
+/* Display settings */
+"displaySettings_preview" = "Brzi prikaz";
+
+"displaySettings_secondary3Word" = "Sekundarni jezik za adrese od 3 reči";
+
+"done" = "Gotovo";
+
+"dont_ask_again" = "Ne nudi više ovu opciju";
+
+"feature_online_only_description" = "Da biste koristili ovu opciju, morate imati aktivnu konekciju";
+
+"following" = "Pratite";
+
+"forgot_pass_confirmation" = "Poslali smo Vam elektronsku poruku sa uputstvom za resetovanje lozinke";
+
+/* Forgot password */
+"forgot_password_navigation_title" = "Resetujte lozinku";
+
+"forgot_password_send_btn" = "POŠALJITE";
+
+"forgot_password_success_message" = "Molimo proverite e-poštu da biste resetovali lozinku.";
+
+"forgot_password_title" = "Unesite adresu e-pošte i poslaćemo Vam link da resetujete lozinku:";
+
+"form_error_field_required" = "Ovo polje je obavezno.";
+
+"form_error_fill_fields" = "Sva polja su obavezna.";
+
+"form_passwords_no_match" = "Lozinke se ne podudaraju.";
+
+"gps_info_answer_1" = "To se dešava kada dodirnete polje da vidite svoju trenutnu adresu od 3 reči, jer se snaga vašeg GPS signala neprestano menja.\n\nUkoliko je to slučaj, možete za početak dodirnuti ovo polje da biste odrediti svoju trenutnu adresu od 3 reči. Preporučujemo da pređete na satelitski režim kako biste lakše odabrali tačan kvadrat gde se nalazite.";
+
+"gps_info_answer_2" = "GPS označava Global Positioning System, odnosno globalni sistem za pozicioniranje. To je globalni sistem za satelitsku navigaciju koji nudi obaveštenje o približnoj lokaciji gde se nalazite tako što satelit šalje signal čipu u Vašem uređaju.";
+
+"gps_info_answer_3" = "Signal će se možda poboljšati ukoliko izađete napolje ili ukoliko se odaljite od velikih zgrada ili drugih objekata koji možda umanjuju jačinu signala.";
+
+"gps_info_navigation_title" = "Česta pitanja o GPS-u";
+
+"gps_info_question_1" = "Zašto se moja trenutna adresa od 3 reči stalno menja?";
+
+"gps_info_question_2" = "Kako radi GPS?";
+
+"gps_info_question_3" = "Kako mogu da poboljšam GPS signal?";
+
+"grip_content_description" = "Dodirnite i zadržite da biste pomerili what3words spisak adresa od 3 reči gore ili dole";
+
+"help_and_support_faq" = "Česta pitanja";
+
+"help_and_support_support" = "Podrška";
+
+"help_and_support_title" = "Pomoć i Podrška";
+
+/* Help and Support */
+"help_and_support_tutorial" = "Uputstvo";
+
+"help_and_support_waysToUse" = "Načini korišćenja";
+
+"help_and_support_whatsapp" = "Podrška preko WhatsApp";
+
+"hide" = "Sakrijte";
+
+"info" = "Info";
+
+"intro_china_line1" = "Otkrijte koje 3 reči čine adresu lokacije";
+
+"intro_china_line2" = "Tražite adresu od 3 reči";
+
+"intro_china_line3" = "Koristite glasovnu pretragu za adrese od 3 reči";
+
+"intro_china_line4" = "Koristite svoju omiljenu aplikaciju za navigaciju do adrese od 3 reči";
+
+"intro_china_line5" = "Podelite adresu od 3 reči preko Weibo, WeChat i drugih aplikacija za poruke";
+
+"intro_join_create_account" = "Napravite nalog na what3words";
+
+"intro_join_organise" = "Organizujte favorite preko liste";
+
+"intro_join_save" = "Sačuvajte lokaciju za brzi pristup";
+
+"intro_join_signup" = "Prijavite se za pristup svim opcijama";
+
+"intro_join_sync" = "Sinhronizujte lokacije na više uređaja";
+
+"intro_join_w3w" = "Pridružite se what3words danas";
+
+"intro_login" = "PRIJAVITE SE / KREIRAJTE NALOG";
+
+"intro_map" = "IDITE NA MAPU";
+
+/* Onboarding screen */
+"intro_title" = "Pronađite bilo koju lokaciju na svetu preko jednostavne adrese od 3 reči";
+
+"keyboard_input_placeholder_list" = "Naziv liste";
+
+"keyboard_input_placeholder_note" = "Naziv beleške";
+
+"keyboard_input_title_create_list" = "Dodajte listu";
+
+"keyboard_input_title_create_note" = "Dodajte belešku";
+
+"keyboard_input_title_edit_list" = "Izmenite listu";
+
+"keyboard_input_title_edit_note" = "Izmenite belešku";
+
+/* Keyboard view */
+"keyboard_input_title_no_label" = "Nema beleške";
+
+/* Select languages */
+"languages_navigation_title" = "Jezici";
+
+"languages_primary_selection" = "Primarni jezik za adrese od 3 reči";
+
+"languages_secondary_hasMoved" = "Sekundarni jezik je pomeren";
+
+"languages_secondary_note" = "Napomena: Sekundarni jezik ne možete da koristite za glasovnu pretragu ili skeniranje adresa od 3 reči.";
+
+"languages_secondary_select" = "Odaberite sekundarni jezik";
+
+"languages_secondary_selection" = "Sekundarni jezik za adrese od 3 reči";
+
+"languages_secondary_view" = "PRIKAZ";
+
+"last_updated_at" = "Poslednji put ažurirano pre %@";
+
+"list_sharing_added_to_list" = "Dodato na listu";
+
+"list_sharing_are_you_sure" = "Da li ste sigurni?";
+
+"list_sharing_by_me" = "Ja sam podelio/podelila";
+
+"list_sharing_change_permissions" = "Izmenite odobrenja";
+
+"list_sharing_copy_link" = "Kopirajte link";
+
+"list_sharing_enter_valid_email" = "Unesite validnu adresu e-pošte";
+
+"list_sharing_follower" = "1 pratilac";
+
+"list_sharing_followers" = "Broj pratilaca: %@";
+
+"list_sharing_future_updates" = "Svako ko prati ovu listu moći će da vidi izmene koje unesete.";
+
+"list_sharing_invite_confirm_change" = "Izgubićete unete adrese e-pošte ukoliko pređete na “Svako sa linkom”";
+
+"list_sharing_location_updated" = "1 lokacija | Ažurirano %@";
+
+"list_sharing_locations_updated" = "Broj lokacija: %@ | Ažurirano %@";
+
+"list_sharing_make_copy" = "Duplikat";
+
+"list_sharing_my_lists" = "Moje liste";
+
+"list_sharing_no_availability_description" = "Možda je korisnik obrisao ovu listu, tako da više nije dostupna";
+
+"list_sharing_no_availability_title" = "Lista više nije dostupna";
+
+"list_sharing_preview_addresses" = "%@ adrese";
+
+"list_sharing_preview_created_by" = "Kreirao/la %@";
+
+"list_sharing_preview_created_by_you" = "Vi ste kreirali listu";
+
+"list_sharing_preview_list_view" = "Lista";
+
+"list_sharing_preview_map_view" = "Mapa";
+
+/* List sharing */
+"list_sharing_preview_navigation_title" = "Pogledajte deljenu listu";
+
+"list_sharing_preview_option_create_copy" = "Napravite kopiju";
+
+"list_sharing_preview_option_save_list" = "Pratite listu";
+
+"list_sharing_private_title" = "Privatno";
+
+"list_sharing_public_description" = "Korisnici koje dodate moći će da prate ili kopiraju Vašu listu.";
+
+"list_sharing_public_title" = "Javno";
+
+"list_sharing_remove" = "Uklonite";
+
+"list_sharing_remove_email_confirmation_description" = "Kada ih uklonite, korisnici više neće imati pristup.";
+
+"list_sharing_remove_email_confirmation_title" = "Želite li da uklonite e-poštu?";
+
+"list_sharing_request_access" = "Zahtev za pristup";
+
+"list_sharing_request_access_text" = "Pokušavate da pristupite privatnoj listi";
+
+"list_sharing_save_action_merge_lists" = "Spojte liste";
+
+"list_sharing_save_action_new_list" = "Napravite novu listu";
+
+"list_sharing_save_merge_text" = "Izgleda da već imate listu pod tim nazivom, želite li da ih spojite?";
+
+"list_sharing_save_merge_title" = "Želite li da spojite liste?";
+
+"list_sharing_save_new_list_name" = "Naziv nove iste";
+
+"list_sharing_screen_add_emails" = "Korisnici dodatih e-adresa moći će da prate ili kopiraju Vaše liste. Obratite pažnju da se radi o e-adresi koju koriste za what3words.";
+
+"list_sharing_screen_add_emails_action_add" = "Dodajte";
+
+"list_sharing_screen_add_emails_placeholder" = "Dodajte adrese e-pošte";
+
+"list_sharing_screen_add_emails_title" = "Ispod dodajte adrese e-pošte";
+
+"list_sharing_screen_anyone" = "Svako sa ovim linkom će moći da prati ili kopira Vašu listu";
+
+"list_sharing_screen_invite_people" = "Pozovite korisnike da vide listu dodavanjem e-adrese, zatim podelite sa njima link ispod. Obratite pažnju da se radi o e-adresi koju koriste za prijavu na what3words.";
+
+"list_sharing_screen_link_copy" = "Dodirnite Podelite kako biste listu poslali svakome čiju ste adresu e-poštе uneli gore – nećemo im direktno slati elektronsku poštu.";
+
+"list_sharing_screen_link_sharing" = "Podelite listu";
+
+"list_sharing_screen_link_sharing_invite" = "Samo dodati korisnici";
+
+"list_sharing_screen_link_sharing_off" = "Isključeno";
+
+"list_sharing_screen_link_sharing_public" = "Svako sa linkom";
+
+"list_sharing_screen_link_will_appear" = "Napravićemo link koji možete podeliti sa korisnicima koje ste prethodno dodali – nećemo im direktno slati elektronsku poštu.";
+
+"list_sharing_screen_link_will_appear_title" = "Podelite privatni link";
+
+"list_sharing_share_invite" = "Podelite poziv";
+
+"list_sharing_share_prefix" = "Ovo je moja what3words lista '%@'\n%@";
+
+"list_sharing_shared_one_person" = "Podeljeno sa 1 korisnikom";
+
+"list_sharing_shared_private" = "Podeljeno privatno";
+
+"list_sharing_shared_public" = "Podeljeno javno";
+
+"list_sharing_shared_with_people" = "Podeljeno sa %@ korisnika";
+
+"list_sharing_turn_off_confirmation_description" = "Svako ko vidi ovu listu neće više imati pristup.";
+
+"list_sharing_turn_off_confirmation_title" = "Želite li da isključite deljenje linkova?";
+
+"list_sharing_turn_off_description" = "Deljenje se ukida i sve e-adrese biće uklonjene.";
+
+"list_sharing_turn_off_title" = "Isključite deljenje";
+
+"list_sharing_viewer" = "Pristup za pregled dokumenta";
+
+"list_sharing_viewer_description" = "Može samo da vidi liste";
+
+"list_sharing_with_me" = "Drugi su podelili sa mnom";
+
+"loading" = "Učitavanje…";
+
+"locations_list_empty" = "Ovde još uvek niste sačuvali nijednu adresu od 3 reči";
+
+"locations_list_empty_cta" = "Pronađite adresu od 3 reči";
+
+"locations_lists_action_copy_to_list" = "Kopirajte u drugu listu";
+
+"locations_lists_action_delete_from_list" = "Obrišite iz liste";
+
+"locations_lists_action_move_to_list" = "Premestite u drugu listu";
+
+"locations_lists_all_export" = "Izvoz svih sadržaja u CSV datoteku";
+
+/* Locations lists */
+"locations_lists_delete_list" = "Obrišite listu";
+
+"locations_lists_export" = "Izvoz u CSV datoteku";
+
+"locations_lists_manage_list" = "Uredite listu";
+
+"locations_lists_send_copy" = "Pošaljite kopiju";
+
+"locations_lists_share_list" = "Podelite listu";
+
+"locations_lists_sort_by_az" = "Sortirajte A-Ž";
+
+"locations_lists_sort_by_newest" = "Sortirajte počevši od najnovijeg sadržaja";
+
+"locations_lists_sort_by_oldest" = "Sortirajte od najstarijeg sadržaja";
+
+"locations_lists_unfollow_list" = "Prestanite da pratite listu";
+
+"login" = "Prijavite se";
+
+"map_back_to_list" = "Povratak na listu";
+
+"map_deeplinkAddress_message" = "Ovo je what3words adresa od 3 reči jedinstvena za ovaj kvadrat od 3 metra.";
+
+"map_geocode_saved_lists" = "Sačuvano u %@ liste/listi";
+
+"map_geocode_saved_lists_underline" = "%@ liste/listi";
+
+"map_geocode_saved_to_list_name" = "Sačuvano u %@";
+
+"map_inspector_address_china" = "Kako biste videli ovu adresu, molimo preuzmite 三词地址 aplikaciju";
+
+"map_inspector_address_international" = "Kako biste videli ovu adresu, molimo preuzmite globalnu what3words aplikaciju";
+
+"map_inspector_directions_view_title" = "Vidite putanju";
+
+/* Map */
+"map_inspector_excluded_area" = "Adresa od 3 reči se ne prikazuje ovde";
+
+"map_inspector_save_confirm_list_items_removal" = "Broj lokacija za brisanje: %@";
+
+"map_inspector_save_confirm_removal" = "Da li ste sigurni da želite da obrišete ovu sačuvanu lokaciju?";
+
+"map_inspector_share_with" = "Podelite preko";
+
+"map_location_permission" = "Dozvolite pristup Vašoj trenutnoj lokaciji da biste videli odgovarajuću adresu od 3 reči";
+
+"map_my_location_gps_accuracy_approximate_location" = "Približna lokacija";
+
+"map_my_location_gps_accuracy_message" = "GPS preciznost od %@";
+
+"map_my_location_gps_approximate_message" = "GPS uređaja koristi približnu lokaciju od (%@). Da biste pronašli tačnu what3words adresu od 3 reči, molimo uključite 'Precizno lociranje'.";
+
+"map_my_location_gps_approximate_precise_location" = "Precizna lokacija";
+
+"map_my_location_gps_average_connection_message" = "Slab GPS na uređaju - %@. Pročitajte više";
+
+"map_my_location_gps_bad_connection_message" = "Veoma slab GPS na uređaju (%@). Preciznost će se možda poboljšati ukoliko ste napolju. Pročitajte više";
+
+"map_my_location_gps_good_connection_message" = "Preciznost GPS-a na uređaju %@";
+
+"map_my_location_gps_message" = "Prema GPS-u uređaja";
+
+"map_my_location_gps_read_more" = "Pročitajte više";
+
+"map_my_location_turned_off" = "Lokacija je isključena. Da biste pronašli tačnu what3words adresu i koristili navigaciju pomoću kompasa, molimo uključite opciju 'Lokacija'";
+
+"map_my_location_turned_off_location" = "'Lokacija'";
+
+"map_my_location_turned_off_my_location_button" = "Lokacija je isključena";
+
+"map_offline_gps_button_error" = "Uključite opciju Lokacija kako biste dozvolili da ‘what3words’ odredi Vašu lokaciju";
+
+"map_offline_view_location" = "Pristup lokaciji je isključen, dodirnite ekran da biste ga uključili.";
+
+"map_offline_view_name" = "Niste povezani na mrežu";
+
+/* Map */
+"map_onboarding_signin_navigation_title" = "Prijavite se da biste sačuvali lokaciju";
+
+"map_open_saved_locations" = "Open saved locations";
+
+"map_switch_to_satellite" = "Pređite na satelitski prikaz";
+
+"menu_about" = "O nama";
+
+"menu_default_map_type" = "Podrazumevani tip mape";
+
+"menu_default_map_type_map" = "Mapa";
+
+"menu_default_map_type_satellite" = "Satelitski prikaz";
+
+"menu_demo_discover" = "Zašto ne biste potražili adresu od 3 reči svoje kuće?";
+
+"menu_discover_all_done" = "Gotovo, odlično urađeno!";
+
+"menu_discover_feature_congrats_subtitle" = "Prvi put ste upotrebili adresu od 3 reči! Pratite korišćenje adresa od 3 reči na komandnoj tabli";
+
+"menu_discover_feature_congrats_title" = "Bravo";
+
+"menu_discover_feature_discover" = "Otkrijte adresu od 3 reči";
+
+"menu_discover_feature_discover_try_title" = "Otkrijte svoju prvu adresu od 3 reči";
+
+"menu_discover_feature_go_back" = "Povratak";
+
+"menu_discover_feature_navigate" = "Navigacija do adrese od 3 reči";
+
+"menu_discover_feature_reset_title" = "Ako resetujete komandnu tablu, obrisaćemo Vaše korisničke podatke i sve će biti vraćeno na prethodno stanje";
+
+"menu_discover_feature_save" = "Sačuvajte";
+
+"menu_discover_feature_save_try_title" = "Sačuvajte adresu od 3 reči";
+
+"menu_discover_feature_scan" = "Skenirajte";
+
+"menu_discover_feature_scan_try_title" = "Skenirajte adresu od 3 reči";
+
+"menu_discover_feature_search" = "Pretraga adrese od 3 reči";
+
+"menu_discover_feature_search_try_title" = "Tekstualna pretraga adrese od 3 reči";
+
+"menu_discover_feature_search_with_voice" = "Glasovna pretraga";
+
+"menu_discover_feature_search_with_voice_try_title" = "Glasovna pretraga adrese od 3 reči";
+
+"menu_discover_feature_share" = "Podelite adresu od 3 reči";
+
+"menu_discover_feature_share_with_photo" = "Podelite uz sliku";
+
+"menu_discover_feature_share_with_photo_try_title" = "Podelite sliku sa adresom od 3 reči";
+
+"menu_discover_feature_try" = "Pokušajte sada";
+
+"menu_discover_feature_view_dashboard" = "Pregled opcija";
+
+"menu_discover_features" = "Pregled opcija";
+
+"menu_discover_features_title" = "Pregled opcija";
+
+"menu_discover_reset_dashboard" = "Resetujte komandnu tablu";
+
+"menu_discover_tip_subtitle" = "Dodirnite opcije sa liste da isprobate nove mogućnosti aplikacije";
+
+"menu_discover_tip_title" = "Savet";
+
+"menu_distance_separators" = "Separatori";
+
+"menu_distance_units" = "Jedinice rastojanja";
+
+"menu_distance_units_default_unit" = "km";
+
+"menu_distance_units_display_option" = "1";
+
+"menu_distance_units_imperial" = "Milje";
+
+"menu_distance_units_metric" = "Kilometri";
+
+"menu_faq" = "Česta pitanja";
+
+"menu_feedback" = "Povratne informacije";
+
+"menu_find_out" = "Informišite se o what3words";
+
+"menu_follow_us" = "Pratite nas";
+
+"menu_help" = "Pomoć";
+
+"menu_language" = "Jezik";
+
+"menu_map_behaviour" = "Opcije za mapu";
+
+"menu_map_behaviour_fixed" = "Fiksirana referentna tačka";
+
+"menu_map_behaviour_interactive" = "Dodirnite mapu";
+
+"menu_map_behaviour_switch" = "Molimo idite na 'Dodirnite mapu' u Podešenjima načina rada kako biste videli uputstvo";
+
+"menu_map_provider" = "Operater mape";
+
+"menu_map_provider_apple_maps" = "Apple mape";
+
+"menu_map_provider_google_maps" = "Google mape";
+
+"menu_map_settings_navigation_title" = "Podešenja mape";
+
+"menu_map_type" = "Vrsta mape";
+
+"menu_news" = "Novosti";
+
+/* Notifications Settings */
+"menu_notifications" = "Notifikacije";
+
+"menu_order_sign" = "Prodavnica";
+
+"menu_photos" = "Režim rada za slike";
+
+"menu_privacy" = "Zaštita podataka";
+
+"menu_privacy_and_terms" = "Zaštita podataka i Uslovi korišćenja";
+
+"menu_products" = "Proizvodi koji koriste what3words";
+
+"menu_saved_locations" = "Sačuvane lokacije";
+
+"menu_search_settings" = "Podešenja pretrage";
+
+"menu_see_some_amazing_addresses" = "Pogledajte neke od neverovatnih adresa od 3 reči";
+
+"menu_settings" = "Podešenja";
+
+"menu_share" = "Podelite aplikaciju";
+
+"menu_share_settings" = "Podešenja za deljenje";
+
+"menu_share_text" = "Pronađite adresu od 3 reči preko %@";
+
+"menu_support" = "Podrška";
+
+"menu_terms" = "Uslovi";
+
+/* Menu items */
+"menu_tutorial" = "Uputstvo";
+
+"menu_units" = "Jedinice";
+
+"menu_update_account" = "Ažurirajte detalje naloga";
+
+"menu_ways_to_use_w3w" = "Načini korišćenja what3words";
+
+"menu_what3words_business" = "what3words za posao";
+
+"menu_what3words_develop" = "Razvoj softvera sa what3words";
+
+"menu_what3words_join_community" = "Pridružite se zajednici";
+
+"named_loc_empty_view_title" = "Prijavite se da pristupite sačuvanim lokacijama";
+
+"named_loc_find_words_button" = "PRONAĐITE ADRESU OD 3 REČI";
+
+"named_loc_logged_in_empty_view_title" = "Niste još uvek sačuvali nijednu lokaciju";
+
+"named_loc_login_button" = "PRIJAVITE SE / KREIRAJTE NALOG";
+
+/* Named locations */
+"named_loc_navigation_title" = "Sačuvane lokacije";
+
+"named_loc_shared_lists_section" = "Deljene liste";
+
+"near" = "u blizini";
+
+"next" = "Dalje";
+
+"no" = "Ne";
+
+"no_intent_available" = "Aplikacija nije dostupna.";
+
+"no_results" = "Nisu pronađeni rezultati";
+
+"note" = "Beleška";
+
+"notifications_settings_appNotifications" = "Notifikacije unutar aplikacije";
+
+"notifications_settings_listAccess_description" = "Kada korisnici zahtevaju pristup Vašim listama sačuvanih lokacija";
+
+"notifications_settings_listAccess_title" = "Zahtevi za pristup listi";
+
+"notifications_settings_listInvites_description" = "Kada Vas korisnici pozovu da pristupite listi sačuvanih lokacija putem e-pošte";
+
+"notifications_settings_listInvites_title" = "Pozivi za pristup listama";
+
+"notifications_settings_manageUsers" = "Uredite blokirane korisnike";
+
+"notifications_settings_manageUsers_header_description" = "Blokirani korisnici ne mogu da Vam pošalju poziv za listu niti da zahtevaju pristup listama";
+
+"notifications_settings_manageUsers_header_title" = "Blokirani korisnici";
+
+"notifications_settings_preferences" = "Blokirani korisnici";
+
+"notifications_settings_pushNotifications" = "Push notifikacije";
+
+"notifications_settings_pushNotifications_description" = "Primajte najnovije vesti, ažuriranje proizvoda i obaveštenja";
+
+"notifications_settings_pushNotifications_manage" = "Podešenje za push notifikacije";
+
+"notifications_settings_pushNotifications_title" = "Budite u toku uz what3words";
+
+"notifications_settings_unblockUser" = "Odblokirajte korisnika";
+
+/* Permissions */
+"NSCameraUsageDescription" = "Unesite adresu od 3 reči putem funkcije skeniranja ili napravite sliku";
+
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Uključite lokaciju da bismo mogli da Vam prikažemo Vašu trenutnu adresu od 3 reči.";
+
+"NSMicrophoneUsageDescription" = "Koristite mikrofon za glasovni unos adrese od 3 reči";
+
+"NSPhotoLibraryUsageDescription" = "Dodajte what3words stiker na sliku.";
+
+"ocr_hint" = "Napomena - Cela adresa mora da bude vidljiva";
+
+"ocr_scan_3wa" = "Skenirajte adresu od 3 reči";
+
+/* OCR setup */
+"ocr_scanning" = "Skeniranje u toku…";
+
+/* Generics */
+"ok" = "OK";
+
+"onboarding_exact_tap_subtitle" = "Ovog puta dodirnite tačno onaj kvadrat koji tražite. Budite što je moguće precizniji.";
+
+"onboarding_exact_tap_title" = "Dobro došli, kvadrati! ";
+
+"onboarding_keep_going_subtitle" = "Možda ćete morati da pomerate mapu dok ne pronađete lokaciju koju tražite.";
+
+"onboarding_keep_going_title" = "Još samo nekoliko koraka.";
+
+"onboarding_prompt_subtitle" = "Ovo funkcioniše kao i svaka druga pretraga mape.\nNpr. Terazije 25";
+
+"onboarding_prompt_title" = "Jednostavno ukucajte ulicu i broj mesta koje tražite.";
+
+"onboarding_satellite_subtitle" = "To će Vam omogućiti još precizniji prikaz. ";
+
+"onboarding_satellite_title" = "Pređite na satelitski prikaz";
+
+"onboarding_search_title" = "Otkrijte adresu od 3 reči nekog mesta koje znate. Dodirnite polje za pretragu i krećemo.";
+
+"onboarding_sign_up_subtitle" = "Moći ćete da vidite i podelite adresu od 3 reči i da sinhronizujete sačuvane lokacije na više uređaja. ";
+
+"onboarding_sign_up_title" = "Sjajno! Sada se prijavite da biste sačuvali lokaciju.";
+
+/* Onboarding */
+"onboarding_tap_square" = "Dodirnite bilo koji kvadrat. ";
+
+"onboarding_unique_title" = "Sjajno! Gore vidite 3 reči koji su jedinstvene za ovaj kvadrat. ";
+
+"onboarding_zoom_in_subtitle" = "Zumirajte sve dok ne ugledate koordinate, zatim možete odabrati kvadrat koji tražite. ";
+
+"onboarding_zoom_in_title" = "Prilično ste se odaljili!";
+
+"open_w3w" = "Otvorite u what3words";
+
+"or" = "ILI";
+
+"panel_add_location_list" = "Dodajte novu listu";
+
+"panel_change_location_action_title" = "Izmenite liste";
+
+"panel_my_locations" = "Sačuvane lokacije";
+
+"panel_peep_location_removed" = "Lokacija je uklonjena";
+
+"panel_peep_note_removed" = "Beleška je uklonjena";
+
+/* User Panel */
+"panel_print_address_title" = "Naručite tablu";
+
+"panel_save_location_action_title" = "Sačuvajte u listu";
+
+"panel_save_location_saved_action_title" = "Uklonite sačuvanu lokaciju";
+
+"panel_select_list" = "Odaberite listu koju želite da sačuvate";
+
+"panel_share_location_action_title" = "Podelite";
+
+"pause" = "Pauza";
+
+"pending_invites_accept" = "Prihvatite";
+
+"pending_invites_blockUser" = "Blokirajte korisnika";
+
+"pending_invites_delete_invite" = "Obrišite poziv";
+
+"pending_invites_invitedTo" = "Pozvan/a u";
+
+"pending_invites_invitesNotification" = "Pozivi koji čekaju odgovor";
+
+"pending_invites_reject" = "Odbijte";
+
+"pending_invites_requestsFrom" = "Zahtevi";
+
+"pending_invites_requestsNotification" = "Zahtev za pristup listi";
+
+/* Pending invites and requests */
+"pending_invites_title" = "Pozivi i zahtevi koji čekaju odgovor";
+
+"pending_invites_view" = "Pogledajte brzi prikaz liste";
+
+"photos_camera_unavailable" = "Kamera nije dostupna";
+
+"photos_confirm_square" = "Odaberite kvadrat gde je slika napravljena";
+
+"photos_discard_image" = "Poništite sliku";
+
+"photos_discarded_photo" = "Povratkom na prethodni meni slika će biti poništena";
+
+"photos_imaage_saved" = "Slika je sačuvana";
+
+"photos_location_template" = "U blizini";
+
+/* Photos */
+"photos_name" = "Slika";
+
+"photos_no_location_alert" = "Molimo odaberite lokaciju!";
+
+"photos_no_location_prompt" = "Idite na pretragu ili zumirajte kvadrat gde je napravljena slika";
+
+"photos_not_authorized" = "what3words nema dozvolu da koristi kameru, molimo proverite podešenja telefona";
+
+"photos_onboarding_address" = "Adresa";
+
+"photos_onboarding_colour" = "Boja";
+
+"photos_onboarding_save" = "Sačuvajte";
+
+"photos_onboarding_start_detail" = "Podelite sliku sa preciznom lokacijom na what3words stikeru";
+
+"photos_onboarding_start_popup" = "Dodajte what3words stiker na sliku. Možete da mu menjate veličinu, boju i mesto.";
+
+"photos_onboarding_start_title" = "Podelite sliku";
+
+"photos_onboarding_style" = "Stil";
+
+"photos_save_image" = "Sačuvajte sliku";
+
+"photos_select_square" = "Odaberite kvadrat gde je slika napravljena";
+
+"photos_settings_original_photo" = "Sačuvajte original slike";
+
+"photos_share_photo" = "Uvezite sliku";
+
+"photos_share_text" = "Podeljeno preko what3words";
+
+"photos_shortcut_name" = "Napravite sliku";
+
+"photos_sticker_style" = "Stil stikera";
+
+"photos_storage_permission" = "Potrebna je dozvola za čuvanje sadržaja za pristup galeriji kamere";
+
+"photos_words_template" = "reč.reč.reč";
+
+"placeholder_change_pass_confirm" = "Potvrdite novu lozinku";
+
+"placeholder_change_pass_new" = "Nova lozinka";
+
+"placeholder_change_pass_old" = "Stara lozinka";
+
+"placeholder_country" = "Zemlja";
+
+"placeholder_email" = "E-pošta";
+
+/* Forms */
+"placeholder_first_name" = "Ime";
+
+"placeholder_last_name" = "Prezime";
+
+"placeholder_password" = "Lozinka";
+
+"popup_delete_location_description" = "Brisanjem će lokacija biti uklonjena iz %@ liste/listi";
+
+"popup_delete_location_single_description" = "Brisanjem će lokacija biti uklonjena iz 1 liste";
+
+"popup_delete_location_title" = "Brisanje sačuvane lokacije?";
+
+"popup_navigation_save_description" = "Došli ste do %@ Želite li da sačuvate?";
+
+"popup_navigation_save_title" = "Sačuvajte prethodnu lokaciju";
+
+"popup_notification_access_accept" = "Da, želim!";
+
+"popup_notification_access_cancel" = "Ne sada";
+
+/* Popup */
+"popup_notification_access_descripton" = "Uključite notifikacije kako biste saznali sve o poboljšanim funkcijama aplikacije i novim načinima korišćenja adresa od 3 reči.";
+
+"popup_screenshot_taken" = "Dodirnite ispod da biste podelili ovu what3words adresu od 3 reči";
+
+"preview" = "Brzi prikaz";
+
+"read_aloud_volume_warning_cta" = "Shvatam";
+
+"read_aloud_volume_warning_description" = "Zvuk na uređaju je trenutno isključen. Molimo pojačajte zvuk na uređaju i pokušajte ponovo.";
+
+"read_aloud_volume_warning_title" = "Pojačajte zvuk";
+
+"rename" = "Preimenujte";
+
+"reset" = "Resetovanje";
+
+"resume" = "Nastavite";
+
+"save" = "Sačuvajte";
+
+"save_location_limit_reached" = "Dostigli ste maksimum sačuvanih lokacija!";
+
+/* This text shows up when the user is scanning a what3words address and the system is processing the information before suggesting results */
+"scan_state_detecting" = "Obrada u toku...";
+
+/* it is a what3words address that is being scanned */
+"scan_state_found" = "Skenirano";
+
+/* This text shows up when the user is scanning a what3words address and the system is loading the results */
+"scan_state_loading" = "Učitavanje u toku...";
+
+"scan_state_scanning" = "Skenirajte what3words adresu od 3 reči";
+
+/* This text shows up when the user is scanning a what3words address and the system is validating the information before displaying results */
+"scan_state_validating" = "Provera u toku...";
+
+"search" = "Pretraga…";
+
+"search_bar_notification_default_list" = "Favoriti";
+
+"search_bar_notification_title" = "Sačuvano u: %@";
+
+"search_bar_placeholder_short" = "Pretraga";
+
+"search_bar_unfilled" = "Pronađite adresu od 3 reči...";
+
+"search_default_view_no_results" = "Adresa nije pronađena.\n\nMolimo pokušajte pretragu grada ili obližnjeg mesta i zumirajte dok ne nađete adresu od 3 reči.";
+
+"search_keyboard_tip" = "Tražite bilo koje mesto ili adresu od 3 reči";
+
+"search_keyboard_tip_enterprise" = "Tražite bilo koju adresu od 3 reči";
+
+"search_keyboard_tip_example" = "npr. ///navodni.pozitivna.okvir";
+
+"search_lite_example" = "Unesite adresu od 3 reči, na primer: ///navodni.pozitivna.okvir";
+
+"search_mic_error_subtitle" = "Nemojte govoriti poštanske adrese, koristimo samo adrese od 3 reči.";
+
+"search_mic_error_title" = "Ovo nije ono što ste rekli?";
+
+"search_mic_error_try_again" = "Molimo pokušajte ponovo";
+
+"search_mic_listening" = "Slušanje u toku…";
+
+"search_mic_listening_stopped" = "Slušanje je obustavljeno";
+
+"search_mic_sending" = "Slanje";
+
+"search_placeholder_3wa_mic_value" = "npr. \"navodni.pozitivna.okvir\"";
+
+"search_placeholder_mic_title" = "Kažite bilo koju adresu od 3 reči";
+
+"search_placeholder_recording_placeholder" = "Izvolite, slušanje u toku…";
+
+"search_placeholder_tap_action" = "Dodirnite i govorite";
+
+"search_placeholder_tip" = "Savet: Pokušajte da unesete svoju kućnu adresu, ime grada ili naziv mesta";
+
+"search_placeholder_title" = "Na primer";
+
+/* Search */
+"search_recent_title" = "Nedavne pretrage";
+
+"search_results_hide" = "Ne prikazuj rezultate van odabranih regija ";
+
+"search_results_show" = "Vidite rezultate van odabranih regija ";
+
+"search_results_title" = "Rezultati";
+
+"search_scan_tip" = "Skenirajte bilo koju adresu od 3 reči";
+
+"search_settings_explanation" = "Možete da suzite pretragu adresa od 3 reči po regijama, ukoliko ste sigurni da ne želite da vidite i druge rezultate. Odaberite regije ispod.";
+
+"search_settings_selected_territories" = "Odabrane regije";
+
+"search_settings_unselected_territories" = "Poništeni izbor regija";
+
+"search_shortcut_ocr_search" = "Skenirajte";
+
+"search_shortcut_voice_search" = "Glasovna pretraga";
+
+"search_suggestion_info" = "Tražite adrese od 3 reči tako što ćete uneti tačku između reči";
+
+"search_suggestion_title" = "Da li ste mislili?";
+
+"search_voice_tip" = "Glasovna pretraga bilo koje adrese od 3 reči";
+
+"select_language_complete" = "Preuzimanje završeno";
+
+"select_language_confirm" = "Potvrdite";
+
+"select_language_connection_lost" = "Konekcija prekinuta";
+
+"select_language_critical_update" = "Potrebno ažuriranje jezika ili će se aplikacija vratiti na English (UK)";
+
+"select_language_downloading" = "Preuzimanje: %@ Jezik: %@";
+
+"select_language_error_not_enough_storage" = "Nije moguće preuzeti odabrani jezik jer nemate dovoljno memorijskog prostora na uređaju.";
+
+"select_language_error_unknown" = "Nije moguće preuzeti odabrani jezik, došlo je do greške.";
+
+"select_language_failed" = "Nije moguće preuzeti odabrani jezik jer trenutno niste povezani na mrežu.";
+
+"select_language_ignore" = "Ignorišite";
+
+"select_language_non_critical_update" = "Na raspolaganju je ažuriran paket jezika u cilju najbolje usluge.";
+
+"select_language_prompt" = "Preuzimanje %@ %@?";
+
+"select_language_restart_app" = "Jezik promenjen, molimo restartujte aplikaciju";
+
+"select_language_retry" = "POKUŠAJTE PONOVO";
+
+"select_language_revert" = "Povratak na početni jezik";
+
+/* Select language */
+"select_language_title" = "Odaberite jezik";
+
+"select_language_update" = "AŽURIRAJTE";
+
+/* iMessage */
+"setup_in_w3w" = "Dodirnite da podesite u what3words";
+
+"share_3_words" = "Adresa od 3 reči";
+
+"share_decimal" = "Decimalni stepeni (WGS84)";
+
+"share_degrees_dec_min" = "Stepeni, decimalne minute";
+
+"share_degrees_min_sec" = "Stepeni, minute i sekunde";
+
+"share_example_title" = "Ovo je primer onoga što ćete podeliti";
+
+"share_explainer" = "Pojašnjenje";
+
+"share_explainer_message" = "Evo precizne adrese od 3 reči, sačinjene od 3 nasumične reči. Svaka 3 kvadratna metra na svetu imaju svoju jedinstvenu adresu od 3 reči.";
+
+"share_language_navigation_title" = "Jezik za deljenje";
+
+"share_lat_lng" = "Geografska širina i dužina";
+
+"share_lng_lat" = "Geografska širina i dužina";
+
+/* National grid */
+"share_nat_grid" = "Koordinatni sistem UK (British National Grid)";
+
+"share_nat_grid_10_digits" = "10-cifrene UK koordinate";
+
+"share_nat_grid_6_digits" = "6 Digit Grid Reference";
+
+"share_nat_grid_8_digits" = "8-cifrene UK koordinate";
+
+"share_nat_grid_est_nor" = "Kartezijanski koordinatni sistem";
+
+/* Share settings */
+"share_navigation_title" = "Napredna podešenja";
+
+"share_other_language" = "Podelite na drugom jeziku";
+
+"share_weblink" = "Internet link";
+
+"show" = "Prikažite";
+
+"signin_footer_register" = "Kreirajte nalog";
+
+/* Sign in */
+"signin_forgot_password_btn" = "Zaboravili ste lozinku?";
+
+"signin_login_apple_invalidate" = "Došlo je do greške. Možete učinite sledeće: Prijavite se na Apple i otvorite Podešenja: Settings -> Apple ID -> Password & Security -> Apple ID logins -> what3words -> Stop using Apple ID. Moći ćete ponovo da se prijavite preko `Sign in with Apple` na what3words";
+
+"signin_login_email" = "Nastavite preko e-pošte";
+
+"signin_login_facebook" = "Nastavite preko Facebook-a";
+
+"signin_login_google" = "Nastavite preko Google-a";
+
+"signup_agree_privacy_and_tc" = "Morate se saglasiti sa what3words Zaštitom podataka i Uslovima korišćenja.";
+
+"signup_confirm" = "Kreiranjem naloga saglasni ste sa what3words %@ i %@";
+
+"signup_latest_news" = "Primajte novosti, sugestije i aktuelnosti o proizvodu";
+
+"signup_login" = "Prijavite se";
+
+/* Sign up */
+"signup_navigation_title" = "Kreirajte nalog";
+
+"signup_privacy" = "Zaštita podataka";
+
+"signup_register_btn" = "KREIRAJTE NALOG";
+
+"signup_terms" = "Uslovi korišćenja.";
+
+"skip" = "Preskočite";
+
+"txt_continue" = "Nastavite";
+
+"undo" = "Poništite";
+
+"voice_permission_missing" = "what3words nema dozvolu da koristi mikrofon, molimo proverite podešenja telefona";
+
+/* Voice setup */
+"voice_setup" = "Glasovna podešenja";
+
+"voice_setup_allow_access" = "Dozvolite pristup mikrofonu kako biste koristili glasovnu pretragu za adrese od 3 reči";
+
+"voice_setup_ask_later" = "Pitajte kasnije";
+
+"voice_setup_ok" = "OK";
+
+/* Watch */
+"watch_accurate_to" = "Preciznost: %@";
+
+"watch_app_compass" = "Compass";
+
+"watch_app_compass_arrived" = "Stigli ste";
+
+"watch_app_direction_drive" = "Automobilom";
+
+"watch_app_direction_transport" = "Prevoz";
+
+"watch_app_direction_walk" = "Peške";
+
+"watch_app_directions_cycle" = "Biciklom";
+
+"watch_app_done_btn" = "Gotovo";
+
+"watch_app_error_missing_app" = "Za pristup sačuvanim lokacijama potrebna je what3words aplikcija za iPhone.";
+
+"watch_app_error_not_logged_in" = "Morate biti prijavljeni na what3words aplikaciju za iPhone da biste pristupili sačuvanim lokacijama.";
+
+"watch_app_error_out_of_range" = "iPhone van dometa. Molimo proverite konekciju sa satom.";
+
+"watch_app_error_text_compass_iphone_connection" = "Vaš sat je konektovan na iPhone. Kompas zahteva konekciju sa Android uređajem sa instaliranom what3words aplikacijom.";
+
+"watch_app_error_text_compass_phone_app_not_installed" = "Za pristup kompasu potrebna je what3words aplikcija za telefon.";
+
+"watch_app_error_text_iphone_connection" = "Vaš sat je konektovan na iPhone. Sačuvane lokacije zahtevaju konekciju sa Android uređajem sa instaliranom what3words aplikacijom.";
+
+"watch_app_error_text_share_iphone_connection" = "Vaš sat je konektovan na iPhone. Deljenje zahteva konekciju sa Android uređajem sa instaliranom what3words aplikacijom.";
+
+"watch_app_error_text_share_phone_app_not_installed" = "Za deljenje je potrebna what3words aplikcija za telefon.";
+
+"watch_app_home_btn" = "Početni ekran";
+
+"watch_app_home_language_btn" = "Jezik";
+
+"watch_app_home_location_btn" = "Lokacija";
+
+"watch_app_home_recent_searches_btn" = "Nedavne pretrage";
+
+"watch_app_home_saved_locations_btn" = "Sačuvane lokacije";
+
+/* Watch App */
+"watch_app_home_search_btn" = "Pretraga";
+
+"watch_app_location_get_directions" = "VIDITE PUTANJU";
+
+"watch_app_location_gps_accuracy" = "GPS preciznosti %@";
+
+"watch_app_location_gps_changed" = "Primetili smo da Vam se GPS promenio. Dodirnite da ažurirate what3words adresu od 3 reči.";
+
+"watch_app_location_gps_changed_cancel" = "Otkažite";
+
+"watch_app_location_gps_changed_refresh" = "Ažurirajte";
+
+"watch_app_location_menu_refresh" = "Ažurirajte";
+
+"watch_app_location_menu_save" = "Sačuvajte";
+
+"watch_app_location_menu_saved" = "Sačuvano";
+
+"watch_app_location_menu_search" = "Pretraga";
+
+"watch_app_location_menu_share" = "Podelite";
+
+"watch_app_menu_discover_feature_wear_os_subtitle" = "Stigla je! Preuzmite aplikaciju what3words za pametni sat.";
+
+/* Wear OS */
+"watch_app_menu_discover_feature_wear_os_title" = "what3words za Wear OS 3+";
+
+"watch_app_open_on_watch_wear_os" = "Otvorite na satu";
+
+"watch_app_recent" = "Nedavne pretrage";
+
+"watch_app_recent_empty" = "Još uvek nemate pretrage";
+
+"watch_app_results" = "Rezultati";
+
+"watch_app_saved_empty" = "Ovde još uvek niste sačuvali nijednu adresu od 3 reči";
+
+"watch_app_search_btn" = "Pretraga";
+
+"watch_app_voice_error_msg" = "Nemojte govoriti poštanske adrese, koristimo samo adrese od 3 reči.";
+
+"watch_app_voice_microphone_permission_missing" = "Nedostaje odobrenje za mikrofon";
+
+"watch_app_voice_say_3wa" = "Recite what3words adresu od 3 reči";
+
+"watch_app_voice_sending" = "Slanje";
+
+"watch_app_voice_tap_to_speak" = "Dodirnite i govorite";
+
+"watch_app_voice_try_again" = "Molimo pokušajte ponovo";
+
+"watch_app_wearos_compass_running_on_phone" = "Molimo proverite telefon.";
+
+"watch_app_wearos_compass_unavailable" = "Nažalost Vaš sat nema magnetni senzor. Možete da koristite kompas na telefonu.";
+
+"watch_app_wearos_enable_watch_location" = "Pristup lokaciji je isključen, dodirnite ekran da biste ga uključili.";
+
+"watch_app_wearos_error_missing_app" = "Za pristup sačuvanim lokacijama potrebna je what3words aplikcija za telefon.";
+
+"watch_app_wearos_error_not_logged_in" = "Morate biti prijavljeni na what3words aplikaciju za telefon da biste pristupili sačuvanim lokacijama.";
+
+"watch_app_wearos_error_out_of_range" = "Telefon van dometa. Molimo proverite konekciju sa satom.";
+
+"watch_app_wearos_error_text_phone_app_not_installed" = "Za pristup sačuvanim lokacijama potrebna je what3words aplikcija za telefon.";
+
+"watch_app_wearos_error_text_user_logged_out" = "Morate biti prijavljeni na what3words aplikaciju za telefon da biste pristupili sačuvanim lokacijama.";
+
+"watch_app_wearos_finding_location" = "Tražimo Vašu lokaciju";
+
+"watch_app_wearos_gps_poor" = "Slab GPS";
+
+"watch_app_wearos_gps_very_poor" = "Veoma slab GPS";
+
+"watch_app_wearos_home_location_btn" = "Moja lokacija";
+
+"watch_app_wearos_install_phone_app_text" = "Za najbolje iskustvo korišćenja preuzmite what3words aplikaciju za telefon.";
+
+"watch_app_wearos_save_to" = "Sačuvajte u";
+
+"watch_app_wearos_share_on_phone_prompt" = "Deljenje je moguće samo preko what3words aplikacije na telefonu.";
+
+"watch_app_wearos_suggestion" = "Sugestija";
+
+"watch_no_location_message" = "Žao nam je, ne možemo da lociramu Vašu GPS poziciju.";
+
+"watch_no_location_title" = "Nema lokacije";
+
+"watch_open_phone_app_message" = "Molimo podesite aplikaciju na telefonu da biste nastavili.";
+
+"watch_open_phone_app_title" = "Otvorite what3words na telefonu";
+
+"watch_pair_phone_message" = "Molimo uparite telefon sa satom da biste nastavili.";
+
+"watch_pair_phone_title" = "Uparite telefon";
+
+/* Ways to use */
+"waysToUse_delivery" = "Tačno mesto isporuke";
+
+"waysToUse_delivery_buttonTitle" = "Gde ovo mogu da koristim?";
+
+"waysToUse_delivery_description" = "Neke od najvećih prodavnica na svetu koriste i what3words. Podelite preciznu lokaciju za dostavu tako što ćete na kraju uneti what3words adresu od 3 reči.";
+
+"waysToUse_emergency" = "Hitne službe";
+
+"waysToUse_emergency_buttonTitle" = "Saznajte kako";
+
+"waysToUse_emergency_description" = "Budite spremni da hitnim službama ili šlep uslugama date tačnu what3words adresu mesta gde je potrebna pomoć.";
+
+"waysToUse_listLocations" = "Navedite svoju lokaciju";
+
+"waysToUse_listLocations_buttonTitle" = "Vidite još ideja";
+
+"waysToUse_listLocations_description" = "Podstaknite ljude da koriste Vašu what3words adresu tako što ćete je dodati u kontaktne podatke, prilikom rezervacija ili postavite znak.";
+
+"waysToUse_planActivities" = "Planirajte aktivnosti";
+
+"waysToUse_planActivities_buttonTitle" = "Upoznajte zajednice";
+
+"waysToUse_planActivities_description" = "Udruženja i sportski timovi koriste what3words da bi precizno odredili koji ulaz, parking mesta ili tačna sastajališta su predviđena za okupljanja.";
+
+"waysToUse_save" = "Sačuvajte korisne lokacije";
+
+"waysToUse_save_buttonTitle" = "Isprobajte";
+
+"waysToUse_save_description" = "Napravite pregled tačnih lokacija koje ste pronašli ili su Vam drugi poslali. Dodajte beleške da biste znali šta je gde!";
+
+"waysToUse_sharePoints" = "Podelite dogovoreno sastajalište";
+
+"waysToUse_sharePoints_buttonTitle" = "Isprobajte";
+
+"waysToUse_sharePoints_description" = "Pomozite da svako stigne na pravo mesto bez lutanja. Podelite preciznu what3words adresu od tri reči Vašeg sastajališta.";
+
+"waysToUse_vehicleNavigation" = "Integrisana navigacija u vozilu";
+
+"waysToUse_vehicleNavigation_buttonTitle" = "Vidite vozila";
+
+"waysToUse_vehicleNavigation_description" = "U mnogim automobilima i motociklima možete uneti what3words adresu od 3 reči da biste dobili smernice prema tačnom odredištu.";
+
+"whats_new_line1" = "Sada smo dodali bosanski, crnogorski, hrvatski, srpski i kazaški jezik!";
+
+"whats_new_line2" = "Otkrijte nove mogućnosti korišćenja what3words. Pogledajte meni aplikacije!";
+
+/* What's new screen */
+"whats_new_title" = "Šta je novo";
+
+"yes" = "Da";
+
+"you_are_offline" = "Niste povezani na mrežu";
+

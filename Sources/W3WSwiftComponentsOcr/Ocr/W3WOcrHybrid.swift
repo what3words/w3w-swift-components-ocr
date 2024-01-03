@@ -43,15 +43,6 @@ public class W3WOcrHybrid: W3WOcrProtocol {
           
   }
   
-  public var onNewImage: (() -> Void)? {
-    didSet {
-      if #available(iOS 13.0, *) {
-        for ocr in ocrs {
-          (ocr as? W3WOcrNative)?.onNewImage = onNewImage
-        }
-      }
-    }
-  }
   
   /// Sets the language to use for scanning.  It will choose from
   /// among the provided OCR systems and use the first one that

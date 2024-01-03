@@ -1,0 +1,1542 @@
+/* Accessibility */
+"acc_3wa" = "what3words мекенжайы";
+
+"acc_action_panel_delete_saved" = "Сақталған мекенжайды өшіру";
+
+"acc_action_panel_navigate" = "Осы мекенжайға апару";
+
+"acc_action_panel_save" = "Осы мекенжайды сақтау";
+
+"acc_action_panel_share" = "Осы мекенжайды бөлісу";
+
+"acc_address_options_menu" = "Меню (мекенжай опциялары) ";
+
+"acc_back" = "Қайту";
+
+"acc_carousel_image_1_voiceover" = "Стадион маңындағы бірнеше жердің мекенжайы белгісіз екені көрсетілген иллюстрация.";
+
+"acc_carousel_image_2_voiceover" = "Дәл сол стадион көрсетілген, бірақ бұрын белгісіз болған жерлердің осы жолы what3words мекенжайы бар. Мысалы, бір кіреберіс жер ///trail.feast.beam деп, ал басқа жағындағысы ///hails.fled.snack деп белгіленген.";
+
+"acc_carousel_image_3_voiceover" = "Көлігін тастап, ///mime.petty.hook деген жердегі ғимарат кіреберісіне беттеген әйел бейнеленген иллюстрация";
+
+"acc_carousel_image_4_voiceover" = "///gathering.profile.shower деген жерде белеске шығып отырған екі адам бейнеленген иллюстрация.";
+
+"acc_clear_search_history" = "Іздеу тарихын өшіру";
+
+"acc_directions_3wa" = "Бағыт опциялары";
+
+"acc_list_color_button" = "Тізім түсі %@";
+
+"acc_list_color_coral" = "Қып-қызыл";
+
+"acc_list_color_green" = "Жасыл";
+
+"acc_list_color_light_blue" = "Ашық көк";
+
+"acc_list_color_orange" = "Қызғылт сары";
+
+"acc_list_color_pink" = "Қызғылт";
+
+"acc_list_color_purple" = "Күлгін";
+
+"acc_list_color_red" = "Қызыл";
+
+"acc_list_color_royal_blue" = "Көк";
+
+"acc_list_color_turquoise" = "Көгілдір";
+
+"acc_list_color_yellow" = "Сары";
+
+"acc_map_my_location" = "GPS деректеріне қарап, what3words мекенжайын шамалап көрсету";
+
+"acc_map_type_regular" = "Спутник режиміне ауысу";
+
+"acc_map_type_sattelite" = "Әдеттегі карта режиміне ауысу";
+
+"acc_options_menu" = "Меню";
+
+"acc_read_aloud" = "Осы мекенжайды дауыстап оқу";
+
+"acc_recall_button" = "Осыдан бұрынғы what3words мекенжайына оралу";
+
+"acc_saved_list_delete_label" = "Белгіні жою";
+
+"acc_saved_list_label_name" = "%@ белгісі";
+
+"acc_saved_list_option_button" = "Меню (тізім опциялары) ";
+
+"acc_saved_list_toggle_list" = "Тізім етіп көрсету";
+
+"acc_saved_list_toggle_map" = "Карта режиміне ауысу";
+
+"acc_saved_place_to_multiple_lists" = "%@ тізімдеріне сақталған. Түртіп, ашып көріңіз";
+
+"acc_saved_place_to_single_list" = "Осында (%@) сақталған. Түртіп, тізімді ашып қараңыз";
+
+"acc_search_bar" = "Іздеу жолы";
+
+"acc_search_filter" = "Іздеу нәтижелерін іріктеу";
+
+"acc_search_scan" = "what3words мекенжайын сканерлеу";
+
+"acc_search_voice" = "what3words мекенжайын дауыстап айтып іздеу ";
+
+"acc_selected" = "таңдаған";
+
+"acc_share_list_step_1" = "1-қадам";
+
+"acc_share_list_step_2" = "2-қадам";
+
+"acc_side_menu_account" = "%@ аккаунтын қарау";
+
+"acc_tab_map" = "Карта";
+
+"acc_toolbar_account" = "Аккаунт";
+
+"acc_toolbar_navigate" = "Навигация";
+
+"acc_unselected" = "таңдамаған";
+
+"acc_wtu_boat_img" = "///trout.bulb.line деген жердегі айлаққа келіп тоқтаған шағын кеме";
+
+"acc_wtu_camping_img" = "///others.rugs.yarn деген шалғай жерде палатка тігіп, демалып отырған турист";
+
+"acc_wtu_climbing_img" = "///ever.haircuts.given деген жерде тауға шыққан 2 адам";
+
+"acc_wtu_emergencies_img" = "///brick.tallest.soup деген жерде соғылған көліктің маңында тұрған 2 адам";
+
+"acc_wtu_farming_img" = "///fancy.mouths.enter деген жерде трактор мініп, қақпаға қарай бара жатқан фермер";
+
+"acc_wtu_fishing_img" = "///caves.ships.pens деген жерде 2 адам балық аулап отыр";
+
+"acc_wtu_hiking_img" = "///dairies.lean.grunt деген жерде жаяу сапарлап жүрген 2 адам";
+
+"acc_wtu_photography_img" = "///sketch.crate.bulge деген жерде тауды суретке түсіріп тұрған фотограф";
+
+"acc_wtu_picnic_img" = "///songs.forest.final деген жерде паркке барып демалған отбасы";
+
+"acc_wtu_runners_img" = "///grin.fled.bossy деген жерде жиналған жүгірушілер";
+
+"acc_wtu_scouts_img" = "///plant.profited.fear деген жерді аралап жүрген бір топ жас";
+
+"acc_wtu_wildlife_img" = "///riches.count.cable деген жерде дүрбімен құстарды бақылап тұрған табиғаттанушы";
+
+/* Accessibility settings */
+"accessibility" = "Арнайы мүмкіндіктер";
+
+"accessibility_readAloudDescription" = "Бұл түйме карта шыққан экранның төменгі бөлігінде көрсетіліп тұрады да, сіз таңдаған what3words мекенжайын дауыстап оқиды.";
+
+"accessibility_showReadAloud" = "what3words мекенжайын дауыстап оқу түймесін көрсету";
+
+"account_already_have" = "Аккаунтыңыз бар ма?";
+
+"account_already_have_3wa" = "Өзім іздеген what3words мекенжайын білемін";
+
+"account_create_account_btn" = "АККАУНТ АШУ";
+
+/* Account */
+"account_create_title" = "Әлі аккаунт ашпадыңыз ба?";
+
+/* Account edit */
+"account_edit_navigation_title" = "Деректерді өзгерту";
+
+"account_edit_save_btn" = "САҚТАУ";
+
+"account_edit_saved" = "Сақталған";
+
+"account_logout_btn" = "ШЫҒУ";
+
+"account_logout_confirmation" = "Жүйеден шынымен шыққалы тұрсыз ба?";
+
+"api_error_accounts_unavailable" = "Техникалық себептерге байланысты қазір тіркелуге/кіруге болмайды. Жөндеп жатырмыз. Кейін кіріп көріңіз.";
+
+"api_error_code_701" = "Бұл email және/немесе құпиясөз жарамсыз. Қайталап көріңіз.";
+
+"api_error_code_702" = "Қате шықты. Жүйеге қайта кіріп көріңіз.";
+
+"api_error_code_703" = "Жүйеге кіру үшін аккаунтыңызды растаңыз.";
+
+"api_error_code_704" = "Қауіпсіздік себептеріне байланысты аккаунтыңыз уақытша бұғатталды.";
+
+"api_error_code_705" = "Жарамды email адресін беріңіз.";
+
+"api_error_code_706" = "Мұндай email адресі бұрыннан бар.";
+
+"api_error_code_707" = "Құпиясөз кемінде 8 таңбадан тұруы тиіс.";
+
+"api_error_code_709" = "Атыңызды жазыңыз.";
+
+"api_error_code_710" = "Тегіңізді жазыңыз.";
+
+"api_error_code_711" = "Елді көрсетіңіз.";
+
+"api_error_code_712" = "Жарамды email адресін көрсетіңіз.";
+
+"api_error_code_750" = "The Oauth provider supplied does not match the supplier previously used";
+
+"api_error_code_796" = "Ескі құпиясөзді жазыңыз";
+
+/* Api errors */
+"api_error_internal_server" = "Қате шықты. Кешіріңіз, қазір істемей тұр, кейін көріңіз.";
+
+"api_error_save_unavailable" = "Техникалық себептерге байланысты қазір сақтап қою мүмкіндігі жоқ. Мәселе жақын арада шешіледі. Кейін тексеріп көріңіз.";
+
+"api_error_unknown" = "Қате шықты. Кешіріңіз, қазір істемей тұр, кейін көріңіз.";
+
+"camera_setup" = "Камера параметрлері";
+
+"camera_setup_allow_access" = "what3words мекенжайын сканер көмегімен енгізу үшін камераға қосылуға рұқсат беріңіз.";
+
+"cancel" = "Жоқ";
+
+/* Carousel addresses */
+"carousel_address_1" = "///отан.есім.ыдыс";
+
+"carousel_address_2" = "///істеу.күріш.апай";
+
+"carousel_address_3" = "///ақша.биік.сусын";
+
+"carousel_address_4" = "///тақта.сәби.құрт";
+
+"carousel_address_5" = "///қағаз.шешу.таза";
+
+"carousel_address_6" = "///қазы.бөпе.ерте";
+
+"carousel_address_7" = "///жігерлі.дәрігер.тіркелу";
+
+/* Carousel */
+"carousel_line_1" = "Адам қажет жерді, көшені таба алмай, адасатын жағдайлар болып тұрады. Біраз жердің тіпті мекенжайы да жоқ қой!";
+
+"carousel_line_2" = "what3words жер бетіндегі әрбір 3 метрлік шаршыға арнаулы код берген. Біз сол кодты what3words мекенжайы деп атаймыз.";
+
+"carousel_line_3" = "Мекенжай кездейсоқ сөздерден тұрады, осы қалпы өзгермейді. Сөз таңдағанда артық ой, жасырын пиғыл болмады!";
+
+"carousel_line_4" = "Қажет жерді тез тауып, дәл тауып айтудың бірден-бір жолы осы.";
+
+"catalyst_location_permission_description" = "what3words сіздің қайда екеніңізді анықтасын десеңіз, Жүйе параметрлеріндегі құпиялық опцияларын қолданыңыз.";
+
+"catalyst_location_permission_open_settings" = "Құпиялық параметрлерін ашу...";
+
+/* Catalyst */
+"catalyst_location_permission_title" = "what3words-тің сіз орналасқан жерді анықтауға рұқсаты жоқ.";
+
+"catalyst_no_available_location_description" = "what3words сіздің қайда тұрғаныңызды анықтасын десеңіз, Wi-Fi қосыңыз.";
+
+"catalyst_no_available_location_title" = "Қайда екеніңізді көрсете алмады";
+
+"catalyst_onboarding_box1_description" = "Кез келген жердің what3words мекенжайын іздеп табуға болады";
+
+"catalyst_onboarding_box2_description" = "Әлдебір нысанның нақты мекенжайын достарыңыз бен әріптестеріңізге жіберіп, қажет жерді тез тауып алыңыз";
+
+"catalyst_onboarding_box3_description" = "Тез әрі оңай навигация жасау үшін what3words мекенжайын бірден Apple Maps қосымшасына жіберіңіз.";
+
+"catalyst_onboarding_box4_description" = "Өзіңіз таңдап алған what3words мекенжайларын тез тауып алу үшін сақтап қойып, тізімдерге қосыңыз";
+
+"catalyst_view_help" = "Көмек";
+
+/* this is for accessibility 'read aloud' purposes - helping people with visual impairments to locate where the 'close' button is on the screen. so it will not be seen as text, just as spoken word for people using that feature */
+"cd_close_button" = "Жабу түймесі";
+
+/* Permissions */
+"CFBundleDisplayName" = "what3words";
+
+"change" = "Өзгерту";
+
+/* Change password */
+"change_password" = "Құпиясөзді өзгерту";
+
+"change_password_confirmation_msg" = "Құпиясөз өзгерді";
+
+"close" = "Жабу";
+
+"compass_accelerometer_sensor_unavailable" = "Акселерометр қосылмаған. Өндірушіге хабарласып, көмек сұрап көріңіз.";
+
+"compass_arrived" = "Келдік!";
+
+"compass_away" = "%@ қалды";
+
+/* Compass screens */
+"compass_backToMap" = "Картаға оралу";
+
+"compass_calibrateDescription" = "Телефонды ауада 8 санын жазғандай 3 рет ары-бері қимылдатыңыз";
+
+"compass_calibrateTitle" = "Калибрлеп, дәлдікті арттыру";
+
+"compass_dontAskMeAgain" = "Ендігәрі көрсетпеу";
+
+"compass_footer_location_title" = "Сіз қазір осындасыз";
+
+"compass_gps_accuracy" = "GPS дәлдігі";
+
+"compass_header_destination_title" = "Бара жатқан жер";
+
+"compass_infoPanelSubtitle" = "Компас қалада не одан шалғайда жүргендерге what3words мекенжайына қарай бағыт беріп, іздеген жерін оңай тауып алуға көмектеседі. ";
+
+"compass_infoPanelTitle" = "what3words компасы";
+
+"compass_magnetic_sensor_unavailable" = "Магниттік датчик қосылмаған. Өндірушіге хабарласып, көмек сұрап көріңіз.";
+
+/* Compass */
+"compass_navigation_title" = "Компас";
+
+"compass_no_location_data" = "Ескерту: мына жер туралы дерек жоқ. Телефон параметрлеріне кіріп, геолокация сервисі/орналасқан жерді анықтау опциясы қосулы тұр ма, соны тексеріп, қайта көріңіз.";
+
+"compass_precise_location_warning_cta" = "Нақты жерді анықтауды қосу";
+
+"compass_precise_location_warning_description" = "Компас сіздің нақты қайда тұрғаныңызды білу керек, ол сонда ғана дұрыс бағыт көрсете алады.";
+
+"compass_precise_location_warning_title" = "Нақты жерді анықтау өшірулі ";
+
+"copied_to_clipboard" = "Уақытша сақтағышқа көшірілді";
+
+"criticalUpdate_accuracyLongDescription" = "GPS дәлдігі %@ болғандағы сіздің what3words мекенжайыңыз мынау:";
+
+/* Critical update */
+"criticalUpdate_accuracyShortDescription" = "GPS дәлдігі %@";
+
+"criticalUpdate_appStore" = "App Store дүкеніне барыңыз";
+
+"criticalUpdate_completed" = "%@%% жасалды";
+
+"criticalUpdate_downloadLatestVersion" = "Ең соңғы нұсқасын жүктеп алыңыз";
+
+"criticalUpdate_noLocation" = "Қайда тұрғаныңызды анықтай алмадық";
+
+"criticalUpdate_noLocationDescription" = "Геолокация қосулы болу керек, болмаса онлайн картаны пайдаланыңыз.";
+
+"criticalUpdate_refreshGPS" = "GPS жаңарту үшін осында басыңыз";
+
+"criticalUpdate_retry" = "Қайталап көріңіз";
+
+"criticalUpdate_updateRequired" = "Қосымшаны жаңарту қажет";
+
+"criticalUpdate_viewOnlineMap" = "Онлайн картаны қарау";
+
+"criticalUpdate_waitWhileDownloading" = "Әлі жүктелуде, күте тұрыңыз";
+
+/* Dark Mode */
+"dark_mode" = "Қараңғы режим";
+
+"dark_mode_device_settings" = "Құрылғы параметрлерін пайдаланыңыз";
+
+"dark_mode_device_settings_details" = "Қараңғы режимге өтіп, «Жарық» немесе «Қараңғы» етіп көрсету опциясын таңдаңыз (құрылғының дисплей және жарықтық параметрлерін қараңыз).";
+
+"defaultAddressSelection_goBack" = "Жоқ, қайту";
+
+"defaultAddressSelection_subtitle" = "Қазір what3words қосымшасының әдепкі мекенжайы тұр. Оны өзгертпейсіз бе?";
+
+/* Default Address */
+"defaultAddressSelection_title" = "Ескерту";
+
+"defaultAddressSelection_useAnyway" = "Иә, көрейік";
+
+"delete" = "Жою";
+
+/* Delete account */
+"delete_account" = "Аккаунтты жою";
+
+"delete_account_cancel_error1" = "Ақылы жазылымнан бас тартуға болмайды. support@what3words.com қызметіне хабарласыңыз";
+
+"delete_account_cancel_error2" = "Қарыз болсаңыз, бұл жазылымнан бас тарта алмайсыз немесе арзанын таңдай алмайсыз. support@what3words.com қызметіне хабарласыңыз";
+
+"delete_account_cancel_error3" = "Квотадан асып кетсеңіз, бұл жазылымнан бас тарта алмайсыз немесе арзанын таңдай алмайсыз. support@what3words.com қызметіне хабарласыңыз";
+
+"delete_account_info_details" = "Аккаунтыңызды жойсаңыз, деректеріңіз де біржола жойылады. Оларды қалпына келтіре алмайсыз.";
+
+"deleted_account_details" = "Бұл пайдаланушы өз аккаунтын өшіріп тастаған";
+
+"deleted_account_name" = "what3words пайдаланушысы";
+
+"demo_splash_message" = "what3words қосымшасының бұл нұсқасы көрнекілік мақсатта ғана пайдалануға арнап жасалған";
+
+"dismiss" = "Бас тарту";
+
+"displaySettings" = "Не көрсетіледі";
+
+"displaySettings_10digit" = "10 санды координат жүйесі";
+
+"displaySettings_6digit" = "6 санды координат жүйесі";
+
+"displaySettings_8digit" = "8 санды координат жүйесі";
+
+"displaySettings_britishNational" = "Ұлыбритания координаттар жүйесі";
+
+"displaySettings_countrySpecific" = "Белгілі бір елге арналған жүйелер";
+
+"displaySettings_decimalDegrees" = "Ондық градустар";
+
+"displaySettings_degreesDecimalMinutes" = "Градус, минуттың ондық бөліктері";
+
+"displaySettings_degreesMinutesSeconds" = "Градус, минут және секунд";
+
+"displaySettings_description" = "what3words мекенжайының астында не көрсетілетінін белгілеп қойыңыз";
+
+"displaySettings_eastingNorting" = "Декарттық координаттар жүйесі";
+
+"displaySettings_latitudeLongitude" = "Ендік пен бойлық";
+
+"displaySettings_longitudeLatitude" = "Координаттардың орнын ауыстыру";
+
+"displaySettings_none" = "Керек емес";
+
+/* Display settings */
+"displaySettings_preview" = "Қарап алу";
+
+"displaySettings_secondary3Word" = "what3words мекенжайы көрсетілетін екінші тіл";
+
+"done" = "Дайын";
+
+"dont_ask_again" = "Бұдан былай сұрамау";
+
+"feature_online_only_description" = "Бұл функцияны пайдалану үшін деректерді қосу байланысы істеп тұруы керек";
+
+"following" = "Сіз жазылғансыз";
+
+"forgot_pass_confirmation" = "Құпиясөзді қайта орнату нұсқаулығын сізге email-ге жібердік";
+
+/* Forgot password */
+"forgot_password_navigation_title" = "Құпиясөзді қайта орнату";
+
+"forgot_password_send_btn" = "ЖІБЕРУ";
+
+"forgot_password_success_message" = "Құпиясөзді қайта орнатамын десеңіз, электрондық поштаңызды тексеріңіз.";
+
+"forgot_password_title" = "Email адресіңізді жазыңыз, біз сізге құпиясөзді қайта орнату сілтемесін жібереміз:";
+
+"form_error_field_required" = "Бұл жолды бос қалдыруға болмайды.";
+
+"form_error_fill_fields" = "Осы жолдардың бәрін толтыру керек";
+
+"form_passwords_no_match" = "Құпиясөздер сәйкес келмейді.";
+
+"gps_info_answer_1" = "Құрылғыңыздың GPS сигналының дәлдігі ұдайы өзгеріп тұрады, сондықтан сіз тұрған жердің what3words мекенжайын білу үшін түймені басып қалғанда осылай болады.\n\nМұндай жағдайда осы түймені басып, алдымен өзіңіз тұрған жердің what3words мекенжайын шамалап анықтап алыңыз. Содан кейін спутник режиміне ауысып, өзіңіз тұрған шаршыны дәл тауып көрсетсеңіз болады.";
+
+"gps_info_answer_2" = "GPS (жаһандық позициялау жүйесі) — сіздің құрылғыңыздағы чипке сигнал жіберу арқылы қайда екеніңізді шамалап анықтайтын жаһандық спутниктік навигация жүйесі.";
+
+"gps_info_answer_3" = "Сигнал дәлдігін арттыру үшін далаға шықсаңыз болады. Сигнал күшін бәсеңдететін үлкен ғимараттар мен үй-жайлардан алшақ тұрған жөн. ";
+
+"gps_info_navigation_title" = "GPS туралы жиі қойылатын сұрақтар";
+
+"gps_info_question_1" = "Менің қазіргі what3words мекенжайым неге өзгере береді?";
+
+"gps_info_question_2" = "GPS қалай істейді?";
+
+"gps_info_question_3" = "GPS сигналы сапасын қалай арттыруға болады?";
+
+"grip_content_description" = "Басып тұрып, what3words мекенжайы тізімін жоғары-төмен жылжытуға болады";
+
+"help_and_support_faq" = "Жиі қойылатын сұрақтар";
+
+"help_and_support_support" = "Көмек";
+
+"help_and_support_title" = "Ақпарат және көмек";
+
+/* Help and Support */
+"help_and_support_tutorial" = "Нұсқаулық";
+
+"help_and_support_waysToUse" = "Қалай қолданады";
+
+"help_and_support_whatsapp" = "WhatsApp арқылы көмек";
+
+"hide" = "Жасыру";
+
+"info" = "Ақпарат";
+
+"intro_china_line1" = "Осы жердің 3 сөзді мекенжайын қарау";
+
+"intro_china_line2" = "3 сөзді мекенжайды іздеу ";
+
+"intro_china_line3" = "3 сөзді мекенжайды дауыстап айтып іздеу ";
+
+"intro_china_line4" = "Басқа қосымшаларда 3 сөзді мекенжайды қолданып, жол табу";
+
+"intro_china_line5" = "3 сөзді мекенжайды Weibo, WeChat және басқа мессенджерлерде бөлісу";
+
+"intro_join_create_account" = "what3words аккаунтын ашу";
+
+"intro_join_organise" = "Таңдап алғандарын тізімге қосу";
+
+"intro_join_save" = "Мекенжайды тез табу үшін сақтап қою";
+
+"intro_join_signup" = "Бар функцияларды пайдалану үшін тіркелу керек";
+
+"intro_join_sync" = "Бірнеше құрылғыдағы мекенжайларды синхрондау";
+
+"intro_join_w3w" = "what3words қосымшасын бүгін пайдалана бастаңыз";
+
+"intro_login" = "КІРУ/ТІРКЕЛУ";
+
+"intro_map" = "КАРТАНЫ АШУ";
+
+/* Onboarding screen */
+"intro_title" = "Әлемдегі кез келген жерді what3words мекенжайы арқылы тауып алыңыз";
+
+"keyboard_input_placeholder_list" = "Тізім атауы";
+
+"keyboard_input_placeholder_note" = "Белгі атауы";
+
+"keyboard_input_title_create_list" = "Тізім қосу";
+
+"keyboard_input_title_create_note" = "Белгі қосу";
+
+"keyboard_input_title_edit_list" = "Тізімге өзгерту енгізу";
+
+"keyboard_input_title_edit_note" = "Белгіні өзгерту";
+
+/* Keyboard view */
+"keyboard_input_title_no_label" = "Белгі жоқ";
+
+/* Select languages */
+"languages_navigation_title" = "Тілдер";
+
+"languages_primary_selection" = "what3words мекенжайы көрсетілетін негізгі тіл";
+
+"languages_secondary_hasMoved" = "Екінші тілді таңдау опциясы басқа жақта";
+
+"languages_secondary_note" = "Ескерту: екінші тілді қосып, сол тілде what3words мекенжайын дауыстап айтуға болмайды. ";
+
+"languages_secondary_select" = "Екінші тілді таңдаңыз";
+
+"languages_secondary_selection" = "what3words мекенжайы көрсетілетін екінші тіл";
+
+"languages_secondary_view" = "ҚАРАУ";
+
+"last_updated_at" = "Соңғы жаңартылған кезі %@ бұрын";
+
+"list_sharing_added_to_list" = "Тізімге қосылды";
+
+"list_sharing_are_you_sure" = "Айнып қалған жоқсыз ба?";
+
+"list_sharing_by_me" = "Мен бөліскен";
+
+"list_sharing_change_permissions" = "Рұқсат беру-бермеу";
+
+"list_sharing_copy_link" = "Сілтемені көшіріп алу";
+
+"list_sharing_enter_valid_email" = "Жарамды email адресін жазыңыз.";
+
+"list_sharing_follower" = "1 жазылушы";
+
+"list_sharing_followers" = "%@ жазылушы";
+
+"list_sharing_future_updates" = "Бұл тізімді ашып көретіндер сіздің оған қандай өзгерту енгізгеніңізді біледі.";
+
+"list_sharing_invite_confirm_change" = "«Сілтеме алғанның бәрі» опциясына ауыссаңыз, бұрын қосқан email адрестері жоғалып кетеді";
+
+"list_sharing_location_updated" = "1 жер | Жаңартылған кезі %@";
+
+"list_sharing_locations_updated" = "%@ жер | Жаңартылған кезі %@";
+
+"list_sharing_make_copy" = "Көшірмесін жасау";
+
+"list_sharing_my_lists" = "Тізімдерім";
+
+"list_sharing_no_availability_description" = "Бұл тізімді пайдаланушы біржола жойған немесе жауып тастаған болуы мүмкін";
+
+"list_sharing_no_availability_title" = "Тізімді ашып көруге болмайды";
+
+"list_sharing_preview_addresses" = "%@ мекенжай";
+
+"list_sharing_preview_created_by" = "%@ жасаған";
+
+"list_sharing_preview_created_by_you" = "Сіз жасаған";
+
+"list_sharing_preview_list_view" = "Тізім";
+
+"list_sharing_preview_map_view" = "Карта";
+
+/* List sharing */
+"list_sharing_preview_navigation_title" = "Ортақ тізімді көру";
+
+"list_sharing_preview_option_create_copy" = "Көшірмесін жасау";
+
+"list_sharing_preview_option_save_list" = "Тізімге жазылу";
+
+"list_sharing_private_title" = "Жабық";
+
+"list_sharing_public_description" = "Осы сілтемені алғандар сіздің тізіміңізге жазылып, оны көшіріп ала алады.";
+
+"list_sharing_public_title" = "Ашық";
+
+"list_sharing_remove" = "Жою";
+
+"list_sharing_remove_email_confirmation_description" = "Алып тастаса, иелері бұдан былай кіре алмайды.";
+
+"list_sharing_remove_email_confirmation_title" = "Осы email-ді алып тастайық па?";
+
+"list_sharing_request_access" = "Рұқсат сұрау";
+
+"list_sharing_request_access_text" = "Бұл біреудің жеке тізімі";
+
+"list_sharing_save_action_merge_lists" = "Тізімдерді біріктіру";
+
+"list_sharing_save_action_new_list" = "Жаңа тізім жасау";
+
+"list_sharing_save_merge_text" = "Сізде аты дәл осындай тізім бар сияқты, екі тізімді біріктірейік пе?";
+
+"list_sharing_save_merge_title" = "Тізімдерді біріктірейік пе?";
+
+"list_sharing_save_new_list_name" = "Жаңа тізім аты";
+
+"list_sharing_screen_add_emails" = "Сіз қосқан email иелері тізіміңізге жазылып, оны көшіріп ала алады. what3words-ке тіркелген кезде көрсеткен email-дер ғана жарамды.";
+
+"list_sharing_screen_add_emails_action_add" = "Қосу";
+
+"list_sharing_screen_add_emails_placeholder" = "Email адрестерін жазыңыз";
+
+"list_sharing_screen_add_emails_title" = "Төмендегі email адрестерін қосыңыз";
+
+"list_sharing_screen_anyone" = "Осы сілтемені алғандар сіздің тізіміңізге жазылып, оны көшіріп ала алады";
+
+"list_sharing_screen_invite_people" = "Осы тізімді ашып көре алатын адамдардың email адрестерін жазып, төмендегі сілтемені бөлісіңіз. what3words-ке тіркелген кезде көрсеткен email болуы керек.";
+
+"list_sharing_screen_link_copy" = "Тізімді жоғарыда көрсеткен email иелеріне жіберу үшін «Бөлісу» таңбасын басыңыз (бөліскен адамдарға электрондық хат жібермейміз).";
+
+"list_sharing_screen_link_sharing" = "Тізімді бөлісу";
+
+"list_sharing_screen_link_sharing_invite" = "Көрсетілген email иелеріне ғана";
+
+"list_sharing_screen_link_sharing_off" = "Бөліспеу";
+
+"list_sharing_screen_link_sharing_public" = "Осы сілтемені алғандардың бәрі";
+
+"list_sharing_screen_link_will_appear" = "Сіз жоғарыда көрсеткен адамдар ашып қарай алатын сілтеме жасаймыз (аталған email иелеріне тікелей хат жолдамаймыз).";
+
+"list_sharing_screen_link_will_appear_title" = "Бөлек сілтеме жіберу";
+
+"list_sharing_share_invite" = "Шақыру жіберу";
+
+"list_sharing_share_prefix" = "«%@» деген what3words тізімім осы\n%@";
+
+"list_sharing_shared_one_person" = "1 адаммен бөліскен";
+
+"list_sharing_shared_private" = "Оңаша бөліскен";
+
+"list_sharing_shared_public" = "Көпшілікпен бөліскен";
+
+"list_sharing_shared_with_people" = "%@ адаммен бөліскен";
+
+"list_sharing_turn_off_confirmation_description" = "Бұл тізімді ашып көріп жүргендер енді оған кіре алмайды.";
+
+"list_sharing_turn_off_confirmation_title" = "Тізімді жауып тастайық па?";
+
+"list_sharing_turn_off_description" = "Тізімді жауып, email-дің бәрін жою. ";
+
+"list_sharing_turn_off_title" = "Бөліспеу";
+
+"list_sharing_viewer" = "Ашып көре алады";
+
+"list_sharing_viewer_description" = "Тізімді ашып қарауға ғана рұқсат";
+
+"list_sharing_with_me" = "Менімен бөліскен";
+
+"loading" = "Жүктелуде...";
+
+"locations_list_empty" = "Сіз what3words мекенжайларының бірде-біреуін әлі сақтаған жоқсыз";
+
+"locations_list_empty_cta" = "what3words мекенжайын табу";
+
+"locations_lists_action_copy_to_list" = "Басқа тізімге көшіру";
+
+"locations_lists_action_delete_from_list" = "Тізімнен жою";
+
+"locations_lists_action_move_to_list" = "Басқа тізімге қосу";
+
+"locations_lists_all_export" = "Бәрін CSV-ге экспорттау";
+
+/* Locations lists */
+"locations_lists_delete_list" = "Тізімді жою";
+
+"locations_lists_export" = "CSV-ге экспорттау";
+
+"locations_lists_manage_list" = "Тізімді реттеу";
+
+"locations_lists_send_copy" = "Көшірмесін жіберу";
+
+"locations_lists_share_list" = "Тізімді бөлісу";
+
+"locations_lists_sort_by_az" = "A-Я ретімен сұрыптау";
+
+"locations_lists_sort_by_newest" = "Алдымен жаңасын көрсету";
+
+"locations_lists_sort_by_oldest" = "Алдымен ескісін көрсету";
+
+"locations_lists_unfollow_list" = "Тізімге жазылмау";
+
+"login" = "Кіру";
+
+"map_back_to_list" = "Тізімге оралу";
+
+"map_deeplinkAddress_message" = "Мына 3 метрлік шаршы телімнің what3words мекенжайы осы.";
+
+"map_geocode_saved_lists" = "%@ тізімдерінде сақталған";
+
+"map_geocode_saved_lists_underline" = "%@ тізімдері";
+
+"map_geocode_saved_to_list_name" = "Мұнда сақтаулы: %@";
+
+"map_inspector_address_china" = "Осы what3words мекенжайын көру үшін біздің 三词地址 қосымшамызды жүктеп алыңыз";
+
+"map_inspector_address_international" = "Осы мекенжайды көру үшін біздің үлкен қосымшамызды жүктеп алыңыз";
+
+"map_inspector_directions_view_title" = "Бағыт-бағдар";
+
+/* Map */
+"map_inspector_excluded_area" = "what3words мекенжайы бұл жерде көрсетілмейді";
+
+"map_inspector_save_confirm_list_items_removal" = "Бұрын сақталған %@ мекенжай жойылады";
+
+"map_inspector_save_confirm_removal" = "Сақтап қойған осы мекенжайды шынымен алып тастайық па?";
+
+"map_inspector_share_with" = "Кіммен бөлісу";
+
+"map_location_permission" = "Сіздің what3words мекенжайыңызды табу үшін қазір қайда тұрғаныңызды анықтауға рұқсат беріңіз";
+
+"map_my_location_gps_accuracy_approximate_location" = "Шамамен осы жер";
+
+"map_my_location_gps_accuracy_message" = "GPS дәлдігі — %@";
+
+"map_my_location_gps_approximate_message" = "GPS мекенжайды шамалап көрсетіп тұр (%@). what3words мекенжайын дәл табу үшін «Нақты осы жер» опциясын қосыңыз.";
+
+"map_my_location_gps_approximate_precise_location" = "Нақты осы жер";
+
+"map_my_location_gps_average_connection_message" = "GPS сигналы нашар (%@). Қосымша мәлімет";
+
+"map_my_location_gps_bad_connection_message" = "GPS сигналы нашар (%@). Сигнал дәлдігін арттыру үшін далаға шықса болады. Қосымша мәлімет";
+
+"map_my_location_gps_good_connection_message" = "Құрылғының GPS дәлдігі %@";
+
+"map_my_location_gps_message" = "Құрылғының қазіргі GPS дәлдігі";
+
+"map_my_location_gps_read_more" = "Қосымша мәлімет";
+
+"map_my_location_turned_off" = "Геолокация өшірулі тұр. what3words мекенжайын дәл тауып, компасты пайдалану үшін «Мекенжай» функциясын қосыңыз.";
+
+"map_my_location_turned_off_location" = "«Мекенжай»";
+
+"map_my_location_turned_off_my_location_button" = "Мекенжайды анықтау функциясы өшірулі";
+
+"map_offline_gps_button_error" = "what3words қосымшасы сіздің қай жерде екеніңізді анықтасын десеңіз, геолокация сервисін қосыңыз";
+
+"map_offline_view_location" = "Мекенжайды анықтау функциясы өшірулі, қосу үшін осында басыңыз.";
+
+"map_offline_view_name" = "Офлайн";
+
+/* Map */
+"map_onboarding_signin_navigation_title" = "Мекенжайды сақтау үшін жүйеге кіріңіз";
+
+"map_open_saved_locations" = "Сақтап қойған мекенжайларды қарау";
+
+"map_switch_to_satellite" = "Спутникке ауысу";
+
+"menu_about" = "Бұл не?";
+
+"menu_default_map_type" = "Әдепкі карта түрі";
+
+"menu_default_map_type_map" = "Карта";
+
+"menu_default_map_type_satellite" = "Спутник";
+
+"menu_demo_discover" = "Үйіңіздің what3words мекенжайын іздеп көрейік пе?";
+
+"menu_discover_all_done" = "Бәрі дайын, бәрекелді!";
+
+"menu_discover_feature_congrats_subtitle" = "Сіз what3words мекенжайын тауып көрдіңіз! Осы сияқты тағы қандай мекенжайларды қарағаныңыз құралдар панелінде жазылып сақталады";
+
+"menu_discover_feature_congrats_title" = "Бәрекелді";
+
+"menu_discover_feature_discover" = "what3words мекенжайын қарау";
+
+"menu_discover_feature_discover_try_title" = "Енді what3words мекенжайын тауып көріңіз";
+
+"menu_discover_feature_go_back" = "Жоқ, қайту";
+
+"menu_discover_feature_navigate" = "what3words мекенжайына апару";
+
+"menu_discover_feature_reset_title" = "Құралдар панелінің параметрлерін қалпына келтірсеңіз, сіздің деректеріңіз өшіріліп, бәрі бастапқы күйге келеді";
+
+"menu_discover_feature_save" = "Сақтау";
+
+"menu_discover_feature_save_try_title" = "what3words мекенжайын сақтау";
+
+"menu_discover_feature_scan" = "Сканер";
+
+"menu_discover_feature_scan_try_title" = "what3words мекенжайын сканерлеу";
+
+"menu_discover_feature_search" = "what3words мекенжайын іздеу";
+
+"menu_discover_feature_search_try_title" = "what3words мекенжайын жазып іздеңіз ";
+
+"menu_discover_feature_search_with_voice" = "Дауыстап айтып іздеу";
+
+"menu_discover_feature_search_with_voice_try_title" = "what3words мекенжайын дауыстап айтып іздеңіз ";
+
+"menu_discover_feature_share" = "what3words мекенжайын бөлісу";
+
+"menu_discover_feature_share_with_photo" = "Фотосын бөлісу";
+
+"menu_discover_feature_share_with_photo_try_title" = "what3words мекенжайының суретін бөлісіңіз";
+
+"menu_discover_feature_try" = "Қазір көрейік";
+
+"menu_discover_feature_view_dashboard" = "Бар мүмкіндіктер";
+
+"menu_discover_features" = "Бар мүмкіндіктер";
+
+"menu_discover_features_title" = "Бар мүмкіндіктер";
+
+"menu_discover_reset_dashboard" = "Құралдар панелін қайта орнату";
+
+"menu_discover_tip_subtitle" = "Қосымшаны пайдаланып көру үшін тізімдегі әрекет опцияларын түртіңіз";
+
+"menu_discover_tip_title" = "Кеңес";
+
+"menu_distance_separators" = "Бөлу таңбалары";
+
+"menu_distance_units" = "Қашықтық өлшемі";
+
+"menu_distance_units_default_unit" = "миль";
+
+"menu_distance_units_display_option" = "1";
+
+"menu_distance_units_imperial" = "Миль";
+
+"menu_distance_units_metric" = "Километр";
+
+"menu_faq" = "Жиі қойылатын сұрақтар";
+
+"menu_feedback" = "Ұсыныс-пікір";
+
+"menu_find_out" = "what3words туралы мәлімет";
+
+"menu_follow_us" = "Бізге жазылыңыз";
+
+"menu_help" = "Ақпарат";
+
+"menu_language" = "Тіл";
+
+"menu_map_behaviour" = "Карта опциялары";
+
+"menu_map_behaviour_fixed" = "Қозғалмайтын маркер";
+
+"menu_map_behaviour_interactive" = "Картаны түртіңіз";
+
+"menu_map_behaviour_switch" = "Картаның жұмыс параметрлерінде «Интерактив» дегенге өтіп, нұсқаулықты қараңыз";
+
+"menu_map_provider" = "Карта провайдері";
+
+"menu_map_provider_apple_maps" = "Apple карталары";
+
+"menu_map_provider_google_maps" = "Google карталары";
+
+"menu_map_settings_navigation_title" = "Карта параметрлері";
+
+"menu_map_type" = "Карта түрі";
+
+"menu_news" = "Соңғы жаңалықтар";
+
+/* Notifications Settings */
+"menu_notifications" = "Хабарландырулар";
+
+"menu_order_sign" = "Дүкен";
+
+"menu_photos" = "Фото режимі";
+
+"menu_privacy" = "Құпиялық";
+
+"menu_privacy_and_terms" = "Құпиялық және шарттар";
+
+"menu_products" = "what3words-ті қолданатын өнімдер";
+
+"menu_saved_locations" = "Сақталған мекенжайлар";
+
+"menu_search_settings" = "Іздеу параметрлері";
+
+"menu_see_some_amazing_addresses" = "Небір қызық what3words мекенжайлары бар";
+
+"menu_settings" = "Параметрлер";
+
+"menu_share" = "Қосымшаны бөлісу";
+
+"menu_share_settings" = "Бөлісу параметрлері";
+
+"menu_share_text" = "%@ көмегімен what3words мекенжайын табу";
+
+"menu_support" = "Көмек";
+
+"menu_terms" = "Шарттар";
+
+/* Menu items */
+"menu_tutorial" = "Нұсқаулық";
+
+"menu_units" = "Өлшем бірліктері";
+
+"menu_update_account" = "Аккаунт деректерін жаңарту";
+
+"menu_ways_to_use_w3w" = "what3words-ті қалай қолданады";
+
+"menu_what3words_business" = "Бизнеске арналған what3words";
+
+"menu_what3words_develop" = "what3words көмегімен әзірлеу";
+
+"menu_what3words_join_community" = "Ортаға қосылу";
+
+"named_loc_empty_view_title" = "Сақталған мекенжайларды көру үшін жүйеге кіріңіз";
+
+"named_loc_find_words_button" = "WHAT3WORDS МЕКЕНЖАЙЫН ТАБЫҢЫЗ";
+
+"named_loc_logged_in_empty_view_title" = "Сіз сақтаған мекенжайлар жоқ";
+
+"named_loc_login_button" = "КІРУ/ТІРКЕЛУ";
+
+/* Named locations */
+"named_loc_navigation_title" = "Сақталған мекенжайлар";
+
+"named_loc_shared_lists_section" = "Ортақ тізімдер";
+
+"near" = "маңайда";
+
+"next" = "Келесі";
+
+"no" = "Жоқ";
+
+"no_intent_available" = "Қажетті қосымша жоқ.";
+
+"no_results" = "Ештеңе табылмады";
+
+"note" = "Белгі";
+
+"notifications_settings_appNotifications" = "Қосымшадағы хабарландырулар";
+
+"notifications_settings_listAccess_description" = "Өзгелер сіз сақтаған мекенжай тізімдерін көруге рұқсат сұрайды";
+
+"notifications_settings_listAccess_title" = "Тізімді көруді сұрау";
+
+"notifications_settings_listInvites_description" = "Өзгелер сізге мекенжайлар тізімін көруге email арқылы шақыру жібергенде ";
+
+"notifications_settings_listInvites_title" = "Тізім көруге шақыру";
+
+"notifications_settings_manageUsers" = "Блоктағы пайдаланушыларды реттеу";
+
+"notifications_settings_manageUsers_header_description" = "Блокталғандар сізге тізімдерді көруге шақыру жібере алмайды немесе сізден тізімдерді көруге рұқсат сұрай алмайды";
+
+"notifications_settings_manageUsers_header_title" = "Сіз блоктаған пайдаланушылар";
+
+"notifications_settings_preferences" = "Блокталған пайдаланушылар";
+
+"notifications_settings_pushNotifications" = "Push-хабарландырулары";
+
+"notifications_settings_pushNotifications_description" = "Соңғы жаңалықтар, өнім туралы хабарландырулар алып тұрыңыз";
+
+"notifications_settings_pushNotifications_manage" = "Push-хабарландырулары параметрлерін реттеу";
+
+"notifications_settings_pushNotifications_title" = "what3words жаңалықтары";
+
+"notifications_settings_unblockUser" = "Пайдаланушыны блоктан шығару";
+
+/* Permissions */
+"NSCameraUsageDescription" = "what3words мекенжайын сканерлеп немесе суретке түсіріп алыңыз";
+
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Геолокация қосулы болса, сіз тұрған жердің what3words мекенжайын анықтап, компаспен навигация жасап, қажет мекенжайды оңай табуға болады.";
+
+"NSMicrophoneUsageDescription" = "what3words мекенжайын дауыстап айтып табу үшін микрофонды пайдаланыңыз";
+
+"NSPhotoLibraryUsageDescription" = "Суретіңізге what3words стикерін басып қойыңыз";
+
+"ocr_hint" = "Қара: мекенжай толығымен көрініп тұруы керек";
+
+"ocr_scan_3wa" = "what3words мекенжайын сканерлеу";
+
+/* OCR setup */
+"ocr_scanning" = "Сканерлеп жатыр…";
+
+/* Generics */
+"ok" = "OK";
+
+"onboarding_exact_tap_subtitle" = "Енді өзіңіз іздеген шаршыны басыңыз. Оны шатаспай, дәл табуға тырысыңыз.";
+
+"onboarding_exact_tap_title" = "Міне, шаршылар көрінді!";
+
+"onboarding_keep_going_subtitle" = "Іздеген жерді табу үшін картаны жылжытып көріңіз.";
+
+"onboarding_keep_going_title" = "Аз қалды, қараңыз.";
+
+"onboarding_prompt_subtitle" = "Картадан іздегендегідей, мысалы: Абай даңғ., 103";
+
+"onboarding_prompt_title" = "Сіз іздеген көше атын жазыңыз.";
+
+"onboarding_satellite_subtitle" = "Іздеген жерді дәл табуға көмектеседі.";
+
+"onboarding_satellite_title" = "Спутник режиміне ауысу";
+
+"onboarding_search_title" = "Өзіңіз білетін жердің what3words мекенжайын көрейік. Алдымен іздеу жолағын түртіңіз.";
+
+"onboarding_sign_up_subtitle" = "Сақтап қойған мекенжайларды кейін ашып қарап, өзгелерге жіберіп, басқа құрылғыларда қолдануға болады.";
+
+"onboarding_sign_up_title" = "Жақсы, енді осыны сақтап қою үшін тіркелу қажет.";
+
+/* Onboarding */
+"onboarding_tap_square" = "Кез келген шаршыны басыңыз";
+
+"onboarding_unique_title" = "Бәрекелді! Жоғарыдағы 3 сөз — осы шаршының мекенжайы.";
+
+"onboarding_zoom_in_subtitle" = "Жер беті тор-тор болып көрінгенше жақындатып, қажетті шаршыны таңдаңыз.";
+
+"onboarding_zoom_in_title" = "Тым алыс екен!";
+
+"open_w3w" = "what3words қосымшасында ашу";
+
+"or" = "НЕМЕСЕ";
+
+"panel_add_location_list" = "Жаңа тізім қосу";
+
+"panel_change_location_action_title" = "Тізімдерді өзгерту";
+
+"panel_my_locations" = "Сақталған мекенжайлар";
+
+"panel_peep_location_removed" = "Мекенжайды алып тастадық";
+
+"panel_peep_note_removed" = "Белгі жойылды";
+
+/* User Panel */
+"panel_print_address_title" = "Белгіге тапсырыс беру";
+
+"panel_save_location_action_title" = "Тізімге сақтау";
+
+"panel_save_location_saved_action_title" = "Сақталған мекенжайды жою";
+
+"panel_select_list" = "Сақтайтын тізімді таңдаңыз";
+
+"panel_share_location_action_title" = "Бөлісу";
+
+"pause" = "Пауза";
+
+"pending_invites_accept" = "Қабылдау";
+
+"pending_invites_blockUser" = "Пайдаланушыны блоктап тастау";
+
+"pending_invites_delete_invite" = "Шақыруды жою";
+
+"pending_invites_invitedTo" = "Шақырулар";
+
+"pending_invites_invitesNotification" = "Бар шақырулар";
+
+"pending_invites_reject" = "Қабылдамау";
+
+"pending_invites_requestsFrom" = "Сұраулар";
+
+"pending_invites_requestsNotification" = "Тізімді көруді сұрау";
+
+/* Pending invites and requests */
+"pending_invites_title" = "Әлі қабыл алмаған шақырулар мен сұраулар";
+
+"pending_invites_view" = "Тізімді қарап алу";
+
+"photos_camera_unavailable" = "Камераны қоса алмадық";
+
+"photos_confirm_square" = "Сурет қайда түсірілді, сол шаршыны таңдаңыз";
+
+"photos_discard_image" = "Керек емес";
+
+"photos_discarded_photo" = "Кері қайтсаңыз, мына сурет сақталмайды";
+
+"photos_imaage_saved" = "Сурет сақталды";
+
+"photos_location_template" = "Маңайда";
+
+/* Photos */
+"photos_name" = "Фото";
+
+"photos_no_location_alert" = "Мекенжайды таңдаңыз!";
+
+"photos_no_location_prompt" = "Карта масштабын үлкейтіп, содан іздеп тауып, осы сурет түсірілген шаршыны таңдаңыз";
+
+"photos_not_authorized" = "what3words қосымшасы камераға қосыла алмады, телефон параметрлерін тексеріңіз";
+
+"photos_onboarding_address" = "Мекенжай";
+
+"photos_onboarding_colour" = "Түсі";
+
+"photos_onboarding_save" = "Сақтау";
+
+"photos_onboarding_start_detail" = "Суреттің нақты қайда түсірілгенін көрсету үшін what3words стикерін қосыңыз";
+
+"photos_onboarding_start_popup" = "Суретке what3words стикерін қосыңыз. Оның үлкендігін, түсін, қалпын өзгертсеңіз болады.";
+
+"photos_onboarding_start_title" = "Суретті бөлісіңіз";
+
+"photos_onboarding_style" = "Стилі";
+
+"photos_save_image" = "Суретті сақтау";
+
+"photos_select_square" = "Сурет қайда түсірілді, сол шаршыны таңдаңыз";
+
+"photos_settings_original_photo" = "Бастапқыдағы суретті сақтау";
+
+"photos_share_photo" = "Сурет жүктеу";
+
+"photos_share_text" = "what3words арқылы бөліскен";
+
+"photos_shortcut_name" = "Суретке түсіру";
+
+"photos_sticker_style" = "Стикер стилі";
+
+"photos_storage_permission" = "Түсірген суреттерді ашып қарау үшін оларды телефонға сақтауға рұқсат беру керек";
+
+"photos_words_template" = "сөз.сөз.сөз";
+
+"placeholder_change_pass_confirm" = "Жаңа құпиясөзді растаңыз";
+
+"placeholder_change_pass_new" = "Жаңа құпиясөз";
+
+"placeholder_change_pass_old" = "Ескі құпиясөз";
+
+"placeholder_country" = "Ел";
+
+"placeholder_email" = "Email";
+
+/* Forms */
+"placeholder_first_name" = "Аты";
+
+"placeholder_last_name" = "Тегі";
+
+"placeholder_password" = "Құпиясөз";
+
+"popup_delete_location_description" = "Бұл мекенжайды өшіріп тастаса, ол %@ тізімдерінде сақталмайды";
+
+"popup_delete_location_single_description" = "Бұл мекенжайды жойса, ол 1 тізімнен алынып тастайды";
+
+"popup_delete_location_title" = "Сақтаған мекенжайды өшірейік пе?";
+
+"popup_navigation_save_description" = "Сіз %@ мекенжайына жеттіңіз, оны сақтап қояйық па?";
+
+"popup_navigation_save_title" = "Бұрынғы мекенжайды сақтау";
+
+"popup_notification_access_accept" = "Иә, келісемін!";
+
+"popup_notification_access_cancel" = "Кейін көремін";
+
+/* Popup */
+"popup_notification_access_descripton" = "Қосымшаның жаңа функциялары мен what3words мекенжайын қолдану жолдары туралы хабардар болу үшін хабарландыру алып тұру опциясын қосыңыз.";
+
+"popup_screenshot_taken" = "Осы what3words мекенжайын бөлісу үшін төмендегі түймені басыңыз";
+
+"preview" = "Қарау";
+
+"read_aloud_volume_warning_cta" = "Жақсы";
+
+"read_aloud_volume_warning_description" = "Ештеңе естілмеді. Құрылғының дыбыс деңгейі нөлде тұр. Даусын шығарып, қайта көріңіз.";
+
+"read_aloud_volume_warning_title" = "Даусын шығару";
+
+"rename" = "Атын өзгерту";
+
+"reset" = "Қалпына келтіру";
+
+"resume" = "Жалғастыру";
+
+"save" = "Сақтау";
+
+"save_location_limit_reached" = "Сақтауға болатын мекенжайлар лимиті таусылды!";
+
+/* This text shows up when the user is scanning a what3words address and the system is processing the information before suggesting results */
+"scan_state_detecting" = "Анықтап жатыр...";
+
+/* it is a what3words address that is being scanned */
+"scan_state_found" = "Сканерленген";
+
+/* This text shows up when the user is scanning a what3words address and the system is loading the results */
+"scan_state_loading" = "Жүктелуде ...";
+
+"scan_state_scanning" = "what3words мекенжайын сканерлеу";
+
+/* This text shows up when the user is scanning a what3words address and the system is validating the information before displaying results */
+"scan_state_validating" = "Тексеріп жатыр...";
+
+"search" = "Іздеп жатыр…";
+
+"search_bar_notification_default_list" = "Таңдап алғаным";
+
+"search_bar_notification_title" = "Мұнда сақтаулы: %@";
+
+"search_bar_placeholder_short" = "Іздеу";
+
+"search_bar_unfilled" = "what3words мекенжайыңызды табыңыз...";
+
+"search_default_view_no_results" = "Мекенжай табылмады.\n\nАлдымен қаланы не жақын елді мекенді тауып алып, карта масштабын үлкейтіп, what3words мекенжайын іздеп көріңіз.";
+
+"search_keyboard_tip" = "Кез келген жерді немесе what3words мекенжайын іздеу";
+
+"search_keyboard_tip_enterprise" = "Кез келген what3words мекенжайын іздеу";
+
+"search_keyboard_tip_example" = "мысалы: ///limit.broom.flip";
+
+"search_lite_example" = "what3words мекенжайын жазыңыз, мысалы: ///limit.broom.flip";
+
+"search_mic_error_subtitle" = "Көше атын емес, what3words мекенжайын айтыңыз, әйтпесе таппайды.";
+
+"search_mic_error_title" = "Таппады ма?";
+
+"search_mic_error_try_again" = "Қайталап көріңіз";
+
+"search_mic_listening" = "Тыңдап тұр...";
+
+"search_mic_listening_stopped" = "Тыңдап болды";
+
+"search_mic_sending" = "Күте тұрыңыз";
+
+"search_placeholder_3wa_mic_value" = "мысалы: «limit broom flip»";
+
+"search_placeholder_mic_title" = "what3words мекенжайын айтыңыз";
+
+"search_placeholder_recording_placeholder" = "Айта беріңіз, тыңдап тұрмын...";
+
+"search_placeholder_tap_action" = "Осы жерді басып, дауыстап айтыңыз";
+
+"search_placeholder_tip" = "Кеңес: Үйіңіз тұрған көше немесе қала не тұрған жер атын жазып көріңіз";
+
+"search_placeholder_title" = "Мысалы";
+
+/* Search */
+"search_recent_title" = "Жақында қараған";
+
+"search_results_hide" = "Таңдаған аумақтардан тыс жердегі нәтижелерді көрсетпеу";
+
+"search_results_show" = "Таңдаған аумақтардан тыс жердегі нәтижелерді көрсету";
+
+"search_results_title" = "Нәтиже";
+
+"search_scan_tip" = "Кез келген what3words мекенжайын сканерлеу";
+
+"search_settings_explanation" = "Белгілі бір аумақтағы what3words мекенжайларын ғана іздеп қарауға болады. Тиісті аумақты осында таңдаңыз. (Бұл опцияны өзге аумақтардағы мекенжайлар қажет болмаған кезде ғана пайдаланыңыз)";
+
+"search_settings_selected_territories" = "Сіз таңдаған аумақтар";
+
+"search_settings_unselected_territories" = "Сіз таңдамаған аумақтар";
+
+"search_shortcut_ocr_search" = "Сканер";
+
+"search_shortcut_voice_search" = "Дауыстап айтып іздеу";
+
+"search_suggestion_info" = "Сөздер арасына нүкте қойып, what3words мекенжайларын іздеңіз";
+
+"search_suggestion_title" = "Іздегеніңіз мынау ма?";
+
+"search_voice_tip" = "what3words мекенжайын дауыстап айтып іздеп көріңіз";
+
+"select_language_complete" = "Жүктеліп болды";
+
+"select_language_confirm" = "Растау";
+
+"select_language_connection_lost" = "Байланыс үзілді";
+
+"select_language_critical_update" = "Тілді жаңартып алу қажет, әйтпесе бұл қосымша ағылшын тіліне (Ұлыбритания) ауысып кетеді.";
+
+"select_language_downloading" = "Жүктелуде: %@ (барлығы %@)";
+
+"select_language_error_not_enough_storage" = "Таңдаған тілді жүктей алмадық, құрылғыда сақтайтын орын жоқ.";
+
+"select_language_error_unknown" = "Бұл тілді жүктей алмадық, қате шықты.";
+
+"select_language_failed" = "Сіз желіге қосылған жоқсыз, сондықтан таңдаған тілді жүктей алмадық";
+
+"select_language_ignore" = "Елемеу";
+
+"select_language_non_critical_update" = "Жұмыс жақсы жүрсін десеңіз, таңдаған тілді жаңартып алсаңыз болады.";
+
+"select_language_prompt" = "%@%@ жүктеп алайық па?";
+
+"select_language_restart_app" = "Тілді өзгерттік, қосымшаны қайта іске қосыңыз";
+
+"select_language_retry" = "ҚАЙТАЛАП КӨРУ";
+
+"select_language_revert" = "Бұрынғы тілді қайта таңдау";
+
+/* Select language */
+"select_language_title" = "Тіл таңдаңыз";
+
+"select_language_update" = "ЖАҢАРТУ";
+
+/* iMessage */
+"setup_in_w3w" = "what3words-те реттеп алу үшін түймені басыңыз";
+
+"share_3_words" = "what3words мекенжайы";
+
+"share_decimal" = "Ондық градустар (WGS84)";
+
+"share_degrees_dec_min" = "Градус, минуттың ондық бөліктері";
+
+"share_degrees_min_sec" = "Градус, минут және секунд";
+
+"share_example_title" = "Сіз бөлісетін мәліметтер мынадай";
+
+"share_explainer" = "Түсініктеме";
+
+"share_explainer_message" = "Кездейсоқ 3 сөзден тұратын what3words мекенжайы осы. Жер бетіндегі әрбір 3 метрлік шаршының осындай what3words мекенжайы бар.";
+
+"share_language_navigation_title" = "Бөлісу тілі";
+
+"share_lat_lng" = "Ендік пен бойлық";
+
+"share_lng_lat" = "Бойлық пен ендік";
+
+/* National grid */
+"share_nat_grid" = "Ұлыбритания координаттар жүйесі";
+
+"share_nat_grid_10_digits" = "10 санды координат жүйесі";
+
+"share_nat_grid_6_digits" = "6 санды координат жүйесі";
+
+"share_nat_grid_8_digits" = "8 санды координат жүйесі";
+
+"share_nat_grid_est_nor" = "Декарттық координаттар жүйесі";
+
+/* Share settings */
+"share_navigation_title" = "Қосымша параметрлер";
+
+"share_other_language" = "Өзге тілде бөлісу";
+
+"share_weblink" = "Веб-сілтеме";
+
+"show" = "Көрсету";
+
+"signin_footer_register" = "Тіркелу";
+
+/* Sign in */
+"signin_forgot_password_btn" = "Құпиясөзді ұмытып қалдыңыз ба?";
+
+"signin_login_apple_invalidate" = "Қате шықты, оны түзету үшін Параметрлер бөлімінде -> Apple ID -> Құпиясөз және қауіпсіздік -> Apple ID арқылы кіру -> what3words -> Apple ID-ді қолданбау опциясын ашыңыз. Енді what3words жүйесіне Apple-дан кіріп көрсеңіз болады.";
+
+"signin_login_email" = "Email арқылы кіру";
+
+"signin_login_facebook" = "Facebook арқылы кіру";
+
+"signin_login_google" = "Google арқылы кіру";
+
+"signup_agree_privacy_and_tc" = "Алдымен what3words құпиялық ережелері мен пайдалану шарттарын қабылдаңыз.";
+
+"signup_confirm" = "Сіз тіркелу арқылы what3words %@ және %@ талаптарын қабылдайсыз.";
+
+"signup_latest_news" = "Хабар, ақыл-кеңес, жаңа функциялар туралы ақпарат алып тұру";
+
+"signup_login" = "Тіркелу / Кіру";
+
+/* Sign up */
+"signup_navigation_title" = "Аккаунт ашу";
+
+"signup_privacy" = "Құпиялық ережелері";
+
+"signup_register_btn" = "ТІРКЕЛУ";
+
+"signup_terms" = "Пайдалану шарттары.";
+
+"skip" = "Керек емес";
+
+"txt_continue" = "Жалғастыру";
+
+"undo" = "Болдырмау";
+
+"voice_permission_missing" = "what3words қосымшасының микрофон қосуға рұқсаты жоқ, телефон параметрлерін тексеріңіз";
+
+/* Voice setup */
+"voice_setup" = "Дауыстап айту параметрлері";
+
+"voice_setup_allow_access" = "what3words мекенжайын дауыстап айтып іздеу үшін микрофонға қосылуға рұқсат беріңіз";
+
+"voice_setup_ask_later" = "Кейін көрейік";
+
+"voice_setup_ok" = "OK";
+
+/* Watch */
+"watch_accurate_to" = "Дәлдігі %@";
+
+"watch_app_compass" = "Компас";
+
+"watch_app_compass_arrived" = "Келдік!";
+
+"watch_app_direction_drive" = "Автокөлік";
+
+"watch_app_direction_transport" = "Қоғамдық көлік";
+
+"watch_app_direction_walk" = "Жаяу";
+
+"watch_app_directions_cycle" = "Велосипед";
+
+"watch_app_done_btn" = "Дайын";
+
+"watch_app_error_missing_app" = "Сақтап қойған мекенжайларды көру үшін iPhone-ға what3words қосымшасын орнатыңыз.";
+
+"watch_app_error_not_logged_in" = "Сақтап қойған мекенжайларды ашып көру үшін iPhone-дағы what3words қосымшасына кіріңіз.";
+
+"watch_app_error_out_of_range" = "iPhone табылмады, оның сағатқа қосылған-қосылмағанын тексеріңіз";
+
+"watch_app_error_text_compass_iphone_connection" = "Бұл сағат iPhone-ға қосылған. Компасты пайдалану үшін сағатты what3words қосымшасы бар Android құрылғысына қосу қажет.";
+
+"watch_app_error_text_compass_phone_app_not_installed" = "Компасты пайдалану үшін телефонға what3words қосымшасын орнатыңыз.";
+
+"watch_app_error_text_iphone_connection" = "Бұл сағат iPhone-ға қосылған. Сақтап қойған мекенжайларды ашып көру үшін what3words қосымшасы бар Android құрылғысына қосылу қажет.";
+
+"watch_app_error_text_share_iphone_connection" = "Бұл сағат iPhone-ға қосылған. Мекенжайларды бөлісу үшін сағатты what3words қосымшасы бар Android құрылғысына қосу қажет.";
+
+"watch_app_error_text_share_phone_app_not_installed" = "Мекенжайларды бөлісу үшін телефонға what3words қосымшасын орнатыңыз.";
+
+"watch_app_home_btn" = "Басты бет";
+
+"watch_app_home_language_btn" = "Тіл";
+
+"watch_app_home_location_btn" = "Мекенжай";
+
+"watch_app_home_recent_searches_btn" = "Жақында қараған";
+
+"watch_app_home_saved_locations_btn" = "Сақталған мекенжайлар";
+
+/* Watch App */
+"watch_app_home_search_btn" = "Іздеу";
+
+"watch_app_location_get_directions" = "БАҒЫТ-БАҒДАР";
+
+"watch_app_location_gps_accuracy" = "GPS дәлдігі (%@)";
+
+"watch_app_location_gps_changed" = "Сіз тұрған жердің GPS деректері өзгеріп кетті. Қазір тұрған what3words мекенжайын дұрыс көрсету үшін бетті жаңартыңыз.";
+
+"watch_app_location_gps_changed_cancel" = "Бас тарту";
+
+"watch_app_location_gps_changed_refresh" = "Жаңарту";
+
+"watch_app_location_menu_refresh" = "Жаңарту";
+
+"watch_app_location_menu_save" = "Сақтау";
+
+"watch_app_location_menu_saved" = "Сақталған";
+
+"watch_app_location_menu_search" = "Іздеу";
+
+"watch_app_location_menu_share" = "Бөлісу";
+
+"watch_app_menu_discover_feature_wear_os_subtitle" = "Мінеки, what3words қосымшасын сағатыңызға жүктеп алсаңыз болады! ";
+
+/* Wear OS */
+"watch_app_menu_discover_feature_wear_os_title" = "Wear OS 3+ жүйесіне арналған what3words ";
+
+"watch_app_open_on_watch_wear_os" = "Сағаттан ашу";
+
+"watch_app_recent" = "Жақында қараған";
+
+"watch_app_recent_empty" = "Әлі ештеңе іздеген жоқсыз";
+
+"watch_app_results" = "Нәтиже";
+
+"watch_app_saved_empty" = "Сіз what3words мекенжайларының бірде-біреуін әлі сақтаған жоқсыз";
+
+"watch_app_search_btn" = "Іздеу";
+
+"watch_app_voice_error_msg" = "Бұл жүйе әдеттегі мекенжайларды (көше) емес, what3words мекенжайларын ғана көрсетеді.";
+
+"watch_app_voice_microphone_permission_missing" = "Микрофон қосуға рұқсат жоқ";
+
+"watch_app_voice_say_3wa" = "what3words мекенжайын айтыңыз";
+
+"watch_app_voice_sending" = "Жіберуде";
+
+"watch_app_voice_tap_to_speak" = "Осында басып, айтыңыз";
+
+"watch_app_voice_try_again" = "Қайталап көріңіз";
+
+"watch_app_wearos_compass_running_on_phone" = "Телефоныңызды тексеріңіз";
+
+"watch_app_wearos_compass_unavailable" = "Бұл сағатта магниттік датчик жоқ екен. Оның орнына телефондағы компасты қолдансаңыз болады.";
+
+"watch_app_wearos_enable_watch_location" = "Мекенжайды анықтау функциясы өшірулі, қосу үшін осында басыңыз.";
+
+"watch_app_wearos_error_missing_app" = "Сақтап қойған мекенжайларды көру үшін телефонға what3words қосымшасын орнатыңыз.";
+
+"watch_app_wearos_error_not_logged_in" = "Сақтап қойған мекенжайларды ашып көру үшін телефондағы what3words қосымшасына кіру керек.";
+
+"watch_app_wearos_error_out_of_range" = "Телефон табылмады, оның сағатқа қосылған-қосылмағанын тексеріңіз";
+
+"watch_app_wearos_error_text_phone_app_not_installed" = "Сақтап қойған мекенжайларды көру үшін телефонға what3words қосымшасын орнатыңыз.";
+
+"watch_app_wearos_error_text_user_logged_out" = "Сақтап қойған мекенжайларды ашып көру үшін телефондағы what3words қосымшасына кіру керек.";
+
+"watch_app_wearos_finding_location" = "Қайда екеніңізді анықтап жатыр";
+
+"watch_app_wearos_gps_poor" = "GPS сигналы нашар";
+
+"watch_app_wearos_gps_very_poor" = "GPS сигналы өте нашар";
+
+"watch_app_wearos_home_location_btn" = "Қай жердемін";
+
+"watch_app_wearos_install_phone_app_text" = "what3words қосымшасының мүмкіндіктерін толық пайдалану үшін оны телефоныңызға орнатып алыңыз.";
+
+"watch_app_wearos_save_to" = "Мұнда сақтау";
+
+"watch_app_wearos_share_on_phone_prompt" = "Мекенжайларды телефондағы what3words қосымшасы арқылы ғана бөлісуге болады.";
+
+"watch_app_wearos_suggestion" = "Ұсыныс";
+
+"watch_no_location_message" = "Сіздің қайда екеніңізді GPS арқылы анықтай алмадық.";
+
+"watch_no_location_title" = "Мекенжай табылмады";
+
+"watch_open_phone_app_message" = "Алдымен телефоныңыздағы осы қосымшаны ашып, реттеп алыңыз.";
+
+"watch_open_phone_app_title" = "what3words-ті телефоныңыздан ашып қараңыз";
+
+"watch_pair_phone_message" = "Алдымен телефоныңызды сағатқа қосыңыз.";
+
+"watch_pair_phone_title" = "Телефоныңызға қосылу";
+
+/* Ways to use */
+"waysToUse_delivery" = "Дұрыс тауып жеткізу";
+
+"waysToUse_delivery_buttonTitle" = "Мұны қайда пайдалануға болады?";
+
+"waysToUse_delivery_description" = "Әлемдегі кейбір ірі сатушы компаниялар what3words мекенжайларын қолданады. Жеткізуші дәл тапсын десеңіз, тапсырыс бергенде what3words мекенжайын көрсетіп кетіңіз.";
+
+"waysToUse_emergency" = "Жәрдем шақыру";
+
+"waysToUse_emergency_buttonTitle" = "Қалай екенін көрейін";
+
+"waysToUse_emergency_description" = "Жәрдем шақырғанда сізді оңай тапсын десеңіз, what3words мекенжайын айтып беруге дайын болыңыз.";
+
+"waysToUse_listLocations" = "Қай жердесіз";
+
+"waysToUse_listLocations_buttonTitle" = "Тағы қандай пайдасы бар?";
+
+"waysToUse_listLocations_description" = "Таныстарыңызға what3words мекенжайыңызды беріп, оны байланыс деректеріңізде, хат-хабар алмасқанда жазып, көрсетіп отырсаңыз болады.";
+
+"waysToUse_planActivities" = "Іс-шара жоспарлау";
+
+"waysToUse_planActivities_buttonTitle" = "Қоғамдық топтар";
+
+"waysToUse_planActivities_description" = "Қоғамдық топтар мен спорт командалары what3words қосымшасы арқылы іс-шара өтетін нақты жерді, кіреберісті, көлік қоятын орынды дәл көрсетіп бере алады. ";
+
+"waysToUse_save" = "Қажет мекенжайды сақтап қойыңыз";
+
+"waysToUse_save_buttonTitle" = "Көрейік";
+
+"waysToUse_save_description" = "Өзіңіз тапқан, өзгелер сілтеген нақты мекенжайларды сақтап қойыңыз. Сол жерді ұмытпау үшін белгілеп қойыңыз. ";
+
+"waysToUse_sharePoints" = "Кездесетін жерді көрсетіңіз";
+
+"waysToUse_sharePoints_buttonTitle" = "Көрейік";
+
+"waysToUse_sharePoints_description" = "Кездесетін жерге бәрі адаспай, тез тауып жетсін десеңіз, дәл сол жердің what3words мекенжайын көрсетіңіз. ";
+
+"waysToUse_vehicleNavigation" = "Көліктегі навигация";
+
+"waysToUse_vehicleNavigation_buttonTitle" = "Көліктерді қарау";
+
+"waysToUse_vehicleNavigation_description" = "Көптеген автокөліктер мен мотоциклдерде what3words мекенжайын енгізіп, баратын жаққа бағыт-бағдар алуға болады.";
+
+"whats_new_line1" = "Жүйеге енді босния, хорват, черногория, серб және қазақ тілдері қосылған!";
+
+"whats_new_line2" = "what3words жүйесін тағы қалай қолдануға болатынын қосымшадағы менюден қараңыз!  ";
+
+/* What's new screen */
+"whats_new_title" = "Не жаңалық?";
+
+"yes" = "Иә";
+
+"you_are_offline" = "Интернетке қосылмағансыз";
+

@@ -9,6 +9,7 @@
 
 import UIKit
 import W3WSwiftCore
+import W3WSwiftThemes
 
 
 /// draw target lines around the camera crop area, in a particular colour, as a rectangle or just corners as defined by `gapFactor`
@@ -24,7 +25,7 @@ class W3WOcrViewfinderLayer: CAShapeLayer {
   var width: CGFloat = W3WSettings.ocrViewfinderLineWidth
   
   /// user defined lines length
-  var lineLength: CGFloat?
+  var lineLength: CGFloat = 24.0
   
   /// user defined lines inset
   var inset: CGFloat = W3WSettings.ocrViewfinderLineWidth / 2
@@ -102,7 +103,7 @@ class W3WOcrViewfinderLayer: CAShapeLayer {
     targetLayerPath = UIBezierPath()
     
     // determine sizes
-    var cornerLengthHorizontal = lineLength ?? min(crop.height, crop.width) * 4.0 / 11.0
+    var cornerLengthHorizontal = lineLength
     var cornerLengthVertical   = cornerLengthHorizontal
     
     // calculate gap

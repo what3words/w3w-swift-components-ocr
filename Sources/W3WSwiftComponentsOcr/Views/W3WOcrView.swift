@@ -140,7 +140,7 @@ public class W3WOcrView: W3WOcrBasicView {
       }
 #endif
       if debugImageInCrop {
-        debugImage.frame = crop.inset(by: UIEdgeInsets(top: 2.0, left: 2.0, bottom: 2.0, right: 2.0))
+        debugImage.frame = crop
       } else {
         debugImage.frame = CGRect(origin: CGPoint(x: 32.0, y: frame.height - debugImage.frame.height - 32.0), size: CGSize(width: crop.size.width, height: crop.size.height))
       }
@@ -154,7 +154,7 @@ public class W3WOcrView: W3WOcrBasicView {
   }
   
   // MARK: - Apply scheme
-  public func set(scheme: W3WScheme?) {
+  open func set(scheme: W3WScheme?) {
     setViewFinderLineColor(scheme?.colors?.line?.uiColor)
     setViewFinderLineWidth(scheme?.styles?.lineThickness?.value)
     setViewFinderLineLength(scheme?.styles?.rowHeight?.value)
