@@ -7,7 +7,7 @@
 
 import Foundation
 import Vision
-import W3WSwiftApi
+import W3WSwiftCore
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
 #endif // W3WOcrSdk
@@ -33,7 +33,7 @@ public class W3WOcrNative: W3WOcrProtocol {
   var request: VNRecognizeTextRequest?
 
   /// what3words api/sdk
-  var w3w: W3WProtocolV3!
+  var w3w: W3WProtocolV4!
   
   /// called when a new image frame is available from the camera
   var info: (W3WOcrInfo) -> () = { _ in }
@@ -63,7 +63,7 @@ public class W3WOcrNative: W3WOcrProtocol {
   /// OCR system provided by Apple
   /// - Parameters:
   ///   - w3w: A refernce to the what3words API or the SDK
-  public init(_ w3w: W3WProtocolV3) {
+  public init(_ w3w: W3WProtocolV4) {
     configure(w3w: w3w)
   }
   
@@ -75,7 +75,7 @@ public class W3WOcrNative: W3WOcrProtocol {
 #endif // w3w
 
   
-  func configure(w3w: W3WProtocolV3) {
+  func configure(w3w: W3WProtocolV4) {
     self.w3w = w3w
     
     // get a list of langauges from the system
@@ -385,7 +385,7 @@ public class W3WOcrNative: W3WOcrProtocol {
 
   /// use the regex to tease out three words if possible
   func make3waFromAlmost3wa(text: String) -> String {
-    let regex   = try! NSRegularExpression(pattern: W3WSettings.regex_3wa_word)
+    let regex   = try! NSRegularExpression(pattern: W3WRegex.regex_3wa_word)
     let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in:text))
     
     var words = [String]()
@@ -442,7 +442,7 @@ public class W3WOcrNative: W3WOcrProtocol {
         
         // make a OcrSuggestion
         if s.words == text {
-          let ocrSuggestion = W3WOcrSuggestion(words: s.words, country: s.country, nearestPlace: s.nearestPlace, distanceToFocus: s.distanceToFocus, language: s.language)
+          let ocrSuggestion = W3WOcrSuggestion(words: s.words, country: s.country?.code, nearestPlace: s.nearestPlace?.description, distanceToFocus: s.distanceToFocus?.meters, language: s.language?.code)
           W3WOcrNative.suggestionCache[text] = (true, ocrSuggestion)
           completion([ocrSuggestion], nil)
           

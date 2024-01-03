@@ -24,7 +24,7 @@ Import the libraries wherever you use the components:
 
 ```swift
 import W3WSwiftComponentsOcr
-import W3WSwiftApi
+import W3WSwiftCore
 ```
 
 #### Info.plist

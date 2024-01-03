@@ -8,7 +8,7 @@
 #if canImport(UIKit) && !os(watchOS)
 
 import UIKit
-import W3WSwiftApi
+import W3WSwiftCore
 
 
 /// the shape of the box

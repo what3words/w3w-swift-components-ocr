@@ -8,7 +8,7 @@
 #if canImport(UIKit) && !os(watchOS)
 
 import UIKit
-import W3WSwiftApi
+import W3WSwiftCore
 
 
 /// draw target lines around the camera crop area, in a particular colour, as a rectangle or just corners as defined by `gapFactor`
