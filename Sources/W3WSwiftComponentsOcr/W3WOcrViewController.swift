@@ -60,7 +60,7 @@ open class W3WOcrViewController: W3WViewController {
   /// indicates it's current state: scanning/stopped
   public var state = W3WOcrState.idle {
     didSet {
-      onStateChange()
+      onStateChanged()
     }
   }
   
@@ -74,13 +74,13 @@ open class W3WOcrViewController: W3WViewController {
   var w3w: W3WProtocolV4?
   
   /// UILabel for when a address is found
-  var wordsLabel: W3WOcrScannerAddressLabel!
+  var wordsLabel: W3WOcrScannerAddressLabel?
   
   /// flag to express whether to present autosuggest results
   //var showAutosuggest = false
   
   /// by default we stop scanning when one result is produced
-  var scanMode = W3WOcrScanMode.stopOnFirstResult
+  public var scanMode: W3WOcrScanMode = .continuous
   
   /// ensures output is stopped, as there can be suggestion stragglers
   var stopOutput = false
@@ -88,9 +88,21 @@ open class W3WOcrViewController: W3WViewController {
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   var customCrop: CGRect?
   
+  /// UI properties
+  open lazy var closeButton: UIButton = {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    let image = UIImage(named: "x-mark-circle-icon", in: Bundle.module, compatibleWith: nil)
+    button.setImage(image, for: .normal)
+    button.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
+    NSLayoutConstraint.activate([
+      button.heightAnchor.constraint(equalToConstant: 48.0),
+      button.widthAnchor.constraint(equalToConstant: 48.0)
+    ])
+    return button
+  }()
   
-  // MARK:- Init
-  
+  // MARK: - Init
   
   public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = nil) {
     self.init(theme: theme)
@@ -115,6 +127,7 @@ open class W3WOcrViewController: W3WViewController {
   /// initializer override to instantiate the `W3WOcrScannerView`
   public required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
+    setupOcrScheme()
   }
   
 
@@ -123,8 +136,7 @@ open class W3WOcrViewController: W3WViewController {
   }
   
   
-  // MARK:- View Layer
-  
+  // MARK: - View Layer
   
   /// assign the `W3WOcrScannerView` to `view` when the time comes
   public override func loadView() {
@@ -141,39 +153,7 @@ open class W3WOcrViewController: W3WViewController {
     return view as! W3WOcrView
   }
   
-  
-  func arrangeSubviews() {
-    if let crop = customCrop {
-      ocrView.set(crop: crop)
-      
-    } else {
-      let inset   = W3WSettings.ocrCropInset
-      
-      // calculate the crop region for portrait mode
-      if ocrView.frame.width < ocrView.frame.height {
-        let centerY = ocrView.frame.height * 0.44
-        let width   = ocrView.frame.width - inset * 2.0
-        let height  = width * W3WSettings.ocrViewfinderRatioPortrait
-        let offset  = (ocrView.frame.width - width) / 2.0
-        ocrView.set(crop: CGRect(x: offset, y: centerY - height / 2.0, width: width, height: height))
-        
-        // calculate the crop region for landscape mode
-      } else {
-        let centerY = ocrView.frame.height * 0.33
-        let width = ocrView.frame.width * 0.8 - inset * 2.0
-        let height  = width * W3WSettings.ocrViewfinderRatioLandscape
-        let offset  = (ocrView.frame.width - width) / 2.0
-        ocrView.set(crop: CGRect(x: offset, y: max(centerY - height / 2.0, 32.0), width: width, height: height))
-      }
-    }
-    
-    // reposition the three word address if present
-    wordsLabel?.reposition(origin: CGPoint(x: self.ocrView.crop.origin.x, y: self.ocrView.crop.origin.y + self.ocrView.crop.size.height))
-  }
-  
-  
-  // MARK:- Accessors
-  
+  // MARK: - Accessors
   
 #if canImport(W3WOcrSdk)
   /// assign the OCR SDK engine to this component by wrapping it in
@@ -261,15 +241,15 @@ open class W3WOcrViewController: W3WViewController {
       if let words = text {
         self.wordsLabel = W3WOcrScannerAddressLabel(words: words, maxWidth: self.ocrView.crop.size.width, frame: CGRect(x: self.ocrView.crop.origin.x, y: self.ocrView.crop.origin.y + self.ocrView.crop.size.height, width: self.ocrView.crop.size.width * 0.5, height: self.ocrView.crop.size.height * 0.216))
         self.ocrView.set(lineColor: W3WSettings.ocrTargetSuccess, lineGap: 0.0)
-        self.ocrView.addSubview(self.wordsLabel)
-        self.ocrView.bringSubviewToFront(self.wordsLabel)
+        self.ocrView.addSubview(self.wordsLabel!)
+        self.ocrView.bringSubviewToFront(self.wordsLabel!)
       }
     }
   }
   
   
-  // MARK:- Scanning
   
+  // MARK: - Scanning
   
   /// start scanning
   public func start() {
@@ -281,7 +261,6 @@ open class W3WOcrViewController: W3WViewController {
       
       ocrView.set(camera: c)
       ocrView.set(lineColor: W3WSettings.ocrTargetColor, lineGap: 1.0)
-      show(text: nil)
       
       o.autosuggest(video: c) { [weak self] suggestions, error in
         if self == nil {
@@ -326,30 +305,52 @@ open class W3WOcrViewController: W3WViewController {
   }
   
   
-  // MARK:- UIVewController overrides
-  
+  // MARK: - UIViewController overrides
   
   /// assign the callback closure on view load
   open override func viewDidLoad() {
     super.viewDidLoad()
+    setupUI()
   }
-  
   
   /// make sure all sub views are in the right places
   open override func viewWillLayoutSubviews() {
     arrangeSubviews()
   }
   
+  func arrangeSubviews() {
+    if let crop = customCrop {
+      ocrView.set(crop: crop)
+    } else {
+      let inset = W3WSettings.ocrCropInset
+      let size = UIScreen.main.bounds.width - inset * 2.0
+      let crop = CGRect(origin: CGPoint(x: (view.frame.width - size) / 2, y: view.safeAreaInsets.top + closeButton.bounds.size.height + W3WMargin.light.value), size: CGSize(width: size, height: size))
+      ocrView.set(crop: crop)
+    }
+    
+    // reposition the three word address if present
+    updateWordsLabel()
+  }
   
-  public override func viewWillDisappear(_ animated: Bool) {
+  open override func viewWillDisappear(_ animated: Bool) {
     stop()
   }
   
+  /// Update UI
+  open func setupUI() {
+    addCloseButton()
+  }
+  
+  /// Update word label
+  open func updateWordsLabel() {
+    wordsLabel?.reposition(origin: CGPoint(x: ocrView.crop.origin.x, y: ocrView.crop.origin.y + ocrView.crop.size.height))
+  }
+  
   /// Perform actions needed on state change
-  public func onStateChange() {
+  open func onStateChanged() {
     // Apply target scheme on ocr view
     let targetScheme = theme?.getOcrScheme(state: state)
-    // TODO: Update ocr view with targetScheme
+    ocrView.set(scheme: targetScheme)
   }
 }
 
