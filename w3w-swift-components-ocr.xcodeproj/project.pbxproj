@@ -29,6 +29,7 @@
 		01C84C5E28B7AABD00333454 /* W3WOcrNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C84C5828B7AABD00333454 /* W3WOcrNative.swift */; };
 		01EF31B7291E6CFB002710D9 /* w3w.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B4291E6CFA002710D9 /* w3w.xcframework */; platformFilter = ios; };
 		01EF31B9291E6CFB002710D9 /* W3WOcrSdk.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B5291E6CFA002710D9 /* W3WOcrSdk.xcframework */; platformFilter = ios; };
+		768128132B465AC400331AEE /* W3WOcrViewController+closeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768128122B465AC400331AEE /* W3WOcrViewController+closeButton.swift */; };
 		76A58E242B35A3E3003785F9 /* W3WSwiftDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 76A58E232B35A3E3003785F9 /* W3WSwiftDesign */; };
 		76A58E262B35A3EF003785F9 /* W3WSwiftDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 76A58E252B35A3EF003785F9 /* W3WSwiftDesign */; };
 		76A58E282B35A552003785F9 /* W3WOcrViewController+theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A58E272B35A552003785F9 /* W3WOcrViewController+theme.swift */; };
@@ -89,6 +90,7 @@
 		01C84C5828B7AABD00333454 /* W3WOcrNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = W3WOcrNative.swift; path = Ocr/W3WOcrNative.swift; sourceTree = "<group>"; };
 		01EF31B4291E6CFA002710D9 /* w3w.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = w3w.xcframework; path = Frameworks/w3w.xcframework; sourceTree = "<group>"; };
 		01EF31B5291E6CFA002710D9 /* W3WOcrSdk.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = W3WOcrSdk.xcframework; path = Frameworks/W3WOcrSdk.xcframework; sourceTree = "<group>"; };
+		768128122B465AC400331AEE /* W3WOcrViewController+closeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "W3WOcrViewController+closeButton.swift"; sourceTree = "<group>"; };
 		76A58E272B35A552003785F9 /* W3WOcrViewController+theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "W3WOcrViewController+theme.swift"; sourceTree = "<group>"; };
 		76A58E3F2B35BD3C003785F9 /* FakeApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeApi.swift; sourceTree = "<group>"; };
 		76EE86932B4553A5009CF29D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 				OBJ_22 /* Views */,
 				OBJ_27 /* W3WOcrViewController.swift */,
 				76A58E272B35A552003785F9 /* W3WOcrViewController+theme.swift */,
+				768128122B465AC400331AEE /* W3WOcrViewController+closeButton.swift */,
 				OBJ_28 /* W3WSettings.swift */,
 				76EE86902B4553A5009CF29D /* Resources */,
 			);
@@ -631,6 +634,7 @@
 				76A58E282B35A552003785F9 /* W3WOcrViewController+theme.swift in Sources */,
 				OBJ_109 /* W3WOcrThread.swift in Sources */,
 				OBJ_110 /* W3WOcrBasicView.swift in Sources */,
+				768128132B465AC400331AEE /* W3WOcrViewController+closeButton.swift in Sources */,
 				OBJ_111 /* W3WOcrBox.swift in Sources */,
 				OBJ_112 /* W3WOcrScannerAddressLabel.swift in Sources */,
 				OBJ_113 /* W3WOcrView.swift in Sources */,

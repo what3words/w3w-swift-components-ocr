@@ -107,7 +107,6 @@ open class W3WOcrViewController: W3WViewController {
   public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = nil) {
     self.init(theme: theme)
     set(ocr: ocr)
-    setupOcrScheme()
   }
   
   
@@ -336,7 +335,7 @@ open class W3WOcrViewController: W3WViewController {
     stop()
   }
   
-  /// Update UI
+  /// Setup UI
   open func setupUI() {
     addCloseButton()
   }
