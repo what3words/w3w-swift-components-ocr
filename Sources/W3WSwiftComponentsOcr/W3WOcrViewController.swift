@@ -123,7 +123,6 @@ open class W3WOcrViewController: W3WViewController {
   public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = nil) {
     self.init(theme: theme)
     set(ocr: ocr)
-    setupOcrScheme()
   }
   
 #if canImport(W3WOcrSdk)

@@ -37,7 +37,6 @@
 		76530B9B2B31E57100367864 /* W3WOcrViewController+bottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76530B9A2B31E57100367864 /* W3WOcrViewController+bottomSheet.swift */; };
 		76530B9D2B32033800367864 /* W3WSuggessionsBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76530B9C2B32033800367864 /* W3WSuggessionsBottomSheet.swift */; };
 		76530DF52B34B1FA00367864 /* W3WBottomSheetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76530DF32B34B1FA00367864 /* W3WBottomSheetTableViewController.swift */; };
-		76530DF62B34B1FA00367864 /* W3WSingleLabelTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76530DF42B34B1FA00367864 /* W3WSingleLabelTableHeaderView.swift */; };
 		OBJ_100 /* W3WCameraImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* W3WCameraImageProcessor.swift */; };
 		OBJ_101 /* W3WOcrCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* W3WOcrCamera.swift */; };
 		OBJ_102 /* W3WOcrBackgroundLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* W3WOcrBackgroundLayer.swift */; };
@@ -175,7 +174,6 @@
 		76530B9A2B31E57100367864 /* W3WOcrViewController+bottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "W3WOcrViewController+bottomSheet.swift"; sourceTree = "<group>"; };
 		76530B9C2B32033800367864 /* W3WSuggessionsBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WSuggessionsBottomSheet.swift; sourceTree = "<group>"; };
 		76530DF32B34B1FA00367864 /* W3WBottomSheetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = W3WBottomSheetTableViewController.swift; sourceTree = "<group>"; };
-		76530DF42B34B1FA00367864 /* W3WSingleLabelTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = W3WSingleLabelTableHeaderView.swift; sourceTree = "<group>"; };
 		OBJ_10 /* W3WCameraImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WCameraImageProcessor.swift; sourceTree = "<group>"; };
 		OBJ_11 /* W3WOcrCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WOcrCamera.swift; sourceTree = "<group>"; };
 		OBJ_13 /* W3WOcrBackgroundLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WOcrBackgroundLayer.swift; sourceTree = "<group>"; };
@@ -305,7 +303,6 @@
 				OBJ_26 /* W3WOcrView.swift */,
 				76530B9C2B32033800367864 /* W3WSuggessionsBottomSheet.swift */,
 				76530DF32B34B1FA00367864 /* W3WBottomSheetTableViewController.swift */,
-				76530DF42B34B1FA00367864 /* W3WSingleLabelTableHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -643,7 +640,6 @@
 				OBJ_105 /* W3WOcrCoordinateMaths.swift in Sources */,
 				OBJ_106 /* W3WOcrFakeImage.swift in Sources */,
 				OBJ_107 /* W3WOcrInteruptionObserver.swift in Sources */,
-				76530DF62B34B1FA00367864 /* W3WSingleLabelTableHeaderView.swift in Sources */,
 				OBJ_108 /* W3WOcrOrientationObserver.swift in Sources */,
 				76530B912B318F6600367864 /* W3WOcrViewController+theme.swift in Sources */,
 				OBJ_109 /* W3WOcrThread.swift in Sources */,
