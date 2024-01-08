@@ -167,7 +167,6 @@
 		764461D12B39713400094AB1 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		764461D32B39713400094AB1 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		764461D52B39713400094AB1 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/Localizable.strings; sourceTree = "<group>"; };
-		764461D72B39713400094AB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		764461E92B3B18F700094AB1 /* W3WOcrErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = W3WOcrErrorView.swift; sourceTree = "<group>"; };
 		76530B872B318A3900367864 /* FakeApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeApi.swift; sourceTree = "<group>"; };
 		76530B902B318F6600367864 /* W3WOcrViewController+theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "W3WOcrViewController+theme.swift"; sourceTree = "<group>"; };
@@ -258,7 +257,6 @@
 			isa = PBXGroup;
 			children = (
 				764461432B39713300094AB1 /* Strings */,
-				764461D72B39713400094AB1 /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";

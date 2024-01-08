@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import W3WSwiftCore
 import W3WSwiftDesign
 
 public struct W3WSingleLabelCellItem: Hashable {
@@ -30,13 +31,13 @@ public extension W3WSingleLabelCellItem {
     }
     switch targetState {
     case .idle:
-      text = NSLocalizedString("ocr_scan_3wa", bundle: Bundle.module, comment: "")
+      text = W3WTranslations.main.translate(key: "ocr_scan_3wa")
     case .detecting:
-      text = NSLocalizedString("scan_state_detecting", bundle: Bundle.module, comment: "")
+      text = W3WTranslations.main.translate(key: "scan_state_detecting")
     case .scanning:
-      text = NSLocalizedString("ocr_scanning", bundle: Bundle.module, comment: "")
+      text = W3WTranslations.main.translate(key: "ocr_scanning")
     case .scanned:
-      text = NSLocalizedString("scan_state_found", bundle: Bundle.module, comment: "")
+      text = W3WTranslations.main.translate(key: "scan_state_found")
     default:
       text = ""
     }

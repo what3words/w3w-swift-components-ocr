@@ -40,7 +40,7 @@ extension W3WOcrViewController {
   /// Insert more auto suggestions on bottom sheet  under the crop, scroll bottom sheet to max detent and hide error view
   /// - Parameters:
   ///     - suggestion: the suggestion that was found
-  public func insertMoreAutoSuggestions(_ suggestions: [W3WSuggestion]) {
+  public func insertMoreSuggestions(_ suggestions: [W3WSuggestion]) {
     guard !suggestions.isEmpty else {
       return
     }

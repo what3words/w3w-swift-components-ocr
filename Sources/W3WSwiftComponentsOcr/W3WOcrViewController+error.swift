@@ -14,14 +14,12 @@ extension W3WOcrViewController {
       return
     }
     errorView.update(scheme: theme?.getOcrScheme(state: .error))
-    errorView.removeFromSuperview()
-    view.removeConstraints(errorView.constraints)
     view.addSubview(errorView)
     NSLayoutConstraint.activate([
       errorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      errorView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: ocrView.crop.origin.y + ocrView.crop.size.height + W3WMargin.medium.value)
+      errorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: W3WMargin.light.value),
+      errorView.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: W3WMargin.bold.value + ocrView.crop.height + ocrView.crop.origin.x)
     ])
-    errorView.isHidden = true
   }
   
   public func showErrorView(title: String) {

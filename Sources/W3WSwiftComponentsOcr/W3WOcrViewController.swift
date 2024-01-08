@@ -95,6 +95,9 @@ open class W3WOcrViewController: W3WViewController {
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   var customCrop: CGRect?
   
+  /// Collection of unique suggestions words
+  public var currentOcrSuggestions: Set<String> = []
+  
   /// UI properties
   public lazy var bottomSheet: W3WSuggessionsBottomSheet = {
     let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .soft).with(background: .white))
@@ -102,24 +105,24 @@ open class W3WOcrViewController: W3WViewController {
   }()
   
   open lazy var closeButton: UIButton = {
-    let button = UIButton()
+    let button = W3WButton(icon: closeButtonIcon, scheme: .standard)
     button.translatesAutoresizingMaskIntoConstraints = false
-    let image = UIImage(named: "x-mark-circle-icon", in: Bundle.module, compatibleWith: nil)
-    button.setImage(image, for: .normal)
+    button.layer.cornerRadius = closeButtonSize / 2.0
     button.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
     NSLayoutConstraint.activate([
-      button.heightAnchor.constraint(equalToConstant: 48.0),
-      button.widthAnchor.constraint(equalToConstant: 48.0)
+      button.heightAnchor.constraint(equalToConstant: closeButtonSize),
+      button.widthAnchor.constraint(equalToConstant: closeButtonSize)
     ])
     return button
   }()
   
   public lazy var errorView: W3WOcrErrorView = {
     let view = W3WOcrErrorView()
+    view.isHidden = true
     return view
   }()
   
-  // MARK:- Init
+  // MARK: - Init
   public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = nil) {
     self.init(theme: theme)
     set(ocr: ocr)
@@ -135,19 +138,24 @@ open class W3WOcrViewController: W3WViewController {
   /// initializer override to instantiate the W3WOcrScannerView
   public override init(theme: W3WTheme? = nil) {
     super.init(theme: theme)
-    setupOcrScheme()
+    setup()
   }
   
   /// initializer override to instantiate the `W3WOcrScannerView`
   public required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    setupOcrScheme()
+    setup()
   }
 
   deinit {
     //print("OCR: OcrVC DEINIT")
   }
   
+  /// Setup
+  open func setup() {
+    setupOcrScheme()
+    W3WTranslations.main.add(bundle: Bundle.module)
+  }
   
   // MARK:- View Layer
   
@@ -274,16 +282,36 @@ open class W3WOcrViewController: W3WViewController {
           print("The OCR system is connected to a W3WOcrViewController that no longer exists. Please ensure the OCR is connected to the current W3WOcrViewController.  Perhaps instantiate a new OCR when creating a new W3WOcrViewControlller.")
           
         } else if let e = error {
-          self?.onError(e)
+          self?.handleOcrError(e)
         } else if self?.stopOutput == false {
           DispatchQueue.main.async {
-            self?.onSuggestions(suggestions)
+            self?.handleNewSuggestions(suggestions)
           }
         }
       }
     }
   }
   
+  open var allowDuplicatedSuggestions: Bool {
+    return false
+  }
+  
+  open func handleNewSuggestions(_ suggestions: [W3WOcrSuggestion]) {
+    guard let suggestion = suggestions.first,
+          let word = suggestion.words else {
+      return
+    }
+    if allowDuplicatedSuggestions || !currentOcrSuggestions.contains(word) {
+      currentOcrSuggestions.insert(word)
+      insertMoreSuggestions([suggestion])
+    }
+    onSuggestions(suggestions)
+  }
+  
+  open func handleOcrError(_ error: W3WOcrError) {
+    showErrorView(title: error.description)
+    onError(error)
+  }
   
   /// stop scanning
   public func stop() {  // completion: @escaping () -> () = { }) {
@@ -311,7 +339,7 @@ open class W3WOcrViewController: W3WViewController {
   }
   
   
-  // MARK:- UIVewController overrides
+  // MARK: - UIVewController overrides
   
   /// assign the callback closure on view load
   open override func viewDidLoad() {
@@ -330,7 +358,7 @@ open class W3WOcrViewController: W3WViewController {
     } else {
       let inset = W3WSettings.ocrCropInset
       let size = UIScreen.main.bounds.width - inset * 2.0
-      let crop = CGRect(origin: CGPoint(x: (view.frame.width - size) / 2, y: view.safeAreaInsets.top + closeButton.bounds.size.height + W3WMargin.light.value), size: CGSize(width: size, height: size))
+      let crop = CGRect(origin: CGPoint(x: (view.frame.width - size) / 2, y: closeButton.frame.origin.y + closeButtonSize + W3WMargin.bold.value), size: CGSize(width: size, height: size))
       ocrView.set(crop: crop)
     }
     
@@ -365,15 +393,28 @@ open class W3WOcrViewController: W3WViewController {
     bottomSheet.setState(state)
   }
   
+  // MARK: - Close button
+  open var shouldShowCloseButton: Bool {
+    return isPresentedModally()
+  }
+  
   open func addCloseButton() {
     guard isPresentedModally() else {
       return
     }
     view.addSubview(closeButton)
     NSLayoutConstraint.activate([
-      closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+      closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -W3WMargin.light.value),
+      closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: W3WMargin.medium.value)
     ])
+  }
+  
+  open var closeButtonSize: CGFloat {
+    return 24.0
+  }
+  
+  open var closeButtonIcon: W3WIconView {
+    return W3WIconView(image: .close, scheme: .standard)
   }
   
   @objc open func didTouchCloseButton() {

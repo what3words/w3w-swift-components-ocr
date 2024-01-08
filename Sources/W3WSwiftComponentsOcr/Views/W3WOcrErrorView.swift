@@ -8,7 +8,20 @@
 import UIKit
 import W3WSwiftDesign
 
-public class W3WOcrErrorView: UIView, W3WViewProtocol {
+open class W3WOcrErrorView: UIView, W3WViewProtocol {
+  public lazy var backgroundView: UIView = {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(contentStackView)
+    NSLayoutConstraint.activate([
+      contentStackView.topAnchor.constraint(equalTo: view.topAnchor),
+      contentStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      contentStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      contentStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor)
+    ])
+    return view
+  }()
+  
   public lazy var contentStackView: UIStackView = {
     let view = UIStackView(arrangedSubviews: [icon, titleLabel])
     view.translatesAutoresizingMaskIntoConstraints = false
@@ -21,11 +34,8 @@ public class W3WOcrErrorView: UIView, W3WViewProtocol {
   }()
   
   public lazy var icon: UIImageView = {
-    let imageView = UIImageView()
+    let imageView = W3WIconView(image: .warning)
     imageView.translatesAutoresizingMaskIntoConstraints = false
-    imageView.contentMode = .scaleAspectFit
-    let image = UIImage(named: "warning-triangle-icon", in: Bundle.module, compatibleWith: nil)
-    imageView.image = image
     NSLayoutConstraint.activate([
       imageView.heightAnchor.constraint(equalToConstant: 24.0),
       imageView.widthAnchor.constraint(equalToConstant: 24.0)
@@ -35,7 +45,9 @@ public class W3WOcrErrorView: UIView, W3WViewProtocol {
   
   public lazy var titleLabel: UILabel = {
     let label = UILabel()
+    label.numberOfLines = 0
     label.translatesAutoresizingMaskIntoConstraints = false
+    label.setContentHuggingPriority(.defaultLow, for: .horizontal)
     return label
   }()
   
@@ -46,7 +58,7 @@ public class W3WOcrErrorView: UIView, W3WViewProtocol {
     if let colors = scheme?.colors {
       titleLabel.textColor = colors.foreground?.uiColor
       titleLabel.backgroundColor = colors.line?.uiColor
-      contentStackView.backgroundColor = colors.line?.uiColor
+      backgroundView.backgroundColor = colors.line?.uiColor
     }
     if let styles = scheme?.styles {
       titleLabel.font = styles.fonts?.originalFont
@@ -59,18 +71,18 @@ public class W3WOcrErrorView: UIView, W3WViewProtocol {
     setupUI()
   }
   
-  required init?(coder: NSCoder) {
+  required public init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
   open func setupUI() {
     translatesAutoresizingMaskIntoConstraints = false
-    addSubview(contentStackView)
+    addSubview(backgroundView)
     NSLayoutConstraint.activate([
-      contentStackView.topAnchor.constraint(equalTo: topAnchor),
-      contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      contentStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
+      backgroundView.topAnchor.constraint(equalTo: topAnchor),
+      backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
+      backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor)
     ])
   }
   
