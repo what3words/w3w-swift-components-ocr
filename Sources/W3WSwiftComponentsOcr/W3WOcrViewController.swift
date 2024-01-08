@@ -95,10 +95,10 @@ open class W3WOcrViewController: W3WViewController {
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   var customCrop: CGRect?
   
-  /// Collection of unique suggestions words
-  public var currentOcrSuggestions: Set<String> = []
+  /// Collection of unique suggestion descriptions
+  public var uniqueOcrSuggestions: Set<String> = []
   
-  /// UI properties
+  // MARK: - UI properties
   public lazy var bottomSheet: W3WSuggessionsBottomSheet = {
     let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .soft).with(background: .white))
     return bottomSheet
@@ -287,6 +287,7 @@ open class W3WOcrViewController: W3WViewController {
           }
         } else if self?.stopOutput == false {
           DispatchQueue.main.async {
+            self?.handleOcrError(.unknownOcrError)
             self?.handleNewSuggestions(suggestions)
           }
         }
@@ -294,18 +295,13 @@ open class W3WOcrViewController: W3WViewController {
     }
   }
   
-  open var allowDuplicatedSuggestions: Bool {
-    return false
-  }
-  
   open func handleNewSuggestions(_ suggestions: [W3WOcrSuggestion]) {
-    guard let suggestion = suggestions.first,
-          let word = suggestion.words else {
+    guard let suggestion = suggestions.first else {
       return
     }
-    if allowDuplicatedSuggestions || !currentOcrSuggestions.contains(word) {
-      currentOcrSuggestions.insert(word)
+    if !uniqueOcrSuggestions.contains(suggestion.description) {
       insertMoreSuggestions([suggestion])
+      uniqueOcrSuggestions.insert(suggestion.description)
     }
     onSuggestions(suggestions)
   }
@@ -401,7 +397,7 @@ open class W3WOcrViewController: W3WViewController {
   }
   
   open func addCloseButton() {
-    guard isPresentedModally() else {
+    guard shouldShowCloseButton else {
       return
     }
     view.addSubview(closeButton)
@@ -416,7 +412,7 @@ open class W3WOcrViewController: W3WViewController {
   }
   
   open var closeButtonIcon: W3WIconView {
-    return W3WIconView(image: .close, scheme: .standard)
+    return W3WIconView(image: .xmarkCircle, scheme: .standard)
   }
   
   @objc open func didTouchCloseButton() {

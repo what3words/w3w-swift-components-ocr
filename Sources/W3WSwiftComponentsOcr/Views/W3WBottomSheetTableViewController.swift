@@ -127,6 +127,14 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
     }
   }
   
+  public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let sectionItem = sections[indexPath.section]
+    let cellItem = sectionItem.items[indexPath.row]
+    if case .result = cellItem  {
+      super.tableView(tableView, didSelectRowAt: indexPath)
+    }
+  }
+  
   // MARK: - UITableViewDataSource
   public override func numberOfSections(in tableView: UITableView) -> Int {
     return sections.count

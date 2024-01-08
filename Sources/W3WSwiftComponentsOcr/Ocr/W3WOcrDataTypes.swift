@@ -34,6 +34,14 @@ extension W3WOcrSuggestion: W3WSuggestion {
     return (languageCode == nil) ? nil : W3WBaseLanguage(code: languageCode!)
   }
   
+  public init(words: String?, country: W3WCountry?, nearestPlace: String?, distanceToFocus: W3WDistance?, language: W3WLanguage?) {
+    self.init()
+    self.words = words
+    self.countryCode = country?.code
+    self.nearestPlace = nearestPlace
+    self.distanceToFocusKm = distanceToFocus?.kilometers
+    self.languageCode = language?.code
+  }
 }
 
 extension W3WOcrError {
