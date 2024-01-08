@@ -282,7 +282,9 @@ open class W3WOcrViewController: W3WViewController {
           print("The OCR system is connected to a W3WOcrViewController that no longer exists. Please ensure the OCR is connected to the current W3WOcrViewController.  Perhaps instantiate a new OCR when creating a new W3WOcrViewControlller.")
           
         } else if let e = error {
-          self?.handleOcrError(e)
+          DispatchQueue.main.async {
+            self?.handleOcrError(e)
+          }
         } else if self?.stopOutput == false {
           DispatchQueue.main.async {
             self?.handleNewSuggestions(suggestions)
