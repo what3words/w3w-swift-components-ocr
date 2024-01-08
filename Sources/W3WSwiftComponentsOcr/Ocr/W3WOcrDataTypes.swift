@@ -19,6 +19,37 @@ import W3WSwiftCore
 // This project works with CoreML if the what3words OCR system is not
 // available
 #if canImport(W3WOcrSdk)
+import W3WOcrSdk
+
+extension W3WOcrSuggestion: W3WSuggestion {
+  public var country: W3WCountry? {
+    return (countryCode == nil) ? nil : W3WBaseCountry(code: countryCode!)
+  }
+
+  public var distanceToFocus: W3WDistance? {
+    return (distanceToFocusKm == nil) ? nil : W3WBaseDistance(kilometers: distanceToFocusKm!)
+  }
+
+  public var language: W3WLanguage? {
+    return (languageCode == nil) ? nil : W3WBaseLanguage(code: languageCode!)
+  }
+
+}
+
+extension W3WOcrError {
+  public var description: String {
+    switch self {
+    case .coreError(let message): return message
+    case .unknownOcrError: return "Unknown OCR error"
+    @unknown default:
+      return ""
+    }
+  }
+
+  public static func == (lhs: W3WOcrError, rhs: W3WOcrError) -> Bool {
+    return lhs.description == rhs.description
+  }
+}
 #else
 
 public enum W3WOcrError : Error, CustomStringConvertible, Equatable {
