@@ -16,7 +16,7 @@ public class W3WOcrSdkWrapper: W3WOcrProtocol {
   
   
   public func availableLanguages() -> [String] {
-    return ["de", "en", "es", "pt", "ro", "ru"]
+    return ocr.availableLanguages().map { $0.code }
   }
   
   
