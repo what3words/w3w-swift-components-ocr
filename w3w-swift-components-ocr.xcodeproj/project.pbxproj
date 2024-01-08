@@ -164,7 +164,6 @@
 		76EE86D92B4553A5009CF29D /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		76EE86DA2B4553A5009CF29D /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		76EE86DB2B4553A5009CF29D /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/Localizable.strings; sourceTree = "<group>"; };
-		76EE86DC2B4553A5009CF29D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		OBJ_10 /* W3WCameraImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WCameraImageProcessor.swift; sourceTree = "<group>"; };
 		OBJ_11 /* W3WOcrCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WOcrCamera.swift; sourceTree = "<group>"; };
 		OBJ_13 /* W3WOcrBackgroundLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WOcrBackgroundLayer.swift; sourceTree = "<group>"; };
@@ -248,7 +247,6 @@
 			isa = PBXGroup;
 			children = (
 				76EE86912B4553A5009CF29D /* Strings */,
-				76EE86DC2B4553A5009CF29D /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
