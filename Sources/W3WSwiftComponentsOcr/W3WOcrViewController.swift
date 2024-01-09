@@ -88,16 +88,15 @@ open class W3WOcrViewController: W3WViewController {
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   var customCrop: CGRect?
   
-  /// UI properties
+  // MARK: - UI properties
   open lazy var closeButton: UIButton = {
-    let button = UIButton()
+    let button = W3WButton(icon: W3WIconView(image: .close), scheme: .standard)
     button.translatesAutoresizingMaskIntoConstraints = false
-    let image = UIImage(named: "x-mark-circle-icon", in: Bundle.module, compatibleWith: nil)
-    button.setImage(image, for: .normal)
+    button.layer.cornerRadius = closeButtonSize / 2.0
     button.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
     NSLayoutConstraint.activate([
-      button.heightAnchor.constraint(equalToConstant: 48.0),
-      button.widthAnchor.constraint(equalToConstant: 48.0)
+      button.heightAnchor.constraint(equalToConstant: closeButtonSize),
+      button.widthAnchor.constraint(equalToConstant: closeButtonSize)
     ])
     return button
   }()
@@ -323,7 +322,7 @@ open class W3WOcrViewController: W3WViewController {
     } else {
       let inset = W3WSettings.ocrCropInset
       let size = UIScreen.main.bounds.width - inset * 2.0
-      let crop = CGRect(origin: CGPoint(x: (view.frame.width - size) / 2, y: view.safeAreaInsets.top + closeButton.bounds.size.height + W3WMargin.light.value), size: CGSize(width: size, height: size))
+      let crop = CGRect(origin: CGPoint(x: (view.frame.width - size) / 2, y: view.safeAreaInsets.top + closeButtonSize + W3WMargin.light.value), size: CGSize(width: size, height: size))
       ocrView.set(crop: crop)
     }
     
@@ -338,6 +337,30 @@ open class W3WOcrViewController: W3WViewController {
   /// Setup UI
   open func setupUI() {
     addCloseButton()
+  }
+  
+  /// Close button setup
+  open var shouldShowCloseButton: Bool {
+    return isPresentedModally()
+  }
+  
+  open var closeButtonSize: CGFloat {
+    return shouldShowCloseButton ? 24.0 : 0.0
+  }
+  
+  open func addCloseButton() {
+    guard shouldShowCloseButton else {
+      return
+    }
+    view.addSubview(closeButton)
+    NSLayoutConstraint.activate([
+      closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -W3WMargin.light.value),
+      closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: W3WMargin.medium.value)
+    ])
+  }
+  
+  @objc open func didTouchCloseButton() {
+    presentingViewController?.dismiss(animated: true)
   }
   
   /// Update word label
