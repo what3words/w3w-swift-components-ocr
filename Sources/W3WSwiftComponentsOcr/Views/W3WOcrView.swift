@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import W3WSwiftCore
+import W3WSwiftThemes
 
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
@@ -139,7 +140,7 @@ public class W3WOcrView: W3WOcrBasicView {
       }
 #endif
       if debugImageInCrop {
-        debugImage.frame = crop.inset(by: UIEdgeInsets(top: 2.0, left: 2.0, bottom: 2.0, right: 2.0))
+        debugImage.frame = crop
       } else {
         debugImage.frame = CGRect(origin: CGPoint(x: 32.0, y: frame.height - debugImage.frame.height - 32.0), size: CGSize(width: crop.size.width, height: crop.size.height))
       }
@@ -152,5 +153,49 @@ public class W3WOcrView: W3WOcrBasicView {
     recalculateAndPositionLayers()
   }
   
+  // MARK: - Apply scheme
+  open func set(scheme: W3WScheme?) {
+    setViewFinderLineColor(scheme?.colors?.line?.uiColor)
+    setViewFinderLineWidth(scheme?.styles?.lineThickness?.value)
+    setViewFinderLineLength(scheme?.styles?.rowHeight?.value)
+    setViewFinderLineInset(scheme?.styles?.padding?.top)
+    setViewFinderCurveRadius(scheme?.styles?.cornerRadius?.value)
+  }
+  
+  // MARK: - Helpers
+  public func setViewFinderLineColor(_ color: UIColor?) {
+    guard let color = color else {
+      return
+    }
+    viewfinderLayer.setLineColor(color)
+  }
+  
+  public func setViewFinderLineWidth(_ width: CGFloat?) {
+    guard let width = width else {
+      return
+    }
+    viewfinderLayer.setLineWidth(width)
+  }
+  
+  public func setViewFinderLineLength(_ length: CGFloat?) {
+    guard let length = length else {
+      return
+    }
+    viewfinderLayer.setLineLength(length)
+  }
+
+  public func setViewFinderLineInset(_ inset: CGFloat?) {
+    guard let inset = inset else {
+      return
+    }
+    viewfinderLayer.setLineInset(inset)
+  }
+  
+  public func setViewFinderCurveRadius(_ radius: CGFloat?) {
+    guard let radius = radius else {
+      return
+    }
+    viewfinderLayer.setLineCurveRadius(radius)
+  }
 }
 

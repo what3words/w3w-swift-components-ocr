@@ -442,7 +442,12 @@ public class W3WOcrNative: W3WOcrProtocol {
         
         // make a OcrSuggestion
         if s.words == text {
-          let ocrSuggestion = W3WOcrSuggestion(words: s.words, country: s.country?.code, nearestPlace: s.nearestPlace?.description, distanceToFocus: s.distanceToFocus?.meters, language: s.language?.code)
+          let ocrSuggestion: W3WOcrSuggestion
+#if canImport(W3WOcrSdk)
+          ocrSuggestion = W3WOcrSuggestion(words: s.words, country: s.country?.code, nearestPlace : s.nearestPlace, distanceToFocus: s.distanceToFocus?.meters, language: s.language?.code)
+#else
+          ocrSuggestion = W3WOcrSuggestion(words: s.words, country: s.country, nearestPlace : s.nearestPlace, distanceToFocus: s.distanceToFocus, language: s.language)
+#endif
           W3WOcrNative.suggestionCache[text] = (true, ocrSuggestion)
           completion([ocrSuggestion], nil)
           
