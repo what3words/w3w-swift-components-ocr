@@ -26,33 +26,37 @@ extension W3WOcrViewController {
                                              line: .white),
                            styles: W3WStyles(cornerRadius: W3WCornerRadius(floatLiteral: 3.0),
                                              fonts: W3WFonts(font: .systemFont(ofSize: 17.0, weight: .semibold)),
+                                             textAlignment: W3WTextAlignment(value: .center),
                                              padding: W3WPadding(insets: .zero),
                                              rowHeight: W3WRowHeight(floatLiteral: 24.0),
                                              lineThickness: W3WLineThickness(floatLiteral: 6.0)))
       case .detecting:
-        scheme = W3WScheme(colors: W3WColors(foreground: W3WColor(uiColor: W3WSettings.ocrPrimaryTextColor),
+        scheme = W3WScheme(colors: W3WColors(foreground: W3WColor(uiColor: W3WSettings.ocrPrimaryTextColor), 
                                              background: .white,
                                              line: .white),
                            styles: W3WStyles(cornerRadius: W3WCornerRadius(floatLiteral: 6.0),
                                              fonts: W3WFonts(font: .systemFont(ofSize: 17.0, weight: .semibold)),
+                                             textAlignment: W3WTextAlignment(value: .center),
                                              padding: W3WPadding(insets: .zero),
                                              rowHeight: W3WRowHeight(floatLiteral: 48.0),
                                              lineThickness: W3WLineThickness(floatLiteral: 12.0)))
       case .scanning:
-        scheme = W3WScheme(colors: W3WColors(foreground: W3WColor(uiColor: W3WSettings.ocrPrimaryTextColor),
+        scheme = W3WScheme(colors: W3WColors(foreground: W3WColor(uiColor: W3WSettings.ocrPrimaryTextColor), 
                                              background: .white,
                                              line: W3WColor(uiColor: W3WSettings.ocrTargetSuccess)),
                            styles: W3WStyles(cornerRadius: W3WCornerRadius(floatLiteral: 6.0),
                                              fonts: W3WFonts(font: .systemFont(ofSize: 17.0, weight: .semibold)),
+                                             textAlignment: W3WTextAlignment(value: .center),
                                              padding: W3WPadding(insets: .zero),
                                              rowHeight: W3WRowHeight(floatLiteral: 48.0),
                                              lineThickness: W3WLineThickness(floatLiteral: 12.0)))
       case .scanned:
-        scheme = W3WScheme(colors: W3WColors(foreground: W3WColor(uiColor: W3WSettings.ocrPrimaryGreyTextColor),
+        scheme = W3WScheme(colors: W3WColors(foreground: W3WColor(uiColor: W3WSettings.ocrPrimaryGreyTextColor), 
                                              background: .white,
                                              line: .white),
                            styles: W3WStyles(cornerRadius: W3WCornerRadius(floatLiteral: 3.0),
                                              fonts: W3WFonts(font: .systemFont(ofSize: 14.0, weight: .regular)),
+                                             textAlignment: W3WTextAlignment(value: .left),
                                              padding: W3WPadding(insets: .zero),
                                              rowHeight: W3WRowHeight(floatLiteral: 24.0),
                                              lineThickness: W3WLineThickness(floatLiteral: 6.0)))
@@ -62,6 +66,7 @@ extension W3WOcrViewController {
                                              line: W3WColor(uiColor: W3WSettings.ocrTargetFailed)),
                            styles: W3WStyles(cornerRadius: W3WCornerRadius(floatLiteral: 6.0),
                                              fonts: W3WFonts(font: .systemFont(ofSize: 17.0, weight: .semibold)),
+                                             textAlignment: W3WTextAlignment(value: .center),
                                              padding: W3WPadding(insets: .zero),
                                              rowHeight: W3WRowHeight(floatLiteral: 48.0),
                                              lineThickness: W3WLineThickness(floatLiteral: 12.0)))

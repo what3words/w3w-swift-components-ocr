@@ -51,6 +51,15 @@ open class W3WOcrViewController: W3WViewController {
   }
   var _onSuggestion: (W3WOcrSuggestion) -> () = { _ in }
   
+  /// Called when the user selects a suggestion
+  public var onRowSelected: ((_ item: W3WSuggestion, _ indexPath: IndexPath) -> Void)? {
+    didSet {
+      if let onRowSelected = onRowSelected {
+        bottomSheet.tableViewController.onRowSelected = onRowSelected
+      }
+    }
+  }
+  
   /// callback closure for any errors occurring
   public var onError: (W3WOcrError) -> () = { _ in }
   
@@ -88,7 +97,15 @@ open class W3WOcrViewController: W3WViewController {
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   var customCrop: CGRect?
   
+  /// Unique collection of suggestions
+  public var uniqueOcrSuggestions: Set<String> = []
+  
   // MARK: - UI properties
+  open lazy var bottomSheet: W3WSuggessionsBottomSheet = {
+    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .soft).with(background: .white))
+    return bottomSheet
+  }()
+  
   open lazy var closeButton: UIButton = {
     let button = W3WButton(icon: W3WIconView(image: .close), scheme: .standard)
     button.translatesAutoresizingMaskIntoConstraints = false
@@ -101,8 +118,13 @@ open class W3WOcrViewController: W3WViewController {
     return button
   }()
   
-  // MARK: - Init
+  open lazy var errorView: W3WOcrErrorView = {
+    let view = W3WOcrErrorView()
+    view.isHidden = true
+    return view
+  }()
   
+  // MARK: - Init
   public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = nil) {
     self.init(theme: theme)
     set(ocr: ocr)
@@ -119,13 +141,13 @@ open class W3WOcrViewController: W3WViewController {
   /// initializer override to instantiate the W3WOcrScannerView
   public override init(theme: W3WTheme? = nil) {
     super.init(theme: theme)
-    setupOcrScheme()
+    setup()
   }
   
   /// initializer override to instantiate the `W3WOcrScannerView`
   public required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    setupOcrScheme()
+    setup()
   }
   
 
@@ -133,6 +155,11 @@ open class W3WOcrViewController: W3WViewController {
     //print("OCR: OcrVC DEINIT")
   }
   
+  /// Setup
+  open func setup() {
+    setupOcrScheme()
+    W3WTranslations.main.add(bundle: Bundle.module)
+  }
   
   // MARK: - View Layer
   
@@ -170,7 +197,7 @@ open class W3WOcrViewController: W3WViewController {
   public func set(ocr: W3WOcrProtocol?) {
     self.ocr = ocr
     
-    ocrView.set(boxStyle: .outline)
+//    ocrView.set(boxStyle: .outline)
     
     if camera == nil {
       self.camera = W3WOcrCamera.get(camera: .back)
@@ -265,17 +292,35 @@ open class W3WOcrViewController: W3WViewController {
           print("The OCR system is connected to a W3WOcrViewController that no longer exists. Please ensure the OCR is connected to the current W3WOcrViewController.  Perhaps instantiate a new OCR when creating a new W3WOcrViewControlller.")
           
         } else if let e = error {
-          self?.onError(e)
-        
+          DispatchQueue.main.async {
+            self?.handleOcrError(e)
+          }
         } else if self?.stopOutput == false {
           DispatchQueue.main.async {
-            self?.onSuggestions(suggestions)
+            self?.handleNewSuggestions(suggestions)
           }
         }
       }
     }
   }
   
+  /// Handle the first suggestion, check if it's duplicated before inserting to bottom sheet
+  open func handleNewSuggestions(_ suggestions: [W3WOcrSuggestion]) {
+    guard let suggestion = suggestions.first, let threeWordAddress = suggestion.words else {
+      return
+    }
+    if !uniqueOcrSuggestions.contains(threeWordAddress) {
+      insertMoreSuggestions([suggestion])
+      uniqueOcrSuggestions.insert(threeWordAddress)
+    }
+    onSuggestions(suggestions)
+  }
+  
+  /// Handle OCR error
+  open func handleOcrError(_ error: W3WOcrError) {
+    showErrorView(title: error.description)
+    onError(error)
+  }
   
   /// stop scanning
   public func stop() {  // completion: @escaping () -> () = { }) {
@@ -322,12 +367,18 @@ open class W3WOcrViewController: W3WViewController {
     } else {
       let inset = W3WSettings.ocrCropInset
       let size = UIScreen.main.bounds.width - inset * 2.0
-      let crop = CGRect(origin: CGPoint(x: (view.frame.width - size) / 2, y: view.safeAreaInsets.top + closeButtonSize + W3WMargin.light.value), size: CGSize(width: size, height: size))
+      let crop = CGRect(origin: CGPoint(x: (view.frame.width - size) / 2, y: closeButton.frame.origin.y + closeButtonSize + W3WMargin.bold.value), size: CGSize(width: size, height: size))
       ocrView.set(crop: crop)
     }
     
     // reposition the three word address if present
     updateWordsLabel()
+    
+    // update bottom sheet
+    updateBottomSheet()
+    
+    // setup error view
+    setupErrorView()
   }
   
   open override func viewWillDisappear(_ animated: Bool) {
@@ -373,6 +424,7 @@ open class W3WOcrViewController: W3WViewController {
     // Apply target scheme on ocr view
     let targetScheme = theme?.getOcrScheme(state: state)
     ocrView.set(scheme: targetScheme)
+    bottomSheet.setState(state)
   }
 }
 

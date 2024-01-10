@@ -33,6 +33,15 @@
 		76A58E262B35A3EF003785F9 /* W3WSwiftDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 76A58E252B35A3EF003785F9 /* W3WSwiftDesign */; };
 		76A58E282B35A552003785F9 /* W3WOcrViewController+theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A58E272B35A552003785F9 /* W3WOcrViewController+theme.swift */; };
 		76A58E402B35BD3C003785F9 /* FakeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A58E3F2B35BD3C003785F9 /* FakeApi.swift */; };
+		76B6A4752B4CFF2200B3B522 /* W3WSearchResultSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B6A4712B4CFF2200B3B522 /* W3WSearchResultSectionItem.swift */; };
+		76B6A4762B4CFF2200B3B522 /* W3WSingleLabelCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B6A4722B4CFF2200B3B522 /* W3WSingleLabelCellItem.swift */; };
+		76B6A4772B4CFF2200B3B522 /* W3WSuggestionCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B6A4732B4CFF2200B3B522 /* W3WSuggestionCellItem.swift */; };
+		76B6A4782B4CFF2200B3B522 /* W3WSingleLabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B6A4742B4CFF2200B3B522 /* W3WSingleLabelTableViewCell.swift */; };
+		76B6A47B2B4CFF2F00B3B522 /* W3WOcrViewController+errorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B6A4792B4CFF2F00B3B522 /* W3WOcrViewController+errorView.swift */; };
+		76B6A47C2B4CFF2F00B3B522 /* W3WOcrViewController+bottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B6A47A2B4CFF2F00B3B522 /* W3WOcrViewController+bottomSheet.swift */; };
+		76B6A4802B4D00D200B3B522 /* W3WBottomSheetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B6A47D2B4D00D200B3B522 /* W3WBottomSheetTableViewController.swift */; };
+		76B6A4812B4D00D200B3B522 /* W3WOcrErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B6A47E2B4D00D200B3B522 /* W3WOcrErrorView.swift */; };
+		76B6A4822B4D00D200B3B522 /* W3WSuggessionsBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B6A47F2B4D00D200B3B522 /* W3WSuggessionsBottomSheet.swift */; };
 		OBJ_100 /* W3WCameraImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* W3WCameraImageProcessor.swift */; };
 		OBJ_101 /* W3WOcrCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* W3WOcrCamera.swift */; };
 		OBJ_102 /* W3WOcrBackgroundLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* W3WOcrBackgroundLayer.swift */; };
@@ -91,6 +100,15 @@
 		01EF31B5291E6CFA002710D9 /* W3WOcrSdk.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = W3WOcrSdk.xcframework; path = Frameworks/W3WOcrSdk.xcframework; sourceTree = "<group>"; };
 		76A58E272B35A552003785F9 /* W3WOcrViewController+theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "W3WOcrViewController+theme.swift"; sourceTree = "<group>"; };
 		76A58E3F2B35BD3C003785F9 /* FakeApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeApi.swift; sourceTree = "<group>"; };
+		76B6A4712B4CFF2200B3B522 /* W3WSearchResultSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = W3WSearchResultSectionItem.swift; sourceTree = "<group>"; };
+		76B6A4722B4CFF2200B3B522 /* W3WSingleLabelCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = W3WSingleLabelCellItem.swift; sourceTree = "<group>"; };
+		76B6A4732B4CFF2200B3B522 /* W3WSuggestionCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = W3WSuggestionCellItem.swift; sourceTree = "<group>"; };
+		76B6A4742B4CFF2200B3B522 /* W3WSingleLabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = W3WSingleLabelTableViewCell.swift; sourceTree = "<group>"; };
+		76B6A4792B4CFF2F00B3B522 /* W3WOcrViewController+errorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "W3WOcrViewController+errorView.swift"; sourceTree = "<group>"; };
+		76B6A47A2B4CFF2F00B3B522 /* W3WOcrViewController+bottomSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "W3WOcrViewController+bottomSheet.swift"; sourceTree = "<group>"; };
+		76B6A47D2B4D00D200B3B522 /* W3WBottomSheetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = W3WBottomSheetTableViewController.swift; sourceTree = "<group>"; };
+		76B6A47E2B4D00D200B3B522 /* W3WOcrErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = W3WOcrErrorView.swift; sourceTree = "<group>"; };
+		76B6A47F2B4D00D200B3B522 /* W3WSuggessionsBottomSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = W3WSuggessionsBottomSheet.swift; sourceTree = "<group>"; };
 		76EE86932B4553A5009CF29D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		76EE86942B4553A5009CF29D /* ur */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ur; path = ur.lproj/Localizable.strings; sourceTree = "<group>"; };
 		76EE86952B4553A5009CF29D /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -243,6 +261,26 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		76B6A4702B4CFF2200B3B522 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				76B6A4712B4CFF2200B3B522 /* W3WSearchResultSectionItem.swift */,
+				76B6A4732B4CFF2200B3B522 /* W3WSuggestionCellItem.swift */,
+				76B6A4722B4CFF2200B3B522 /* W3WSingleLabelCellItem.swift */,
+				76B6A4742B4CFF2200B3B522 /* W3WSingleLabelTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		76B6A4832B4D00EC00B3B522 /* BottomSheet */ = {
+			isa = PBXGroup;
+			children = (
+				76B6A47F2B4D00D200B3B522 /* W3WSuggessionsBottomSheet.swift */,
+				76B6A47D2B4D00D200B3B522 /* W3WBottomSheetTableViewController.swift */,
+			);
+			path = BottomSheet;
+			sourceTree = "<group>";
+		};
 		76EE86902B4553A5009CF29D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,10 +322,13 @@
 		OBJ_22 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				76B6A4702B4CFF2200B3B522 /* Cells */,
+				76B6A4832B4D00EC00B3B522 /* BottomSheet */,
 				OBJ_23 /* W3WOcrBasicView.swift */,
 				OBJ_24 /* W3WOcrBox.swift */,
 				OBJ_25 /* W3WOcrScannerAddressLabel.swift */,
 				OBJ_26 /* W3WOcrView.swift */,
+				76B6A47E2B4D00D200B3B522 /* W3WOcrErrorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -359,6 +400,8 @@
 				OBJ_15 /* Util */,
 				OBJ_22 /* Views */,
 				OBJ_27 /* W3WOcrViewController.swift */,
+				76B6A47A2B4CFF2F00B3B522 /* W3WOcrViewController+bottomSheet.swift */,
+				76B6A4792B4CFF2F00B3B522 /* W3WOcrViewController+errorView.swift */,
 				76A58E272B35A552003785F9 /* W3WOcrViewController+theme.swift */,
 				OBJ_28 /* W3WSettings.swift */,
 				76EE86902B4553A5009CF29D /* Resources */,
@@ -614,13 +657,20 @@
 				OBJ_100 /* W3WCameraImageProcessor.swift in Sources */,
 				OBJ_101 /* W3WOcrCamera.swift in Sources */,
 				OBJ_102 /* W3WOcrBackgroundLayer.swift in Sources */,
+				76B6A4822B4D00D200B3B522 /* W3WSuggessionsBottomSheet.swift in Sources */,
 				OBJ_103 /* W3WOcrViewfinderLayer.swift in Sources */,
 				01C84C5928B7AABD00333454 /* W3WOcrProtocol.swift in Sources */,
+				76B6A47C2B4CFF2F00B3B522 /* W3WOcrViewController+bottomSheet.swift in Sources */,
+				76B6A4802B4D00D200B3B522 /* W3WBottomSheetTableViewController.swift in Sources */,
 				01C84C5A28B7AABD00333454 /* W3WOcrSdkWrapper.swift in Sources */,
+				76B6A4762B4CFF2200B3B522 /* W3WSingleLabelCellItem.swift in Sources */,
 				01C84C5B28B7AABD00333454 /* W3WOcrDataTypes.swift in Sources */,
+				76B6A47B2B4CFF2F00B3B522 /* W3WOcrViewController+errorView.swift in Sources */,
+				76B6A4782B4CFF2200B3B522 /* W3WSingleLabelTableViewCell.swift in Sources */,
 				01C84C5C28B7AABD00333454 /* W3WOcrHybrid.swift in Sources */,
 				01C84C5D28B7AABD00333454 /* W3WVideoStream.swift in Sources */,
 				01C84C5E28B7AABD00333454 /* W3WOcrNative.swift in Sources */,
+				76B6A4752B4CFF2200B3B522 /* W3WSearchResultSectionItem.swift in Sources */,
 				OBJ_104 /* W3WOcrBoxManager.swift in Sources */,
 				OBJ_105 /* W3WOcrCoordinateMaths.swift in Sources */,
 				OBJ_106 /* W3WOcrFakeImage.swift in Sources */,
@@ -631,8 +681,10 @@
 				OBJ_110 /* W3WOcrBasicView.swift in Sources */,
 				OBJ_111 /* W3WOcrBox.swift in Sources */,
 				OBJ_112 /* W3WOcrScannerAddressLabel.swift in Sources */,
+				76B6A4812B4D00D200B3B522 /* W3WOcrErrorView.swift in Sources */,
 				OBJ_113 /* W3WOcrView.swift in Sources */,
 				OBJ_114 /* W3WOcrViewController.swift in Sources */,
+				76B6A4772B4CFF2200B3B522 /* W3WSuggestionCellItem.swift in Sources */,
 				OBJ_115 /* W3WSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
