@@ -30,6 +30,10 @@ open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
     tableViewController.insertMoreSuggestions(suggestions)
   }
   
+  public func moveSuggestionToFirst(_ suggestion: W3WSuggestion) {
+    tableViewController.moveSuggestionToFirst(suggestion)
+  }
+  
   public func scrollToTop() {
     w3wView?.set(position: .bottom(height: getDetents().max()), animate: .defaultAnimationSpeed)
   }

@@ -8,8 +8,9 @@
 import UIKit
 import W3WSwiftDesign
 
-public class W3WSingleLabelTableViewCell: UITableViewCell {
-  public static var cellIdentifier: String { get { return String(describing: Self.self) } }
+public class W3WSingleLabelTableViewCell: W3WTableViewCell, W3WViewManagerProtocol {
+  public var parentView: UIView?
+  public var managedViews: [W3WSwiftDesign.W3WViewProtocol] = []
   
   public lazy var titleLabel: UILabel = {
     let label = UILabel()
@@ -17,13 +18,20 @@ public class W3WSingleLabelTableViewCell: UITableViewCell {
     return label
   }()
   
-  public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-    super.init(style: style, reuseIdentifier: reuseIdentifier)
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
     makeUI()
   }
   
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  override public init(scheme: W3WScheme? = nil) {
+    super.init(style: .default, reuseIdentifier: Self.cellIdentifier)
+    self.scheme = scheme
+    makeUI()
+  }
+
+  public required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    makeUI()
   }
   
   open func makeUI() {
@@ -38,12 +46,16 @@ public class W3WSingleLabelTableViewCell: UITableViewCell {
   
   open func configure(with item: W3WSingleLabelCellItem?) {
     titleLabel.text = item?.text
-    if let colors = item?.scheme?.colors {
+    set(scheme: item?.scheme)
+  }
+  
+  override public func update(scheme: W3WScheme?) {
+    if let colors = scheme?.colors {
       titleLabel.textColor = colors.foreground?.uiColor
       titleLabel.backgroundColor = colors.background?.uiColor
       contentView.backgroundColor = colors.background?.uiColor
     }
-    if let styles = item?.scheme?.styles {
+    if let styles = scheme?.styles {
       titleLabel.font = styles.fonts?.originalFont
       titleLabel.textAlignment = styles.textAlignment?.value ?? .left
     }

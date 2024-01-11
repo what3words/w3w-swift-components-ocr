@@ -63,4 +63,8 @@ extension W3WOcrViewController {
     updateBottomSheet()
     bottomSheet.scrollToTop()
   }
+  
+  public func moveSuggestionToFirst(_ suggestion: W3WSuggestion) {
+    bottomSheet.moveSuggestionToFirst(suggestion)
+  }
 }

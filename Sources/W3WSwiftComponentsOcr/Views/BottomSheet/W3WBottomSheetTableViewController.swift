@@ -30,13 +30,15 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
     sections.insert(section, at: 0)
     if sections.first?.title != currentTitle {
       if #available(iOS 13.0, *) {
-        reloadDatasource()
+        reloadDatasource(animate: false)
       } else {
-        tableView.beginUpdates()
-        let stateSectionIdx = sections.firstIndex(where: { $0.type == .state }) ?? 0
-        let rowToReload = IndexPath(row: 0, section: stateSectionIdx)
-        tableView.reloadRows(at: [rowToReload], with: .fade)
-        tableView.endUpdates()
+        UIView.performWithoutAnimation {
+          tableView.beginUpdates()
+          let stateSectionIdx = sections.firstIndex(where: { $0.type == .state }) ?? 0
+          let rowToReload = IndexPath(row: 0, section: stateSectionIdx)
+          tableView.reloadRows(at: [rowToReload], with: .none)
+          tableView.endUpdates()
+        }
       }
     }
   }
@@ -49,20 +51,47 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
       .result(item: W3WSuggestionCellItem(suggestion: $0))
     }
     let section: W3WSearchResultSectionItem = .init(type: .result, items: cellItems)
-    sections.removeAll(where: { $0.type == .result })
-    sections.append(section)
+    let resultSectionIdx = sections.firstIndex(where: { $0.type == .result }) ?? 0
+    sections.remove(at: resultSectionIdx)
+    sections.insert(section, at: resultSectionIdx)
     if #available(iOS 13.0, *) {
       reloadDatasource()
     } else {
       tableView.beginUpdates()
-      let resultSectionIdx = sections.firstIndex(where: { $0.type == .result }) ?? 0
       let rows = suggestions.enumerated().map { IndexPath(row: $0.offset, section: resultSectionIdx) }
       tableView.insertRows(at: rows, with: .top)
-      tableView.reloadRows(at: tableView.indexPathsForVisibleRows ?? [], with: .none)
+      tableView.reloadRows(at: tableView.indexPathsForVisibleRows ?? [], with: .automatic)
       tableView.endUpdates()
     }
     if shouldReloadState {
       setState(.scanned)
+    }
+  }
+  
+  public func moveSuggestionToFirst(_ suggestion: W3WSuggestion) {
+    let resultSectionIdx = sections.firstIndex(where: { $0.type == .result }) ?? 0
+    var resultItems = sections[resultSectionIdx].items
+    guard let targetIdx = resultItems.firstIndex(where: {
+      switch $0 {
+      case .result(let item):
+        return item.identifier == suggestion.words
+      default:
+        return false
+      }
+    }) else { return }
+    let targetItem = resultItems[targetIdx]
+    resultItems.remove(at: targetIdx)
+    resultItems.insert(targetItem, at: 0)
+    let section: W3WSearchResultSectionItem = .init(type: .result, items: resultItems)
+    sections.remove(at: resultSectionIdx)
+    sections.insert(section, at: resultSectionIdx)
+    if #available(iOS 13.0, *) {
+      reloadDatasource(animate: true)
+    } else {
+      tableView.beginUpdates()
+      tableView.deleteRows(at: [IndexPath(item: targetIdx, section: resultSectionIdx)], with: .none)
+      tableView.insertRows(at: [IndexPath(item: 0, section: resultSectionIdx)], with: .automatic)
+      tableView.endUpdates()
     }
   }
   
@@ -103,7 +132,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
     return dataSource
   }
   
-  private func reloadDatasource() {
+  private func reloadDatasource(animate: Bool = true) {
     guard #available(iOS 13.0, *) else {
       return
     }
@@ -112,7 +141,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
     sections.forEach { section in
       snapshot.appendItems(section.items, toSection: section)
     }
-    (dataSource as? DataSource)?.apply(snapshot, animatingDifferences: true)
+    (dataSource as? DataSource)?.apply(snapshot, animatingDifferences: animate)
   }
   
   // MARK: - UITableViewDelegate

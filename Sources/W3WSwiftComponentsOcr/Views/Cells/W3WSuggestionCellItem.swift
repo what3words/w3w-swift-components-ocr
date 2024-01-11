@@ -24,7 +24,7 @@ public struct W3WSuggestionCellItem: Hashable {
 
 public extension W3WSuggestionCellItem {
   init(suggestion: W3WSuggestion) {
-    identifier = suggestion.description
+    identifier = suggestion.words ?? ""
     self.suggestion = suggestion
   }
 }

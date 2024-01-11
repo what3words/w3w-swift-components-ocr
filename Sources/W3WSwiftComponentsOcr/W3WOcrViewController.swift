@@ -8,10 +8,15 @@
 import UIKit
 import W3WSwiftCore
 import W3WSwiftDesign
+import CoreLocation
 
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
 #endif // W3WOcrSdk
+
+#if canImport(w3w)
+import w3w
+#endif
 
 /// setting as to whether this should halt automatically when an address is found, or to continue
 public enum W3WOcrScanMode {
@@ -85,8 +90,15 @@ open class W3WOcrViewController: W3WViewController {
   /// UILabel for when a address is found
   var wordsLabel: W3WOcrScannerAddressLabel?
   
+  /// Current user location
+  var currentLocation: CLLocationCoordinate2D?
+  
+#if canImport(w3w)
+    lazy var w3wSdk = try? What3Words()
+#endif
+  
   /// flag to express whether to present autosuggest results
-  //var showAutosuggest = false
+  var showAutosuggest = false
   
   /// by default we stop scanning when one result is produced
   public var scanMode: W3WOcrScanMode = .continuous
@@ -107,9 +119,9 @@ open class W3WOcrViewController: W3WViewController {
   }()
   
   open lazy var closeButton: UIButton = {
-    let button = W3WButton(icon: W3WIconView(image: .close), scheme: .standard)
+    let scheme: W3WScheme = .standard.with(colors: .standardButtonFilled)
+    let button = W3WButton(icon: W3WIconView(image: .close, scheme: scheme))
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.layer.cornerRadius = closeButtonSize / 2.0
     button.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
     NSLayoutConstraint.activate([
       button.heightAnchor.constraint(equalToConstant: closeButtonSize),
@@ -216,7 +228,9 @@ open class W3WOcrViewController: W3WViewController {
     //self.set(autosuggest: autosuggest)
   }
   
-  
+  public func setCurrentLocation(_ location: CLLocationCoordinate2D?) {
+    currentLocation = location
+  }
   
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   /// - Parameters:
@@ -227,17 +241,17 @@ open class W3WOcrViewController: W3WViewController {
   }
   
   
-  //  /// tell view to use autosuggest with results
-  //  /// - Parameters:
-  //  ///     - autosuggest: set to true to turn on autosuggest
-  //  public func set(autosuggest: Bool) {
-  //    self.showAutosuggest = autosuggest
-  //  }
-  //
-  //
-  //  public func isUsingAutosuggest() -> Bool {
-  //    return showAutosuggest
-  //  }
+    /// tell view to use autosuggest with results
+    /// - Parameters:
+    ///     - autosuggest: set to true to turn on autosuggest
+    public func set(autosuggest: Bool) {
+      self.showAutosuggest = autosuggest
+    }
+
+  
+    public func isUsingAutosuggest() -> Bool {
+      return showAutosuggest
+    }
   
   
   /// show an OCR suggestion's word on screen, under the crop
@@ -304,16 +318,69 @@ open class W3WOcrViewController: W3WViewController {
     }
   }
   
-  /// Handle the first suggestion, check if it's duplicated before inserting to bottom sheet
+  /// Handle the first ocr suggestion, insert it on top of the bottom sheet. If it is already in the list then move it on top.
+  /// - Parameters:
+  ///     - suggestions: the suggestions that was found
   open func handleNewSuggestions(_ suggestions: [W3WOcrSuggestion]) {
-    guard let suggestion = suggestions.first, let threeWordAddress = suggestion.words else {
+    guard let suggestion = suggestions.first,
+          let threeWordAddress = suggestion.words else {
       return
     }
-    if !uniqueOcrSuggestions.contains(threeWordAddress) {
-      insertMoreSuggestions([suggestion])
+    
+    // Check for inserting or moving
+    if uniqueOcrSuggestions.contains(threeWordAddress) {
+      handleDuplicatedSuggestion(suggestion)
+      return
+    } else {
       uniqueOcrSuggestions.insert(threeWordAddress)
     }
-    onSuggestions(suggestions)
+    
+    if showAutosuggest {
+      autoSuggest(text: threeWordAddress) { [weak self] result in
+        switch result {
+        case .success(let autoSuggestion):
+          let result = autoSuggestion ?? suggestion
+          self?.insertMoreSuggestions([result])
+          self?.onSuggestions([result])
+        case .failure(let error):
+          self?.showErrorView(title: error.description)
+        }
+      }
+      return
+    }
+    onSuggestions([suggestion])
+  }
+  
+  open func handleDuplicatedSuggestion(_ suggestion: W3WSuggestion) {
+    // TODO: Handle duplicated suggestion
+  }
+  
+  open func autoSuggest(text: String,
+                        options: [W3WOption]? = nil,
+                        completion: ((Result<W3WOcrSuggestion?, W3WError>) -> Void)?) {
+#if canImport(w3w)
+    var ops: [W3WOption] = options ?? []
+    if ops.isEmpty {
+      ops = [.numberOfResults(1)]
+      if let currentLocation = currentLocation {
+        ops.append(.focus(currentLocation))
+      }
+    }
+    w3wSdk?.autosuggest(text: text, options: nil, completion: { s, e in
+      if let firstSuggestion = s?.first {
+        let result = W3WOcrSuggestion(words: firstSuggestion.words, country: firstSuggestion.country, nearestPlace: firstSuggestion.nearestPlace, distanceToFocus: firstSuggestion.distanceToFocus, language: firstSuggestion.language)
+        completion?(.success(result))
+        return
+      }
+      if let error = e {
+        completion?(.failure(error))
+        return
+      }
+      completion?(.success(nil))
+    })
+#else
+    completion?(.success(nil))
+#endif
   }
   
   /// Handle OCR error
@@ -367,7 +434,7 @@ open class W3WOcrViewController: W3WViewController {
     } else {
       let inset = W3WSettings.ocrCropInset
       let size = UIScreen.main.bounds.width - inset * 2.0
-      let crop = CGRect(origin: CGPoint(x: (view.frame.width - size) / 2, y: closeButton.frame.origin.y + closeButtonSize + W3WMargin.bold.value), size: CGSize(width: size, height: size))
+      let crop = CGRect(origin: CGPoint(x: (view.frame.width - size) / 2, y: closeButton.frame.origin.y + closeButtonSize + W3WMargin.medium.value), size: CGSize(width: size, height: size))
       ocrView.set(crop: crop)
     }
     
@@ -396,7 +463,7 @@ open class W3WOcrViewController: W3WViewController {
   }
   
   open var closeButtonSize: CGFloat {
-    return shouldShowCloseButton ? 24.0 : 0.0
+    return shouldShowCloseButton ? 48.0 : 0.0
   }
   
   open func addCloseButton() {
@@ -405,7 +472,7 @@ open class W3WOcrViewController: W3WViewController {
     }
     view.addSubview(closeButton)
     NSLayoutConstraint.activate([
-      closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -W3WMargin.light.value),
+      closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: W3WMargin.medium.value)
     ])
   }
