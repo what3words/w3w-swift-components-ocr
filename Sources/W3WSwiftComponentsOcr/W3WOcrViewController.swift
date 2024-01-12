@@ -14,10 +14,6 @@ import CoreLocation
 import W3WOcrSdk
 #endif // W3WOcrSdk
 
-#if canImport(w3w)
-import w3w
-#endif
-
 /// setting as to whether this should halt automatically when an address is found, or to continue
 public enum W3WOcrScanMode {
   case continuous
@@ -66,7 +62,7 @@ open class W3WOcrViewController: W3WViewController {
   }
   
   /// callback closure for any errors occurring
-  public var onError: (W3WOcrError) -> () = { _ in }
+  public var onError: (W3WError) -> () = { _ in }
   
   /// callback for when the camera gets interupted, perhaps by a phone call, etc...
   public var onInteruption: () -> () = { }
@@ -93,12 +89,8 @@ open class W3WOcrViewController: W3WViewController {
   /// Current user location
   var currentLocation: CLLocationCoordinate2D?
   
-#if canImport(w3w)
-    lazy var w3wSdk = try? What3Words()
-#endif
-  
   /// flag to express whether to present autosuggest results
-  var showAutosuggest = false
+//  var showAutosuggest = false
   
   /// by default we stop scanning when one result is produced
   public var scanMode: W3WOcrScanMode = .continuous
@@ -244,14 +236,14 @@ open class W3WOcrViewController: W3WViewController {
     /// tell view to use autosuggest with results
     /// - Parameters:
     ///     - autosuggest: set to true to turn on autosuggest
-    public func set(autosuggest: Bool) {
-      self.showAutosuggest = autosuggest
-    }
-
-  
-    public func isUsingAutosuggest() -> Bool {
-      return showAutosuggest
-    }
+//    public func set(autosuggest: Bool) {
+//      self.showAutosuggest = autosuggest
+//    }
+//
+//  
+//    public func isUsingAutosuggest() -> Bool {
+//      return showAutosuggest
+//    }
   
   
   /// show an OCR suggestion's word on screen, under the crop
@@ -326,7 +318,6 @@ open class W3WOcrViewController: W3WViewController {
           let threeWordAddress = suggestion.words else {
       return
     }
-    
     // Check for inserting or moving
     if uniqueOcrSuggestions.contains(threeWordAddress) {
       handleDuplicatedSuggestion(suggestion)
@@ -334,9 +325,9 @@ open class W3WOcrViewController: W3WViewController {
     } else {
       uniqueOcrSuggestions.insert(threeWordAddress)
     }
-    
-    if showAutosuggest {
-      autoSuggest(text: threeWordAddress) { [weak self] result in
+    // Perform autosuggest just when there is w3w
+    if let w3w = w3w {
+      autosuggest(w3w: w3w, text: threeWordAddress) { [weak self] result in
         switch result {
         case .success(let autoSuggestion):
           let result = autoSuggestion ?? suggestion
@@ -351,14 +342,13 @@ open class W3WOcrViewController: W3WViewController {
     onSuggestions([suggestion])
   }
   
-  open func handleDuplicatedSuggestion(_ suggestion: W3WSuggestion) {
-    // TODO: Handle duplicated suggestion
-  }
-  
-  open func autoSuggest(text: String,
-                        options: [W3WOption]? = nil,
-                        completion: ((Result<W3WOcrSuggestion?, W3WError>) -> Void)?) {
-#if canImport(w3w)
+  /// Autosuggest handled by some W3WProtocolV4
+  /// - Parameters:
+  ///     - text: the w3w address text
+  func autosuggest(w3w: W3WProtocolV4,
+                   text: String,
+                   options: [W3WOption]? = nil,
+                   completion: ((Result<W3WOcrSuggestion?, W3WError>) -> Void)?) {
     var ops: [W3WOption] = options ?? []
     if ops.isEmpty {
       ops = [.numberOfResults(1)]
@@ -366,27 +356,28 @@ open class W3WOcrViewController: W3WViewController {
         ops.append(.focus(currentLocation))
       }
     }
-    w3wSdk?.autosuggest(text: text, options: nil, completion: { s, e in
-      if let firstSuggestion = s?.first {
+    w3w.autosuggest(text: text, options: options) { suggestions, error in
+      if let firstSuggestion = suggestions?.first {
         let result = W3WOcrSuggestion(words: firstSuggestion.words, country: firstSuggestion.country, nearestPlace: firstSuggestion.nearestPlace, distanceToFocus: firstSuggestion.distanceToFocus, language: firstSuggestion.language)
         completion?(.success(result))
         return
       }
-      if let error = e {
+      if let error = error {
         completion?(.failure(error))
         return
       }
       completion?(.success(nil))
-    })
-#else
-    completion?(.success(nil))
-#endif
+    }
+  }
+  
+  open func handleDuplicatedSuggestion(_ suggestion: W3WSuggestion) {
+    // TODO: Handle duplicated suggestion
   }
   
   /// Handle OCR error
   open func handleOcrError(_ error: W3WOcrError) {
     showErrorView(title: error.description)
-    onError(error)
+    onError(W3WError.message(error.description))
   }
   
   /// stop scanning
