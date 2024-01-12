@@ -356,7 +356,7 @@ open class W3WOcrViewController: W3WViewController {
         ops.append(.focus(currentLocation))
       }
     }
-    w3w.autosuggest(text: text, options: options) { suggestions, error in
+    w3w.autosuggest(text: text, options: ops) { suggestions, error in
       if let firstSuggestion = suggestions?.first {
         let result = W3WOcrSuggestion(words: firstSuggestion.words, country: firstSuggestion.country, nearestPlace: firstSuggestion.nearestPlace, distanceToFocus: firstSuggestion.distanceToFocus, language: firstSuggestion.language)
         completion?(.success(result))
