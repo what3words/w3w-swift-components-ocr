@@ -129,7 +129,7 @@ open class W3WOcrViewController: W3WViewController {
   }()
   
   // MARK: - Init
-  public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = nil) {
+  public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = W3WTheme.forOcr()) {
     self.init(theme: theme)
     set(ocr: ocr)
   }
