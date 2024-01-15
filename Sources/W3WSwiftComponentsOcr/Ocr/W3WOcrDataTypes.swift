@@ -43,21 +43,6 @@ extension W3WOcrSuggestion: W3WSuggestion {
     self.languageCode = language?.code
   }
 }
-
-extension W3WOcrError {
-  public var description: String {
-    switch self {
-    case .coreError(let message): return message
-    case .unknownOcrError: return "Unknown OCR error"
-    @unknown default:
-      return ""
-    }
-  }
-
-  public static func == (lhs: W3WOcrError, rhs: W3WOcrError) -> Bool {
-    return lhs.description == rhs.description
-  }
-}
 #else
 
 public enum W3WOcrError : Error, CustomStringConvertible, Equatable {

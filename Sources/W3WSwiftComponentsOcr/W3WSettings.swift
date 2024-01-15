@@ -39,6 +39,29 @@ public extension W3WSettings {
   static let ocrAddressLabelMaxWidth:     CGFloat   = 256.0
   static let ocrAddressLabelMaxHeight:    CGFloat   = 32.0
 
+  static var bottomSafeArea: CGFloat {
+    if #unavailable(iOS 15) {
+      return UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
+    } else {
+      return UIApplication
+        .shared
+        .connectedScenes
+        .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+        .first { $0.isKeyWindow }?.safeAreaInsets.bottom ?? 0
+    }
+  }
+  
+  static var topSafeArea: CGFloat {
+    if #unavailable(iOS 15) {
+      return UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
+    } else {
+      return UIApplication
+        .shared
+        .connectedScenes
+        .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+        .first { $0.isKeyWindow }?.safeAreaInsets.top ?? 0
+    }
+  }
 }
 
 #endif
