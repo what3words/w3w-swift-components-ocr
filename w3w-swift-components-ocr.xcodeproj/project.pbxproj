@@ -30,6 +30,7 @@
 		01EF31B7291E6CFB002710D9 /* w3w.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B4291E6CFA002710D9 /* w3w.xcframework */; platformFilter = ios; };
 		01EF31B9291E6CFB002710D9 /* W3WOcrSdk.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF31B5291E6CFA002710D9 /* W3WOcrSdk.xcframework */; platformFilter = ios; };
 		763711392B553975002F4DD7 /* W3WTheme+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763711382B553975002F4DD7 /* W3WTheme+.swift */; };
+		7637113B2B554E08002F4DD7 /* W3WOcrStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7637113A2B554E08002F4DD7 /* W3WOcrStartViewController.swift */; };
 		76A58E242B35A3E3003785F9 /* W3WSwiftDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 76A58E232B35A3E3003785F9 /* W3WSwiftDesign */; };
 		76A58E262B35A3EF003785F9 /* W3WSwiftDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 76A58E252B35A3EF003785F9 /* W3WSwiftDesign */; };
 		76A58E282B35A552003785F9 /* W3WOcrViewController+theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A58E272B35A552003785F9 /* W3WOcrViewController+theme.swift */; };
@@ -100,6 +101,7 @@
 		01EF31B4291E6CFA002710D9 /* w3w.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = w3w.xcframework; path = Frameworks/w3w.xcframework; sourceTree = "<group>"; };
 		01EF31B5291E6CFA002710D9 /* W3WOcrSdk.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = W3WOcrSdk.xcframework; path = Frameworks/W3WOcrSdk.xcframework; sourceTree = "<group>"; };
 		763711382B553975002F4DD7 /* W3WTheme+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "W3WTheme+.swift"; sourceTree = "<group>"; };
+		7637113A2B554E08002F4DD7 /* W3WOcrStartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = W3WOcrStartViewController.swift; sourceTree = "<group>"; };
 		76A58E272B35A552003785F9 /* W3WOcrViewController+theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "W3WOcrViewController+theme.swift"; sourceTree = "<group>"; };
 		76A58E3F2B35BD3C003785F9 /* FakeApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeApi.swift; sourceTree = "<group>"; };
 		76B6A4712B4CFF2200B3B522 /* W3WSearchResultSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = W3WSearchResultSectionItem.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 				01C84C5F28B7AACB00333454 /* Ocr */,
 				OBJ_15 /* Util */,
 				OBJ_22 /* Views */,
+				7637113A2B554E08002F4DD7 /* W3WOcrStartViewController.swift */,
 				OBJ_27 /* W3WOcrViewController.swift */,
 				76B6A47A2B4CFF2F00B3B522 /* W3WOcrViewController+bottomSheet.swift */,
 				76B6A4792B4CFF2F00B3B522 /* W3WOcrViewController+errorView.swift */,
@@ -681,6 +684,7 @@
 				01C84C5C28B7AABD00333454 /* W3WOcrHybrid.swift in Sources */,
 				01C84C5D28B7AABD00333454 /* W3WVideoStream.swift in Sources */,
 				01C84C5E28B7AABD00333454 /* W3WOcrNative.swift in Sources */,
+				7637113B2B554E08002F4DD7 /* W3WOcrStartViewController.swift in Sources */,
 				76B6A4752B4CFF2200B3B522 /* W3WSearchResultSectionItem.swift in Sources */,
 				OBJ_104 /* W3WOcrBoxManager.swift in Sources */,
 				OBJ_105 /* W3WOcrCoordinateMaths.swift in Sources */,
