@@ -129,14 +129,14 @@ open class W3WOcrViewController: W3WViewController {
   }()
   
   // MARK: - Init
-  public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = W3WTheme.forOcr()) {
+  public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = W3WTheme.forOcr(), w3w: W3WProtocolV4? = nil) {
     self.init(theme: theme)
     set(ocr: ocr)
   }
   
   
 #if canImport(W3WOcrSdk)
-  public convenience init(ocr: W3WOcr, theme: W3WTheme? = nil) {
+  public convenience init(ocr: W3WOcr, theme: W3WTheme? = W3WTheme.forOcr(), w3w: W3WProtocolV4? = nil) {
     self.init(theme: theme)
     set(ocr: ocr)
   }
