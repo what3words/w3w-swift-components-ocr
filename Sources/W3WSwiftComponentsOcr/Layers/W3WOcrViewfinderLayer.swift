@@ -1,5 +1,5 @@
 //
-//  W3WOcrBackgroundLayer.swift
+//  W3WOcrViewfinderLayer.swift
 //  OcrRefactor
 //
 //  Created by Dave Duprey on 23/06/2021.

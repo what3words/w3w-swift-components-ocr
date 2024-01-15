@@ -292,6 +292,7 @@ open class W3WOcrViewController: W3WViewController {
       
       ocrView.set(camera: c)
       ocrView.set(lineColor: W3WSettings.ocrTargetColor, lineGap: 1.0)
+      ocrView.setBackgroundColor(W3WSettings.ocrOverlayColour)
       
       o.autosuggest(video: c) { [weak self] suggestions, error in
         if self == nil {

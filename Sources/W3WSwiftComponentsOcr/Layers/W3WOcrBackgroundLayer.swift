@@ -13,12 +13,13 @@ import W3WSwiftCore
 /// draws a translucent background with a hole cut out for the camera crop
 class W3WOcrBackgroundLayer: CAShapeLayer {
 
-  var color: UIColor = W3WSettings.ocrOverlayColour
+  var color: UIColor? = W3WSettings.ocrOverlayColour
 
 
   /// set the colour of this background
-  func set(color: UIColor) {
+  func set(color: UIColor?) {
     self.color = color
+    self.setFillColor(color)
   }
   
   
@@ -41,12 +42,16 @@ class W3WOcrBackgroundLayer: CAShapeLayer {
     top.append(bottom)
     
     // set the colour for the background
-    fillColor = color.cgColor
+    setFillColor(color)
     
     // set the path
     path = top.cgPath
   }
   
+  /// set fill colour for the background layer
+  private func setFillColor(_ color: UIColor?) {
+    fillColor = color?.cgColor
+  }
 }
 
 #endif

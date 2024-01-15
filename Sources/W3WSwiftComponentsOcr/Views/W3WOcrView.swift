@@ -197,5 +197,8 @@ public class W3WOcrView: W3WOcrBasicView {
     }
     viewfinderLayer.setLineCurveRadius(radius)
   }
+  
+  public func setBackgroundColor(_ color: UIColor?) {
+    backgroundLayer.set(color: color)
+  }
 }
-
