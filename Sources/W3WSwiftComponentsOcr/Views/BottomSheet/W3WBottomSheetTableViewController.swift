@@ -44,7 +44,6 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
   }
   
   public func insertMoreSuggestions(_ suggestions: [W3WSuggestion]) {
-    let shouldReloadState = getItems().isEmpty
     let allSuggestions = suggestions + getItems()
     set(items: allSuggestions, reload: false)
     let cellItems: [W3WSearchResultCellItem] = allSuggestions.map {
@@ -62,9 +61,6 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
       tableView.insertRows(at: rows, with: .top)
       tableView.reloadRows(at: tableView.indexPathsForVisibleRows ?? [], with: .automatic)
       tableView.endUpdates()
-    }
-    if shouldReloadState {
-      setState(.scanned)
     }
   }
   
@@ -96,6 +92,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
   }
   
   private func setupUI() {
+    tableView.showsVerticalScrollIndicator = false
     tableView.separatorInsetReference = .fromAutomaticInsets
     tableView.register(W3WSingleLabelTableViewCell.self, forCellReuseIdentifier: W3WSingleLabelTableViewCell.cellIdentifier)
     if #available(iOS 13.0, *) {

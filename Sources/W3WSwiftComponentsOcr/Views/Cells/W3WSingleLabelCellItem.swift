@@ -26,10 +26,7 @@ public struct W3WSingleLabelCellItem: Hashable {
 public extension W3WSingleLabelCellItem {
   init(ocrState: W3WOcrState, theme: W3WTheme?, resultIsEmpty: Bool = true) {
     var targetState = ocrState
-    if !resultIsEmpty {
-      targetState = .scanned
-    }
-    switch targetState {
+    switch ocrState {
     case .idle:
       text = W3WTranslations.main.translate(key: "ocr_scan_3wa")
     case .detecting:

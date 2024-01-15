@@ -45,8 +45,8 @@ public class W3WSingleLabelTableViewCell: W3WTableViewCell, W3WViewManagerProtoc
   }
   
   open func configure(with item: W3WSingleLabelCellItem?) {
+    update(scheme: item?.scheme)
     titleLabel.text = item?.text
-    set(scheme: item?.scheme)
   }
   
   override public func update(scheme: W3WScheme?) {

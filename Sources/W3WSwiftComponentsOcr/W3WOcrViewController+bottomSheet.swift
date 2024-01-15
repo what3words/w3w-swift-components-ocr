@@ -11,34 +11,51 @@ import W3WSwiftCore
 
 extension W3WOcrViewController {
   /**
-  Min detent of bottom sheet
+   Bottom sheet header estimated height
    
-  When there's no scanned results, will be state row estimated height (56.0) + extra space for bottom safe area.
+   This value is equal to estimated height of state row + dragging area height.
+   */
+  public var headerEstimatedHeight: CGFloat {
+    let stateRowEstimatedHeight = 34.0
+    return stateRowEstimatedHeight + W3WMargin.heavy.value
+  }
+  
+  /**
+   Min detent of bottom sheet
    
-  When there's scanned results, will be state row estimated height + maximum 1.5 row height of scanned result.
-  */
+   When there are no scanned results, this value is equal to header estimated height + extra space for bottom margin.
+   
+   When there are scanned results, it is equal to header estimated height + maximum 1.5 row height of scanned result.
+   */
   var minDetent: CGFloat {
-    var minDetent = 56.0 + max(W3WMargin.bold.value, view.safeAreaInsets.bottom)
+    var minDetent = headerEstimatedHeight + max(W3WMargin.medium.value, W3WSettings.bottomSafeArea)
     if !bottomSheet.tableViewController.getItems().isEmpty {
-      minDetent = 56.0 + bottomSheet.tableViewController.rowHeight * min(1.5, CGFloat(bottomSheet.tableViewController.getItems().count))
+      minDetent = headerEstimatedHeight + bottomSheet.tableViewController.rowHeight * min(1.5, CGFloat(currentItemsCount))
     }
     return minDetent
   }
   
   /**
-  Max detent of bottom sheet
+   Max detent of bottom sheet
    
-  Is equal to total height of all scanned result rows and maximum is the remaining space on screen minus the margin
-  */
-  var maxDetent: CGFloat {
-    let contentHeight = 56.0 + CGFloat(bottomSheet.tableViewController.getItems().count) * bottomSheet.tableViewController.rowHeight + view.safeAreaInsets.bottom
-    let maxHeight = view.bounds.height - (ocrView.crop.origin.y + ocrView.crop.height + W3WMargin.heavy.value)
+   This value is equal to header estimated height + total height of all scanned result rows + safe area bottom space, maximum is the remaining space on screen subtracted by the margin.
+   */
+  var maxDetent: CGFloat? {
+    guard view.bounds.height != 0 else {
+      return nil
+    }
+    let crop = ocrView.crop
+    let contentHeight = headerEstimatedHeight + CGFloat(currentItemsCount) * bottomSheet.tableViewController.rowHeight + W3WSettings.bottomSafeArea
+    let maxHeight = view.bounds.height - (crop.origin.y + crop.height + W3WMargin.heavy.value)
     return min(contentHeight, maxHeight)
   }
   
   /// Add or update bottom sheet with min and max detents. Add bottom sheet to current viewController at min detent if needed.
-  public func updateBottomSheet() {
-    let detents = [minDetent, maxDetent]
+  public func setupBottomSheet() {
+    var detents = [minDetent]
+    if let max = maxDetent, let tempMin = detents.first {
+      detents = [min(tempMin, max), max]
+    }
     guard bottomSheet.getDetents() != detents else {
       return
     }
@@ -46,6 +63,12 @@ extension W3WOcrViewController {
     bottomSheet.add(detents: detents)
     if bottomSheet.w3wView?.superview == nil {
       add(viewController: bottomSheet, position: .bottom(height: bottomSheet.getDetents().first))
+    } else {
+      if bottomSheet.tableViewController.getItems().isEmpty {
+        bottomSheet.scrollToBottom()
+      } else {
+        bottomSheet.scrollToTop()
+      }
     }
   }
   
@@ -60,11 +83,17 @@ extension W3WOcrViewController {
       hideErrorView()
     }
     bottomSheet.insertMoreSuggestions(suggestions)
-    updateBottomSheet()
+    setupBottomSheet()
     bottomSheet.scrollToTop()
   }
   
+  /// Move existing suggestion in the list to top
   public func moveSuggestionToFirst(_ suggestion: W3WSuggestion) {
     bottomSheet.moveSuggestionToFirst(suggestion)
+  }
+  
+  /// Current items count
+  private var currentItemsCount: Int {
+    return bottomSheet.tableViewController.getItems().count
   }
 }

@@ -140,7 +140,7 @@ public class W3WOcrView: W3WOcrBasicView {
       }
 #endif
       if debugImageInCrop {
-        debugImage.frame = crop
+        debugImage.frame = crop.inset(by: UIEdgeInsets(top: viewfinderLayer.lineWidth / 2.0, left: viewfinderLayer.lineWidth / 2.0, bottom: viewfinderLayer.lineWidth / 2.0, right: viewfinderLayer.lineWidth / 2.0))
       } else {
         debugImage.frame = CGRect(origin: CGPoint(x: 32.0, y: frame.height - debugImage.frame.height - 32.0), size: CGSize(width: crop.size.width, height: crop.size.height))
       }

@@ -10,8 +10,11 @@ import W3WSwiftDesign
 
 extension W3WOcrViewController {
   public func setupErrorView() {
-    guard ocrView.crop != .zero, errorView.superview == nil else {
+    guard ocrView.crop != .zero else {
       return
+    }
+    if errorView.superview != nil {
+      errorView.removeFromSuperview()
     }
     errorView.update(scheme: theme?.getOcrScheme(state: .error))
     view.addSubview(errorView)
