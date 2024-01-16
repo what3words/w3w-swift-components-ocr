@@ -82,9 +82,10 @@ open class W3WOcrStartViewController: W3WViewController {
     return button
   }()
   
-  private lazy var startScanningLabel: UILabel = {
-    let label = UILabel()
+  open lazy var startScanningLabel: W3WLabel = {
+    let label = W3WLabel(fontStyle: .title2, scheme: theme?[.base])
     label.translatesAutoresizingMaskIntoConstraints = false
+    label.text = W3WTranslations.main.translate(key: "Start scanning")
     return label
   }()
   
@@ -104,24 +105,13 @@ open class W3WOcrStartViewController: W3WViewController {
       contentStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       contentStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
     ])
-    update(scheme: theme?[.base])
-    setTitle(W3WTranslations.main.translate(key: "Start scanning"))
-  }
-  
-  open func update(scheme: W3WScheme?) {
-    startScanningLabel.font = scheme?.styles?.fonts?.originalFont
-    startScanningLabel.textColor = scheme?.colors?.foreground?.uiColor
-  }
-  
-  public func setTitle(_ text: String) {
-    startScanningLabel.text = text
   }
   
   open func didTapStartScanning() {
     guard let ocr = ocr else {
       return
     }
-    let viewController = W3WOcrViewController(ocr: ocr, w3w: w3w)
+    let viewController = W3WOcrViewController(ocr: ocr, theme: W3WTheme.forOcr(), w3w: w3w)
     viewController.start()
     show(viewController, sender: nil)
   }
