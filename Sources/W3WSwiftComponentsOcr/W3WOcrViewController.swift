@@ -368,6 +368,8 @@ open class W3WOcrViewController: W3WViewController {
   open override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
+    // Trigger UI update for idle state
+    state = .idle
   }
   
   /// make sure all sub views are in the right places

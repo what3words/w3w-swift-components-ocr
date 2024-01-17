@@ -35,7 +35,7 @@ public extension W3WSingleLabelCellItem {
     case .scanned:
       text = W3WTranslations.main.translate(key: "scan_state_found")
     default:
-      text = W3WTranslations.main.translate(key: "ocr_scan_3wa")
+      text = resultIsEmpty ? W3WTranslations.main.translate(key: "ocr_scan_3wa") : W3WTranslations.main.translate(key: "scan_state_found")
     }
     scheme = theme?.getOcrScheme(state: ocrState)
     identifier = ocrState.rawValue
