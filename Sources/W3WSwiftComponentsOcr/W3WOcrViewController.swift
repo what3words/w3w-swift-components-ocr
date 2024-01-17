@@ -330,6 +330,8 @@ open class W3WOcrViewController: W3WViewController {
   
   /// Handle OCR error
   open func handleOcrError(_ error: W3WOcrError) {
+    // Update state
+    state = .error
     showErrorView(title: error.description)
     onError(W3WError.message(error.description))
   }

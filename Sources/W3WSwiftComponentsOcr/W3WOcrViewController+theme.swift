@@ -23,92 +23,91 @@ extension W3WOcrViewController {
       
       case .idle:
         scheme = W3WScheme(
-        
           colors: W3WColors(
-            foreground: theme?[.ocr]?.colors?.foreground,
-            background: theme?[.ocr]?.colors?.background,
-            line:       theme?[.ocr]?.colors?.line
+            foreground: theme?[.base]?.colors?.foreground,
+            background: theme?[.base]?.colors?.background,
+            line: theme?[.base]?.colors?.line
           ),
          
           styles: W3WStyles(
-            cornerRadius: theme?[.ocr]?.styles?.cornerRadius,
-            fonts: theme?[.ocr]?.styles?.fonts,
-            textAlignment: W3WTextAlignment(value: .center),
+            cornerRadius: theme?[.base]?.styles?.cornerRadius,
+            fonts: theme?[.base]?.styles?.fonts,
+            textAlignment: theme?[.base]?.styles?.textAlignment,
             padding: theme?[.ocr]?.styles?.padding,
-            rowHeight: W3WRowHeight(floatLiteral: Float((theme?[.ocr]?.styles?.rowHeight?.value ?? 0.0) / 2.0)),
-            lineThickness: theme?[.ocr]?.styles?.lineThickness
+            rowHeight: theme?[.base]?.styles?.rowHeight,
+            lineThickness: theme?[.base]?.styles?.lineThickness
           )
         )
         
       case .detecting:
         scheme = W3WScheme(
           colors: W3WColors(
-            foreground: theme?[.ocr]?.colors?.foreground,
-            background: theme?[.ocr]?.colors?.background,
-            line:       theme?[.ocr]?.colors?.line
+            foreground: theme?[.base]?.colors?.foreground,
+            background: theme?[.base]?.colors?.background,
+            line: theme?[.base]?.colors?.line
           ),
           
           styles: W3WStyles(
-            cornerRadius: W3WCornerRadius(value: (theme?[.ocr]?.styles?.cornerRadius?.value ?? 0.0) * 2.0),
-            fonts: theme?[.ocr]?.styles?.fonts,
-            textAlignment: W3WTextAlignment(value: .center),
+            cornerRadius: theme?[.ocr]?.styles?.cornerRadius,
+            fonts: theme?[.base]?.styles?.fonts,
+            textAlignment: theme?[.base]?.styles?.textAlignment,
             padding: theme?[.ocr]?.styles?.padding,
             rowHeight: theme?[.ocr]?.styles?.rowHeight,
-            lineThickness: W3WLineThickness(value: (theme?[.ocr]?.styles?.lineThickness?.value ?? 0.0) * 2.0)
+            lineThickness: theme?[.ocr]?.styles?.lineThickness
           )
         )
         
       case .scanning:
         scheme = W3WScheme(
           colors: W3WColors(
-            foreground: theme?[.ocr]?.colors?.foreground,
+            foreground: theme?[.base]?.colors?.foreground,
             background: theme?[.ocr]?.colors?.background,
-            line:       theme?[.ocr]?.colors?.success?.foreground
+            line: theme?[.ocr]?.colors?.line
           ),
           
           styles: W3WStyles(
-            cornerRadius: W3WCornerRadius(value: (theme?[.ocr]?.styles?.cornerRadius?.value ?? 0.0) * 2.0),
-            fonts: theme?[.ocr]?.styles?.fonts,
-            textAlignment: W3WTextAlignment(value: .center),
+            cornerRadius: theme?[.ocr]?.styles?.cornerRadius,
+            fonts: theme?[.base]?.styles?.fonts,
+            textAlignment: theme?[.base]?.styles?.textAlignment,
             padding: theme?[.ocr]?.styles?.padding,
             rowHeight: theme?[.ocr]?.styles?.rowHeight,
-            lineThickness: W3WLineThickness(value: (theme?[.ocr]?.styles?.lineThickness?.value ?? 0.0) * 2.0)
+            lineThickness: theme?[.ocr]?.styles?.lineThickness
           )
         )
         
       case .scanned:
         scheme = W3WScheme(
           colors: W3WColors(
-            foreground: theme?[.ocr]?.colors?.secondary,
-            background: theme?[.ocr]?.colors?.background,
-            line:       theme?[.ocr]?.colors?.line
+            foreground: theme?[.ocr]?.colors?.foreground,
+            background: theme?[.base]?.colors?.background,
+            line: theme?[.base]?.colors?.line
           ),
           
           styles: W3WStyles(
-            cornerRadius: theme?[.ocr]?.styles?.cornerRadius,
+            cornerRadius: theme?[.base]?.styles?.cornerRadius,
             fonts: theme?[.ocr]?.styles?.fonts,
-            textAlignment: W3WTextAlignment(value: .left),
+            textAlignment: theme?[.ocr]?.styles?.textAlignment,
             padding: theme?[.ocr]?.styles?.padding,
-            rowHeight: W3WRowHeight(floatLiteral: Float((theme?[.ocr]?.styles?.rowHeight?.value ?? 0.0) / 2.0)),
-            lineThickness: theme?[.ocr]?.styles?.lineThickness
+            rowHeight: theme?[.base]?.styles?.rowHeight,
+            lineThickness: theme?[.base]?.styles?.lineThickness
           )
         )
         
       case .error:
         scheme = W3WScheme(
           colors: W3WColors(
-            foreground: theme?[.ocr]?.colors?.foreground,
+            foreground: theme?[.base]?.colors?.foreground,
             background: theme?[.ocr]?.colors?.background,
-            line:       theme?[.ocr]?.colors?.error?.foreground
+            line: theme?[.ocr]?.colors?.error?.foreground
           ),
           
           styles: W3WStyles(
-            cornerRadius: W3WCornerRadius(value: (theme?[.ocr]?.styles?.cornerRadius?.value ?? 0.0) * 2.0),
-            fonts: theme?[.ocr]?.styles?.fonts,
-            textAlignment: W3WTextAlignment(value: .center),
-            padding: W3WPadding(insets: .zero),
+            cornerRadius: theme?[.ocr]?.styles?.cornerRadius,
+            fonts: theme?[.base]?.styles?.fonts,
+            textAlignment: theme?[.base]?.styles?.textAlignment,
+            padding: theme?[.ocr]?.styles?.padding,
             rowHeight: theme?[.ocr]?.styles?.rowHeight,
-            lineThickness: W3WLineThickness(value: (theme?[.ocr]?.styles?.lineThickness?.value ?? 0.0) * 2.0)
+            lineThickness: theme?[.ocr]?.styles?.lineThickness
           )
         )
       }
