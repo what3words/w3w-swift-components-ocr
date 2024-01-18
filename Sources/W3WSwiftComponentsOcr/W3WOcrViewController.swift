@@ -330,6 +330,8 @@ open class W3WOcrViewController: W3WViewController {
   
   /// Handle OCR error
   open func handleOcrError(_ error: W3WOcrError) {
+    // Update state
+    state = .error
     showErrorView(title: error.description)
     onError(W3WError.message(error.description))
   }
@@ -366,6 +368,8 @@ open class W3WOcrViewController: W3WViewController {
   open override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
+    // Trigger UI update for idle state
+    state = .idle
   }
   
   /// make sure all sub views are in the right places

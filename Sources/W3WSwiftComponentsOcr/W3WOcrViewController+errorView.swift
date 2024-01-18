@@ -21,7 +21,7 @@ extension W3WOcrViewController {
     NSLayoutConstraint.activate([
       errorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: W3WMargin.light.value),
       errorView.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -W3WMargin.light.value),
-      errorView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: ocrView.crop.origin.y + ocrView.crop.height + W3WMargin.heavy.value)
+      errorView.topAnchor.constraint(equalTo: view.topAnchor, constant: ocrView.crop.origin.y + ocrView.crop.height + W3WMargin.heavy.value)
     ])
   }
   
