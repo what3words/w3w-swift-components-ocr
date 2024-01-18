@@ -8,7 +8,7 @@
 import Foundation
 import AVKit
 import CoreGraphics
-import W3WSwiftApi
+import W3WSwiftCore
 
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
