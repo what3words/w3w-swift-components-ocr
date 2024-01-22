@@ -10,9 +10,6 @@ commands:
     steps:
       - checkout  # pull down code from
       - aws-s3/copy:
-          from: '${SOURCE_BUCKET}/swift-packages/w3w-swift-wrapper/${W3W_API_WRAPPER_VERSION}/W3WSwiftApi-${W3W_API_WRAPPER_VERSION}-[sdk-${W3W_SDK_VERSION}].tar.gz'
-          to: .
-      - aws-s3/copy:
           from: '${SOURCE_BUCKET}/ocr-ios/${W3W_OCR_SDK_VERSION}/what3words-ios-sdk-${W3W_OCR_SDK_VERSION}.tar.gz'
           to: .
       - aws-s3/copy:
@@ -21,12 +18,10 @@ commands:
       - run:
           name: Unzip Dependancies
           command: |
-            echo "${SOURCE_BUCKET}/swift-packages/w3w-swift-wrapper/${W3W_API_WRAPPER_VERSION}/what3words-ios-sdk-${W3W_API_WRAPPER_VERSION}.tar.gz"
             echo "${SOURCE_BUCKET}/ocr-ios/${W3W_OCR_SDK_VERSION}/what3words-ios-sdk-${W3W_OCR_SDK_VERSION}.tar.gz"
             echo "'${SOURCE_BUCKET}/ios/${W3W_SDK_VERSION}/what3words-ios-sdk-${W3W_SDK_VERSION}.tar.gz"
             mkdir Frameworks
             ls -la .
-            tar -zxvf W3WSwiftApi-${W3W_API_WRAPPER_VERSION}-[sdk-${W3W_SDK_VERSION}].tar.gz -C Frameworks/
             tar -zxvf what3words-ios-sdk-${W3W_OCR_SDK_VERSION}.tar.gz -C Frameworks/
             tar -zxvf what3words-ios-sdk-${W3W_SDK_VERSION}.tar.gz -C Frameworks/
             mv Frameworks/lib/w3w.xcframework/ Frameworks/
@@ -39,28 +34,13 @@ commands:
       - run:
           name: Run Unit Tests
           command: |-
-              brew install sonar-scanner
-              swift test --enable-code-coverage
-              xcrun llvm-cov show .build/debug/w3w-swift-wrapperPackageTests.xctest/Contents/MacOS/w3w-swift-wrapperPackageTests -instr-profile .build/debug/codecov/default.profdata > .build/cov.txt
-              sonar-scanner -Dsonar.projectKey=what3words_w3w-swift-wrapper -Dsonar.organization=what3words -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=$SONAR_TOKEN -Dsonar.sources=Sources -Dsonar.swift.coverage.reportPath=.build/cov.txt
-   
-  build:
-    steps:
-      - checkout  # pull down code from
-      - run:
-          name: Build Framework
-          command: |-
-              ./build.sh
-              mkdir -p s3
-              cd build
-              tar zcf ../s3/W3WSwiftComponentsOcr-${CIRCLE_TAG:-$CIRCLE_BRANCH}-[api-${W3W_API_WRAPPER_VERSION}][ocr-${W3W_OCR_SDK_VERSION}].tar.gz W3WSwiftComponentsOcr.xcframework
-              cd ..
-
-  deploy:
-    steps:
-      - aws-s3/sync:
-          from: ./s3
-          to: '${SOURCE_BUCKET}/swift-packages/w3w-swift-components-ocr/${CIRCLE_TAG:-$CIRCLE_BRANCH}/'
+            brew install sonar-scanner
+            swift test --enable-code-coverage
+            xcrun llvm-cov show .build/debug/w3w-swift-components-ocrPackageTests.xctest/Contents/MacOS/w3w-swift-components-ocrPackageTests -instr-profile .build/debug/codecov/default.profdata > .build/cov.txt
+            xcodebuild -scheme w3w-swift-components-ocr-Package test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' -enableCodeCoverage YES -derivedDataPath .build
+            PROFDATA_FILE=$(find . -name '*.profdata')
+            xcrun llvm-cov show .build/Build/Products/Debug-iphonesimulator/w3w-swift-components-ocrTests.xctest/w3w-swift-components-ocrTests -instr-profile $PROFDATA_FILE > .build/cov.txt
+            sonar-scanner -Dsonar.projectKey=what3words_w3w-swift-components -Dsonar.organization=what3words -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=$SONAR_TOKEN -Dsonar.sources=Sources -Dsonar.swift.coverage.reportPath=.build/cov.txt
 
 
 jobs: # the jobs
@@ -69,14 +49,11 @@ jobs: # the jobs
     macos:
       xcode: 14.0.0 # version of Xcode
     environment:
-      W3W_API_WRAPPER_VERSION: v3.9.5
-      W3W_OCR_SDK_VERSION: v2.0.3
+      W3W_OCR_SDK_VERSION: v2.1.0
       W3W_SDK_VERSION: v4.0.0
     steps:
       - download_dependancies
 #      - test
-      - build
-      - deploy
 
 workflows:
 
