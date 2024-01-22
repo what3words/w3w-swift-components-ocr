@@ -5,6 +5,7 @@
 //  Created by Dave Duprey on 25/06/2021.
 //
 
+#if canImport(UIKit)
 import Foundation
 import UIKit
 import W3WSwiftCore
@@ -165,4 +166,4 @@ class W3WOcrBoxManager {
   
 }
 
-//#endif // W3WOcrSdk
+#endif

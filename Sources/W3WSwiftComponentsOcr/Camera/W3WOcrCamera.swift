@@ -242,10 +242,12 @@ public class W3WOcrCamera: W3WVideoStream {
   /// - Parameters:
   ///     - completion: closure called with success result
   static func requestPermissionFromUser(completion: @escaping (Bool) -> ()) {
-    DispatchQueue.main.async {
-      AVCaptureDevice.requestAccess(for: .video) { granted in
-        DispatchQueue.main.async {
-          completion(granted)
+    if #available(macOS 10.14, *) {
+      DispatchQueue.main.async {
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+          DispatchQueue.main.async {
+            completion(granted)
+          }
         }
       }
     }
@@ -256,28 +258,30 @@ public class W3WOcrCamera: W3WVideoStream {
   /// - Parameters:
   ///     - completion: a completion block carrying a boolean indicating success or failure
   public static func getCameraPermission(completion: @escaping (Bool) -> () ) {
-    DispatchQueue.main.async {
-      switch AVCaptureDevice.authorizationStatus(for: .video) {
-        
-        // The user has previously granted access to the camera.
-      case .authorized:
-        completion(true)
-        
-        // The user has not yet been asked for camera access.
-      case .notDetermined:
-        W3WOcrCamera.requestPermissionFromUser(completion: completion)
-        
-        // The user has previously denied access.
-      case .denied:
-        completion(false)
-        
-        // The user can't grant access due to restrictions.
-      case .restricted:
-        completion(false)
-        
-        // unknown future state
-      @unknown default:
-        W3WOcrCamera.requestPermissionFromUser(completion: completion)
+    if #available(macOS 10.14, *) {
+      DispatchQueue.main.async {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+          
+          // The user has previously granted access to the camera.
+        case .authorized:
+          completion(true)
+          
+          // The user has not yet been asked for camera access.
+        case .notDetermined:
+          W3WOcrCamera.requestPermissionFromUser(completion: completion)
+          
+          // The user has previously denied access.
+        case .denied:
+          completion(false)
+          
+          // The user can't grant access due to restrictions.
+        case .restricted:
+          completion(false)
+          
+          // unknown future state
+        @unknown default:
+          W3WOcrCamera.requestPermissionFromUser(completion: completion)
+        }
       }
     }
   }
@@ -336,9 +340,10 @@ public class W3WOcrCamera: W3WVideoStream {
       // make an empty list of cameras
       cameraList = [W3WOcrCamera]()
       
-      if #available(iOS 10.0, *) {
+      if #available(iOS 10.0, macOS 10.15, *) {
         var deviceTypes = [AVCaptureDevice.DeviceType]()
         
+#if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
         // iOS 13 brings tripple and dual wide cameras
         if #available(iOS 13.0, *) {
           deviceTypes.append(.builtInTripleCamera)
@@ -349,6 +354,7 @@ public class W3WOcrCamera: W3WVideoStream {
         if #available(iOS 10.2, *) {
           deviceTypes.append(.builtInDualCamera)
         }
+#endif
        
         deviceTypes.append(.builtInWideAngleCamera)
         

@@ -5,6 +5,7 @@
 //  Created by Dave Duprey on 04/06/2021.
 //
 
+#if canImport(UIKit)
 import UIKit
 import W3WSwiftCore
 import W3WSwiftDesign
@@ -466,4 +467,4 @@ open class W3WOcrViewController: W3WViewController {
   }
 }
 
-//#endif // W3WOcrSdk
+#endif
