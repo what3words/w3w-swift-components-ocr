@@ -87,7 +87,7 @@ open class W3WOcrViewController: W3WViewController {
   var currentLocation: CLLocationCoordinate2D?
   
   /// Current language
-  var currentLanguage: String?
+  var currentLanguage: W3WLanguage?
   
   /// Current bundle
   var currentBundle: Bundle = .current
@@ -232,9 +232,11 @@ open class W3WOcrViewController: W3WViewController {
   /// assign the user's current language code to this component and can also be used as an autosuggesting option
   /// - Parameters:
   ///     - language: current user's language code
-  public func setCurrentLanguage(_ language: String?) {
+  public func setCurrentLanguage(_ language: W3WLanguage?) {
     currentLanguage = language
-    guard let path = Bundle.current.path(forResource: currentLanguage, ofType: "lproj"),
+    // Get language file name
+    let languageFileName = (currentLanguage as? W3WBaseLanguage)?.name
+    guard let path = Bundle.current.path(forResource: languageFileName, ofType: "lproj"),
           let bundle = Bundle(path: path) else {
       return
     }
@@ -335,8 +337,8 @@ open class W3WOcrViewController: W3WViewController {
       if let currentLocation = currentLocation {
         ops.append(.focus(currentLocation))
       }
-      if let currentLanguage = currentLanguage {
-        ops.append(.language(W3WBaseLanguage(locale: currentLanguage)))
+      if let currentLanguageLocale = currentLanguage?.locale {
+        ops.append(.language(W3WBaseLanguage(locale: currentLanguageLocale)))
       }
     }
     w3w.autosuggest(text: text, options: ops) { suggestions, error in
