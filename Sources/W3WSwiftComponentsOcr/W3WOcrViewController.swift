@@ -336,7 +336,7 @@ open class W3WOcrViewController: W3WViewController {
         ops.append(.focus(currentLocation))
       }
       if let currentLanguage = currentLanguage {
-        ops.append(.language(W3WBaseLanguage(code: currentLanguage)))
+        ops.append(.language(W3WBaseLanguage(locale: currentLanguage)))
       }
     }
     w3w.autosuggest(text: text, options: ops) { suggestions, error in
