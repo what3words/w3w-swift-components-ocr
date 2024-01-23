@@ -86,6 +86,12 @@ open class W3WOcrViewController: W3WViewController {
   /// Current user location
   var currentLocation: CLLocationCoordinate2D?
   
+  /// Current language
+  var currentLanguage: String?
+  
+  /// Current bundle
+  var currentBundle: Bundle = .current
+  
   /// by default we stop scanning when one result is produced
   public var scanMode: W3WOcrScanMode = .continuous
   
@@ -158,7 +164,7 @@ open class W3WOcrViewController: W3WViewController {
   /// Setup
   open func setup() {
     setupOcrScheme()
-    W3WTranslations.main.add(bundle: Bundle.module)
+    W3WTranslations.main.add(bundle: Bundle.current)
   }
   
   // MARK: - View Layer
@@ -216,8 +222,23 @@ open class W3WOcrViewController: W3WViewController {
     //self.set(autosuggest: autosuggest)
   }
   
+  /// assign the user's current location to this component that will be used as an autosuggesting option
+  /// - Parameters:
+  ///     - location: current user's location
   public func setCurrentLocation(_ location: CLLocationCoordinate2D?) {
     currentLocation = location
+  }
+  
+  /// assign the user's current language code to this component and can also be used as an autosuggesting option
+  /// - Parameters:
+  ///     - language: current user's language code
+  public func setCurrentLanguage(_ language: String?) {
+    currentLanguage = language
+    guard let path = Bundle.current.path(forResource: currentLanguage, ofType: "lproj"),
+          let bundle = Bundle(path: path) else {
+      return
+    }
+    currentBundle = bundle
   }
   
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
@@ -287,12 +308,17 @@ open class W3WOcrViewController: W3WViewController {
             self?.insertMoreSuggestions([result])
             self?.onSuggestions([result])
           case .failure(let error):
-            self?.showErrorView(title: error.description)
+            // Ignore the autosuggest error and display what the ocr provides
+            self?.insertMoreSuggestions([suggestion])
+            self?.onSuggestions([suggestion])
+            print("autosuggest error: \((error as NSError).debugDescription)")
           }
         }
       }
       return
     }
+    // Just display what the ocr provides
+    insertMoreSuggestions([suggestion])
     onSuggestions([suggestion])
   }
   
@@ -308,6 +334,9 @@ open class W3WOcrViewController: W3WViewController {
       ops = [.numberOfResults(1)]
       if let currentLocation = currentLocation {
         ops.append(.focus(currentLocation))
+      }
+      if let currentLanguage = currentLanguage {
+        ops.append(.language(W3WBaseLanguage(code: currentLanguage)))
       }
     }
     w3w.autosuggest(text: text, options: ops) { suggestions, error in
@@ -462,7 +491,7 @@ open class W3WOcrViewController: W3WViewController {
     // Apply target scheme on ocr view
     let targetScheme = theme?.getOcrScheme(state: state)
     ocrView.set(scheme: targetScheme)
-    bottomSheet.setState(state)
+    bottomSheet.setState(state, bundle: currentBundle)
   }
 }
 

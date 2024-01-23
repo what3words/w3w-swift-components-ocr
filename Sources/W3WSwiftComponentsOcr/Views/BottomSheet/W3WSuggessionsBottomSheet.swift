@@ -22,8 +22,8 @@ open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
   }
   
   // MARK: - Public functions
-  public func setState(_ state: W3WOcrState) {
-    tableViewController.setState(state)
+  public func setState(_ state: W3WOcrState, bundle: Bundle = .current) {
+    tableViewController.setState(state, bundle: bundle)
   }
   
   public func insertMoreSuggestions(_ suggestions: [W3WSuggestion]) {

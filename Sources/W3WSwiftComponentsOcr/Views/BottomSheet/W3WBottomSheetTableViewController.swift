@@ -22,9 +22,9 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
     setupUI()
   }
   
-  public func setState(_ state: W3WOcrState) {
+  public func setState(_ state: W3WOcrState, bundle: Bundle = .current) {
     let currentTitle = sections.first?.title
-    let cellItem: W3WSearchResultCellItem = .state(item: W3WSingleLabelCellItem(ocrState: state, theme: theme, resultIsEmpty: getItems().isEmpty))
+    let cellItem: W3WSearchResultCellItem = .state(item: W3WSingleLabelCellItem(ocrState: state, theme: theme, resultIsEmpty: getItems().isEmpty, bundle: bundle))
     let section: W3WSearchResultSectionItem = .init(type: .state, items: [cellItem])
     sections.removeAll(where: { $0.type == .state })
     sections.insert(section, at: 0)
