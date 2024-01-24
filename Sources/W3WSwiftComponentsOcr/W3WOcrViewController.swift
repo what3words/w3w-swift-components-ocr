@@ -86,6 +86,9 @@ open class W3WOcrViewController: W3WViewController {
   /// Current user location
   var currentLocation: CLLocationCoordinate2D?
   
+  /// Current language
+  var currentLanguage: W3WLanguage?
+  
   /// by default we stop scanning when one result is produced
   public var scanMode: W3WOcrScanMode = .continuous
   
@@ -158,7 +161,7 @@ open class W3WOcrViewController: W3WViewController {
   /// Setup
   open func setup() {
     setupOcrScheme()
-    W3WTranslations.main.add(bundle: Bundle.module)
+    W3WTranslations.main.add(bundle: Bundle.current)
   }
   
   // MARK: - View Layer
@@ -216,8 +219,21 @@ open class W3WOcrViewController: W3WViewController {
     //self.set(autosuggest: autosuggest)
   }
   
+  /// assign the user's current location to this component that will be used as an autosuggesting option
+  /// - Parameters:
+  ///     - location: current user's location
   public func setCurrentLocation(_ location: CLLocationCoordinate2D?) {
     currentLocation = location
+  }
+  
+  /// assign the user's current language to this component, use name for localization and locale for autosuggesting option
+  /// - Parameters:
+  ///     - language: current user's language code
+  public func setCurrentLanguage(_ language: W3WLanguage?) {
+    currentLanguage = language
+    if let languageName = (language as? W3WBaseLanguage)?.name {
+      LanguageStrings.setLanguage(languageName)
+    }
   }
   
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
@@ -258,7 +274,7 @@ open class W3WOcrViewController: W3WViewController {
     }
   }
   
-  /// Handle the first ocr suggestion, insert it on top of the bottom sheet.
+  /// Handle the first ocr suggestion, if it's not duplicated then insert it on top of the bottom sheet.
   /// - Parameters:
   ///     - suggestions: the suggestions that was found
   open func handleNewSuggestions(_ suggestions: [W3WOcrSuggestion]) {
@@ -284,15 +300,33 @@ open class W3WOcrViewController: W3WViewController {
           switch result {
           case .success(let autoSuggestion):
             let result = autoSuggestion ?? suggestion
-            self?.insertMoreSuggestions([result])
-            self?.onSuggestions([result])
+            guard let words = result.words else {
+              return
+            }
+            if words == threeWordAddress {
+              self?.insertMoreSuggestions([result])
+              self?.onSuggestions([result])
+            } else {
+              // Handle when autosuggest returns different word with the original ocr suggestion
+              if self?.uniqueOcrSuggestions.contains(words) ?? false {
+                return
+              }
+              self?.uniqueOcrSuggestions.insert(words)
+              self?.insertMoreSuggestions([result])
+              self?.onSuggestions([result])
+            }
           case .failure(let error):
-            self?.showErrorView(title: error.description)
+            // Ignore the autosuggest error and display what the ocr provides
+            self?.insertMoreSuggestions([suggestion])
+            self?.onSuggestions([suggestion])
+            print("autosuggest error: \((error as NSError).debugDescription)")
           }
         }
       }
       return
     }
+    // Just display what the ocr provides
+    insertMoreSuggestions([suggestion])
     onSuggestions([suggestion])
   }
   
@@ -308,6 +342,9 @@ open class W3WOcrViewController: W3WViewController {
       ops = [.numberOfResults(1)]
       if let currentLocation = currentLocation {
         ops.append(.focus(currentLocation))
+      }
+      if let currentLanguageLocale = currentLanguage?.locale {
+        ops.append(.language(W3WBaseLanguage(locale: currentLanguageLocale)))
       }
     }
     w3w.autosuggest(text: text, options: ops) { suggestions, error in
