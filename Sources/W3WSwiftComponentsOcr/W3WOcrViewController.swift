@@ -236,6 +236,16 @@ open class W3WOcrViewController: W3WViewController {
     }
   }
   
+  /// assign the user's distance unit (mertic or imperial) to this component
+  /// - Parameters:
+  ///     - unit: user's distance unit
+  public func setDistanceUnit(_ unit: W3WMeasurementSystem?) {
+    guard let unit = unit else {
+      return
+    }
+    W3WSettings.measurement = unit
+  }
+  
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   /// - Parameters:
   ///     - crop: camera crop to use specified in view coordinates
