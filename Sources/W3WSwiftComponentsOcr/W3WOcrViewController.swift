@@ -103,7 +103,7 @@ open class W3WOcrViewController: W3WViewController {
   
   // MARK: - UI properties
   open lazy var bottomSheet: W3WSuggessionsBottomSheet = {
-    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .soft).with(background: .white))
+    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .soft).with(background: .background))
     return bottomSheet
   }()
   
@@ -169,6 +169,7 @@ open class W3WOcrViewController: W3WViewController {
   /// assign the `W3WOcrScannerView` to `view` when the time comes
   public override func loadView() {
     view = W3WOcrView()
+    view.backgroundColor = theme?[.base]?.colors?.background?.uiColor
   }
   
   

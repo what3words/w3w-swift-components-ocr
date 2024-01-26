@@ -25,7 +25,7 @@ extension W3WOcrViewController {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: theme?[.base]?.colors?.foreground,
-            background: theme?[.base]?.colors?.background,
+            background: theme?[.ocr]?.colors?.background,
             line: theme?[.base]?.colors?.line
           ),
          
@@ -43,7 +43,7 @@ extension W3WOcrViewController {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: theme?[.base]?.colors?.foreground,
-            background: theme?[.base]?.colors?.background,
+            background: theme?[.ocr]?.colors?.background,
             line: theme?[.base]?.colors?.line
           ),
           
@@ -79,7 +79,7 @@ extension W3WOcrViewController {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: theme?[.ocr]?.colors?.foreground,
-            background: theme?[.base]?.colors?.background,
+            background: theme?[.ocr]?.colors?.background,
             line: theme?[.base]?.colors?.line
           ),
           

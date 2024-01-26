@@ -29,14 +29,15 @@ public extension W3WTheme {
     lineSuccess:    W3WColor?  = .green,
     error:          W3WColor?  = .errorRed,
     lineThickness:  W3WLineThickness = .fourPoint,
-    fonts:          W3WFonts   = W3WFonts(font: .systemFont(ofSize: 17.0, weight: .semibold)),
-    subtitleFonts:  W3WFonts   = W3WFonts(font: .systemFont(ofSize: 14.0)),
+    fonts:          W3WFonts   = W3WFonts(body: .systemFont(ofSize: 17.0, weight: .semibold)),
+    subtitleFonts:  W3WFonts   = W3WFonts(body: .systemFont(ofSize: 14.0)),
     padding:        W3WPadding = .none,
     rowHeight:      W3WRowHeight = .medium
     
   ) -> W3WTheme {
 
     let baseColours: W3WColors = .standard
+      .with(background: .darkBlue)
       .with(foreground: text)
       .with(line: lineDefault)
     let baseStyles: W3WStyles = .standard

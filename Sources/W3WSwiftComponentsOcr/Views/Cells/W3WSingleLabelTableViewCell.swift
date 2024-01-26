@@ -12,8 +12,8 @@ public class W3WSingleLabelTableViewCell: W3WTableViewCell, W3WViewManagerProtoc
   public var parentView: UIView?
   public var managedViews: [W3WSwiftDesign.W3WViewProtocol] = []
   
-  public lazy var titleLabel: UILabel = {
-    let label = UILabel()
+  public lazy var titleLabel: W3WLabel = {
+    let label = W3WLabel(fontStyle: .body)
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
@@ -45,19 +45,8 @@ public class W3WSingleLabelTableViewCell: W3WTableViewCell, W3WViewManagerProtoc
   }
   
   open func configure(with item: W3WSingleLabelCellItem?) {
-    update(scheme: item?.scheme)
+    titleLabel.scheme = item?.scheme
+    titleLabel.update(scheme: item?.scheme)
     titleLabel.text = item?.text
-  }
-  
-  override public func update(scheme: W3WScheme?) {
-    if let colors = scheme?.colors {
-      titleLabel.textColor = colors.foreground?.uiColor
-      titleLabel.backgroundColor = colors.background?.uiColor
-      contentView.backgroundColor = colors.background?.uiColor
-    }
-    if let styles = scheme?.styles {
-      titleLabel.font = styles.fonts?.originalFont
-      titleLabel.textAlignment = styles.textAlignment?.value ?? .left
-    }
   }
 }
