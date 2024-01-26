@@ -90,6 +90,8 @@ public class W3WOcrCamera: W3WVideoStream {
 #else
     thread.async {
       print(#function, "async ", "START")
+      self.session?.beginConfiguration()
+      self.session?.commitConfiguration()
       self.session?.startRunning()
       print(#function, "async ", "STOP")
     }
