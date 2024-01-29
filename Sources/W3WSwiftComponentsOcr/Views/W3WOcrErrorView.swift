@@ -43,8 +43,8 @@ open class W3WOcrErrorView: UIView, W3WViewProtocol {
     return imageView
   }()
   
-  public lazy var titleLabel: UILabel = {
-    let label = UILabel()
+  public lazy var titleLabel: W3WLabel = {
+    let label = W3WLabel(fontStyle: .caption1)
     label.numberOfLines = 0
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
@@ -54,15 +54,8 @@ open class W3WOcrErrorView: UIView, W3WViewProtocol {
   public var position: W3WSwiftDesign.W3WViewPosition?
   
   public func update(scheme: W3WSwiftThemes.W3WScheme?) {
-    if let colors = scheme?.colors {
-      titleLabel.textColor = colors.foreground?.uiColor
-      titleLabel.backgroundColor = colors.line?.uiColor
-      backgroundView.backgroundColor = colors.line?.uiColor
-    }
-    if let styles = scheme?.styles {
-      titleLabel.font = styles.fonts?.originalFont
-      titleLabel.textAlignment = styles.textAlignment?.value ?? .left
-    }
+    titleLabel.set(scheme: scheme)
+    backgroundView.backgroundColor = scheme?.colors?.background?.uiColor
   }
   
   public init() {

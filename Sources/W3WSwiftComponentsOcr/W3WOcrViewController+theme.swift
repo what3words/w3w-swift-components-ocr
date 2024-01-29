@@ -97,7 +97,7 @@ extension W3WOcrViewController {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: theme?[.base]?.colors?.foreground,
-            background: theme?[.ocr]?.colors?.background,
+            background: theme?[.ocr]?.colors?.error?.foreground,
             line: theme?[.ocr]?.colors?.error?.foreground
           ),
           

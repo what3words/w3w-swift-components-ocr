@@ -16,7 +16,9 @@ extension W3WOcrViewController {
     if errorView.superview != nil {
       errorView.removeFromSuperview()
     }
-    errorView.update(scheme: theme?.getOcrScheme(state: .error))
+    let errorTextColor = theme?[.ocr]?.colors?.secondary
+    let errorScheme = theme?.getOcrScheme(state: .error)?.with(foreground: errorTextColor)
+    errorView.set(scheme: errorScheme)
     view.addSubview(errorView)
     NSLayoutConstraint.activate([
       errorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: W3WMargin.light.value),
