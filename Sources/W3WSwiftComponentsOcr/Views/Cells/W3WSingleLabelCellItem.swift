@@ -37,7 +37,7 @@ public extension W3WSingleLabelCellItem {
     default:
       text = resultIsEmpty ? LanguageStrings.localized(key: "ocr_scan_3wa") : LanguageStrings.localized(key: "scan_state_found")
     }
-    scheme = theme?.getOcrScheme(state: ocrState)
+    scheme = theme?.getOcrScheme(state: ocrState)?.with(background: .clear)
     identifier = ocrState.rawValue
   }
 }

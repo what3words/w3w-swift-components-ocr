@@ -25,13 +25,13 @@ extension W3WOcrViewController {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: theme?[.base]?.colors?.foreground,
-            background: theme?[.base]?.colors?.background,
+            background: theme?[.ocr]?.colors?.background,
             line: theme?[.base]?.colors?.line
           ),
          
           styles: W3WStyles(
             cornerRadius: theme?[.base]?.styles?.cornerRadius,
-            fonts: theme?[.base]?.styles?.fonts,
+            fonts: theme?[.ocr]?.styles?.fonts,
             textAlignment: theme?[.base]?.styles?.textAlignment,
             padding: theme?[.ocr]?.styles?.padding,
             rowHeight: theme?[.base]?.styles?.rowHeight,
@@ -43,13 +43,13 @@ extension W3WOcrViewController {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: theme?[.base]?.colors?.foreground,
-            background: theme?[.base]?.colors?.background,
+            background: theme?[.ocr]?.colors?.background,
             line: theme?[.base]?.colors?.line
           ),
           
           styles: W3WStyles(
             cornerRadius: theme?[.ocr]?.styles?.cornerRadius,
-            fonts: theme?[.base]?.styles?.fonts,
+            fonts: theme?[.ocr]?.styles?.fonts,
             textAlignment: theme?[.base]?.styles?.textAlignment,
             padding: theme?[.ocr]?.styles?.padding,
             rowHeight: theme?[.ocr]?.styles?.rowHeight,
@@ -67,7 +67,7 @@ extension W3WOcrViewController {
           
           styles: W3WStyles(
             cornerRadius: theme?[.ocr]?.styles?.cornerRadius,
-            fonts: theme?[.base]?.styles?.fonts,
+            fonts: theme?[.ocr]?.styles?.fonts,
             textAlignment: theme?[.base]?.styles?.textAlignment,
             padding: theme?[.ocr]?.styles?.padding,
             rowHeight: theme?[.ocr]?.styles?.rowHeight,
@@ -79,7 +79,7 @@ extension W3WOcrViewController {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: theme?[.ocr]?.colors?.foreground,
-            background: theme?[.base]?.colors?.background,
+            background: theme?[.ocr]?.colors?.background,
             line: theme?[.base]?.colors?.line
           ),
           
@@ -97,13 +97,13 @@ extension W3WOcrViewController {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: theme?[.base]?.colors?.foreground,
-            background: theme?[.ocr]?.colors?.background,
+            background: theme?[.ocr]?.colors?.error?.foreground,
             line: theme?[.ocr]?.colors?.error?.foreground
           ),
           
           styles: W3WStyles(
             cornerRadius: theme?[.ocr]?.styles?.cornerRadius,
-            fonts: theme?[.base]?.styles?.fonts,
+            fonts: theme?[.ocr]?.styles?.fonts,
             textAlignment: theme?[.base]?.styles?.textAlignment,
             padding: theme?[.ocr]?.styles?.padding,
             rowHeight: theme?[.ocr]?.styles?.rowHeight,

@@ -12,14 +12,15 @@ public class W3WSingleLabelTableViewCell: W3WTableViewCell, W3WViewManagerProtoc
   public var parentView: UIView?
   public var managedViews: [W3WSwiftDesign.W3WViewProtocol] = []
   
-  public lazy var titleLabel: UILabel = {
-    let label = UILabel()
+  public lazy var titleLabel: W3WLabel = {
+    let label = W3WLabel(fontStyle: .headline)
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+    scheme = .standard.with(background: .clear)
     makeUI()
   }
   
@@ -42,22 +43,25 @@ public class W3WSingleLabelTableViewCell: W3WTableViewCell, W3WViewManagerProtoc
       titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: W3WMargin.bold.value),
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -W3WMargin.bold.value)
     ])
+    // Set default scheme
+    scheme = .standard
+    update(scheme: .standard)
   }
   
   open func configure(with item: W3WSingleLabelCellItem?) {
+    // Update cell UI
+    scheme = item?.scheme
     update(scheme: item?.scheme)
+    
+    // Update label UI
+    titleLabel.scheme = item?.scheme
+    titleLabel.update(scheme: item?.scheme)
     titleLabel.text = item?.text
   }
   
-  override public func update(scheme: W3WScheme?) {
-    if let colors = scheme?.colors {
-      titleLabel.textColor = colors.foreground?.uiColor
-      titleLabel.backgroundColor = colors.background?.uiColor
-      contentView.backgroundColor = colors.background?.uiColor
-    }
-    if let styles = scheme?.styles {
-      titleLabel.font = styles.fonts?.originalFont
-      titleLabel.textAlignment = styles.textAlignment?.value ?? .left
-    }
+  // MARK: - W3WTableViewCell overrides
+  public override func update(scheme: W3WScheme?) {
+    backgroundColor = scheme?.colors?.background?.current.uiColor
+    contentView.backgroundColor = scheme?.colors?.background?.current.uiColor
   }
 }

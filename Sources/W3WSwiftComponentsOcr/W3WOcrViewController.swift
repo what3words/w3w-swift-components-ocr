@@ -106,12 +106,13 @@ open class W3WOcrViewController: W3WViewController {
   
   // MARK: - UI properties
   open lazy var bottomSheet: W3WSuggessionsBottomSheet = {
-    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .soft).with(background: .white))
+    let bottomSheetBackground = theme?[.ocr]?.colors?.background
+    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .soft).with(background: bottomSheetBackground))
     return bottomSheet
   }()
   
   open lazy var closeButton: UIButton = {
-    let scheme: W3WScheme = .standard.with(colors: .standardButtonFilled)
+    let scheme: W3WScheme = .standard.with(colors: W3WColors(foreground: .powderBlue))
     let button = W3WButton(icon: W3WIconView(image: .close, scheme: scheme))
     button.translatesAutoresizingMaskIntoConstraints = false
     button.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
@@ -172,6 +173,7 @@ open class W3WOcrViewController: W3WViewController {
   /// assign the `W3WOcrScannerView` to `view` when the time comes
   public override func loadView() {
     view = W3WOcrView()
+    view.backgroundColor = theme?[.base]?.colors?.background?.uiColor
   }
   
   
