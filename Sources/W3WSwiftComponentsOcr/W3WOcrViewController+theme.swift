@@ -31,7 +31,7 @@ extension W3WOcrViewController {
          
           styles: W3WStyles(
             cornerRadius: theme?[.base]?.styles?.cornerRadius,
-            fonts: theme?[.base]?.styles?.fonts,
+            fonts: theme?[.ocr]?.styles?.fonts,
             textAlignment: theme?[.base]?.styles?.textAlignment,
             padding: theme?[.ocr]?.styles?.padding,
             rowHeight: theme?[.base]?.styles?.rowHeight,
@@ -49,7 +49,7 @@ extension W3WOcrViewController {
           
           styles: W3WStyles(
             cornerRadius: theme?[.ocr]?.styles?.cornerRadius,
-            fonts: theme?[.base]?.styles?.fonts,
+            fonts: theme?[.ocr]?.styles?.fonts,
             textAlignment: theme?[.base]?.styles?.textAlignment,
             padding: theme?[.ocr]?.styles?.padding,
             rowHeight: theme?[.ocr]?.styles?.rowHeight,
@@ -67,7 +67,7 @@ extension W3WOcrViewController {
           
           styles: W3WStyles(
             cornerRadius: theme?[.ocr]?.styles?.cornerRadius,
-            fonts: theme?[.base]?.styles?.fonts,
+            fonts: theme?[.ocr]?.styles?.fonts,
             textAlignment: theme?[.base]?.styles?.textAlignment,
             padding: theme?[.ocr]?.styles?.padding,
             rowHeight: theme?[.ocr]?.styles?.rowHeight,
@@ -103,7 +103,7 @@ extension W3WOcrViewController {
           
           styles: W3WStyles(
             cornerRadius: theme?[.ocr]?.styles?.cornerRadius,
-            fonts: theme?[.base]?.styles?.fonts,
+            fonts: theme?[.ocr]?.styles?.fonts,
             textAlignment: theme?[.base]?.styles?.textAlignment,
             padding: theme?[.ocr]?.styles?.padding,
             rowHeight: theme?[.ocr]?.styles?.rowHeight,

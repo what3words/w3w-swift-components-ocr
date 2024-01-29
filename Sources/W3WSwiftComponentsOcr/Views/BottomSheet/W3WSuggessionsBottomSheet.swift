@@ -12,7 +12,7 @@ import W3WSwiftThemes
 
 open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
   open lazy var tableViewController: W3WBottomSheetTableViewController = {
-    let viewController = W3WBottomSheetTableViewController(theme: theme)
+    let viewController = W3WBottomSheetTableViewController(theme: theme?.with(background: .clear))
     return viewController
   }()
   

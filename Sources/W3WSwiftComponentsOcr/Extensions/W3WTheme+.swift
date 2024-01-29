@@ -22,23 +22,27 @@ public extension W3WTheme {
   ///   - rowHeight: viewfinder line length
   ///   - error:  viewfinder corner line colour for when there is an error
   static func forOcr(
-    text:           W3WColor?  = .text,
-    lightText:      W3WColor?  = .secondaryGray,
+    text:           W3WColor?  = .bottomSheetBodyText,
+    footnoteText:   W3WColor?  = .bottomSheetFootnoteText,
     background:     W3WColor?  = .background,
     lineDefault:    W3WColor?  = .white,
     lineSuccess:    W3WColor?  = .green,
     error:          W3WColor?  = .errorRed,
     lineThickness:  W3WLineThickness = .fourPoint,
-    fonts:          W3WFonts   = W3WFonts(body: .systemFont(ofSize: 17.0, weight: .semibold)),
-    subtitleFonts:  W3WFonts   = W3WFonts(body: .systemFont(ofSize: 14.0)),
+    fonts:          W3WFonts   = W3WFonts(body: .systemFont(ofSize: 17.0, weight: .semibold),
+                                          headline: .systemFont(ofSize: 17.0, weight: .bold),
+                                          footnote: .systemFont(ofSize: 13.0, weight: .bold),
+                                          caption1: .systemFont(ofSize: 13.0)),
     padding:        W3WPadding = .none,
-    rowHeight:      W3WRowHeight = .medium
+    rowHeight:      W3WRowHeight = .medium,
+    bottomSheet:    W3WColor?  = .bottomSheetBackground
     
   ) -> W3WTheme {
 
     let baseColours: W3WColors = .standard
       .with(background: .darkBlue)
       .with(foreground: text)
+      .with(secondary: footnoteText)
       .with(line: lineDefault)
     let baseStyles: W3WStyles = .standard
       .with(fonts: fonts)
@@ -48,13 +52,13 @@ public extension W3WTheme {
       .with(cornerRadius: W3WCornerRadius(value: lineThickness.value * 0.5))
     let standardScheme: W3WScheme = .init(colors: baseColours, styles: baseStyles)
     
-    let ocrColours = W3WColors(foreground: lightText,
-                               background: background,
+    let ocrColours = W3WColors(foreground: text,
+                               background: bottomSheet,
                                success: W3WBasicColors(foreground: lineSuccess),
                                error: W3WBasicColors(foreground: error),
                                line: lineSuccess)
     let ocrStyles  = W3WStyles(cornerRadius: W3WCornerRadius(value: lineThickness.value * 1.5),
-                               fonts: subtitleFonts,
+                               fonts: fonts,
                                textAlignment: W3WTextAlignment(value: .left),
                                padding: padding,
                                rowHeight: rowHeight,

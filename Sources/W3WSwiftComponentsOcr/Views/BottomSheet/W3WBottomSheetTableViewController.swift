@@ -107,7 +107,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
   
   @available(iOS 13.0, *)
   private func makeDataSource() -> DataSource? {
-    let dataSource = DataSource(tableView: tableView) { (tableView, indexPath, cellItem) -> UITableViewCell? in
+    let dataSource = DataSource(tableView: tableView) { [theme] (tableView, indexPath, cellItem) -> UITableViewCell? in
       switch cellItem {
       case .state(let item):
         guard let cell = tableView.dequeueReusableCell(withIdentifier: W3WSingleLabelTableViewCell.cellIdentifier, for: indexPath) as? W3WSingleLabelTableViewCell else {
@@ -121,7 +121,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
           fatalError("Can not dequeue cell")
         }
         cell.configure(with: item)
-        cell.set(scheme: .standard)
+        cell.set(scheme: theme?[.base]?.with(background: .clear))
         cell.separatorInset = .init(top: 0, left: W3WMargin.heavy.value, bottom: 0, right: 0)
         return cell
       }

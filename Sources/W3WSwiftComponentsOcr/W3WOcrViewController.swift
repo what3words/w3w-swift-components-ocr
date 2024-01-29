@@ -103,7 +103,8 @@ open class W3WOcrViewController: W3WViewController {
   
   // MARK: - UI properties
   open lazy var bottomSheet: W3WSuggessionsBottomSheet = {
-    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .soft).with(background: .background))
+    let bottomSheetBackground = theme?[.ocr]?.colors?.background
+    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .soft).with(background: bottomSheetBackground))
     return bottomSheet
   }()
   
