@@ -204,6 +204,7 @@ open class W3WOcrViewController: W3WViewController {
     
     if camera == nil {
       self.camera = W3WOcrCamera.get(camera: .back)
+      self.camera?.onCameraStarted = onCameraStarted
     }
   }
     
@@ -501,6 +502,9 @@ open class W3WOcrViewController: W3WViewController {
     ocrView.set(scheme: targetScheme)
     bottomSheet.setState(state)
   }
+  
+  /// Perform actions needed when camera has started
+  open func onCameraStarted() { }
 }
 
 //#endif // W3WOcrSdk
