@@ -109,7 +109,7 @@ open class W3WOcrViewController: W3WViewController {
   }()
   
   open lazy var closeButton: UIButton = {
-    let scheme: W3WScheme = .standard.with(colors: .standardButtonFilled)
+    let scheme: W3WScheme = .standard.with(colors: W3WColors(foreground: .powderBlue))
     let button = W3WButton(icon: W3WIconView(image: .close, scheme: scheme))
     button.translatesAutoresizingMaskIntoConstraints = false
     button.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
