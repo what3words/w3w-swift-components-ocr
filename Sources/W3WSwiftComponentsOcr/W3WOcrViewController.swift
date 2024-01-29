@@ -52,6 +52,9 @@ open class W3WOcrViewController: W3WViewController {
   }
   var _onSuggestion: (W3WOcrSuggestion) -> () = { _ in }
   
+  /// callback closure for when receiving OCR scanning raw suggestions
+  lazy public var onReceiveRawSuggestions: ([W3WOcrSuggestion]) -> () = { _ in }
+  
   /// Called when the user selects a suggestion
   public var onRowSelected: ((_ item: W3WSuggestion, _ indexPath: IndexPath) -> Void)? {
     didSet {
@@ -292,6 +295,9 @@ open class W3WOcrViewController: W3WViewController {
           let threeWordAddress = suggestion.words else {
       return
     }
+    
+    onReceiveRawSuggestions([suggestion])
+    
     // Update state
     state = .scanned
     
