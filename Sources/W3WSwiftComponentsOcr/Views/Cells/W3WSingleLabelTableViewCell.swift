@@ -8,10 +8,7 @@
 import UIKit
 import W3WSwiftDesign
 
-public class W3WSingleLabelTableViewCell: W3WTableViewCell, W3WViewManagerProtocol {
-  public var parentView: UIView?
-  public var managedViews: [W3WSwiftDesign.W3WViewProtocol] = []
-  
+public class W3WSingleLabelTableViewCell: W3WTableViewCell {
   public lazy var titleLabel: W3WLabel = {
     let label = W3WLabel(fontStyle: .headline)
     label.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +17,6 @@ public class W3WSingleLabelTableViewCell: W3WTableViewCell, W3WViewManagerProtoc
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-    scheme = .standard.with(background: .clear)
     makeUI()
   }
   
@@ -44,22 +40,22 @@ public class W3WSingleLabelTableViewCell: W3WTableViewCell, W3WViewManagerProtoc
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -W3WMargin.bold.value)
     ])
     // Set default scheme
-    scheme = .standard
-    update(scheme: .standard)
+    set(scheme: .standard.with(background: .clear))
   }
   
   open func configure(with item: W3WSingleLabelCellItem?) {
-    // Update cell UI
-    scheme = item?.scheme
-    update(scheme: item?.scheme)
-    
-    // Update label UI
-    titleLabel.scheme = item?.scheme
-    titleLabel.update(scheme: item?.scheme)
+    set(scheme: item?.scheme)
     titleLabel.text = item?.text
   }
   
   // MARK: - W3WTableViewCell overrides
+  public override func set(scheme: W3WScheme?) {
+    self.scheme = scheme
+    update(scheme: scheme)
+    titleLabel.scheme = scheme
+    titleLabel.update(scheme: scheme)
+  }
+  
   public override func update(scheme: W3WScheme?) {
     backgroundColor = scheme?.colors?.background?.current.uiColor
     contentView.backgroundColor = scheme?.colors?.background?.current.uiColor
