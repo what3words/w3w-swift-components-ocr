@@ -198,4 +198,3 @@ public class W3WOcrView: W3WOcrBasicView {
     viewfinderLayer.setLineCurveRadius(radius)
   }
 }
-

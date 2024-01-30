@@ -39,6 +39,8 @@ public class W3WOcrCamera: W3WVideoStream {
   /// delegate to capture the camera output
   let imageProcessor: W3WCameraImageProcessor! //() // AVCaptureVideoDataOutputSampleBufferDelegate needs to be a NSObject derivitive.  This class isn't, so we make a member object that conforms
   
+  /// called when Camera has started
+  public var onCameraStarted: (() -> ())?
   
   // MARK: Init
   
@@ -90,10 +92,17 @@ public class W3WOcrCamera: W3WVideoStream {
 #else
     thread.async {
       print(#function, "async ", "START")
+      self.session?.beginConfiguration()
+      self.session?.commitConfiguration()
       self.session?.startRunning()
       print(#function, "async ", "STOP")
     }
 #endif
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+      guard let self else { return }
+      self.onCameraStarted?()
+    }
   }
   
   
