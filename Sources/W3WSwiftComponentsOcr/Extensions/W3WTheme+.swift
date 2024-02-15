@@ -27,48 +27,49 @@ public extension W3WTheme {
   ///   - fonts: fonts of all needed styles for text
   
   static func forOcr(
-    text:           W3WColor?  = .bottomSheetBodyText,
-    footnoteText:   W3WColor?  = .bottomSheetFootnoteText,
-    errorText:      W3WColor?  = .labelError,
-    error:          W3WColor?  = .errorRed,
-    bottomSheet:    W3WColor?  = .bottomSheetBackground,
-    background:     W3WColor?  = .background,
-    lineDefault:    W3WColor?  = .white,
-    lineSuccess:    W3WColor?  = .green,
+    text:           W3WColor?  = .w3wLabelsPrimaryBlackInverse,
+    footnoteText:   W3WColor?  = .w3wLabelsQuaternary,
+    errorText:      W3WColor?  = .w3wErrorLabel,
+    error:          W3WColor?  = .w3wErrorBase,
+    bottomSheet:    W3WColor?  = .w3wSystemBackgroundBasePrimary,
+    background:     W3WColor?   = .w3wFillsSecondary,
+    lineDefault:    W3WColor?     = .w3wSeparatorNonOpaque,
+    lineSuccess:    W3WColor?       = .w3wSuccessLabel,
     lineThickness:  W3WLineThickness = .fourPoint,
-    rowHeight:      W3WRowHeight = .medium,
-    padding:        W3WPadding = .none,
-    fonts:          W3WFonts   = W3WFonts(body: .systemFont(ofSize: 17.0, weight: .semibold),
-                                          headline: .systemFont(ofSize: 17.0, weight: .bold),
-                                          footnote: .systemFont(ofSize: 13.0, weight: .bold),
-                                          caption1: .systemFont(ofSize: 13.0))
+    rowHeight:      W3WRowHeight     = .medium,
+    padding:        W3WPadding       = .none,
+    fonts:          W3WFonts         = W3WFonts().with(body: .semibold)
   ) -> W3WTheme {
 
     let baseColours: W3WColors = .standard
-      .with(background: .darkBlue)
+      .with(background: background)
       .with(foreground: text)
-      .with(secondary: footnoteText)
-      .with(line: lineDefault)
+      .with(secondary:  footnoteText)
+      .with(line:       lineDefault)
+    
     let baseStyles: W3WStyles = .standard
       .with(fonts: fonts)
       .with(textAlignment: W3WTextAlignment(value: .center))
-      .with(lineThickness: .fourPoint)
-      .with(rowHeight: W3WRowHeight(value: rowHeight.value * 0.5))
-      .with(cornerRadius: W3WCornerRadius(value: lineThickness.value * 0.5))
+      .with(lineThickness: lineThickness)
+      .with(rowHeight:     W3WRowHeight(value: rowHeight.value * 0.5))
+      .with(cornerRadius:  W3WCornerRadius(value: lineThickness.value * 0.5))
+    
     let standardScheme: W3WScheme = .init(colors: baseColours, styles: baseStyles)
     
     let ocrColours = W3WColors(foreground: text,
                                background: bottomSheet,
-                               secondary: errorText,
-                               success: W3WBasicColors(foreground: lineSuccess),
-                               error: W3WBasicColors(foreground: error),
-                               line: lineSuccess)
-    let ocrStyles  = W3WStyles(cornerRadius: W3WCornerRadius(value: lineThickness.value * 1.5),
-                               fonts: fonts,
+                               secondary:  errorText,
+                               success:   W3WBasicColors(foreground: lineSuccess),
+                               error:   W3WBasicColors(foreground: error),
+                               line:   lineSuccess)
+    
+    let ocrStyles  = W3WStyles(cornerRadius:  W3WCornerRadius(value: lineThickness.value * 1.5),
+                               fonts:         fonts,
                                textAlignment: W3WTextAlignment(value: .left),
-                               padding: padding,
-                               rowHeight: rowHeight,
+                               padding:       padding,
+                               rowHeight:     rowHeight,
                                lineThickness: W3WLineThickness(value: lineThickness.value * 3))
+    
     let ocrScheme  = W3WScheme(colors: ocrColours, styles: ocrStyles)
     
     return W3WTheme(base: standardScheme, cells: .standardCells, ocr: ocrScheme)
