@@ -106,14 +106,15 @@ open class W3WOcrViewController: W3WViewController {
   
   // MARK: - UI properties
   open lazy var bottomSheet: W3WSuggessionsBottomSheet = {
-    let bottomSheetBackground = theme?[.ocr]?.colors?.background
-    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .soft).with(background: bottomSheetBackground))
+    let bottomSheetBackground = theme?[.ocr]?.colors?.secondary
+    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .softer).with(background: bottomSheetBackground))
     return bottomSheet
   }()
   
   open lazy var closeButton: UIButton = {
-    let scheme: W3WScheme = .standard.with(colors: W3WColors(foreground: .powderBlue))
-    let button = W3WButton(icon: W3WIconView(image: .close, scheme: scheme))
+    let colors = W3WColors(foreground: W3WColor(all: .blue90))
+    let scheme = W3WScheme(colors: colors)
+    let button = W3WButton(image: W3WImage(systemName: "xmark.circle.fill", colors: colors), scheme: scheme)
     button.translatesAutoresizingMaskIntoConstraints = false
     button.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
     NSLayoutConstraint.activate([
@@ -173,7 +174,7 @@ open class W3WOcrViewController: W3WViewController {
   /// assign the `W3WOcrScannerView` to `view` when the time comes
   public override func loadView() {
     view = W3WOcrView()
-    view.backgroundColor = theme?[.base]?.colors?.background?.uiColor
+    view.backgroundColor = theme?[.ocr]?.colors?.background?.uiColor
   }
   
   
