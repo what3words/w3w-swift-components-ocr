@@ -56,10 +56,10 @@ open class W3WOcrViewController: W3WViewController {
   lazy public var onReceiveRawSuggestions: ([W3WOcrSuggestion]) -> () = { _ in }
   
   /// Called when the user selects a suggestion
-  public var onRowSelected: ((_ item: W3WSuggestion, _ indexPath: IndexPath) -> Void)? {
+  public var onSuggestionSelected: ((_ item: W3WSuggestion) -> Void)? {
     didSet {
-      if let onRowSelected = onRowSelected {
-        bottomSheet.tableViewController.onRowSelected = onRowSelected
+      bottomSheet.tableViewController.onRowSelected = { [weak self] suggestion, _ in
+        self?.onSuggestionSelected?(suggestion)
       }
     }
   }

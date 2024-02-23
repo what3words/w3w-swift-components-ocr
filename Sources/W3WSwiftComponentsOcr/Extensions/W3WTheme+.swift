@@ -12,7 +12,7 @@ import W3WSwiftThemes
 public extension W3WTheme {
   
   /// user defined theme for ocr component
-  /// if a parameter is not specified, corresponding value from standard sheme will be applied
+  /// if a parameter is not specified, corresponding value from standard theme will be applied
   /// - Parameters:
   ///   - backgroundColor: screen background colour
   ///   - bottomSheetBackgroundColor: background colour for bottomsheet
@@ -51,26 +51,26 @@ public extension W3WTheme {
     padding: W3WPadding? = nil
   ) -> W3WTheme {
     return .standard.withOcrStateSchemes(backgroundColor: backgroundColor,
-                                           bottomSheetBackgroundColor: bottomSheetBackgroundColor,
-                                           headerTextColor: headerTextColor,
-                                           brandColor: brandColor,
-                                           addressTextColor: addressTextColor,
-                                           footnoteTextColor: footnoteTextColor,
-                                           errorTextColor: errorTextColor,
-                                           fonts: fonts,
-                                           defaultLineColor: defaultLineColor,
-                                           successLineColor: successLineColor,
-                                           errorLineColor: errorLineColor,
-                                           defaultLineThickness: defaultLineThickness,
-                                           boldLineThickness: boldLineThickness,
-                                           defaultLineLength: defaultLineLength,
-                                           boldLineLength: boldLineLength,
-                                           withCornerRadius: withCornerRadius,
-                                           padding: padding)
+                                         bottomSheetBackgroundColor: bottomSheetBackgroundColor,
+                                         headerTextColor: headerTextColor,
+                                         brandColor: brandColor,
+                                         addressTextColor: addressTextColor,
+                                         footnoteTextColor: footnoteTextColor,
+                                         errorTextColor: errorTextColor,
+                                         fonts: fonts,
+                                         defaultLineColor: defaultLineColor,
+                                         successLineColor: successLineColor,
+                                         errorLineColor: errorLineColor,
+                                         defaultLineThickness: defaultLineThickness,
+                                         boldLineThickness: boldLineThickness,
+                                         defaultLineLength: defaultLineLength,
+                                         boldLineLength: boldLineLength,
+                                         withCornerRadius: withCornerRadius,
+                                         padding: padding)
   }
   
   /// transform current theme to an ocr component applicable theme with schemes for multiple ocr states
-  /// if a parameter is not specified, corresponding value from current sheme will be applied
+  /// if a parameter is not specified, corresponding value from current theme will be applied
   /// - Parameters:
   ///   - backgroundColor: screen background colour
   ///   - bottomSheetBackgroundColor: background colour for bottomsheet
@@ -120,7 +120,7 @@ public extension W3WTheme {
     let errorTextColor: W3WColor? = errorTextColor ?? self[.ocr]?.colors?.error?.foreground
     
     // Fonts
-    let fonts = fonts ?? W3WFonts().with(headline: .bold).with(body: .semibold).with(footnote: .bold)
+    let fonts = fonts ?? self[.ocr]?.styles?.fonts
     
     // View finder
     /// Line color
