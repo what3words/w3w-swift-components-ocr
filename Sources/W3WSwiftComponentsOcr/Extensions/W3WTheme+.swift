@@ -34,6 +34,7 @@ public extension W3WTheme {
   static func forOcr(
     backgroundColor: W3WColor? = nil,
     bottomSheetBackgroundColor: W3WColor? = nil,
+    cameraBackgroundColor: W3WColor? = nil,
     headerTextColor: W3WColor? = nil,
     brandColor: W3WColor? = nil,
     addressTextColor: W3WColor? = nil,
@@ -52,6 +53,7 @@ public extension W3WTheme {
   ) -> W3WTheme {
     return .standard.withOcrStateSchemes(backgroundColor: backgroundColor,
                                          bottomSheetBackgroundColor: bottomSheetBackgroundColor,
+                                         cameraBackgroundColor: cameraBackgroundColor,
                                          headerTextColor: headerTextColor,
                                          brandColor: brandColor,
                                          addressTextColor: addressTextColor,
@@ -92,6 +94,7 @@ public extension W3WTheme {
   func withOcrStateSchemes(
     backgroundColor: W3WColor? = nil,
     bottomSheetBackgroundColor: W3WColor? = nil,
+    cameraBackgroundColor: W3WColor? = nil,
     headerTextColor: W3WColor? = nil,
     brandColor: W3WColor? = nil,
     addressTextColor: W3WColor? = nil,
@@ -157,6 +160,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: headerTextColor,
+            background: cameraBackgroundColor ?? W3WColor.lightBlue,
             line: defaultLineColor
           ),
           styles: W3WStyles(
@@ -173,6 +177,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: headerTextColor,
+            background: cameraBackgroundColor ?? W3WColor.lightBlue,
             line: defaultLineColor
           ),
           styles: W3WStyles(
@@ -189,6 +194,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: headerTextColor,
+            background: cameraBackgroundColor ?? W3WColor.lightBlue,
             line: successLineColor
           ),
           styles: W3WStyles(
@@ -205,6 +211,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: headerTextColor,
+            background: cameraBackgroundColor ?? W3WColor.lightBlue,
             line: defaultLineColor
           ),
           styles: W3WStyles(
@@ -221,7 +228,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: errorTextColor,
-            background: errorLineColor,
+            background: cameraBackgroundColor ?? W3WColor.lightBlue,
             line: errorLineColor
           ),
           styles: W3WStyles(
