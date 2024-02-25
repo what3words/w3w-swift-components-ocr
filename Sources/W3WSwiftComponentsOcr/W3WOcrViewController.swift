@@ -111,12 +111,10 @@ open class W3WOcrViewController: W3WViewController {
     return bottomSheet
   }()
   
-  open lazy var closeButton: UIButton = {
-    let colors = W3WColors(foreground: W3WColor(all: .blue90))
-    let scheme = W3WScheme(colors: colors)
-    let button = W3WButton(image: W3WImage(systemName: "xmark.circle.fill", colors: colors), scheme: scheme)
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
+  open lazy var closeButton: UIView = {
+    let button = W3WCloseButton { [weak self] in
+      self?.didTouchCloseButton()
+    }
     NSLayoutConstraint.activate([
       button.heightAnchor.constraint(equalToConstant: closeButtonSize),
       button.widthAnchor.constraint(equalToConstant: closeButtonSize)
@@ -478,7 +476,7 @@ open class W3WOcrViewController: W3WViewController {
         width = UIScreen.main.bounds.width * 0.8 - inset * 2.0
         height = width * W3WSettings.ocrViewfinderRatioLandscape
       }
-      let crop = CGRect(origin: CGPoint(x: (UIScreen.main.bounds.width - width) / 2, y: topMargin + closeButtonSize + W3WMargin.bold.value), size: CGSize(width: width, height: height))
+      let crop = CGRect(origin: CGPoint(x: (UIScreen.main.bounds.width - width) / 2, y: topMargin + closeButtonSize + W3WMargin.light.value), size: CGSize(width: width, height: height))
       ocrView.set(crop: crop)
     }
   }
@@ -496,7 +494,7 @@ open class W3WOcrViewController: W3WViewController {
   }
   
   open var closeButtonSize: CGFloat {
-    return shouldShowCloseButton ? 48.0 : 0.0
+    return shouldShowCloseButton ? 60.0 : 0.0
   }
   
   open func addCloseButton() {
