@@ -1180,7 +1180,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/what3words/w3w-swift-design.git";
 			requirement = {
-				branch = v4/main;
+				branch = "task/build-test-4.33";
 				kind = branch;
 			};
 		};
