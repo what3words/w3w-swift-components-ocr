@@ -113,7 +113,7 @@ public extension W3WTheme {
   ) -> W3WTheme {
     // Background color
     let backgroundColor: W3WColor? = backgroundColor ?? self[.ocr]?.colors?.background
-    let bottomSheetBackgroundColor: W3WColor? = bottomSheetBackgroundColor ?? self[.ocr]?.colors?.secondary
+    let bottomSheetBackgroundColor: W3WColor? = bottomSheetBackgroundColor ?? self[.ocr]?.colors?.secondaryBackground
     
     /// Text color
     let headerTextColor: W3WColor? = headerTextColor ?? self[.ocr]?.colors?.foreground
