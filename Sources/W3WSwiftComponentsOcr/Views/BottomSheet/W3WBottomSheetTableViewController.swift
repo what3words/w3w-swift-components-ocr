@@ -121,7 +121,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
           fatalError("Can not dequeue cell")
         }
         cell.configure(with: item)
-        cell.set(scheme: theme?[.base]?.with(background: .clear))
+        cell.set(scheme: theme?[.ocr]?.with(background: .clear))
         cell.separatorInset = .init(top: 0, left: W3WMargin.heavy.value, bottom: 0, right: 0)
         return cell
       }
@@ -186,7 +186,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
         fatalError("Can not dequeue cell")
       }
       cell.configure(with: item)
-      cell.set(scheme: .standard)
+      cell.set(scheme: theme?[.ocr]?.with(background: .clear))
       cell.separatorInset = .init(top: 0, left: W3WMargin.heavy.value, bottom: 0, right: 0)
       return cell
     }

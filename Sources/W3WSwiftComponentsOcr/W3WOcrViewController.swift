@@ -56,10 +56,10 @@ open class W3WOcrViewController: W3WViewController {
   lazy public var onReceiveRawSuggestions: ([W3WOcrSuggestion]) -> () = { _ in }
   
   /// Called when the user selects a suggestion
-  public var onRowSelected: ((_ item: W3WSuggestion, _ indexPath: IndexPath) -> Void)? {
+  public var onSuggestionSelected: ((_ item: W3WSuggestion) -> Void)? {
     didSet {
-      if let onRowSelected = onRowSelected {
-        bottomSheet.tableViewController.onRowSelected = onRowSelected
+      bottomSheet.tableViewController.onRowSelected = { [weak self] suggestion, _ in
+        self?.onSuggestionSelected?(suggestion)
       }
     }
   }
@@ -106,16 +106,15 @@ open class W3WOcrViewController: W3WViewController {
   
   // MARK: - UI properties
   open lazy var bottomSheet: W3WSuggessionsBottomSheet = {
-    let bottomSheetBackground = theme?[.ocr]?.colors?.background
-    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .soft).with(background: bottomSheetBackground))
+    let bottomSheetBackground = theme?[.ocr]?.colors?.secondaryBackground
+    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?.with(cornerRadius: .softer).with(background: bottomSheetBackground))
     return bottomSheet
   }()
   
-  open lazy var closeButton: UIButton = {
-    let scheme: W3WScheme = .standard.with(colors: W3WColors(foreground: .powderBlue))
-    let button = W3WButton(icon: W3WIconView(image: .close, scheme: scheme))
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
+  open lazy var closeButton: UIView = {
+    let button = W3WCloseButton { [weak self] in
+      self?.didTouchCloseButton()
+    }
     NSLayoutConstraint.activate([
       button.heightAnchor.constraint(equalToConstant: closeButtonSize),
       button.widthAnchor.constraint(equalToConstant: closeButtonSize)
@@ -130,7 +129,7 @@ open class W3WOcrViewController: W3WViewController {
   }()
   
   // MARK: - Init
-  public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = W3WTheme.forOcr(), w3w: W3WProtocolV4? = nil) {
+  public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = .what3words, w3w: W3WProtocolV4? = nil) {
     self.init(theme: theme)
     set(ocr: ocr)
     set(w3w)
@@ -138,7 +137,7 @@ open class W3WOcrViewController: W3WViewController {
   
   
 #if canImport(W3WOcrSdk)
-  public convenience init(ocr: W3WOcr, theme: W3WTheme? = W3WTheme.forOcr(), w3w: W3WProtocolV4? = nil) {
+  public convenience init(ocr: W3WOcr, theme: W3WTheme? = .what3words, w3w: W3WProtocolV4? = nil) {
     self.init(theme: theme)
     set(ocr: ocr)
     set(w3w)
@@ -146,7 +145,7 @@ open class W3WOcrViewController: W3WViewController {
 #endif // W3WOcrSdk
   
   /// initializer override to instantiate the W3WOcrScannerView
-  public override init(theme: W3WTheme? = nil) {
+  public override init(theme: W3WTheme? = .what3words) {
     super.init(theme: theme)
     setup()
   }
@@ -173,7 +172,7 @@ open class W3WOcrViewController: W3WViewController {
   /// assign the `W3WOcrScannerView` to `view` when the time comes
   public override func loadView() {
     view = W3WOcrView()
-    view.backgroundColor = theme?[.base]?.colors?.background?.uiColor
+    view.backgroundColor = theme?[.ocr]?.colors?.background?.uiColor
   }
   
   
@@ -250,6 +249,16 @@ open class W3WOcrViewController: W3WViewController {
       return
     }
     W3WSettings.measurement = unit
+  }
+  
+  /// assign the user's color mode to this component
+  /// - Parameters:
+  ///     - colorModeOverride: user's color mode to override the system color mode
+  public func setColorModeOverride(_ colorModeOverride: W3WColorMode?) {
+    guard let colorModeOverride = colorModeOverride else {
+      return
+    }
+    W3WColor.set(mode: colorModeOverride)
   }
   
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
@@ -477,7 +486,7 @@ open class W3WOcrViewController: W3WViewController {
         width = UIScreen.main.bounds.width * 0.8 - inset * 2.0
         height = width * W3WSettings.ocrViewfinderRatioLandscape
       }
-      let crop = CGRect(origin: CGPoint(x: (UIScreen.main.bounds.width - width) / 2, y: topMargin + closeButtonSize + W3WMargin.bold.value), size: CGSize(width: width, height: height))
+      let crop = CGRect(origin: CGPoint(x: (UIScreen.main.bounds.width - width) / 2, y: topMargin + closeButtonSize + W3WMargin.light.value), size: CGSize(width: width, height: height))
       ocrView.set(crop: crop)
     }
   }
@@ -495,7 +504,7 @@ open class W3WOcrViewController: W3WViewController {
   }
   
   open var closeButtonSize: CGFloat {
-    return shouldShowCloseButton ? 48.0 : 0.0
+    return shouldShowCloseButton ? 60.0 : 0.0
   }
   
   open func addCloseButton() {

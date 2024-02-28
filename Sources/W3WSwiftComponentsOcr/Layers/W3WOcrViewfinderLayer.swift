@@ -110,51 +110,54 @@ class W3WOcrViewfinderLayer: CAShapeLayer {
     cornerLengthVertical   = lerp(a: cornerLengthVertical, b: crop.height * 0.5, factor: 1.0 - gapFactor)
     cornerLengthHorizontal = lerp(a: cornerLengthHorizontal, b: crop.width * 0.5, factor: 1.0 - gapFactor)
     
+    let curveRadius = curveRadius ?? 0
+    let roundRectSize = curveRadius == 0 ? 0 : width
+    let extraLength = curveRadius + roundRectSize
     // top left
     targetLayerPath.move(to: CGPoint(   x: crop.minX + inset, y: crop.minY + inset - width / 2))
-    targetLayerPath.addLine(to: CGPoint(x: crop.minX + inset, y: crop.minY + inset - width / 2 + cornerLengthVertical))
+    targetLayerPath.addLine(to: CGPoint(x: crop.minX + inset, y: crop.minY + inset + width / 2 + cornerLengthVertical - curveRadius))
     targetLayerPath.move(to: CGPoint(   x: crop.minX + inset - width / 2, y: crop.minY + inset))
-    targetLayerPath.addLine(to: CGPoint(x: crop.minX + inset - width / 2 + cornerLengthHorizontal, y: crop.minY + inset))
-    if let curveRadius = curveRadius {
-      let verticalRoundRect = CGRect(x: crop.minX + inset, y: crop.minY + inset - width / 2 + cornerLengthVertical - curveRadius, width: 0.1, height: width)
+    targetLayerPath.addLine(to: CGPoint(x: crop.minX + inset + width / 2 + cornerLengthHorizontal - curveRadius, y: crop.minY + inset))
+    if curveRadius != 0 {
+      let verticalRoundRect = CGRect(x: crop.minX + inset, y: crop.minY + inset + width / 2 + cornerLengthVertical - extraLength, width: 0.1, height: roundRectSize)
       targetLayerPath.append(UIBezierPath(roundedRect: verticalRoundRect, byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: curveRadius, height: curveRadius)))
-      let horizontalRoundRect = CGRect(x: crop.minX + inset - width / 2 + cornerLengthHorizontal - curveRadius, y: crop.minY + inset, width: width, height: 0.1)
+      let horizontalRoundRect = CGRect(x: crop.minX + inset + width / 2 + cornerLengthHorizontal - extraLength, y: crop.minY + inset, width: roundRectSize, height: 0.1)
       targetLayerPath.append(UIBezierPath(roundedRect: horizontalRoundRect, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: curveRadius, height: curveRadius)))
     }
     
     // top right
-    targetLayerPath.move(to: CGPoint(   x: crop.minX + crop.width - inset, y: crop.minY + inset - width / 2))
-    targetLayerPath.addLine(to: CGPoint(x: crop.minX + crop.width - inset, y: crop.minY + inset - width / 2 + cornerLengthVertical))
-    targetLayerPath.move(to: CGPoint(   x: crop.minX + crop.width - inset + width / 2, y: crop.minY + inset))
-    targetLayerPath.addLine(to: CGPoint(x: crop.minX + crop.width - inset + width / 2 - cornerLengthHorizontal, y: crop.minY + inset))
-    if let curveRadius = curveRadius {
-      let verticalRoundRect = CGRect(x: crop.minX + crop.width - inset, y: crop.minY + inset - width / 2 + cornerLengthVertical - curveRadius, width: 0.1, height: width)
+    targetLayerPath.move(to: CGPoint(   x: crop.maxX - inset, y: crop.minY + inset - width / 2))
+    targetLayerPath.addLine(to: CGPoint(x: crop.maxX - inset, y: crop.minY + inset + width / 2 + cornerLengthVertical - curveRadius))
+    targetLayerPath.move(to: CGPoint(   x: crop.maxX - inset + width / 2, y: crop.minY + inset))
+    targetLayerPath.addLine(to: CGPoint(x: crop.maxX - inset - width / 2 - cornerLengthHorizontal + curveRadius, y: crop.minY + inset))
+    if curveRadius != 0 {
+      let verticalRoundRect = CGRect(x: crop.maxX - inset, y: crop.minY + inset + width / 2 + cornerLengthVertical - extraLength, width: 0.1, height: roundRectSize)
       targetLayerPath.append(UIBezierPath(roundedRect: verticalRoundRect, byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: curveRadius, height: curveRadius)))
-      let horizontalRoundRect = CGRect(x: crop.minX + crop.width - inset + width / 2 - cornerLengthHorizontal - curveRadius, y: crop.minY + inset, width: width, height: 0.1)
+      let horizontalRoundRect = CGRect(x: crop.maxX - inset - width / 2 - cornerLengthHorizontal + curveRadius, y: crop.minY + inset, width: roundRectSize, height: 0.1)
       targetLayerPath.append(UIBezierPath(roundedRect: horizontalRoundRect, byRoundingCorners: [.topLeft, .bottomLeft], cornerRadii: CGSize(width: curveRadius, height: curveRadius)))
     }
     
     // bottom left
     targetLayerPath.move(to: CGPoint(   x: crop.minX + inset, y: crop.maxY - inset + width / 2))
-    targetLayerPath.addLine(to: CGPoint(x: crop.minX + inset, y: crop.maxY - inset + width / 2 - cornerLengthVertical))
+    targetLayerPath.addLine(to: CGPoint(x: crop.minX + inset, y: crop.maxY - inset - width / 2 - cornerLengthVertical + curveRadius))
     targetLayerPath.move(to: CGPoint(   x: crop.minX + inset - width / 2, y: crop.maxY - inset))
-    targetLayerPath.addLine(to: CGPoint(x: crop.minX + inset - width / 2 + cornerLengthHorizontal, y: crop.maxY - inset))
-    if let curveRadius = curveRadius {
-      let verticalRoundRect = CGRect(x: crop.minX + inset, y: crop.maxY - inset + width / 2 - cornerLengthVertical - curveRadius, width: 0.1, height: width)
+    targetLayerPath.addLine(to: CGPoint(x: crop.minX + inset + width / 2 + cornerLengthHorizontal - curveRadius, y: crop.maxY - inset))
+    if curveRadius != 0 {
+      let verticalRoundRect = CGRect(x: crop.minX + inset, y: crop.maxY - inset - width / 2 - cornerLengthVertical + curveRadius, width: 0.1, height: roundRectSize)
       targetLayerPath.append(UIBezierPath(roundedRect: verticalRoundRect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: curveRadius, height: curveRadius)))
-      let horizontalRoundRect = CGRect(x: crop.minX + inset - width / 2 + cornerLengthHorizontal - curveRadius, y: crop.maxY - inset, width: width, height: 0.1)
+      let horizontalRoundRect = CGRect(x: crop.minX + inset + width / 2 + cornerLengthHorizontal - extraLength, y: crop.maxY - inset, width: roundRectSize, height: 0.1)
       targetLayerPath.append(UIBezierPath(roundedRect: horizontalRoundRect, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: curveRadius, height: curveRadius)))
     }
     
     // bottom right
-    targetLayerPath.move(to: CGPoint(   x: crop.minX + crop.width - inset, y: crop.maxY - inset + width / 2))
-    targetLayerPath.addLine(to: CGPoint(x: crop.minX + crop.width - inset, y: crop.maxY - inset + width / 2 - cornerLengthVertical))
-    targetLayerPath.move(to: CGPoint(   x: crop.minX + crop.width - inset + width / 2, y: crop.maxY - inset))
-    targetLayerPath.addLine(to: CGPoint(x: crop.minX + crop.width - inset + width / 2 - cornerLengthHorizontal, y: crop.maxY - inset))
-    if let curveRadius = curveRadius {
-      let verticalRoundRect = CGRect(x: crop.minX + crop.width - inset, y: crop.maxY - inset + width / 2 - cornerLengthVertical - curveRadius, width: 0.1, height: width)
+    targetLayerPath.move(to: CGPoint(   x: crop.maxX - inset, y: crop.maxY - inset + width / 2))
+    targetLayerPath.addLine(to: CGPoint(x: crop.maxX - inset, y: crop.maxY - inset - width / 2 - cornerLengthVertical + curveRadius))
+    targetLayerPath.move(to: CGPoint(   x: crop.maxX - inset + width / 2, y: crop.maxY - inset))
+    targetLayerPath.addLine(to: CGPoint(x: crop.maxX - inset - width / 2 - cornerLengthHorizontal + curveRadius, y: crop.maxY - inset))
+    if curveRadius != 0 {
+      let verticalRoundRect = CGRect(x: crop.maxX - inset, y: crop.maxY - inset - width / 2 - cornerLengthVertical + curveRadius, width: 0.1, height: roundRectSize)
       targetLayerPath.append(UIBezierPath(roundedRect: verticalRoundRect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: curveRadius, height: curveRadius)))
-      let horizontalRoundRect = CGRect(x: crop.minX + crop.width - inset + width / 2 - cornerLengthHorizontal - curveRadius, y: crop.maxY - inset, width: width, height: 0.1)
+      let horizontalRoundRect = CGRect(x: crop.maxX - inset - width / 2 - cornerLengthHorizontal + curveRadius, y: crop.maxY - inset, width: roundRectSize, height: 0.1)
       targetLayerPath.append(UIBezierPath(roundedRect: horizontalRoundRect, byRoundingCorners: [.topLeft, .bottomLeft], cornerRadii: CGSize(width: curveRadius, height: curveRadius)))
     }
     
