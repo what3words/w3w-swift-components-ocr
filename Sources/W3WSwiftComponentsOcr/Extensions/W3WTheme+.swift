@@ -117,9 +117,9 @@ public extension W3WTheme {
     
     /// Text color
     let headerTextColor: W3WColor? = headerTextColor ?? self[.ocr]?.colors?.foreground
-    let brandColor: W3WColor? = brandColor ?? self[.cells]?.colors?.brand
-    let addressTextColor: W3WColor? = addressTextColor ?? self[.cells]?.colors?.foreground
-    let footnoteTextColor: W3WColor? = footnoteTextColor ?? self[.cells]?.colors?.secondary
+    let brandColor: W3WColor? = brandColor ?? self[.ocr]?.colors?.brand
+    let addressTextColor: W3WColor? = addressTextColor ?? self[.ocr]?.colors?.foreground
+    let footnoteTextColor: W3WColor? = footnoteTextColor ?? self[.ocr]?.colors?.secondary
     let errorTextColor: W3WColor? = errorTextColor ?? self[.ocr]?.colors?.error?.foreground
     
     // Fonts
@@ -140,15 +140,13 @@ public extension W3WTheme {
     let resultTheme = self
     let ocrBaseColors: W3WColors? = self[.ocr]?.colors?
       .with(background: backgroundColor)
-      .with(secondary:  bottomSheetBackgroundColor)
-    let cellsColors: W3WColors? = self[.cells]?.colors?
+      .with(secondaryBackground: bottomSheetBackgroundColor)
       .with(foreground: addressTextColor)
       .with(secondary: footnoteTextColor)
       .with(brand: brandColor)
-    let cellsStyles: W3WStyles? = self[.cells]?.styles?
+    let ocrBaseStyles: W3WStyles? = self[.ocr]?.styles?
       .with(fonts: fonts)
-    resultTheme[.ocr] = self[.ocr]?.with(colors: ocrBaseColors)
-    resultTheme[.cells] = self[.cells]?.with(colors: cellsColors).with(styles: cellsStyles)
+    resultTheme[.ocr] = self[.ocr]?.with(colors: ocrBaseColors).with(styles: ocrBaseStyles)
     
     for state in W3WOcrState.allCases {
       guard getOcrScheme(state: state) == nil else {
