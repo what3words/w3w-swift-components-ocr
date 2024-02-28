@@ -251,6 +251,16 @@ open class W3WOcrViewController: W3WViewController {
     W3WSettings.measurement = unit
   }
   
+  /// assign the user's color mode to this component
+  /// - Parameters:
+  ///     - colorModeOverride: user's color mode to override the system color mode
+  public func setColorModeOverride(_ colorModeOverride: W3WColorMode?) {
+    guard let colorModeOverride = colorModeOverride else {
+      return
+    }
+    W3WColor.set(mode: colorModeOverride)
+  }
+  
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   /// - Parameters:
   ///     - crop: camera crop to use specified in view coordinates
