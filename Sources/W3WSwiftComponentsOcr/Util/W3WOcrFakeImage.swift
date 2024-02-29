@@ -13,7 +13,7 @@ import CoreGraphics
 /// makes fake images for iOS simulator as it doesn't have access to a camera (as of this writing)
 class W3WOcrFakeImages {
 
-  let addresses = ["index.home.raft", "daring.lion.race", "oval.blast.improving", "form.monkey.employ"]
+  let addresses = ["maidy.toilatu.mūzdyq", "майды.тойлату.мұздық", "index.home.raft", "daring.lion.race", "oval.blast.improving", "form.monkey.employ"]
 
   
   /// gets a random three word address

@@ -6,33 +6,36 @@
 //
 
 import CoreLocation
-import W3WSwiftApi
+import W3WSwiftCore
 
 // a fake API injected that returns squares that the iOS simulator will show
-class FakeApi: W3WProtocolV3 {
-  
+class FakeApi: W3WProtocolV4 {
   let twas = ["index.home.raft", "daring.lion.race", "oval.blast.improving", "form.monkey.employ"]
   
   var index = 0
   
-  let english = W3WApiLanguage(name: "English", nativeName: "English", code: "en")
+  let english = W3WBaseLanguage(code: "en", name: "English", nativeName: "English")
   
   func convertToCoordinates(words: String, completion: @escaping W3WSquareResponse) {
     incrementIndex()
     completion(makeSquare(text: words), nil)
   }
   
-  func convertTo3wa(coordinates: CLLocationCoordinate2D, language: String, completion: @escaping W3WSquareResponse) {
+  func convertTo3wa(coordinates: CLLocationCoordinate2D, language: W3WSwiftCore.W3WLanguage, completion: @escaping W3WSwiftCore.W3WSquareResponse) {
     incrementIndex()
     completion(makeSquare(), nil)
   }
 
-  func autosuggest(text: String, options: [W3WOptionProtocol], completion: @escaping W3WSuggestionsResponse) {
+  func autosuggest(text: String, options: [W3WSwiftCore.W3WOption]?, completion: @escaping W3WSwiftCore.W3WSuggestionsResponse) {
     incrementIndex()
     completion([makeSquare(text: text)], nil)
   }
 
-  func autosuggestWithCoordinates(text: String, options: [W3WSwiftApi.W3WOptionProtocol], completion: @escaping W3WSuggestionsWithCoordinatesResponse) {
+  func autosuggestWithCoordinates(text: String, options: [W3WSwiftCore.W3WOption]?, completion: @escaping W3WSwiftCore.W3WSquaresResponse) {
+    completion([], nil)
+  }
+  
+  func gridSection(bounds: W3WSwiftCore.W3WBox, completion: @escaping W3WSwiftCore.W3WGridResponse) {
     completion([], nil)
   }
   
@@ -40,7 +43,7 @@ class FakeApi: W3WProtocolV3 {
     completion([], nil)
   }
   
-  func gridSection(southWest: CLLocationCoordinate2D, northEast: CLLocationCoordinate2D, completion: @escaping W3WSwiftApi.W3WGridResponse) {
+  func gridSection(southWest: CLLocationCoordinate2D, northEast: CLLocationCoordinate2D, completion: @escaping W3WGridResponse) {
     gridSection(south_lat: southWest.latitude, west_lng: southWest.longitude, north_lat: northEast.latitude, east_lng: northEast.longitude, completion: completion)
   }
   
@@ -61,8 +64,15 @@ class FakeApi: W3WProtocolV3 {
   
 
   // make a square with a likely match
-  func makeSquare(text: String? = nil) -> W3WApiSquare {
-    return W3WApiSquare(words: makeWords(text: text), coordinates: CLLocationCoordinate2D(latitude: 51.50998, longitude: -0.1337), country : "GB", nearestPlace : "Bayswater, UK", distanceToFocus : 1.0, language : "en")
+  func makeSquare(text: String? = nil) -> W3WBaseSquare {
+    return W3WBaseSquare(
+      words: makeWords(text: text),
+      country : W3WBaseCountry(code: "GB"),
+      nearestPlace : "Bayswater, UK",
+      distanceToFocus : W3WBaseDistance(kilometers: 1.0),
+      language : W3WBaseLanguage(code:"en"),
+      coordinates: CLLocationCoordinate2D(latitude: 51.50998, longitude: -0.1337)
+    )
   }
 
   
