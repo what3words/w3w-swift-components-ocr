@@ -54,5 +54,6 @@ open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
     addChild(tableViewController)
     add(view: w3wTableView, position: .inset(by: UIEdgeInsets(top: W3WMargin.heavy.value, left: 0, bottom: 0, right: 0)))
     tableViewController.didMove(toParent: self)
+    handleIndicator.set(scheme: theme?[.base])
   }
 }
