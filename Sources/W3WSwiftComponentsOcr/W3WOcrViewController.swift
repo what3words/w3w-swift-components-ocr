@@ -524,7 +524,7 @@ open class W3WOcrViewController: W3WViewController {
     view.addSubview(w3wLogo)
     NSLayoutConstraint.activate([
       w3wLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      closeButtonSize > 0 ? w3wLogo.centerYAnchor.constraint(equalTo: closeButton.centerYAnchor) : w3wLogo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+      shouldShowCloseButton ? w3wLogo.centerYAnchor.constraint(equalTo: closeButton.centerYAnchor) : w3wLogo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: W3WPadding.light.value)
     ])
   }
   
