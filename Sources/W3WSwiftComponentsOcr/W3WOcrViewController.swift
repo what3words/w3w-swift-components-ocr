@@ -126,6 +126,19 @@ open class W3WOcrViewController: W3WViewController {
     return button
   }()
   
+  open lazy var w3wLogo: UIView = {
+    let imageView = W3WIconView(image: .w3wLogoWithText, 
+                                scheme: .standardIcons.with(foreground: .white),
+                                size: .w3wLogoWithTextIcon)
+    imageView.contentMode = .scaleToFill
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      imageView.widthAnchor.constraint(equalToConstant: W3WIconSize.w3wLogoWithTextIcon.value.width),
+      imageView.heightAnchor.constraint(equalToConstant: W3WIconSize.w3wLogoWithTextIcon.value.height)
+    ])
+    return imageView
+  }()
+  
   open lazy var errorView: W3WOcrErrorView = {
     let view = W3WOcrErrorView()
     view.isHidden = true
@@ -456,6 +469,7 @@ open class W3WOcrViewController: W3WViewController {
   open func setupUI() {
     showHandle = false
     addCloseButton()
+    addW3WLogo()
     arrangeSubviews()
   }
   
@@ -491,7 +505,9 @@ open class W3WOcrViewController: W3WViewController {
         width = UIScreen.main.bounds.width * 0.8 - inset * 2.0
         height = width * W3WSettings.ocrViewfinderRatioLandscape
       }
-      let crop = CGRect(origin: CGPoint(x: (UIScreen.main.bounds.width - width) / 2, y: topMargin + closeButtonSize + W3WMargin.light.value), size: CGSize(width: width, height: height))
+      let crop = CGRect(origin: CGPoint(x: (UIScreen.main.bounds.width - width) / 2,
+                                        y: topMargin + max(closeButtonSize, W3WMargin.heavy.value) + W3WMargin.light.value),
+                        size: CGSize(width: width, height: height))
       ocrView.set(crop: crop)
     }
   }
@@ -501,6 +517,15 @@ open class W3WOcrViewController: W3WViewController {
       return modalPresentationStyle == .fullScreen ? W3WSettings.topSafeArea : 0.0
     }
     return W3WSettings.topSafeArea
+  }
+  
+  /// w3w Logo
+  open func addW3WLogo() {
+    view.addSubview(w3wLogo)
+    NSLayoutConstraint.activate([
+      w3wLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      shouldShowCloseButton ? w3wLogo.centerYAnchor.constraint(equalTo: closeButton.centerYAnchor) : w3wLogo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: W3WPadding.light.value)
+    ])
   }
   
   /// Close button setup
