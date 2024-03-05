@@ -11,6 +11,12 @@ import W3WSwiftCore
 import W3WSwiftThemes
 
 open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
+  public var onDragging: (() -> ())? {
+    didSet {
+      tableViewController.onDragging = onDragging
+    }
+  }
+  
   open lazy var tableViewController: W3WBottomSheetTableViewController = {
     let viewController = W3WBottomSheetTableViewController(theme: theme?.with(background: .clear))
     return viewController

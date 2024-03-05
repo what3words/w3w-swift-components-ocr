@@ -331,6 +331,7 @@ open class W3WOcrViewController: W3WViewController {
     // Check for inserting or moving
     if uniqueOcrSuggestions.contains(threeWordAddress) {
       handleDuplicatedSuggestion(suggestion)
+      state = .scanned
       return
     } else {
       uniqueOcrSuggestions.insert(threeWordAddress)
@@ -419,7 +420,7 @@ open class W3WOcrViewController: W3WViewController {
   }
   
   /// stop scanning
-  public func stop() {  // completion: @escaping () -> () = { }) {
+  public func stop(completion: @escaping () -> () = {}) {
     
     if scanMode == .stopOnFirstResult {
       stopOutput = true
@@ -435,7 +436,7 @@ open class W3WOcrViewController: W3WViewController {
 
       #if canImport(W3WOcrSdk)
       self?.ocr?.stop {
-        //completion()
+        completion()
       }
       #endif
     
