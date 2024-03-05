@@ -116,8 +116,19 @@ open class W3WOcrViewController: W3WViewController {
   }()
   
   open lazy var closeButton: UIView = {
-    let button = W3WCloseButton { [weak self] in
-      self?.didTouchCloseButton()
+    var button = W3WCloseButton()
+
+    if #available(iOS 13.0, *) {
+      button = W3WCloseButton(
+        imageConfiguration: UIImage.SymbolConfiguration(weight: .medium),
+        onTouch: { [weak self] in
+          self?.didTouchCloseButton()
+        }
+      )
+    } else {
+      button = W3WCloseButton { [weak self] in
+        self?.didTouchCloseButton()
+      }
     }
     NSLayoutConstraint.activate([
       button.heightAnchor.constraint(equalToConstant: closeButtonSize),
