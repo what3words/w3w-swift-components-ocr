@@ -120,7 +120,7 @@ open class W3WOcrViewController: W3WViewController {
 
     if #available(iOS 13.0, *) {
       button = W3WCloseButton(
-        imageConfiguration: UIImage.SymbolConfiguration(weight: .medium),
+        imageConfiguration: UIImage.SymbolConfiguration(weight: .bold),
         onTouch: { [weak self] in
           self?.didTouchCloseButton()
         }
@@ -342,6 +342,7 @@ open class W3WOcrViewController: W3WViewController {
     // Check for inserting or moving
     if uniqueOcrSuggestions.contains(threeWordAddress) {
       handleDuplicatedSuggestion(suggestion)
+      state = .scanned
       return
     } else {
       uniqueOcrSuggestions.insert(threeWordAddress)
@@ -430,7 +431,7 @@ open class W3WOcrViewController: W3WViewController {
   }
   
   /// stop scanning
-  public func stop() {  // completion: @escaping () -> () = { }) {
+  public func stop(completion: @escaping () -> () = {}) {
     
     if scanMode == .stopOnFirstResult {
       stopOutput = true
@@ -446,7 +447,7 @@ open class W3WOcrViewController: W3WViewController {
 
       #if canImport(W3WOcrSdk)
       self?.ocr?.stop {
-        //completion()
+        completion()
       }
       #endif
     

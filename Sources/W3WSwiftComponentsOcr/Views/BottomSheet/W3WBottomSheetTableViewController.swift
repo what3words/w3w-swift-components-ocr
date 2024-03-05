@@ -17,6 +17,8 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
   private var dataSource: AnyObject? = nil
   private var sections: [W3WSearchResultSectionItem] = []
   
+  public var onDragging: (() -> ())?
+  
   public override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
@@ -190,5 +192,9 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
       cell.separatorInset = .init(top: 0, left: W3WMargin.heavy.value, bottom: 0, right: 0)
       return cell
     }
+  }
+  
+  public override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    onDragging?()
   }
 }
