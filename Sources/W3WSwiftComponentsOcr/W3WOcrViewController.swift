@@ -293,7 +293,7 @@ open class W3WOcrViewController: W3WViewController {
     stopOutput = false
 
     if let c = camera, let o = ocr {
-      state = .scanning
+      state = .detecting
       c.start()
       
       ocrView.set(camera: c)
@@ -325,10 +325,8 @@ open class W3WOcrViewController: W3WViewController {
       return
     }
     
+    state = .scanning
     onReceiveRawSuggestions([suggestion])
-    
-    // Update state
-    state = .scanned
     
     // Check for inserting or moving
     if uniqueOcrSuggestions.contains(threeWordAddress) {
@@ -348,6 +346,7 @@ open class W3WOcrViewController: W3WViewController {
             guard let words = result.words else {
               return
             }
+            self?.state = .scanned
             if words == threeWordAddress {
               self?.insertMoreSuggestions([result])
               self?.onSuggestions([result])
@@ -371,6 +370,7 @@ open class W3WOcrViewController: W3WViewController {
       return
     }
     // Just display what the ocr provides
+    state = .scanned
     insertMoreSuggestions([suggestion])
     onSuggestions([suggestion])
   }
