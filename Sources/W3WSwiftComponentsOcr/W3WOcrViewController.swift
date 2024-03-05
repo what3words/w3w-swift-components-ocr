@@ -120,7 +120,7 @@ open class W3WOcrViewController: W3WViewController {
 
     if #available(iOS 13.0, *) {
       button = W3WCloseButton(
-        imageConfiguration: UIImage.SymbolConfiguration(weight: .medium),
+        imageConfiguration: UIImage.SymbolConfiguration(weight: .bold),
         onTouch: { [weak self] in
           self?.didTouchCloseButton()
         }
