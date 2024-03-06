@@ -236,7 +236,9 @@ open class W3WOcrViewController: W3WViewController {
     
     if camera == nil {
       self.camera = W3WOcrCamera.get(camera: .back)
-      self.camera?.onCameraStarted = onCameraStarted
+      self.camera?.onCameraStarted = { [weak self] in
+        self?.onCameraStarted()
+      }
     }
   }
     
