@@ -479,6 +479,12 @@ open class W3WOcrViewController: W3WViewController {
     stop()
   }
   
+  // MARK: - W3WViewController overrides
+  open override func set(theme: W3WTheme?) {
+    let theme = theme?.withOcrStateSchemes()
+    super.set(theme: theme)
+  }
+  
   // MARK: - Setup UI
   open func setupUI() {
     showHandle = false
