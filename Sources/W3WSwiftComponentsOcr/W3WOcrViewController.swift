@@ -526,17 +526,14 @@ open class W3WOcrViewController: W3WViewController {
         height = width * W3WSettings.ocrViewfinderRatioLandscape
       }
       let crop = CGRect(origin: CGPoint(x: (UIScreen.main.bounds.width - width) / 2,
-                                        y: topMargin + max(closeButtonSize, W3WMargin.heavy.value) + W3WMargin.light.value),
+                                        y: topMargin + closeButtonSize + W3WMargin.light.value),
                         size: CGSize(width: width, height: height))
       ocrView.set(crop: crop)
     }
   }
   
   var topMargin: CGFloat {
-    if isPresentedModally() {
-      return modalPresentationStyle == .fullScreen ? W3WSettings.topSafeArea : 0.0
-    }
-    return W3WSettings.topSafeArea
+    return shouldShowCloseButton ? closeButton.frame.minY : W3WMargin.heavy.value
   }
   
   /// w3w Logo
@@ -566,6 +563,7 @@ open class W3WOcrViewController: W3WViewController {
       closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
     ])
+    closeButton.setNeedsLayout()
   }
   
   @objc open func didTouchCloseButton() {
