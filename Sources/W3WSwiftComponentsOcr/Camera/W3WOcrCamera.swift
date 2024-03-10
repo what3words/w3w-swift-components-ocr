@@ -33,8 +33,8 @@ public class W3WOcrCamera: W3WVideoStream {
   /// video output tap
   var output: AVCaptureVideoDataOutput?
   
-  /// thread to be used to process IO
-  var thread = DispatchQueue.global(qos: .default)
+  /// queue to be used to process IO
+  var sessionQueue = DispatchQueue(label: "session queue")
   
   /// delegate to capture the camera output
   let imageProcessor: W3WCameraImageProcessor! //() // AVCaptureVideoDataOutputSampleBufferDelegate needs to be a NSObject derivitive.  This class isn't, so we make a member object that conforms
@@ -83,25 +83,21 @@ public class W3WOcrCamera: W3WVideoStream {
   
   /// tell the camera to start producing images
   public func start() {
-    //print("camera.start()")
     connectInputAndOutput()
     
     // if this is the simulator, then fake the real camera
 #if targetEnvironment(simulator)
     imageProcessor.start()
 #else
-    thread.async {
+    sessionQueue.async { [weak self] in
       print(#function, "async ", "START")
-      self.session?.beginConfiguration()
-      self.session?.commitConfiguration()
-      self.session?.startRunning()
-      print(#function, "async ", "STOP")
+      self?.session?.startRunning()
     }
 #endif
-    
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-      guard let self else { return }
-      self.onCameraStarted?()
+    sessionQueue.async { [weak self] in
+      DispatchQueue.main.async {
+        self?.onCameraStarted?()
+      }
     }
   }
   
@@ -114,7 +110,8 @@ public class W3WOcrCamera: W3WVideoStream {
     imageProcessor.stop()
     disconnectInputAndOutput()
 #else
-    thread.async {
+    sessionQueue.async {
+      print(#function, "async ", "STOP")
       self.session?.stopRunning()
       self.disconnectInputAndOutput()
     }
@@ -196,37 +193,44 @@ public class W3WOcrCamera: W3WVideoStream {
       self?.onNewImage(image)
     }
     
-    // connect the camera IO to the delegate
-    if let session = session {
-      if session.inputs.count == 0 {
-        //session.sessionPreset = preset
-        
-        if let c = camera {
-          if let i = try? AVCaptureDeviceInput(device: c) {
-            print(#function, "START")
-            input  = i
-            output = AVCaptureVideoDataOutput()
-            
-            if let cameraOutput = output {
-              if session.canAddInput(i) && session.canAddOutput(cameraOutput) {
-                session.addInput(i)
-                session.addOutput(cameraOutput)
+    sessionQueue.async { [weak self] in
+      guard let self = self else {
+        return
+      }
+      session?.beginConfiguration()
+      // connect the camera IO to the delegate
+      if let session = session {
+        if session.inputs.count == 0 {
+          //session.sessionPreset = preset
+          
+          if let c = camera {
+            if let i = try? AVCaptureDeviceInput(device: c) {
+              print(#function, "START")
+              input  = i
+              output = AVCaptureVideoDataOutput()
+              
+              if let cameraOutput = output {
+                if session.canAddInput(i) && session.canAddOutput(cameraOutput) {
+                  session.addInput(i)
+                  session.addOutput(cameraOutput)
+                }
               }
+              
+              // set the delegate and thread to use for camera output
+              output?.setSampleBufferDelegate(imageProcessor, queue: sessionQueue)
+              print(#function, "STARTED")
             }
-            
-            // set the delegate and thread to use for camera output
-            output?.setSampleBufferDelegate(imageProcessor, queue: thread)
-            print(#function, "STARTED")
           }
         }
       }
+      session?.commitConfiguration()
     }
   }
   
   
   /// disconnects the camera and output to the session
   func disconnectInputAndOutput() {
-    DispatchQueue.global().async {
+    sessionQueue.async {
       //print(#function, "START")
       for input in self.session?.inputs ?? [] {
         self.session?.removeInput(input)
@@ -250,21 +254,19 @@ public class W3WOcrCamera: W3WVideoStream {
   /// ask user for camera permission
   /// - Parameters:
   ///     - completion: closure called with success result
-  static func requestPermissionFromUser(completion: @escaping (Bool) -> ()) {
-    DispatchQueue.main.async {
-      AVCaptureDevice.requestAccess(for: .video) { granted in
-        DispatchQueue.main.async {
-          completion(granted)
-        }
-      }
-    }
+  func requestPermissionFromUser(completion: @escaping (Bool) -> ()) {
+    sessionQueue.suspend()
+    AVCaptureDevice.requestAccess(for: .video, completionHandler: { granted in
+      completion(granted)
+      self.sessionQueue.resume()
+    })
   }
   
   
   /// gets permission to use the camera from the user
   /// - Parameters:
   ///     - completion: a completion block carrying a boolean indicating success or failure
-  public static func getCameraPermission(completion: @escaping (Bool) -> () ) {
+  public func getCameraPermission(completion: @escaping (Bool) -> () ) {
     DispatchQueue.main.async {
       switch AVCaptureDevice.authorizationStatus(for: .video) {
         
@@ -274,7 +276,7 @@ public class W3WOcrCamera: W3WVideoStream {
         
         // The user has not yet been asked for camera access.
       case .notDetermined:
-        W3WOcrCamera.requestPermissionFromUser(completion: completion)
+        self.requestPermissionFromUser(completion: completion)
         
         // The user has previously denied access.
       case .denied:
@@ -286,7 +288,7 @@ public class W3WOcrCamera: W3WVideoStream {
         
         // unknown future state
       @unknown default:
-        W3WOcrCamera.requestPermissionFromUser(completion: completion)
+        self.requestPermissionFromUser(completion: completion)
       }
     }
   }
