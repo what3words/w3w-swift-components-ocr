@@ -447,13 +447,13 @@ open class W3WOcrViewController: W3WViewController {
         self?.ocrView.unset(camera: c)
       }
 
+      self?.ocrView.removeBoxes()
+      
       #if canImport(W3WOcrSdk)
       self?.ocr?.stop {
         completion()
       }
       #endif
-    
-      self?.ocrView.removeBoxes()
     }
   }
   
