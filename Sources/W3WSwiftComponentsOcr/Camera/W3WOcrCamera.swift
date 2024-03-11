@@ -95,7 +95,7 @@ public class W3WOcrCamera: W3WVideoStream {
     }
 #endif
     sessionQueue.async { [weak self] in
-      DispatchQueue.main.async {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
         self?.onCameraStarted?()
       }
     }
