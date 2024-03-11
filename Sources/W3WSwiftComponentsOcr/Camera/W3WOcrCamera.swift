@@ -103,15 +103,16 @@ public class W3WOcrCamera: W3WVideoStream {
   /// tell the camera to stop producing images
   public func stop() {
     //print("camera.stop()")
-    disconnectInputAndOutput()
     // if this is the simulator, then fake the real camera
 #if targetEnvironment(simulator)
     imageProcessor.stop()
+    disconnectInputAndOutput()
 #else
     sessionQueue.async { [weak self] in
       print(#function, "async ", "STOP")
       self?.session?.stopRunning()
     }
+    disconnectInputAndOutput()
 #endif
   }
   
