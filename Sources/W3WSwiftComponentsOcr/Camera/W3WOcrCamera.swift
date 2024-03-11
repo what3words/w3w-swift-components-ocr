@@ -103,15 +103,14 @@ public class W3WOcrCamera: W3WVideoStream {
   /// tell the camera to stop producing images
   public func stop() {
     //print("camera.stop()")
+    disconnectInputAndOutput()
     // if this is the simulator, then fake the real camera
 #if targetEnvironment(simulator)
     imageProcessor.stop()
-    disconnectInputAndOutput()
 #else
-    sessionQueue.async {
+    sessionQueue.async { [weak self] in
       print(#function, "async ", "STOP")
-      self.session?.stopRunning()
-      self.disconnectInputAndOutput()
+      self?.session?.stopRunning()
     }
 #endif
   }
@@ -228,15 +227,17 @@ public class W3WOcrCamera: W3WVideoStream {
   
   /// disconnects the camera and output to the session
   func disconnectInputAndOutput() {
-    sessionQueue.async {
+    sessionQueue.async { [weak self] in
       //print(#function, "START")
-      for input in self.session?.inputs ?? [] {
-        self.session?.removeInput(input)
+      self?.session?.beginConfiguration()
+      for input in self?.session?.inputs ?? [] {
+        self?.session?.removeInput(input)
       }
       
-      for output in self.session?.outputs ?? [] {
-        self.session?.removeOutput(output)
+      for output in self?.session?.outputs ?? [] {
+        self?.session?.removeOutput(output)
       }
+      self?.session?.commitConfiguration()
       //print(#function, "STOP")
     }
   }
