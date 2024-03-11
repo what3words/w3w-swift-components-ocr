@@ -111,8 +111,8 @@ public class W3WOcrCamera: W3WVideoStream {
     sessionQueue.async { [weak self] in
       print(#function, "async ", "STOP")
       self?.session?.stopRunning()
+      self?.disconnectInputAndOutput()
     }
-    disconnectInputAndOutput()
 #endif
   }
   
@@ -230,7 +230,6 @@ public class W3WOcrCamera: W3WVideoStream {
   func disconnectInputAndOutput() {
     sessionQueue.async { [weak self] in
       //print(#function, "START")
-      self?.session?.beginConfiguration()
       for input in self?.session?.inputs ?? [] {
         self?.session?.removeInput(input)
       }
@@ -238,7 +237,6 @@ public class W3WOcrCamera: W3WVideoStream {
       for output in self?.session?.outputs ?? [] {
         self?.session?.removeOutput(output)
       }
-      self?.session?.commitConfiguration()
       //print(#function, "STOP")
     }
   }
