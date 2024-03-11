@@ -58,8 +58,6 @@ public class W3WOcrCamera: W3WVideoStream {
     
     // init the W3WOcrVideoStream parent class
     super.init()
-    
-    connectInputAndOutput()
   }
   
   
@@ -120,9 +118,7 @@ public class W3WOcrCamera: W3WVideoStream {
   
   
   public func startAvSystem() {
-    if session == nil {
-      session = AVCaptureSession()
-    }
+    session = AVCaptureSession()
   }
   
   
@@ -198,6 +194,7 @@ public class W3WOcrCamera: W3WVideoStream {
         return
       }
       session?.beginConfiguration()
+      print(#function, "beginConfiguration")
       // connect the camera IO to the delegate
       if let session = session {
         if session.inputs.count == 0 {
@@ -224,6 +221,7 @@ public class W3WOcrCamera: W3WVideoStream {
         }
       }
       session?.commitConfiguration()
+      print(#function, "commitConfiguration")
     }
   }
   
