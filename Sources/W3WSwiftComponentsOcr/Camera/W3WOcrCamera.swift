@@ -118,7 +118,7 @@ public class W3WOcrCamera: W3WVideoStream {
     disconnectInputAndOutput()
 #else
 
-    thread.async { [weak self] in
+    thread.sync { [weak self] in
       guard let self else { return }
       self.session?.beginConfiguration()
       self.session?.commitConfiguration()
