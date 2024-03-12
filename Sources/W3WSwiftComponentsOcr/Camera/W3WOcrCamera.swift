@@ -90,22 +90,25 @@ public class W3WOcrCamera: W3WVideoStream {
 #if targetEnvironment(simulator)
     imageProcessor.start()
 #else
-    thread.async {
+    thread.async { [weak self] in
+      guard let self else { return }
       print(#function, "async ", "START")
       self.session?.beginConfiguration()
       self.session?.commitConfiguration()
       self.session?.startRunning()
+      self.startCountdown()
       print(#function, "async ", "STOP")
     }
 #endif
-    
+
+  }
+  
+  private func startCountdown() {
     DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
       guard let self else { return }
       self.onCameraStarted?()
     }
   }
-  
-  
   /// tell the camera to stop producing images
   public func stop() {
     //print("camera.stop()")
@@ -114,9 +117,14 @@ public class W3WOcrCamera: W3WVideoStream {
     imageProcessor.stop()
     disconnectInputAndOutput()
 #else
-    thread.async {
+
+    thread.sync { [weak self] in
+      guard let self else { return }
+      self.session?.beginConfiguration()
+      self.session?.commitConfiguration()
       self.session?.stopRunning()
       self.disconnectInputAndOutput()
+      self.session = nil
     }
 #endif
   }
