@@ -518,14 +518,14 @@ open class W3WOcrViewController: W3WViewController {
       let height: CGFloat
       if UIScreen.main.bounds.width < UIScreen.main.bounds.height {
         // potrait
-        width = UIScreen.main.bounds.width - inset * 2.0
+        width = view.bounds.width - inset * 2.0
         height = width
       } else {
         // landscape
-        width = UIScreen.main.bounds.width * 0.8 - inset * 2.0
+        width = view.bounds.width * 0.8 - inset * 2.0
         height = width * W3WSettings.ocrViewfinderRatioLandscape
       }
-      let crop = CGRect(origin: CGPoint(x: (UIScreen.main.bounds.width - width) / 2,
+      let crop = CGRect(origin: CGPoint(x: (view.bounds.width - width) / 2,
                                         y: topMargin + closeButtonSize + W3WMargin.light.value),
                         size: CGSize(width: width, height: height))
       ocrView.set(crop: crop)
