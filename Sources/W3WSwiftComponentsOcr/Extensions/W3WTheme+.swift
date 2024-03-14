@@ -120,7 +120,7 @@ public extension W3WTheme {
     let brandColor: W3WColor? = brandColor ?? self[.ocr]?.colors?.brand
     let addressTextColor: W3WColor? = addressTextColor ?? self[.ocr]?.colors?.foreground
     let footnoteTextColor: W3WColor? = footnoteTextColor ?? self[.ocr]?.colors?.secondary
-    let errorTextColor: W3WColor? = errorTextColor ?? self[.ocr]?.colors?.error?.foreground
+    let errorTextColor: W3WColor? = errorTextColor ?? self[.ocr]?.colors?.foreground
     
     // Fonts
     let fonts = fonts ?? self[.ocr]?.styles?.fonts
