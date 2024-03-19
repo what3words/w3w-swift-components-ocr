@@ -197,10 +197,4 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
   public override func scrollViewDidScroll(_ scrollView: UIScrollView) {
     onDragging?()
   }
-  
-  // MARK: - W3WViewController overrides
-  open override func set(theme: W3WTheme?) {
-    super.set(theme: theme)
-    reloadDatasource()
-  }
 }
