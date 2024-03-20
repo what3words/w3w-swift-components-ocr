@@ -179,9 +179,14 @@ public class W3WOcrNative: W3WOcrProtocol {
     self.completion = completion
     self.info       = { info in video.onFrameInfo(info) }
     
-    video.onNewImage = { [weak self] image in
-      self?.lastImageResolution = CGSize(width: image.width, height: image.height)
-      self?.autosuggest(image: image, info: self?.info ?? { _ in }, completion: { suggestions, error in self?.completion(suggestions, error) })
+    video.onNewImage = { [weak self, weak video] image in
+      guard let self,
+            let video
+      else {
+        return
+      }
+      self.lastImageResolution = CGSize(width: image.width, height: image.height)
+      self.autosuggest(image: image, info: self.info ?? { _ in }, completion: { suggestions, error in self.completion(suggestions, error) })
     }
   }
   

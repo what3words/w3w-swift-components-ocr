@@ -98,6 +98,7 @@ open class W3WOcrViewController: W3WViewController {
   /// ensures output is stopped, as there can be suggestion stragglers
   var stopOutput = false
 
+  var hasStoppedScanning = false
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   var customCrop: CGRect?
   
@@ -236,8 +237,11 @@ open class W3WOcrViewController: W3WViewController {
     
     if camera == nil {
       self.camera = W3WOcrCamera.get(camera: .back)
-      self.camera?.onCameraStarted = { [weak self] in
-        self?.onCameraStarted()
+      self.camera?.onCameraStarted = { [weak self, weak camera] in
+        guard let self,
+              let camera
+        else { return }
+        self.onCameraStarted()
       }
     }
   }
@@ -304,7 +308,7 @@ open class W3WOcrViewController: W3WViewController {
   /// start scanning
   public func start() {
     stopOutput = false
-
+    hasStoppedScanning = false
     if let c = camera, let o = ocr {
       state = .detecting
       c.start()
@@ -313,16 +317,17 @@ open class W3WOcrViewController: W3WViewController {
       ocrView.set(lineColor: W3WSettings.ocrTargetColor, lineGap: 1.0)
       
       o.autosuggest(video: c) { [weak self] suggestions, error in
+        guard let self else { return }
         if self == nil {
           print("The OCR system is connected to a W3WOcrViewController that no longer exists. Please ensure the OCR is connected to the current W3WOcrViewController.  Perhaps instantiate a new OCR when creating a new W3WOcrViewControlller.")
           
         } else if let e = error {
           DispatchQueue.main.async {
-            self?.handleOcrError(e)
+            self.handleOcrError(e)
           }
-        } else if self?.stopOutput == false {
+        } else if self.stopOutput == false {
           DispatchQueue.main.async {
-            self?.handleNewSuggestions(suggestions)
+            self.handleNewSuggestions(suggestions)
           }
         }
       }
@@ -434,7 +439,8 @@ open class W3WOcrViewController: W3WViewController {
   
   /// stop scanning
   public func stop(completion: @escaping () -> () = {}) {
-    
+    if hasStoppedScanning { return }
+    hasStoppedScanning = true
     if scanMode == .stopOnFirstResult {
       stopOutput = true
     }
@@ -443,14 +449,15 @@ open class W3WOcrViewController: W3WViewController {
     state = .idle
 
     DispatchQueue.main.async { [weak self] in
-      if let c = self?.camera {
-        self?.ocrView.unset(camera: c)
+      guard let self else { return }
+      if let c = self.camera {
+        self.ocrView.unset(camera: c)
       }
 
-      self?.ocrView.removeBoxes()
+      self.ocrView.removeBoxes()
       
       #if canImport(W3WOcrSdk)
-      self?.ocr?.stop {
+      self.ocr?.stop {
         completion()
       }
       #endif
