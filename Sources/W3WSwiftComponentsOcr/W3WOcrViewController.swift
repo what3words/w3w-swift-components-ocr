@@ -107,12 +107,7 @@ open class W3WOcrViewController: W3WViewController {
   
   // MARK: - UI properties
   open lazy var bottomSheet: W3WSuggessionsBottomSheet = {
-    let bottomSheetBackground = theme?[.ocr]?.colors?.secondaryBackground
-    let separator = theme?[.ocr]?.colors?.separator
-    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme?
-      .with(cornerRadius: .softer)
-      .with(separator: separator)
-      .with(background: bottomSheetBackground))
+    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme)
     return bottomSheet
   }()
   
@@ -175,7 +170,8 @@ open class W3WOcrViewController: W3WViewController {
   
   /// initializer override to instantiate the W3WOcrScannerView
   public override init(theme: W3WTheme? = .what3words) {
-    super.init(theme: theme)
+    super.init()
+    set(theme: theme ?? .standard)
     setup()
   }
   
@@ -192,7 +188,6 @@ open class W3WOcrViewController: W3WViewController {
   
   /// Setup
   open func setup() {
-    setupOcrScheme()
     W3WTranslations.main.add(bundle: Bundle.current)
   }
   
@@ -490,6 +485,7 @@ open class W3WOcrViewController: W3WViewController {
   open override func set(theme: W3WTheme?) {
     let theme = theme?.withOcrStateSchemes()
     super.set(theme: theme)
+    bottomSheet.set(theme: theme)
   }
   
   // MARK: - Setup UI

@@ -9,15 +9,6 @@ import UIKit
 import W3WSwiftCore
 import W3WSwiftThemes
 
-public extension W3WOcrViewController {
-  func setupOcrScheme() {
-    if theme == nil {
-      theme = .standard
-    }
-    theme = theme?.withOcrStateSchemes()
-  }
-}
-
 public extension W3WTheme {
   func getOcrScheme(state: W3WOcrState) -> W3WScheme? {
     return self[state.setType]
