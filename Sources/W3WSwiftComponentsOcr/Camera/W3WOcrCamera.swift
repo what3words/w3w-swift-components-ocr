@@ -90,17 +90,14 @@ public class W3WOcrCamera: W3WVideoStream {
 #if targetEnvironment(simulator)
     imageProcessor.start()
 #else
-    
     thread.async { [weak self] in
       guard let self else { return }
       self.session?.beginConfiguration()
       self.session?.commitConfiguration()
       self.session?.startRunning()
     }
-    
-    startCountdown()
 #endif
-
+    startCountdown()
   }
   
   private func startCountdown() {
