@@ -434,7 +434,10 @@ open class W3WOcrViewController: W3WViewController {
   
   /// stop scanning
   public func stop(completion: @escaping () -> () = {}) {
-    if hasStoppedScanning { return }
+    if hasStoppedScanning {
+      completion()
+      return
+    }
     hasStoppedScanning = true
     if scanMode == .stopOnFirstResult {
       stopOutput = true
@@ -451,11 +454,13 @@ open class W3WOcrViewController: W3WViewController {
 
       self.ocrView.removeBoxes()
       
-      #if canImport(W3WOcrSdk)
+#if canImport(W3WOcrSdk)
       self.ocr?.stop {
         completion()
       }
-      #endif
+#else
+      completion()
+#endif
     }
   }
   
