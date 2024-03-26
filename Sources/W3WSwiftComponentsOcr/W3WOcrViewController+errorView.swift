@@ -27,16 +27,29 @@ extension W3WOcrViewController {
   }
   
   public func showErrorView(title: String) {
-    errorView.config(with: title)
-    UIView.animate(withDuration: 0.4) {
-      self.errorView.isHidden = false
+    guard errorView.isHidden == true else {
+      return
     }
-    bottomSheet.scrollToBottom()
+    errorView.config(with: title)
+    errorView.isHidden = false
+    errorView.layoutIfNeeded()
+    // Update bottom sheet position
+    setupBottomSheet()
+    UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut) {
+      self.errorView.alpha = 1.0
+    }
   }
   
   public func hideErrorView() {
-    UIView.animate(withDuration: 0.4) {
+    guard errorView.isHidden == false else {
+      return
+    }
+    UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut) {
+      self.errorView.alpha = 0.0
+    } completion: { _ in
       self.errorView.isHidden = true
+      // Update bottom sheet position
+      self.setupBottomSheet()
     }
   }
 }

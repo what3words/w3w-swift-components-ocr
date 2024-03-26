@@ -30,36 +30,26 @@ open class W3WOcrStartViewController: W3WViewController {
   }
 
   // MARK: - UI properties
-  open lazy var contentStackView: UIStackView = {
-    let view = UIStackView(arrangedSubviews: [startButton, startScanningLabel])
-    view.translatesAutoresizingMaskIntoConstraints = false
-    view.axis = .vertical
-    view.alignment = .center
-    view.spacing = W3WMargin.heavy.value
-    return view
+  open lazy var w3wLogo: UIView = {
+    let imageView = W3WIconView(images: [W3WColorMode.light: .w3wLogoWithDarkText, W3WColorMode.dark: .w3wLogoWithLightText], 
+                                size: .init(value: .init(width: 143.0, height: 24.0)))
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      imageView.heightAnchor.constraint(equalToConstant: 24.0),
+    ])
+    return imageView
   }()
 
   open lazy var startButton: W3WButton = {
-    let button = W3WButton(image: .w3wLogo) { [weak self] in
+    let button = W3WButton(label: W3WTranslations.main.translate(key: "Start scanning"), fontStyle: .body) { [weak self] in
       self?.didTapStartScanning()
     }
     button.imageView?.contentMode = .scaleAspectFit
     button.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      button.heightAnchor.constraint(equalToConstant: W3WIconSize.largeIcon.value.height),
-      button.widthAnchor.constraint(equalToConstant: W3WIconSize.largeIcon.value.width)
+      button.heightAnchor.constraint(equalToConstant: 52.0),
     ])
     return button
-  }()
-
-  open lazy var startScanningLabel: W3WLabel = {
-    let label = W3WLabel(fontStyle: .title2)
-    label.translatesAutoresizingMaskIntoConstraints = false
-    label.text = W3WTranslations.main.translate(key: "Start scanning")
-    label.isUserInteractionEnabled = true
-    let tap = UITapGestureRecognizer(target: self, action: #selector(didTapStartScanning))
-    label.addGestureRecognizer(tap)
-    return label
   }()
 
   // MARK: - Setup
@@ -69,10 +59,14 @@ open class W3WOcrStartViewController: W3WViewController {
   }
 
   open func setupUI() {
-    view.addSubview(contentStackView)
+    view.addSubview(w3wLogo)
+    view.addSubview(startButton)
     NSLayoutConstraint.activate([
-      contentStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      contentStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+      w3wLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      w3wLogo.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+      startButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: W3WMargin.bold.value),
+      startButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -W3WMargin.heavy.value)
     ])
   }
 
@@ -89,7 +83,10 @@ open class W3WOcrStartViewController: W3WViewController {
   // MARK: - W3WViewController overrides
   open override func set(theme: W3WTheme?) {
     super.set(theme: theme)
-    startScanningLabel.set(scheme: theme?[.base]?.with(background: .clear))
-    startButton.set(scheme: theme?[.base]?.with(background: .clear).with(foreground: .standardBrandBase))
+    startButton.set(scheme: theme?[.base]?
+      .with(fonts: W3WFonts().with(body: .semibold))
+      .with(background: theme?[.base]?.colors?.tint)
+      .with(foreground: .white)
+      .with(cornerRadius: .soft))
   }
 }

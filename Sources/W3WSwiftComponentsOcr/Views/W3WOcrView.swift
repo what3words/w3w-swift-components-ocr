@@ -75,6 +75,9 @@ public class W3WOcrView: W3WOcrBasicView {
   // MARK: Accessors
   
   public func set(crop: CGRect) {
+    guard crop != self.crop else {
+      return
+    }
     self.crop = CGRect(x: trunc(crop.origin.x), y: trunc(crop.origin.y), width: trunc(crop.size.width), height: trunc(crop.size.height))
     recalculateAndPositionLayers()
     

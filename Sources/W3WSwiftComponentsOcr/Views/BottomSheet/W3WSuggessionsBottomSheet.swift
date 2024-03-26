@@ -49,12 +49,12 @@ open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
     tableViewController.moveSuggestionToFirst(suggestion)
   }
   
-  public func scrollToTop() {
-    w3wView?.set(position: .bottom(height: getDetents().max()), animate: .defaultAnimationSpeed)
+  public func scrollToTop(animate: Bool = true) {
+    w3wView?.set(position: .bottom(height: getDetents().max()), animate: animate ? .defaultAnimationSpeed : .seconds(0.0))
   }
   
-  public func scrollToBottom() {
-    w3wView?.set(position: .bottom(height: getDetents().min()), animate: .defaultAnimationSpeed)
+  public func scrollToBottom(animate: Bool = true) {
+    w3wView?.set(position: .bottom(height: getDetents().min()), animate: animate ? .defaultAnimationSpeed : .seconds(0.0))
   }
   
   public var isEmpty: Bool {

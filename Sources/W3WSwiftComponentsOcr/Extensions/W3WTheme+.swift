@@ -114,6 +114,7 @@ public extension W3WTheme {
     // Background color
     let backgroundColor: W3WColor? = backgroundColor ?? self[.ocr]?.colors?.background
     let bottomSheetBackgroundColor: W3WColor? = bottomSheetBackgroundColor ?? self[.ocr]?.colors?.secondaryBackground
+    let cameraBackgroundColor: W3WColor? = cameraBackgroundColor ?? .darkBlueAlpha60
     
     /// Text color
     let headerTextColor: W3WColor? = headerTextColor ?? self[.ocr]?.colors?.foreground
@@ -158,7 +159,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: headerTextColor,
-            background: cameraBackgroundColor ?? W3WColor.lightBlue,
+            background: cameraBackgroundColor,
             line: defaultLineColor
           ),
           styles: W3WStyles(
@@ -175,7 +176,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: headerTextColor,
-            background: cameraBackgroundColor ?? W3WColor.lightBlue,
+            background: cameraBackgroundColor,
             line: defaultLineColor
           ),
           styles: W3WStyles(
@@ -192,7 +193,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: headerTextColor,
-            background: cameraBackgroundColor ?? W3WColor.lightBlue,
+            background: cameraBackgroundColor,
             line: successLineColor
           ),
           styles: W3WStyles(
@@ -209,7 +210,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: headerTextColor,
-            background: cameraBackgroundColor ?? W3WColor.lightBlue,
+            background: cameraBackgroundColor,
             line: defaultLineColor
           ),
           styles: W3WStyles(
@@ -225,8 +226,9 @@ public extension W3WTheme {
       case .error:
         scheme = W3WScheme(
           colors: W3WColors(
-            foreground: errorTextColor,
-            background: cameraBackgroundColor ?? W3WColor.lightBlue,
+            foreground: headerTextColor,
+            background: cameraBackgroundColor,
+            error: W3WBasicColors(foreground: errorTextColor, background: errorLineColor),
             line: errorLineColor
           ),
           styles: W3WStyles(
