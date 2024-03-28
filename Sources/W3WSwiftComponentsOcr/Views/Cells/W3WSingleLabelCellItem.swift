@@ -26,6 +26,7 @@ public struct W3WSingleLabelCellItem: Hashable {
 public extension W3WSingleLabelCellItem {
   init(ocrState: W3WOcrState, theme: W3WTheme?, resultIsEmpty: Bool = true) {
     var targetState = ocrState
+    var textAlignment: NSTextAlignment = .center
     if !resultIsEmpty {
       targetState = .scanned
     }
@@ -38,10 +39,18 @@ public extension W3WSingleLabelCellItem {
       text = LanguageStrings.localized(key: "ocr_scanning")
     case .scanned:
       text = LanguageStrings.localized(key: "scan_state_found")
-    default:
-      text = resultIsEmpty ? LanguageStrings.localized(key: "ocr_scan_3wa") : LanguageStrings.localized(key: "scan_state_found")
+      textAlignment = .left
+    case .error:
+      if resultIsEmpty {
+        text = LanguageStrings.localized(key: "ocr_scan_3wa")
+      } else {
+        text = LanguageStrings.localized(key: "scan_state_found")
+        textAlignment = .left
+      }
     }
-    scheme = theme?.getOcrScheme(state: targetState)?.with(background: .clear)
+    scheme = theme?.getOcrScheme(state: targetState)?
+      .with(textAlignment: W3WTextAlignment(value: textAlignment))
+      .with(background: .clear)
     identifier = targetState.rawValue
   }
 }
