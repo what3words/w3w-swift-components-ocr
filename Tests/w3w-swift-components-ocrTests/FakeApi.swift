@@ -91,3 +91,9 @@ class FakeApi: W3WProtocolV4 {
   
   
 }
+
+class FakeApiWithError: FakeApi {
+  override func autosuggest(text: String, options: [W3WSwiftCore.W3WOption]?, completion: @escaping W3WSwiftCore.W3WSuggestionsResponse) {
+    completion(nil, .message("Fake error"))
+  }
+}
