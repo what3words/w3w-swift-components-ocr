@@ -31,8 +31,7 @@ open class W3WOcrStartViewController: W3WViewController {
 
   // MARK: - UI properties
   open lazy var w3wLogo: W3WIconView = {
-    let imageView = W3WIconView(image: W3WColorModeImage(light: .w3wLogoWithDarkText, dark: .w3wLogoWithLightText),
-                                size: .init(value: .init(width: 143.0, height: 24.0)))
+    let imageView = W3WIconView(image: .w3wLogoWithColorMode)
     imageView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       imageView.heightAnchor.constraint(equalToConstant: 24.0),

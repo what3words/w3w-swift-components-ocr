@@ -135,8 +135,7 @@ open class W3WOcrViewController: W3WViewController {
   
   open lazy var w3wLogo: UIView = {
     let imageView = W3WIconView(image: .w3wLogoWithText, 
-                                scheme: .standardIcons.with(foreground: .white),
-                                size: .w3wLogoWithTextIcon)
+                                scheme: .standardIcons.with(foreground: .white))
     imageView.contentMode = .scaleToFill
     imageView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
