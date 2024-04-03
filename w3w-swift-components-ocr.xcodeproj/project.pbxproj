@@ -1012,7 +1012,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/what3words/w3w-swift-design.git";
 			requirement = {
-				branch = staging;
+				branch = "task/unit-test-job";
 				kind = branch;
 			};
 		};
