@@ -33,7 +33,6 @@
 		764C51212B6057A30093A169 /* LanguageStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764C51202B6057A30093A169 /* LanguageStrings.swift */; };
 		764C51252B6057F50093A169 /* Bundle+current.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764C51242B6057F50093A169 /* Bundle+current.swift */; };
 		76A58E242B35A3E3003785F9 /* W3WSwiftDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 76A58E232B35A3E3003785F9 /* W3WSwiftDesign */; };
-		76A58E262B35A3EF003785F9 /* W3WSwiftDesign in Frameworks */ = {isa = PBXBuildFile; productRef = 76A58E252B35A3EF003785F9 /* W3WSwiftDesign */; };
 		76A58E282B35A552003785F9 /* W3WOcrViewController+theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A58E272B35A552003785F9 /* W3WOcrViewController+theme.swift */; };
 		76A58E402B35BD3C003785F9 /* FakeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A58E3F2B35BD3C003785F9 /* FakeApi.swift */; };
 		76B6A4752B4CFF2200B3B522 /* W3WSearchResultSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B6A4712B4CFF2200B3B522 /* W3WSearchResultSectionItem.swift */; };
@@ -222,7 +221,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				76A58E262B35A3EF003785F9 /* W3WSwiftDesign in Frameworks */,
 				OBJ_138 /* W3WSwiftComponentsOcr.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -471,7 +469,6 @@
 			);
 			name = "w3w-swift-components-ocrTests";
 			packageProductDependencies = (
-				76A58E252B35A3EF003785F9 /* W3WSwiftDesign */,
 			);
 			productName = w3w_swift_components_ocrTests;
 			productReference = "w3w-swift-components-ocr::w3w-swift-components-ocrTests::Product" /* w3w-swift-components-ocrTests.xctest */;
@@ -1020,11 +1017,6 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		76A58E232B35A3E3003785F9 /* W3WSwiftDesign */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 76A58E202B35A269003785F9 /* XCRemoteSwiftPackageReference "w3w-swift-design" */;
-			productName = W3WSwiftDesign;
-		};
-		76A58E252B35A3EF003785F9 /* W3WSwiftDesign */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 76A58E202B35A269003785F9 /* XCRemoteSwiftPackageReference "w3w-swift-design" */;
 			productName = W3WSwiftDesign;

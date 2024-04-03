@@ -8,5 +8,19 @@
 import Foundation
 
 extension Bundle {
-  public static var current: Bundle = .main
+  static let current: Bundle = {
+#if DEBUG
+    if let moduleName = Bundle(for: BundleFinder.self).bundleIdentifier,
+       let testBundlePath = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] {
+      if let resourceBundle = Bundle(path: testBundlePath + "/\(moduleName)_\(moduleName).bundle") {
+        return resourceBundle
+      }
+    }
+    return Bundle(for: BundleFinder.self)
+#else
+    return Bundle.module
+#endif
+  }()
+  
+  private final class BundleFinder {}
 }

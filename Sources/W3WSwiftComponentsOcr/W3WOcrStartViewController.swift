@@ -65,7 +65,7 @@ open class W3WOcrStartViewController: W3WViewController {
 
   // MARK: - Setup
   open func setup() {
-    W3WTranslations.main.add(bundle: Bundle.main)
+    W3WTranslations.main.add(bundle: .current)
     setupUI()
   }
 
