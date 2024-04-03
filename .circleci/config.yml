@@ -35,8 +35,6 @@ commands:
           name: Run Unit Tests
           command: |-
             brew install sonar-scanner
-            swift test --enable-code-coverage
-            xcrun llvm-cov show .build/debug/w3w-swift-components-ocrPackageTests.xctest/Contents/MacOS/w3w-swift-components-ocrPackageTests -instr-profile .build/debug/codecov/default.profdata > .build/cov.txt
             xcodebuild -scheme w3w-swift-components-ocr-Package test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' -enableCodeCoverage YES -derivedDataPath .build
             PROFDATA_FILE=$(find . -name '*.profdata')
             xcrun llvm-cov show .build/Build/Products/Debug-iphonesimulator/w3w-swift-components-ocrTests.xctest/w3w-swift-components-ocrTests -instr-profile $PROFDATA_FILE > .build/cov.txt
