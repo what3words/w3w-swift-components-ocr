@@ -8,5 +8,5 @@
 import Foundation
 
 extension Bundle {
-  public static var current: Bundle = .module
+  public static var current: Bundle = .main
 }

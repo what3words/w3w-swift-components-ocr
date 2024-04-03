@@ -53,7 +53,7 @@ jobs: # the jobs
       W3W_SDK_VERSION: v4.0.0
     steps:
       - download_dependancies
-#      - test
+      - test
 
 workflows:
 

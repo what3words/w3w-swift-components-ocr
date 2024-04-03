@@ -5,6 +5,7 @@
 //  Created by Dave Duprey on 29/09/2021.
 //
 
+#if canImport(UIKit)
 import Foundation
 import Vision
 import W3WSwiftCore
@@ -17,7 +18,7 @@ import w3w
 #endif // w3w
 
 
-@available(iOS 13.0, *)
+@available(iOS 13.0, macOS 10.15, *)
 public class W3WOcrNative: W3WOcrProtocol {
 
   /// languages to use for recognition
@@ -80,7 +81,7 @@ public class W3WOcrNative: W3WOcrProtocol {
     
     // get a list of langauges from the system
     let temp = VNRecognizeTextRequest(completionHandler: { _, _ in })
-    if #available(iOS 15.0, *) {
+    if #available(iOS 15.0, macOS 12.0, *) {
       if let ocrLangauges = try? temp.supportedRecognitionLanguages() { //}, let w3wLanguages = languages {
         self.supportedLanguages = ocrLangauges
         //self.languagesQueried = true
@@ -484,3 +485,4 @@ public class W3WOcrNative: W3WOcrProtocol {
   }
   
 }
+#endif

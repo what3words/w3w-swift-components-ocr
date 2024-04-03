@@ -66,7 +66,6 @@
 		OBJ_135 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* XCTestManifests.swift */; };
 		OBJ_136 /* w3w_swift_components_ocrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* w3w_swift_components_ocrTests.swift */; };
 		OBJ_138 /* W3WSwiftComponentsOcr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "w3w-swift-components-ocr::W3WSwiftComponentsOcr::Product" /* W3WSwiftComponentsOcr.framework */; };
-		OBJ_139 /* W3WSwiftApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "w3w-swift-wrapper::W3WSwiftApi::Product" /* W3WSwiftApi.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,13 +75,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = "w3w-swift-components-ocr::W3WSwiftComponentsOcr";
 			remoteInfo = W3WSwiftComponentsOcr;
-		};
-		01CB048B2795C35B007723AC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "w3w-swift-wrapper::W3WSwiftApi";
-			remoteInfo = W3WSwiftApi;
 		};
 		01CB049227972BA2007723AC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -213,7 +205,6 @@
 		OBJ_69 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		"w3w-swift-components-ocr::W3WSwiftComponentsOcr::Product" /* W3WSwiftComponentsOcr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = W3WSwiftComponentsOcr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"w3w-swift-components-ocr::w3w-swift-components-ocrTests::Product" /* w3w-swift-components-ocrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "w3w-swift-components-ocrTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		"w3w-swift-wrapper::W3WSwiftApi::Product" /* W3WSwiftApi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = W3WSwiftApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,14 +224,6 @@
 			files = (
 				76A58E262B35A3EF003785F9 /* W3WSwiftDesign in Frameworks */,
 				OBJ_138 /* W3WSwiftComponentsOcr.framework in Frameworks */,
-				OBJ_139 /* W3WSwiftApi.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_94 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,7 +376,6 @@
 		OBJ_64 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"w3w-swift-wrapper::W3WSwiftApi::Product" /* W3WSwiftApi.framework */,
 				"w3w-swift-components-ocr::W3WSwiftComponentsOcr::Product" /* W3WSwiftComponentsOcr.framework */,
 				"w3w-swift-components-ocr::w3w-swift-components-ocrTests::Product" /* w3w-swift-components-ocrTests.xctest */,
 			);
@@ -486,7 +468,6 @@
 			);
 			dependencies = (
 				OBJ_140 /* PBXTargetDependency */,
-				OBJ_141 /* PBXTargetDependency */,
 			);
 			name = "w3w-swift-components-ocrTests";
 			packageProductDependencies = (
@@ -495,36 +476,6 @@
 			productName = w3w_swift_components_ocrTests;
 			productReference = "w3w-swift-components-ocr::w3w-swift-components-ocrTests::Product" /* w3w-swift-components-ocrTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		"w3w-swift-wrapper::SwiftPMPackageDescription" /* w3w-swift-wrapperPackageDescription */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_143 /* Build configuration list for PBXNativeTarget "w3w-swift-wrapperPackageDescription" */;
-			buildPhases = (
-				OBJ_146 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "w3w-swift-wrapperPackageDescription";
-			productName = "w3w-swift-wrapperPackageDescription";
-			productType = "com.apple.product-type.framework";
-		};
-		"w3w-swift-wrapper::W3WSwiftApi" /* W3WSwiftApi */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_71 /* Build configuration list for PBXNativeTarget "W3WSwiftApi" */;
-			buildPhases = (
-				OBJ_74 /* Sources */,
-				OBJ_94 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = W3WSwiftApi;
-			productName = W3WSwiftApi;
-			productReference = "w3w-swift-wrapper::W3WSwiftApi::Product" /* W3WSwiftApi.framework */;
-			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -627,12 +578,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				"w3w-swift-wrapper::W3WSwiftApi" /* W3WSwiftApi */,
 				"w3w-swift-components-ocr::W3WSwiftComponentsOcr" /* W3WSwiftComponentsOcr */,
 				"w3w-swift-components-ocr::SwiftPMPackageDescription" /* w3w-swift-components-ocrPackageDescription */,
 				"w3w-swift-components-ocr::w3w-swift-components-ocrPackageTests::ProductTarget" /* w3w-swift-components-ocrPackageTests */,
 				"w3w-swift-components-ocr::w3w-swift-components-ocrTests" /* w3w-swift-components-ocrTests */,
-				"w3w-swift-wrapper::SwiftPMPackageDescription" /* w3w-swift-wrapperPackageDescription */,
 			);
 		};
 /* End PBXProject section */
@@ -653,20 +602,6 @@
 				OBJ_135 /* XCTestManifests.swift in Sources */,
 				76A58E402B35BD3C003785F9 /* FakeApi.swift in Sources */,
 				OBJ_136 /* w3w_swift_components_ocrTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_146 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_74 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -725,11 +660,6 @@
 			isa = PBXTargetDependency;
 			target = "w3w-swift-components-ocr::W3WSwiftComponentsOcr" /* W3WSwiftComponentsOcr */;
 			targetProxy = 01CB048A2795C35B007723AC /* PBXContainerItemProxy */;
-		};
-		OBJ_141 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "w3w-swift-wrapper::W3WSwiftApi" /* W3WSwiftApi */;
-			targetProxy = 01CB048B2795C35B007723AC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -911,24 +841,6 @@
 			};
 			name = Release;
 		};
-		OBJ_144 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/ManifestAPI -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -package-description-version 5.3.0";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		OBJ_145 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/ManifestAPI -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -package-description-version 5.3.0";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -982,72 +894,6 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				USE_HEADERMAP = NO;
-			};
-			name = Release;
-		};
-		OBJ_72 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1;
-				DRIVERKIT_DEPLOYMENT_TARGET = 19.0;
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "w3w-swift-components-ocr.xcodeproj/W3WSwiftApi_Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = W3WSwiftApi;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = W3WSwiftApi;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Debug;
-		};
-		OBJ_73 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1;
-				DRIVERKIT_DEPLOYMENT_TARGET = 19.0;
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "w3w-swift-components-ocr.xcodeproj/W3WSwiftApi_Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = W3WSwiftApi;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = W3WSwiftApi;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -1141,29 +987,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_143 /* Build configuration list for PBXNativeTarget "w3w-swift-wrapperPackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_144 /* Debug */,
-				OBJ_145 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		OBJ_2 /* Build configuration list for PBXProject "w3w-swift-components-ocr" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_3 /* Debug */,
 				OBJ_4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_71 /* Build configuration list for PBXNativeTarget "W3WSwiftApi" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_72 /* Debug */,
-				OBJ_73 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1184,7 +1012,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/what3words/w3w-swift-design.git";
 			requirement = {
-				branch = v4/main;
+				branch = staging;
 				kind = branch;
 			};
 		};

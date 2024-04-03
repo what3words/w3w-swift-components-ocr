@@ -5,6 +5,7 @@
 //  Created by Thy Nguyen on 20/12/2023.
 //
 
+#if canImport(UIKit)
 import UIKit
 import W3WSwiftCore
 import W3WSwiftDesign
@@ -45,3 +46,4 @@ public extension W3WSingleLabelCellItem {
     identifier = targetState.rawValue
   }
 }
+#endif

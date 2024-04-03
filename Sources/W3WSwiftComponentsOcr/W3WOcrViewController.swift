@@ -5,6 +5,7 @@
 //  Created by Dave Duprey on 04/06/2021.
 //
 
+#if canImport(UIKit)
 import UIKit
 import W3WSwiftCore
 import W3WSwiftDesign
@@ -134,9 +135,7 @@ open class W3WOcrViewController: W3WViewController {
   }()
   
   open lazy var w3wLogo: UIView = {
-    let imageView = W3WIconView(image: .w3wLogoWithText, 
-                                scheme: .standardIcons.with(foreground: .white),
-                                size: .w3wLogoWithTextIcon)
+    let imageView = W3WIconView(image: .w3wLogoWithText)
     imageView.contentMode = .scaleToFill
     imageView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -590,4 +589,4 @@ open class W3WOcrViewController: W3WViewController {
   open func onCameraStarted() { }
 }
 
-//#endif // W3WOcrSdk
+#endif // W3WOcrSdk

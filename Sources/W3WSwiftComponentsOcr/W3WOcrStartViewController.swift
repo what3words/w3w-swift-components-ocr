@@ -5,6 +5,7 @@
 //  Created by Thy Nguyen on 12/01/2024.
 //
 
+#if canImport(UIKit)
 import UIKit
 import W3WSwiftDesign
 import W3WSwiftCore
@@ -64,7 +65,7 @@ open class W3WOcrStartViewController: W3WViewController {
 
   // MARK: - Setup
   open func setup() {
-    W3WTranslations.main.add(bundle: Bundle.module)
+    W3WTranslations.main.add(bundle: Bundle.main)
     setupUI()
   }
 
@@ -93,3 +94,4 @@ open class W3WOcrStartViewController: W3WViewController {
     startButton.set(scheme: theme?[.base]?.with(background: .clear).with(foreground: .standardBrandBase))
   }
 }
+#endif

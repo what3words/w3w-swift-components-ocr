@@ -5,6 +5,7 @@
 //  Created by Thy Nguyen on 20/12/2023.
 //
 
+#if canImport(UIKit)
 import UIKit
 import W3WSwiftDesign
 
@@ -40,3 +41,4 @@ extension W3WOcrViewController {
     }
   }
 }
+#endif

@@ -5,6 +5,7 @@
 //  Created by Dave Duprey on 23/06/2021.
 //
 
+#if canImport(UIKit)
 import UIKit
 import AVFoundation
 import W3WSwiftCore
@@ -121,4 +122,4 @@ public class W3WOcrBasicView: UIView {
   
 }
 
-//#endif // W3WOcrSdk
+#endif // W3WOcrSdk

@@ -5,6 +5,7 @@
 //  Created by Thy Nguyen on 31/12/2023.
 //
 
+#if canImport(UIKit)
 import UIKit
 import Foundation
 
@@ -52,3 +53,4 @@ public enum W3WSearchResultCellItem: Hashable {
     }
   }
 }
+#endif

@@ -5,6 +5,7 @@
 //  Created by Thy Nguyen on 19/12/2023.
 //
 
+#if canImport(UIKit)
 import UIKit
 import W3WSwiftDesign
 import W3WSwiftCore
@@ -84,3 +85,4 @@ open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
     tableViewController.w3wTableView?.reloadData()
   }
 }
+#endif

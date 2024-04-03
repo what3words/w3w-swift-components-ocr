@@ -5,6 +5,7 @@
 //  Created by Thy Nguyen on 20/12/2023.
 //
 
+#if canImport(UIKit)
 import UIKit
 import W3WSwiftDesign
 
@@ -61,3 +62,4 @@ public class W3WSingleLabelTableViewCell: W3WTableViewCell {
     contentView.backgroundColor = scheme?.colors?.background?.current.uiColor
   }
 }
+#endif

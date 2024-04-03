@@ -5,6 +5,7 @@
 //  Created by Thy Nguyen on 19/12/2023.
 //
 
+#if canImport(UIKit)
 import UIKit
 import W3WSwiftCore
 import W3WSwiftThemes
@@ -39,3 +40,4 @@ public extension W3WOcrState {
     }
   }
 }
+#endif
