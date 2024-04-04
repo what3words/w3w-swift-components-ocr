@@ -1,7 +1,6 @@
 import XCTest
 @testable import W3WSwiftComponentsOcr
 
-#if canImport(UIKit)
 final class w3w_swift_components_ocrTests: XCTestCase {
   
   // fake API to inject into tests
@@ -109,4 +108,3 @@ final class w3w_swift_components_ocrTests: XCTestCase {
     waitForExpectations(timeout: 300.0, handler: nil)
   }
 }
-#endif

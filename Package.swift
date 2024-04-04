@@ -31,6 +31,7 @@ let package = Package(
         ),
         .testTarget(
             name: "w3w-swift-components-ocrTests",
-            dependencies: ["W3WSwiftComponentsOcr"]),
+            dependencies: ["W3WSwiftComponentsOcr"],
+            resources: [.process("Resources")]),
     ]
 )
