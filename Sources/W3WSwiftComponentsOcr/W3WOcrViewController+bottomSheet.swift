@@ -46,7 +46,8 @@ extension W3WOcrViewController {
     }
     let crop = ocrView.crop
     let contentHeight = headerEstimatedHeight + CGFloat(currentItemsCount) * bottomSheet.tableViewController.rowHeight + W3WSettings.bottomSafeArea
-    let maxHeight = view.bounds.height - (crop.origin.y + crop.height + W3WMargin.heavy.value)
+    let errorViewHeight = errorView.isHidden ? 0.0 : (errorView.bounds.height + W3WMargin.medium.value)
+    let maxHeight = view.bounds.height - (crop.origin.y + crop.height + W3WMargin.heavy.value + errorViewHeight)
     return min(contentHeight, maxHeight)
   }
   
@@ -65,7 +66,7 @@ extension W3WOcrViewController {
       add(viewController: bottomSheet, position: .bottom(height: bottomSheet.getDetents().first))
     } else {
       if bottomSheet.tableViewController.getItems().isEmpty {
-        bottomSheet.scrollToBottom()
+        bottomSheet.scrollToBottom(animate: false)
       } else {
         bottomSheet.scrollToTop()
       }

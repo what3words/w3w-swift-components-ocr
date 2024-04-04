@@ -135,8 +135,7 @@ open class W3WOcrViewController: W3WViewController {
   
   open lazy var w3wLogo: UIView = {
     let imageView = W3WIconView(image: .w3wLogoWithText, 
-                                scheme: .standardIcons.with(foreground: .white),
-                                size: .w3wLogoWithTextIcon)
+                                scheme: .standardIcons.with(foreground: .white))
     imageView.contentMode = .scaleToFill
     imageView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -149,6 +148,7 @@ open class W3WOcrViewController: W3WViewController {
   open lazy var errorView: W3WOcrErrorView = {
     let view = W3WOcrErrorView()
     view.isHidden = true
+    view.alpha = 0.0
     return view
   }()
   
@@ -426,10 +426,13 @@ open class W3WOcrViewController: W3WViewController {
   
   /// Handle OCR error
   open func handleOcrError(_ error: W3WOcrError) {
+    // Show error view with title
+    showErrorView(title: error.description)
+    
     // Update state
     state = .error
-    showErrorView(title: error.description)
-    onError(W3WError.message(error.description))
+    
+    onError(.message(error.description))
   }
   
   /// stop scanning
