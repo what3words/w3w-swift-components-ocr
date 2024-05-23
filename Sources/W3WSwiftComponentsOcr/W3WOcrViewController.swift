@@ -135,8 +135,8 @@ open class W3WOcrViewController: W3WViewController {
   
   open lazy var w3wLogo: UIView = {
     let imageView = W3WIconView(image: .w3wLogoWithText, 
-                                scheme: .standardIcons.with(foreground: .white),
-                                size: .w3wLogoWithTextIcon)
+                                scheme: .standardIcons.with(foreground: .white))
+                                //size: .w3wLogoWithTextIcon)
     imageView.contentMode = .scaleToFill
     imageView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -309,7 +309,7 @@ open class W3WOcrViewController: W3WViewController {
       c.start()
       
       ocrView.set(camera: c)
-      ocrView.set(lineColor: W3WSettings.ocrTargetColor, lineGap: 1.0)
+      ocrView.set(lineColor: W3WCoreColor.white.uiColor, lineGap: 1.0)
       
       o.autosuggest(video: c) { [weak self] suggestions, error in
         guard let self else { return }
