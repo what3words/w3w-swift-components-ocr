@@ -521,24 +521,31 @@ open class W3WOcrViewController: W3WViewController {
     if let customCrop = customCrop {
       ocrView.set(crop: customCrop)
     } else {
-      let inset = W3WSettings.ocrCropInset
-      let width: CGFloat
-      let height: CGFloat
-      if UIScreen.main.bounds.width < UIScreen.main.bounds.height {
-        // potrait
-        width = view.bounds.width - inset * 2.0
-        height = width
-      } else {
-        // landscape
-        width = view.bounds.width * 0.8 - inset * 2.0
-        height = width * W3WSettings.ocrViewfinderRatioLandscape
-      }
-      let crop = CGRect(origin: CGPoint(x: (view.bounds.width - width) / 2,
-                                        y: topMargin + closeButtonSize + W3WMargin.light.value),
-                        size: CGSize(width: width, height: height))
-      ocrView.set(crop: crop)
+      ocrView.set(crop: defaultCrop())
     }
   }
+  
+  
+  func defaultCrop() -> CGRect {
+    let inset = W3WSettings.ocrCropInset
+    let width: CGFloat
+    let height: CGFloat
+    if UIScreen.main.bounds.width < UIScreen.main.bounds.height {
+      // potrait
+      width = view.bounds.width - inset * 2.0
+      height = width
+    } else {
+      // landscape
+      width = view.bounds.width * 0.8 - inset * 2.0
+      height = width * W3WSettings.ocrViewfinderRatioLandscape
+    }
+    let crop = CGRect(origin: CGPoint(x: (view.bounds.width - width) / 2,
+                                      y: topMargin + closeButtonSize + W3WMargin.one.value),
+                      size: CGSize(width: width, height: height))
+    
+    return crop
+  }
+  
   
   var topMargin: CGFloat {
     return shouldShowCloseButton ? closeButton.frame.minY : W3WMargin.heavy.value

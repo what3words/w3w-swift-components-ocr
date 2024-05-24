@@ -13,6 +13,8 @@ import UIKit
 
 public extension W3WSettings {
   
+  static var simulated3WordAddresses = ["maidy.toilatu.mūzdyq", "index.home.raft", "daring.lion.race", "майды.тойлату.мұздық", "oval.blast.improving", "form.monkey.employ"]
+  
   // geometry settings
   static var ocrViewfinderRatioPortrait:  CGFloat   = 0.538
   static var ocrViewfinderRatioLandscape: CGFloat   = 0.274

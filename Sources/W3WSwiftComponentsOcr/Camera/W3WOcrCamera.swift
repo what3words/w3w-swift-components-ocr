@@ -196,7 +196,7 @@ public class W3WOcrCamera: W3WVideoStream {
   /// designed to allow being called multiple times
   /// if called more than once, it will not do anything the second time
   func connectInputAndOutput() {
-    print(#function, "START")
+    //print(#function, "START")
     self.session = nil
     startAvSystem()
     self.session?.beginConfiguration()
@@ -230,7 +230,7 @@ public class W3WOcrCamera: W3WVideoStream {
       }
     }
     self.session?.commitConfiguration()
-    print(#function, "STARTED")
+    //print(#function, "STARTED")
   }
   
   
