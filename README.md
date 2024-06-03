@@ -43,7 +43,7 @@ The component constructor needs an OCR object.
 Our `W3WOcrNative` class that uses iOS' Vision Framework requires our API (or SDK) to be passed into the constructor.
 
 ```Swift
-  let api = What3WordsV3(apiKey: "YourApiKey")
+  let api = What3WordsV4(apiKey: "YourApiKey")
   let ocr = W3WOcrNative(api)
   let ocrViewController = W3WOcrViewController(ocr: ocr)
 ```
