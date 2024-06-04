@@ -34,11 +34,13 @@ public class W3WOcrCamera: W3WVideoStream {
   var output: AVCaptureVideoDataOutput?
   
   /// thread to be used to process IO
-  var thread = DispatchQueue.global(qos: .default)
+  var thread = DispatchQueue(label: "background_queue", qos: .background)
   
   /// delegate to capture the camera output
   let imageProcessor: W3WCameraImageProcessor! //() // AVCaptureVideoDataOutputSampleBufferDelegate needs to be a NSObject derivitive.  This class isn't, so we make a member object that conforms
   
+  /// called when Camera has started
+  public var onCameraStarted: (() -> ())?
   
   // MARK: Init
   
@@ -57,7 +59,7 @@ public class W3WOcrCamera: W3WVideoStream {
     // init the W3WOcrVideoStream parent class
     super.init()
     
-    connectInputAndOutput()
+    //connectInputAndOutput()
   }
   
   
@@ -88,15 +90,22 @@ public class W3WOcrCamera: W3WVideoStream {
 #if targetEnvironment(simulator)
     imageProcessor.start()
 #else
-    thread.async {
-      print(#function, "async ", "START")
+    thread.async { [weak self] in
+      guard let self else { return }
+      self.session?.beginConfiguration()
+      self.session?.commitConfiguration()
       self.session?.startRunning()
-      print(#function, "async ", "STOP")
     }
 #endif
+    startCountdown()
   }
   
-  
+  private func startCountdown() {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+      guard let self else { return }
+      self.onCameraStarted?()
+    }
+  }
   /// tell the camera to stop producing images
   public func stop() {
     //print("camera.stop()")
@@ -105,11 +114,18 @@ public class W3WOcrCamera: W3WVideoStream {
     imageProcessor.stop()
     disconnectInputAndOutput()
 #else
-    thread.async {
+    self.disconnectInputAndOutput()
+    thread.async { [weak self] in
+      guard let self else { return }
+      self.session?.beginConfiguration()
+      self.session?.commitConfiguration()
       self.session?.stopRunning()
-      self.disconnectInputAndOutput()
+      self.session = nil
     }
 #endif
+    
+    W3WOcrCamera.cameraList?.removeAll()
+    W3WOcrCamera.cameraList = nil
   }
   
   
@@ -180,11 +196,14 @@ public class W3WOcrCamera: W3WVideoStream {
   /// designed to allow being called multiple times
   /// if called more than once, it will not do anything the second time
   func connectInputAndOutput() {
+    //print(#function, "START")
+    self.session = nil
     startAvSystem()
-    
+    self.session?.beginConfiguration()
     // assign the delegates callback for camera images
     imageProcessor.onNewImage = { [weak self] image in
-      self?.onNewImage(image)
+      guard let self else { return }
+      self.onNewImage(image)
     }
     
     // connect the camera IO to the delegate
@@ -194,7 +213,6 @@ public class W3WOcrCamera: W3WVideoStream {
         
         if let c = camera {
           if let i = try? AVCaptureDeviceInput(device: c) {
-            print(#function, "START")
             input  = i
             output = AVCaptureVideoDataOutput()
             
@@ -207,18 +225,19 @@ public class W3WOcrCamera: W3WVideoStream {
             
             // set the delegate and thread to use for camera output
             output?.setSampleBufferDelegate(imageProcessor, queue: thread)
-            print(#function, "STARTED")
           }
         }
       }
     }
+    self.session?.commitConfiguration()
+    //print(#function, "STARTED")
   }
   
   
   /// disconnects the camera and output to the session
   func disconnectInputAndOutput() {
-    DispatchQueue.global().async {
       //print(#function, "START")
+      self.session?.beginConfiguration()
       for input in self.session?.inputs ?? [] {
         self.session?.removeInput(input)
       }
@@ -226,8 +245,8 @@ public class W3WOcrCamera: W3WVideoStream {
       for output in self.session?.outputs ?? [] {
         self.session?.removeOutput(output)
       }
+      self.session?.commitConfiguration()
       //print(#function, "STOP")
-    }
   }
   
   

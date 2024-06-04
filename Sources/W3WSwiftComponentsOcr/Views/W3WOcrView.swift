@@ -160,6 +160,7 @@ public class W3WOcrView: W3WOcrBasicView {
     setViewFinderLineLength(scheme?.styles?.rowHeight?.value)
     setViewFinderLineInset(scheme?.styles?.padding?.top)
     setViewFinderCurveRadius(scheme?.styles?.cornerRadius?.value)
+    setBackgroundLayerColor(scheme?.colors?.background?.uiColor)
   }
   
   // MARK: - Helpers
@@ -197,5 +198,11 @@ public class W3WOcrView: W3WOcrBasicView {
     }
     viewfinderLayer.setLineCurveRadius(radius)
   }
+  
+  public func setBackgroundLayerColor(_ color: UIColor?) {
+    guard let color = color else {
+      return
+    }
+    backgroundLayer.set(color: color)
+  }
 }
-

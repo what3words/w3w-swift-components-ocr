@@ -17,6 +17,8 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
   private var dataSource: AnyObject? = nil
   private var sections: [W3WSearchResultSectionItem] = []
   
+  public var onDragging: (() -> ())?
+  
   public override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
@@ -107,7 +109,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
   
   @available(iOS 13.0, *)
   private func makeDataSource() -> DataSource? {
-    let dataSource = DataSource(tableView: tableView) { (tableView, indexPath, cellItem) -> UITableViewCell? in
+    let dataSource = DataSource(tableView: tableView) { [weak self] (tableView, indexPath, cellItem) -> UITableViewCell? in
       switch cellItem {
       case .state(let item):
         guard let cell = tableView.dequeueReusableCell(withIdentifier: W3WSingleLabelTableViewCell.cellIdentifier, for: indexPath) as? W3WSingleLabelTableViewCell else {
@@ -121,7 +123,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
           fatalError("Can not dequeue cell")
         }
         cell.configure(with: item)
-        cell.set(scheme: .standard)
+        cell.set(scheme: self?.theme?[.ocr]?.with(background: .clear))
         cell.separatorInset = .init(top: 0, left: W3WMargin.heavy.value, bottom: 0, right: 0)
         return cell
       }
@@ -186,9 +188,13 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
         fatalError("Can not dequeue cell")
       }
       cell.configure(with: item)
-      cell.set(scheme: .standard)
+      cell.set(scheme: theme?[.ocr]?.with(background: .clear))
       cell.separatorInset = .init(top: 0, left: W3WMargin.heavy.value, bottom: 0, right: 0)
       return cell
     }
+  }
+  
+  public override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    onDragging?()
   }
 }

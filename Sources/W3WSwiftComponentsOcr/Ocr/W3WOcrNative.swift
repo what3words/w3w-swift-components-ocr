@@ -179,9 +179,14 @@ public class W3WOcrNative: W3WOcrProtocol {
     self.completion = completion
     self.info       = { info in video.onFrameInfo(info) }
     
-    video.onNewImage = { [weak self] image in
-      self?.lastImageResolution = CGSize(width: image.width, height: image.height)
-      self?.autosuggest(image: image, info: self?.info ?? { _ in }, completion: { suggestions, error in self?.completion(suggestions, error) })
+    video.onNewImage = { [weak self, weak video] image in
+      guard let self,
+            let video
+      else {
+        return
+      }
+      self.lastImageResolution = CGSize(width: image.width, height: image.height)
+      self.autosuggest(image: image, info: self.info ?? { _ in }, completion: { suggestions, error in self.completion(suggestions, error) })
     }
   }
   
@@ -245,7 +250,11 @@ public class W3WOcrNative: W3WOcrProtocol {
       for words in candidates {
         if let s = try? sdk.convertToSquare(words: words) {
           if s.coordinates != nil {
-            let ocrSuggestion = W3WOcrSuggestion(words: s.words, country: s.country?.code, nearestPlace: s.nearestPlace, distanceToFocus: s.distanceToFocus?.kilometers, language: s.language?.code)
+            let ocrSuggestion = W3WOcrSuggestion(words: s.words,
+                                                 country: W3WBaseCountry(code: s.country?.code ?? W3WBaseLanguage.english.code),
+                                                 nearestPlace: s.nearestPlace,
+                                                 distanceToFocus: W3WBaseDistance(kilometers: s.distanceToFocus?.kilometers ?? 0.0),
+                                                 language: W3WBaseLanguage(locale: s.language?.locale ?? W3WBaseLanguage.english.locale))
             suggestions.append(ocrSuggestion)
           }
         }

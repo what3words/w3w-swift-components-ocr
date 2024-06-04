@@ -16,11 +16,12 @@ extension W3WOcrViewController {
     if errorView.superview != nil {
       errorView.removeFromSuperview()
     }
-    errorView.update(scheme: theme?.getOcrScheme(state: .error))
+    let errorScheme = theme?.getOcrScheme(state: .error)
+    errorView.set(scheme: errorScheme)
     view.addSubview(errorView)
     NSLayoutConstraint.activate([
-      errorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: W3WMargin.light.value),
-      errorView.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -W3WMargin.light.value),
+      errorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: W3WMargin.bold.value),
+      errorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -W3WMargin.bold.value),
       errorView.topAnchor.constraint(equalTo: view.topAnchor, constant: ocrView.crop.origin.y + ocrView.crop.height + W3WMargin.heavy.value)
     ])
   }

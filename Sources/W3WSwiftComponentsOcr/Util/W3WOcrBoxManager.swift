@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 import W3WSwiftCore
+import W3WSwiftThemes
+
 
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
@@ -20,7 +22,7 @@ class W3WOcrBoxManager {
   // MARK: Vars
   
   /// colour for the text detection boxes
-  var boxesColour:  UIColor = W3WSettings.ocrBoxesColour
+  var boxesColour:  UIColor = W3WCoreColor.white.uiColor
   
   /// style of the text detection boxes
   var boxStyle = W3WBoxStyle.outline

@@ -8,12 +8,9 @@
 import UIKit
 import W3WSwiftDesign
 
-public class W3WSingleLabelTableViewCell: W3WTableViewCell, W3WViewManagerProtocol {
-  public var parentView: UIView?
-  public var managedViews: [W3WSwiftDesign.W3WViewProtocol] = []
-  
-  public lazy var titleLabel: UILabel = {
-    let label = UILabel()
+public class W3WSingleLabelTableViewCell: W3WTableViewCell {
+  public lazy var titleLabel: W3WLabel = {
+    let label = W3WLabel(fontStyle: .headline)
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
@@ -42,22 +39,25 @@ public class W3WSingleLabelTableViewCell: W3WTableViewCell, W3WViewManagerProtoc
       titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: W3WMargin.bold.value),
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -W3WMargin.bold.value)
     ])
+    // Set default scheme
+    set(scheme: .standard.with(background: .clear))
   }
   
   open func configure(with item: W3WSingleLabelCellItem?) {
-    update(scheme: item?.scheme)
+    set(scheme: item?.scheme)
     titleLabel.text = item?.text
   }
   
-  override public func update(scheme: W3WScheme?) {
-    if let colors = scheme?.colors {
-      titleLabel.textColor = colors.foreground?.uiColor
-      titleLabel.backgroundColor = colors.background?.uiColor
-      contentView.backgroundColor = colors.background?.uiColor
-    }
-    if let styles = scheme?.styles {
-      titleLabel.font = styles.fonts?.originalFont
-      titleLabel.textAlignment = styles.textAlignment?.value ?? .left
-    }
+  // MARK: - W3WTableViewCell overrides
+  public override func set(scheme: W3WScheme?) {
+    self.scheme = scheme
+    update(scheme: scheme)
+    titleLabel.scheme = scheme
+    titleLabel.update(scheme: scheme)
+  }
+  
+  public override func update(scheme: W3WScheme?) {
+    backgroundColor = scheme?.colors?.background?.current.uiColor
+    contentView.backgroundColor = scheme?.colors?.background?.current.uiColor
   }
 }

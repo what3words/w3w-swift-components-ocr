@@ -25,19 +25,23 @@ public struct W3WSingleLabelCellItem: Hashable {
 
 public extension W3WSingleLabelCellItem {
   init(ocrState: W3WOcrState, theme: W3WTheme?, resultIsEmpty: Bool = true) {
-    switch ocrState {
-    case .idle:
-      text = W3WTranslations.main.translate(key: "ocr_scan_3wa")
-    case .detecting:
-      text = W3WTranslations.main.translate(key: "scan_state_detecting")
-    case .scanning:
-      text = W3WTranslations.main.translate(key: "ocr_scanning")
-    case .scanned:
-      text = W3WTranslations.main.translate(key: "scan_state_found")
-    default:
-      text = resultIsEmpty ? W3WTranslations.main.translate(key: "ocr_scan_3wa") : W3WTranslations.main.translate(key: "scan_state_found")
+    var targetState = ocrState
+    if !resultIsEmpty {
+      targetState = .scanned
     }
-    scheme = theme?.getOcrScheme(state: ocrState)
-    identifier = ocrState.rawValue
+    switch targetState {
+    case .idle:
+      text = LanguageStrings.localized(key: "ocr_scan_3wa")
+    case .detecting:
+      text = LanguageStrings.localized(key: "scan_state_detecting")
+    case .scanning:
+      text = LanguageStrings.localized(key: "ocr_scanning")
+    case .scanned:
+      text = LanguageStrings.localized(key: "scan_state_found")
+    default:
+      text = resultIsEmpty ? LanguageStrings.localized(key: "ocr_scan_3wa") : LanguageStrings.localized(key: "scan_state_found")
+    }
+    scheme = theme?.getOcrScheme(state: targetState)?.with(background: .clear)
+    identifier = targetState.rawValue
   }
 }

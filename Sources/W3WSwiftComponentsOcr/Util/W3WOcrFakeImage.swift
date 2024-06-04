@@ -8,12 +8,13 @@
 import Foundation
 import AVKit
 import CoreGraphics
+import W3WSwiftCore
 
 
 /// makes fake images for iOS simulator as it doesn't have access to a camera (as of this writing)
 class W3WOcrFakeImages {
 
-  let addresses = ["index.home.raft", "daring.lion.race", "oval.blast.improving", "form.monkey.employ"]
+  let addresses = W3WSettings.simulated3WordAddresses
 
   
   /// gets a random three word address

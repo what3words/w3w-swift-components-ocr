@@ -10,6 +10,7 @@
 import Foundation
 import UIKit
 import W3WSwiftCore
+import W3WSwiftThemes
 
 
 /// A UILabel for the W3WOcrView to display a three word address
@@ -46,8 +47,8 @@ class W3WOcrScannerAddressLabel: UILabel {
   
   /// does the work of actually positioning and colouring the label
   func reposition(origin: CGPoint) {
-    backgroundColor = W3WSettings.ocrTargetSuccess
-    textColor = W3WSettings.ocrTextResultColour
+    backgroundColor = W3WCoreColor.green50.uiColor
+    textColor = W3WCoreColor.black.uiColor
     textAlignment = .center
     minimumScaleFactor = 0.4
     adjustsFontSizeToFitWidth = true

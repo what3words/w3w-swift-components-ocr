@@ -9,6 +9,7 @@
 
 import UIKit
 import W3WSwiftCore
+import W3WSwiftThemes
 
 
 /// the shape of the box
@@ -28,7 +29,7 @@ class W3WOcrBox : UIView {
   var style = W3WBoxStyle.smallBox
   
   /// color of the box
-  var color: UIColor = W3WSettings.ocrBoxesColour
+  var color: UIColor = W3WCoreColor.white.uiColor
   
   /// time to live
   var deathClock = CGFloat(0.2)

@@ -11,8 +11,23 @@ import W3WSwiftCore
 import W3WSwiftThemes
 
 open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
+  public var onDragging: (() -> ())? {
+    didSet {
+      tableViewController.onDragging = onDragging
+    }
+  }
+  
+  public override init(theme: W3WTheme? = nil) {
+    super.init()
+    set(theme: theme)
+  }
+  
+  required public init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   open lazy var tableViewController: W3WBottomSheetTableViewController = {
-    let viewController = W3WBottomSheetTableViewController(theme: theme)
+    let viewController = W3WBottomSheetTableViewController(theme: theme?.with(background: .clear))
     return viewController
   }()
   
@@ -54,5 +69,18 @@ open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
     addChild(tableViewController)
     add(view: w3wTableView, position: .inset(by: UIEdgeInsets(top: W3WMargin.heavy.value, left: 0, bottom: 0, right: 0)))
     tableViewController.didMove(toParent: self)
+  }
+  
+  // MARK: - W3WViewController overrides
+  open override func set(theme: W3WTheme?) {
+    let bottomSheetBackground = theme?[.ocr]?.colors?.secondaryBackground
+    let separator = theme?[.ocr]?.colors?.separator
+    let bottomSheetTheme = theme?
+      .with(cornerRadius: .softer)
+      .with(separator: separator)
+      .with(background: bottomSheetBackground)
+    super.set(theme: bottomSheetTheme)
+    tableViewController.set(theme: bottomSheetTheme?.with(background: .clear))
+    tableViewController.w3wTableView?.reloadData()
   }
 }
