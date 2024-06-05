@@ -19,7 +19,7 @@ class W3WOcrViewfinderLayer: CAShapeLayer {
   var crop: CGRect = .zero
   
   /// user defined lines color
-  var color: UIColor = W3WSettings.ocrTargetColor
+  var color: UIColor = W3WCoreColor.white.uiColor
   
   /// user defined lines width
   var width: CGFloat = W3WSettings.ocrViewfinderLineWidth

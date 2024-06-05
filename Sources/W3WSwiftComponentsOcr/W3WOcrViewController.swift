@@ -135,8 +135,8 @@ open class W3WOcrViewController: W3WViewController {
   
   open lazy var w3wLogo: UIView = {
     let imageView = W3WIconView(image: .w3wLogoWithText, 
-                                scheme: .standardIcons.with(foreground: .white),
-                                size: .w3wLogoWithTextIcon)
+                                scheme: .standardIcons.with(foreground: .white))
+                                //size: .w3wLogoWithTextIcon)
     imageView.contentMode = .scaleToFill
     imageView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -309,7 +309,7 @@ open class W3WOcrViewController: W3WViewController {
       c.start()
       
       ocrView.set(camera: c)
-      ocrView.set(lineColor: W3WSettings.ocrTargetColor, lineGap: 1.0)
+      ocrView.set(lineColor: W3WCoreColor.white.uiColor, lineGap: 1.0)
       
       o.autosuggest(video: c) { [weak self] suggestions, error in
         guard let self else { return }
@@ -521,24 +521,31 @@ open class W3WOcrViewController: W3WViewController {
     if let customCrop = customCrop {
       ocrView.set(crop: customCrop)
     } else {
-      let inset = W3WSettings.ocrCropInset
-      let width: CGFloat
-      let height: CGFloat
-      if UIScreen.main.bounds.width < UIScreen.main.bounds.height {
-        // potrait
-        width = view.bounds.width - inset * 2.0
-        height = width
-      } else {
-        // landscape
-        width = view.bounds.width * 0.8 - inset * 2.0
-        height = width * W3WSettings.ocrViewfinderRatioLandscape
-      }
-      let crop = CGRect(origin: CGPoint(x: (view.bounds.width - width) / 2,
-                                        y: topMargin + closeButtonSize + W3WMargin.light.value),
-                        size: CGSize(width: width, height: height))
-      ocrView.set(crop: crop)
+      ocrView.set(crop: defaultCrop())
     }
   }
+  
+  
+  func defaultCrop() -> CGRect {
+    let inset = W3WSettings.ocrCropInset
+    let width: CGFloat
+    let height: CGFloat
+    if UIScreen.main.bounds.width < UIScreen.main.bounds.height {
+      // potrait
+      width = view.bounds.width - inset * 2.0
+      height = width
+    } else {
+      // landscape
+      width = view.bounds.width * 0.8 - inset * 2.0
+      height = width * W3WSettings.ocrViewfinderRatioLandscape
+    }
+    let crop = CGRect(origin: CGPoint(x: (view.bounds.width - width) / 2,
+                                      y: topMargin + closeButtonSize + W3WMargin.one.value),
+                      size: CGSize(width: width, height: height))
+    
+    return crop
+  }
+  
   
   var topMargin: CGFloat {
     return shouldShowCloseButton ? closeButton.frame.minY : W3WMargin.heavy.value

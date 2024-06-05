@@ -116,10 +116,8 @@ class W3WCameraImageProcessor: NSObject, AVCaptureVideoDataOutputSampleBufferDel
   
   @objc
   func makeFakeFrame() {
-    if let c = crop {
-      if let image = fakeImages.makeRandomThreeWordAddressImage(rect: c) {
-        self.onNewImage(image)
-      }
+    if let image = fakeImages.makeRandomThreeWordAddressImage(rect: crop ?? CGRect(x: 0.0, y: 0.0, width: 256.0, height: 256.0)) {
+      self.onNewImage(image)
     }
   }
 

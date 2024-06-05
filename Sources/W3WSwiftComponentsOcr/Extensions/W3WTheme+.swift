@@ -158,7 +158,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: headerTextColor,
-            background: cameraBackgroundColor ?? W3WColor.lightBlue,
+            background: cameraBackgroundColor ?? W3WColor.darkBlueAlpha60,
             line: defaultLineColor
           ),
           styles: W3WStyles(
@@ -175,7 +175,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: headerTextColor,
-            background: cameraBackgroundColor ?? W3WColor.lightBlue,
+            background: cameraBackgroundColor ?? W3WColor.darkBlueAlpha60,
             line: defaultLineColor
           ),
           styles: W3WStyles(
@@ -192,7 +192,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: headerTextColor,
-            background: cameraBackgroundColor ?? W3WColor.lightBlue,
+            background: cameraBackgroundColor ?? W3WColor.darkBlueAlpha60,
             line: successLineColor
           ),
           styles: W3WStyles(
@@ -209,7 +209,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: headerTextColor,
-            background: cameraBackgroundColor ?? W3WColor.lightBlue,
+            background: cameraBackgroundColor ?? W3WColor.darkBlueAlpha60,
             line: defaultLineColor
           ),
           styles: W3WStyles(
@@ -226,7 +226,7 @@ public extension W3WTheme {
         scheme = W3WScheme(
           colors: W3WColors(
             foreground: errorTextColor,
-            background: cameraBackgroundColor ?? W3WColor.lightBlue,
+            background: cameraBackgroundColor ?? W3WColor.darkBlueAlpha60,
             line: errorLineColor
           ),
           styles: W3WStyles(
