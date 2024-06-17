@@ -105,6 +105,9 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
       .init(type: .state, items: []),
       .init(type: .result, items: [])
     ]
+    
+    tableView.rowHeight = UITableView.automaticDimension
+    //tableView.estimatedRowHeight = rowHeight
   }
   
   @available(iOS 13.0, *)
@@ -119,13 +122,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
         cell.separatorInset = UIEdgeInsets(top: 0, left: .greatestFiniteMagnitude, bottom: 0, right: 0)
         return cell
       case .result(let item):
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: W3WSuggestionsTableViewCell.cellIdentifier, for: indexPath) as? W3WSuggestionsTableViewCell else {
-          fatalError("Can not dequeue cell")
-        }
-        cell.configure(with: item)
-        cell.set(scheme: self?.theme?[.ocr]?.with(background: .clear))
-        cell.separatorInset = .init(top: 0, left: W3WMargin.heavy.value, bottom: 0, right: 0)
-        return cell
+          return self?.makeCell(item: item)
       }
     }
     return dataSource
@@ -147,11 +144,17 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
   public override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     let sectionItem = sections[indexPath.section]
     let cellItem = sectionItem.items[indexPath.row]
+    
     switch cellItem {
-    case .state:
-      return UITableView.automaticDimension
-    case .result:
-      return rowHeight
+      case .state:
+        return UITableView.automaticDimension
+    
+      case .result:
+        if let h = theme?[.cells]?.styles?.fonts?.body.pointSize {
+          return max(h * 3.5, rowHeight)
+        }
+
+        return rowHeight
     }
   }
   
@@ -183,15 +186,29 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
       cell.configure(with: item)
       cell.separatorInset = UIEdgeInsets(top: 0, left: .greatestFiniteMagnitude, bottom: 0, right: 0)
       return cell
+
     case .result(let item):
       guard let cell = tableView.dequeueReusableCell(withIdentifier: W3WSuggestionsTableViewCell.cellIdentifier, for: indexPath) as? W3WSuggestionsTableViewCell else {
         fatalError("Can not dequeue cell")
       }
       cell.configure(with: item)
       cell.set(scheme: theme?[.ocr]?.with(background: .clear))
-      cell.separatorInset = .init(top: 0, left: W3WMargin.heavy.value, bottom: 0, right: 0)
+      cell.separatorInset = .init(top: 0, left: W3WMargin.three.value, bottom: 0, right: 0)
+      cell.sizeToFit()
+
       return cell
     }
+  }
+
+  
+  func makeCell(item: W3WSuggestionCellItem) -> UITableViewCell? {
+    //let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+    let cell = W3WSuggestionsTableViewCell(scheme: theme?[.cells])
+    cell.set(suggestion: item.suggestion)
+    cell.set(scheme: theme?[.ocr]?.with(background: .clear))
+    cell.separatorInset = .init(top: 0, left: W3WMargin.three.value, bottom: 0, right: 0)
+    
+    return cell
   }
   
   public override func scrollViewDidScroll(_ scrollView: UIScrollView) {

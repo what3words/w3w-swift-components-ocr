@@ -548,7 +548,7 @@ open class W3WOcrViewController: W3WViewController {
   
   
   var topMargin: CGFloat {
-    return shouldShowCloseButton ? closeButton.frame.minY : W3WMargin.heavy.value
+    return shouldShowCloseButton ? closeButton.frame.minY : W3WMargin.three.value
   }
   
   /// w3w Logo

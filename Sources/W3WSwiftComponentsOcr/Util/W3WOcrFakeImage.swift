@@ -37,6 +37,8 @@ class W3WOcrFakeImages {
     nameLabel.textColor = .black
     nameLabel.text = random3wa()
     nameLabel.font = UIFont.boldSystemFont(ofSize: rect.width * 0.1 * varyingFactor(seed: Double(nameLabel.text?.count ?? 0)))
+    nameLabel.minimumScaleFactor = 0.1
+    nameLabel.adjustsFontSizeToFitWidth = true
     UIGraphicsBeginImageContext(rect.size)
 
     if let currentContext = UIGraphicsGetCurrentContext() {

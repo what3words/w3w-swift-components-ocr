@@ -7,6 +7,7 @@
 
 import Foundation
 import Vision
+import CoreLocation
 import W3WSwiftCore
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
@@ -40,7 +41,10 @@ public class W3WOcrNative: W3WOcrProtocol {
 
   /// called when something has been found
   var completion: ([W3WOcrSuggestion], W3WOcrError?) -> () = { _,_ in }
-    
+  
+  /// focus for calculating distance to focus
+  var focus: CLLocationCoordinate2D?
+
   /// This caches valid three word addresses to validate them in order
   /// to prevent multiple calls to the API for the same text.
   /// There are rules in the API licence agreement surrounding the issue
@@ -141,6 +145,11 @@ public class W3WOcrNative: W3WOcrProtocol {
     self.languages = languages
   }
   
+  
+  public func set(focus: CLLocationCoordinate2D?) {
+    self.focus = focus
+  }
+  
 
   /// returns an array of  ISO 639-1 2 letter language codes indicating which langauges are supported
   public func availableLanguages() -> [String] {
@@ -186,7 +195,7 @@ public class W3WOcrNative: W3WOcrProtocol {
         return
       }
       self.lastImageResolution = CGSize(width: image.width, height: image.height)
-      self.autosuggest(image: image, info: self.info ?? { _ in }, completion: { suggestions, error in self.completion(suggestions, error) })
+      self.autosuggest(image: image, info: self.info, completion: { suggestions, error in self.completion(suggestions, error) })
     }
   }
   
@@ -248,13 +257,19 @@ public class W3WOcrNative: W3WOcrProtocol {
       let candidates  = Set(w3w.findPossible3wa(text: cleanedText))
       
       for words in candidates {
-        if let s = try? sdk.convertToSquare(words: words) {
-          if s.coordinates != nil {
-            let ocrSuggestion = W3WOcrSuggestion(words: s.words,
-                                                 country: W3WBaseCountry(code: s.country?.code ?? W3WBaseLanguage.english.code),
-                                                 nearestPlace: s.nearestPlace,
-                                                 distanceToFocus: W3WBaseDistance(kilometers: s.distanceToFocus?.kilometers ?? 0.0),
-                                                 language: W3WBaseLanguage(locale: s.language?.locale ?? W3WBaseLanguage.english.locale))
+        if let square = try? sdk.convertToSquare(words: words) {
+          if square.coordinates != nil {
+
+            var distance: Double?
+            if let focusCoords = focus {
+              distance = sdk.distance(from: focusCoords, to: square.coordinates)
+            }
+            
+            let ocrSuggestion = W3WOcrSuggestion(words: square.words,
+                                                 country: W3WBaseCountry(code: square.country?.code ?? W3WBaseLanguage.english.code),
+                                                 nearestPlace: square.nearestPlace,
+                                                 distanceToFocus: (distance == nil) ? nil : W3WBaseDistance(meters: distance ?? 0.0),
+                                                 language: W3WBaseLanguage(locale: square.language?.locale ?? W3WBaseLanguage.english.locale))
             suggestions.append(ocrSuggestion)
           }
         }
@@ -439,7 +454,13 @@ public class W3WOcrNative: W3WOcrProtocol {
   func callW3w(text: String, completion:  @escaping ([W3WOcrSuggestion], W3WOcrError?) -> ()) {
     W3WOcrNative.callingC2C = true
 
-    w3w.autosuggest(text: text) { suggestions, error in
+    var options = [W3WOption]()
+    
+    if let f = focus {
+      options.append(.focus(f))
+    }
+    
+    w3w.autosuggest(text: text, options: options) { suggestions, error in
       W3WOcrNative.callingC2C = false
       
       // pass on any error
