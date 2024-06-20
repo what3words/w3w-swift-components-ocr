@@ -483,8 +483,13 @@ open class W3WOcrViewController: W3WViewController {
   
   open override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
+  }
+  
+  
+  open override func viewDidDisappear(_ animated: Bool) {
     stop()
   }
+
   
   // MARK: - W3WViewController overrides
   open override func set(theme: W3WTheme?) {
