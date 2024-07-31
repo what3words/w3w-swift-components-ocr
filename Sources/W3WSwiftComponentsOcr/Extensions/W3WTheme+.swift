@@ -137,7 +137,7 @@ public extension W3WTheme {
     let defaultLineLength: W3WRowHeight = defaultLineLength ?? 24.0
     let boldLineLength: W3WRowHeight = boldLineLength ?? 48.0
     
-    let resultTheme = self
+    var resultTheme = self
     let ocrBaseColors: W3WColors? = self[.ocr]?.colors?
       .with(background: backgroundColor)
       .with(secondaryBackground: bottomSheetBackgroundColor)
