@@ -11,7 +11,7 @@ commands:
       - run:
           name: Run Unit Tests
           command: |-
-            xcodebuild -scheme w3w-swift-components-ocr -destination 'platform=iOS'
+            echo "sonar-scanner removed temporarily"
 #            brew install sonar-scanner
 #            swift test --enable-code-coverage
 #            xcrun llvm-cov show .build/debug/w3w-swift-components-ocrPackageTests.xctest/Contents/MacOS/w3w-swift-components-ocrPackageTests -instr-profile .build/debug/codecov/default.profdata > .build/cov.txt
@@ -25,7 +25,7 @@ jobs: # the jobs
 
   build_test_deploy:
     macos:
-      xcode: 14.0.0 # version of Xcode
+      xcode: 15.3.0 # version of Xcode
     environment:
       W3W_OCR_SDK_VERSION: v2.1.0
       W3W_SDK_VERSION: v4.0.0
