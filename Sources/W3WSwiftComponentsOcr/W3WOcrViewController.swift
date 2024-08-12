@@ -172,13 +172,14 @@ open class W3WOcrViewController: W3WViewController {
   /// initializer override to instantiate the W3WOcrScannerView
   public override init(theme: W3WTheme? = .what3words) {
     super.init()
-    set(theme: theme ?? .standard)
+    set(theme: theme ?? .what3words)
     setup()
   }
   
   /// initializer override to instantiate the `W3WOcrScannerView`
   public required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
+    set(theme: .what3words)
     setup()
   }
   
