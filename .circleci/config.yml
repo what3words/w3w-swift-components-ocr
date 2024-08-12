@@ -29,7 +29,7 @@ jobs: # the jobs
       W3W_OCR_SDK_VERSION: v2.1.0
       W3W_SDK_VERSION: v4.0.0
     steps:
-#      - test
+      - test
 
 workflows:
 
