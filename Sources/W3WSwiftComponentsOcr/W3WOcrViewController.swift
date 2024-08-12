@@ -3,6 +3,7 @@
 //  TestOCR
 //
 //  Created by Dave Duprey on 04/06/2021.
+//  Modified by Thy Nguyen 2024
 //
 
 import UIKit

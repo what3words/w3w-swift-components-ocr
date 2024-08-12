@@ -119,6 +119,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
           fatalError("Can not dequeue cell")
         }
         cell.configure(with: item)
+          cell.set(scheme: self?.theme?[.ocr]?.with(background: .clear))
         cell.separatorInset = UIEdgeInsets(top: 0, left: .greatestFiniteMagnitude, bottom: 0, right: 0)
         return cell
       case .result(let item):

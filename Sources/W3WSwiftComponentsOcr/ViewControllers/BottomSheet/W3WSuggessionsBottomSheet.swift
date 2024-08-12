@@ -67,7 +67,7 @@ open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
       return
     }
     addChild(tableViewController)
-    add(view: w3wTableView, position: .inset(by: UIEdgeInsets(top: W3WMargin.heavy.value, left: 0, bottom: 0, right: 0)))
+    add(view: w3wTableView, position: .inset(by: UIEdgeInsets(top: W3WMargin.three.value, left: 0, bottom: 0, right: 0)))
     tableViewController.didMove(toParent: self)
   }
   
@@ -76,7 +76,7 @@ open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
     let bottomSheetBackground = theme?[.ocr]?.colors?.secondaryBackground
     let separator = theme?[.ocr]?.colors?.separator
     let bottomSheetTheme = theme?
-      .with(cornerRadius: .softer)
+      .with(cornerRadius: .large)
       .with(separator: separator)
       .with(background: bottomSheetBackground)
     super.set(theme: bottomSheetTheme)
