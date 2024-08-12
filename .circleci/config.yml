@@ -5,29 +5,6 @@ orbs:
 
 commands:
 
-
-  download_dependancies:
-    steps:
-      - checkout  # pull down code from
-      - aws-s3/copy:
-          from: '${SOURCE_BUCKET}/ocr-ios/${W3W_OCR_SDK_VERSION}/what3words-ios-sdk-${W3W_OCR_SDK_VERSION}.tar.gz'
-          to: .
-      - aws-s3/copy:
-          from: '${SOURCE_BUCKET}/ios/${W3W_SDK_VERSION}/what3words-ios-sdk-${W3W_SDK_VERSION}.tar.gz'
-          to: .
-      - run:
-          name: Unzip Dependancies
-          command: |
-            echo "${SOURCE_BUCKET}/ocr-ios/${W3W_OCR_SDK_VERSION}/what3words-ios-sdk-${W3W_OCR_SDK_VERSION}.tar.gz"
-            echo "'${SOURCE_BUCKET}/ios/${W3W_SDK_VERSION}/what3words-ios-sdk-${W3W_SDK_VERSION}.tar.gz"
-            mkdir Frameworks
-            ls -la .
-            tar -zxvf what3words-ios-sdk-${W3W_OCR_SDK_VERSION}.tar.gz -C Frameworks/
-            tar -zxvf what3words-ios-sdk-${W3W_SDK_VERSION}.tar.gz -C Frameworks/
-            mv Frameworks/lib/w3w.xcframework/ Frameworks/
-            ls -la Frameworks
-
-
   test:
     steps:
       - checkout  # pull down code from
@@ -52,7 +29,6 @@ jobs: # the jobs
       W3W_OCR_SDK_VERSION: v2.1.0
       W3W_SDK_VERSION: v4.0.0
     steps:
-      - download_dependancies
 #      - test
 
 workflows:
