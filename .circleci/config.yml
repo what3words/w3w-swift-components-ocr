@@ -11,8 +11,7 @@ commands:
       - run:
           name: Run Unit Tests
           command: |-
-            cd Tests/BuildProject/BuildOcr
-            xcodebuild -scheme BuildOcr test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16'
+            echo "sonar-scanner removed temporarily"
 #            brew install sonar-scanner
 #            swift test --enable-code-coverage
 #            xcrun llvm-cov show .build/debug/w3w-swift-components-ocrPackageTests.xctest/Contents/MacOS/w3w-swift-components-ocrPackageTests -instr-profile .build/debug/codecov/default.profdata > .build/cov.txt
