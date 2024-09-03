@@ -7,13 +7,14 @@
 
 #if canImport(UIKit) && !os(watchOS)
 import UIKit
-import W3WSwiftApi
+import W3WSwiftCore
+import W3WSwiftThemes
 
 
 /// draws a translucent background with a hole cut out for the camera crop
 class W3WOcrBackgroundLayer: CAShapeLayer {
 
-  var color: UIColor = W3WSettings.ocrOverlayColour
+  var color: UIColor = W3WCoreColor.grey60.uiColor
 
 
   /// set the colour of this background

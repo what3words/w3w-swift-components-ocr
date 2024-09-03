@@ -11,7 +11,7 @@
 import Foundation
 import CoreLocation
 import CoreImage
-import W3WSwiftApi
+import W3WSwiftCore
 
 
 // If the Ocr Framework is present then these types are available through that
@@ -19,6 +19,30 @@ import W3WSwiftApi
 // This project works with CoreML if the what3words OCR system is not
 // available
 #if canImport(W3WOcrSdk)
+import W3WOcrSdk
+
+extension W3WOcrSuggestion: W3WSuggestion {
+  public var country: W3WCountry? {
+    return (countryCode == nil) ? nil : W3WBaseCountry(code: countryCode!)
+  }
+
+  public var distanceToFocus: W3WDistance? {
+    return (distanceToFocusKm == nil) ? nil : W3WBaseDistance(kilometers: distanceToFocusKm!)
+  }
+
+  public var language: W3WLanguage? {
+    return (languageCode == nil) ? nil : W3WBaseLanguage(code: languageCode!)
+  }
+
+  public init(words: String?, country: W3WCountry?, nearestPlace: String?, distanceToFocus: W3WDistance?, language: W3WLanguage?) {
+    self.init()
+    self.words = words
+    self.countryCode = country?.code
+    self.nearestPlace = nearestPlace
+    self.distanceToFocusKm = distanceToFocus?.kilometers
+    self.languageCode = language?.code
+  }
+}
 #else
 
 public enum W3WOcrError : Error, CustomStringConvertible, Equatable {
@@ -104,13 +128,13 @@ public struct W3WOcrLanguage { //}: Hashable {
 // as in the Sdk
 public struct W3WOcrSuggestion: W3WSuggestion {
   public var words: String?
-  public var country: String?
+  public var country: W3WCountry?
   public var nearestPlace: String?
-  public var distanceToFocus: Double?
-  public var language: String?
+  public var distanceToFocus: W3WDistance?
+  public var language: W3WLanguage?
   public var image: CGImage?
   public init() {}  /// this is to make the initializer public
-  public init(words: String?, country: String?, nearestPlace: String?, distanceToFocus: Double?, language: String?) {
+  public init(words: String?, country: W3WCountry?, nearestPlace: String?, distanceToFocus: W3WDistance?, language: W3WLanguage?) {
     self.words      = words
     self.country      = country
     self.nearestPlace   = nearestPlace

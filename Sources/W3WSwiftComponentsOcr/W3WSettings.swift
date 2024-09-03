@@ -7,25 +7,13 @@
 
 #if canImport(UIKit)
 
-import W3WSwiftApi
+import W3WSwiftCore
 import UIKit
 
 
 public extension W3WSettings {
-
-  // colours
-  static let ocrTextColor:            	  UIColor   = .white
-  static let ocrTargetColor:              UIColor   = .white
-  static let ocrBoxesColour:              UIColor   = .white
-  static let ocrTextResultColour:         UIColor   = .black
-  static let ocrOverlayColour:            UIColor   = UIColor.black.withAlphaComponent(0.6)
-  static let ocrTargetSuccess:            UIColor   = #colorLiteral(red: 0.3705701232, green: 0.7888284326, blue: 0.5609446168, alpha: 1)
-  static let ocrIconColour:               UIColor   = #colorLiteral(red: 0.8836055398, green: 0.1235802993, blue: 0.1483977437, alpha: 1)
-  static let ocrIconBackground:           UIColor   = .white
-  static let ocrTimoutBackground:     	  UIColor   = #colorLiteral(red: 0.1628443599, green: 0.2728673518, blue: 0.3541108966, alpha: 1).withAlphaComponent(0.5)
   
-  // text
-  static let ocrHintTextSize:             CGFloat   = 18.0
+  static var simulated3WordAddresses = ["maidy.toilatu.mūzdyq", "index.home.raft", "daring.lion.race", "майды.тойлату.мұздық", "oval.blast.improving", "form.monkey.employ"]
   
   // geometry settings
   static var ocrViewfinderRatioPortrait:  CGFloat   = 0.538
@@ -36,6 +24,29 @@ public extension W3WSettings {
   static let ocrAddressLabelMaxWidth:     CGFloat   = 256.0
   static let ocrAddressLabelMaxHeight:    CGFloat   = 32.0
 
+  static var bottomSafeArea: CGFloat {
+    if #unavailable(iOS 15) {
+      return UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
+    } else {
+      return UIApplication
+        .shared
+        .connectedScenes
+        .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+        .first { $0.isKeyWindow }?.safeAreaInsets.bottom ?? 0
+    }
+  }
+  
+  static var topSafeArea: CGFloat {
+    if #unavailable(iOS 15) {
+      return UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
+    } else {
+      return UIApplication
+        .shared
+        .connectedScenes
+        .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+        .first { $0.isKeyWindow }?.safeAreaInsets.top ?? 0
+    }
+  }
 }
 
 #endif

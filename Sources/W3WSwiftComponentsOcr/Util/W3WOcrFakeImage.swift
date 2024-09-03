@@ -8,12 +8,13 @@
 import Foundation
 import AVKit
 import CoreGraphics
+import W3WSwiftCore
 
 
 /// makes fake images for iOS simulator as it doesn't have access to a camera (as of this writing)
 class W3WOcrFakeImages {
 
-  let addresses = ["index.home.raft", "daring.lion.race", "oval.blast.improving", "form.monkey.employ"]
+  let addresses = W3WSettings.simulated3WordAddresses
 
   
   /// gets a random three word address
@@ -36,6 +37,8 @@ class W3WOcrFakeImages {
     nameLabel.textColor = .black
     nameLabel.text = random3wa()
     nameLabel.font = UIFont.boldSystemFont(ofSize: rect.width * 0.1 * varyingFactor(seed: Double(nameLabel.text?.count ?? 0)))
+    nameLabel.minimumScaleFactor = 0.1
+    nameLabel.adjustsFontSizeToFitWidth = true
     UIGraphicsBeginImageContext(rect.size)
 
     if let currentContext = UIGraphicsGetCurrentContext() {

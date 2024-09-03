@@ -1,0 +1,4 @@
+"ocr_scan_3wa" = "3단어 주소 스캔하기";
+"scan_state_detecting" = "인식 중...";
+"ocr_scanning" = "스캔 중...";
+"scan_state_found" = "스캔 완료";

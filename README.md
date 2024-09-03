@@ -10,7 +10,7 @@ A Swift component library for what3words OCR.  These components can work with ei
 
 #### what3words OCR XCFramework
 
-If you want to use what3words' OCR XCFramework `W3WOcrSdk.xcframework`, please contact [what3words](https://what3words.com/contact-us/) to get it.  Otherwise you can use this component as is and rely on iOS's Vision Framework.
+If you want to use what3words' OCR XCFramework `W3WOcrSdk.xcframework`, please contact [what3words](https://what3words.com/contact-us/) to get it.  Otherwise this component works fine on it's own and employs iOS's Vision Framework for the OCR.
 
 #### Swift Package Manager
 
@@ -24,7 +24,7 @@ Import the libraries wherever you use the components:
 
 ```swift
 import W3WSwiftComponentsOcr
-import W3WSwiftApi
+import W3WSwiftCore
 ```
 
 #### Info.plist
@@ -38,12 +38,12 @@ Using The Component
 
 The component constructor needs an OCR object.  
 
-#### Using the API with Vision Framework:
+#### Using the API with iOS' Vision Framework:
 
 Our `W3WOcrNative` class that uses iOS' Vision Framework requires our API (or SDK) to be passed into the constructor.
 
 ```Swift
-  let api = What3WordsV3(apiKey: "YourApiKey")
+  let api = What3WordsV4(apiKey: "YourApiKey")
   let ocr = W3WOcrNative(api)
   let ocrViewController = W3WOcrViewController(ocr: ocr)
 ```
@@ -65,48 +65,29 @@ Here's a typical use example set in a UIViewController's IBOutlet function that 
 ```Swift
 @IBAction func scanButtonPressed(_ sender: Any) {
 
-  // show the OCR ViewController
-  self.show(ocrViewController, sender: self)
-  
-  // start the OCR processing images
-  ocrViewController.start()
-  
-  // when it finds an address, show it in the viewfinder
-  ocrViewController.onSuggestions = { [weak self] suggestions in
-    if let suggestion = suggestions.first {
-      self?.ocrViewController.show(suggestion: suggestion)
-      self?.ocrViewController.stop()
-  }
+    // show the component
+    present(ocrViewController, animated: true)
+    
+    // start the component
+    ocrViewController.start()
+    
+    // when the user taps on a suggestion, stop and dismiss the component
+    ocrViewController.onSuggestionSelected = { suggestion in
+      print(suggestion)
+      
+      ocrViewController.stop()
+      ocrViewController.dismiss(animated: true)
+    }
+    
+    ocrViewController.onError = { error in
+      print(error)
+    }
 
-  // if there is an error show the user
-  ocrViewController.onError = { [weak self] error in
-    self?.ocrViewController.stop()
-    self?.showError(error: error)
-  }
 }
 ```
 
 Example Code
 ------------
 
-An example called `OcrComponent` can be found [here](Examples/OcrComponent/OcrComponent.xcodeproj/) in the `Examples/OcrComponent` directory of this repository.
-
-
-### OCR Reference
-
-Both `W3WOcr` and `W3WOcrNative` conform to `W3WOcrProtocol`.  This guarantees the following functions:
-
-`set(language: String)` - sets a language to use.  Langauge codes can be retrieved using the `availableLangauges()` function.
-
-`availableLanguages() -> [String]` - returns an array of language codes that the OCR accepts.
-
-
-
-
-
-
-
-
-
-
+An example called `OcrComponent` can be found [here](https://github.com/what3words/w3w-swift-samples) in the our samples repository.
 

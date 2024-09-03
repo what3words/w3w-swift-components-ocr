@@ -7,7 +7,7 @@
 
 import UIKit
 import AVFoundation
-import W3WSwiftApi
+import W3WSwiftCore
 
 //#if canImport(W3WOcrSdk)
 
@@ -54,12 +54,19 @@ public class W3WOcrBasicView: UIView {
   func configure() {
     maths = W3WOcrCoordinateMaths(layer: videoPreviewLayer, camera: camera)
 
-    W3WOcrThread.runOnMain {
+    W3WOcrThread.runOnMain { [weak self] in
+      guard let self else { return }
       self.videoPreviewLayer.connection?.videoOrientation = self.orientationObserver.currentOrientationForCamera()
     }
     
-    orientationObserver.onNewOrientation = { [weak self] orientation in
-      self?.videoPreviewLayer.connection?.videoOrientation = orientation
+    orientationObserver.onNewOrientation = { [weak self, weak orientationObserver] orientation in
+      guard let self,
+            let orientationObserver
+      else {
+        return
+      }
+      
+      self.videoPreviewLayer.connection?.videoOrientation = orientation
     }
   }
   
@@ -73,7 +80,8 @@ public class W3WOcrBasicView: UIView {
     self.maths = W3WOcrCoordinateMaths(layer: videoPreviewLayer, camera: camera)
     
     if self.videoPreviewLayer.session != camera.session {
-      W3WOcrThread.runOnMain {
+      W3WOcrThread.runOnMain { [weak self] in
+        guard let self else { return }
         self.configureLayer()
       }
     }
@@ -81,7 +89,8 @@ public class W3WOcrBasicView: UIView {
   
   
   func configureLayer() {
-    W3WOcrThread.runOnMain {
+    W3WOcrThread.runOnMain { [weak self] in
+      guard let self else { return }
       if let session = self.camera?.session {
         self.videoPreviewLayer.session = session
       }

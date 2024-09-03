@@ -7,7 +7,8 @@
 
 import Foundation
 import Vision
-import W3WSwiftApi
+import CoreLocation
+import W3WSwiftCore
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
 #endif // W3WOcrSdk
@@ -33,14 +34,17 @@ public class W3WOcrNative: W3WOcrProtocol {
   var request: VNRecognizeTextRequest?
 
   /// what3words api/sdk
-  var w3w: W3WProtocolV3!
+  var w3w: W3WProtocolV4!
   
   /// called when a new image frame is available from the camera
   var info: (W3WOcrInfo) -> () = { _ in }
 
   /// called when something has been found
   var completion: ([W3WOcrSuggestion], W3WOcrError?) -> () = { _,_ in }
-    
+  
+  /// focus for calculating distance to focus
+  var focus: CLLocationCoordinate2D?
+
   /// This caches valid three word addresses to validate them in order
   /// to prevent multiple calls to the API for the same text.
   /// There are rules in the API licence agreement surrounding the issue
@@ -63,7 +67,7 @@ public class W3WOcrNative: W3WOcrProtocol {
   /// OCR system provided by Apple
   /// - Parameters:
   ///   - w3w: A refernce to the what3words API or the SDK
-  public init(_ w3w: W3WProtocolV3) {
+  public init(_ w3w: W3WProtocolV4) {
     configure(w3w: w3w)
   }
   
@@ -75,7 +79,7 @@ public class W3WOcrNative: W3WOcrProtocol {
 #endif // w3w
 
   
-  func configure(w3w: W3WProtocolV3) {
+  func configure(w3w: W3WProtocolV4) {
     self.w3w = w3w
     
     // get a list of langauges from the system
@@ -141,6 +145,11 @@ public class W3WOcrNative: W3WOcrProtocol {
     self.languages = languages
   }
   
+  
+  public func set(focus: CLLocationCoordinate2D?) {
+    self.focus = focus
+  }
+  
 
   /// returns an array of  ISO 639-1 2 letter language codes indicating which langauges are supported
   public func availableLanguages() -> [String] {
@@ -179,9 +188,14 @@ public class W3WOcrNative: W3WOcrProtocol {
     self.completion = completion
     self.info       = { info in video.onFrameInfo(info) }
     
-    video.onNewImage = { [weak self] image in
-      self?.lastImageResolution = CGSize(width: image.width, height: image.height)
-      self?.autosuggest(image: image, info: self?.info ?? { _ in }, completion: { suggestions, error in self?.completion(suggestions, error) })
+    video.onNewImage = { [weak self, weak video] image in
+      guard let self,
+            let video
+      else {
+        return
+      }
+      self.lastImageResolution = CGSize(width: image.width, height: image.height)
+      self.autosuggest(image: image, info: self.info, completion: { suggestions, error in self.completion(suggestions, error) })
     }
   }
   
@@ -243,9 +257,19 @@ public class W3WOcrNative: W3WOcrProtocol {
       let candidates  = Set(w3w.findPossible3wa(text: cleanedText))
       
       for words in candidates {
-        if let s = try? sdk.convertToSquare(words: words) {
-          if s.coordinates != nil {
-            let ocrSuggestion = W3WOcrSuggestion(words: s.words, country: s.country?.code, nearestPlace: s.nearestPlace, distanceToFocus: s.distanceToFocus?.kilometers, language: s.language?.code)
+        if let square = try? sdk.convertToSquare(words: words) {
+          if square.coordinates != nil {
+
+            var distance: Double?
+            if let focusCoords = focus {
+              distance = sdk.distance(from: focusCoords, to: square.coordinates)
+            }
+            
+            let ocrSuggestion = W3WOcrSuggestion(words: square.words,
+                                                 country: W3WBaseCountry(code: square.country?.code ?? W3WBaseLanguage.english.code),
+                                                 nearestPlace: square.nearestPlace,
+                                                 distanceToFocus: (distance == nil) ? nil : W3WBaseDistance(meters: distance ?? 0.0),
+                                                 language: W3WBaseLanguage(locale: square.language?.locale ?? W3WBaseLanguage.english.locale))
             suggestions.append(ocrSuggestion)
           }
         }
@@ -385,7 +409,7 @@ public class W3WOcrNative: W3WOcrProtocol {
 
   /// use the regex to tease out three words if possible
   func make3waFromAlmost3wa(text: String) -> String {
-    let regex   = try! NSRegularExpression(pattern: W3WSettings.regex_3wa_word)
+    let regex   = try! NSRegularExpression(pattern: W3WRegex.regex_3wa_word)
     let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in:text))
     
     var words = [String]()
@@ -430,7 +454,13 @@ public class W3WOcrNative: W3WOcrProtocol {
   func callW3w(text: String, completion:  @escaping ([W3WOcrSuggestion], W3WOcrError?) -> ()) {
     W3WOcrNative.callingC2C = true
 
-    w3w.autosuggest(text: text) { suggestions, error in
+    var options = [W3WOption]()
+    
+    if let f = focus {
+      options.append(.focus(f))
+    }
+    
+    w3w.autosuggest(text: text, options: options) { suggestions, error in
       W3WOcrNative.callingC2C = false
       
       // pass on any error
@@ -442,7 +472,8 @@ public class W3WOcrNative: W3WOcrProtocol {
         
         // make a OcrSuggestion
         if s.words == text {
-          let ocrSuggestion = W3WOcrSuggestion(words: s.words, country: s.country, nearestPlace: s.nearestPlace, distanceToFocus: s.distanceToFocus, language: s.language)
+          let ocrSuggestion: W3WOcrSuggestion
+          ocrSuggestion = W3WOcrSuggestion(words: s.words, country: s.country, nearestPlace : s.nearestPlace, distanceToFocus: s.distanceToFocus, language: s.language)
           W3WOcrNative.suggestionCache[text] = (true, ocrSuggestion)
           completion([ocrSuggestion], nil)
           
