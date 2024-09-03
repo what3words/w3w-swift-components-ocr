@@ -24,7 +24,6 @@ Import the libraries wherever you use the components:
 
 ```swift
 import W3WSwiftComponentsOcr
-import W3WSwiftCore
 ```
 
 #### Info.plist
@@ -65,6 +64,8 @@ Here's a typical use example set in a UIViewController's IBOutlet function that 
 ```Swift
 @IBAction func scanButtonPressed(_ sender: Any) {
 
+    let ocrViewController = W3WOcrViewController(ocr: ocr, w3w: api)
+    
     // show the component
     present(ocrViewController, animated: true)
     
@@ -91,3 +92,40 @@ Example Code
 
 An example called `OcrComponent` can be found [here](https://github.com/what3words/w3w-swift-samples) in the our samples repository.
 
+
+Customisation
+-------------
+
+If you want to use custom fonts, layout or colours, you can use a convenience function to set all the values:
+
+```Swift
+import W3WThemes
+```
+
+```Swift
+let theme = W3WTheme.forOcr( 
+  backgroundColor:            UIColor.white.w3wColor,
+  bottomSheetBackgroundColor: UIColor.systemBackground.w3wColor,
+  cameraBackgroundColor:      UIColor.darkGray.w3wColor,
+  headerTextColor:            UIColor.red.w3wColor,
+  brandColor:                 W3WColor.red,
+  addressTextColor:           UIColor.black.w3wColor,
+  footnoteTextColor:          UIColor.secondaryLabel.w3wColor,
+  errorTextColor:             UIColor.red.w3wColor,
+  fonts:                      W3WFonts(font: UIFont(name: "Courier", size: 24.0)),
+  defaultLineColor:           UIColor.gray.w3wColor,
+  successLineColor:           UIColor.green.w3wColor,
+  errorLineColor:             UIColor.red.w3wColor,
+  defaultLineThickness:       2.0,
+  boldLineThickness:          1.0,
+  defaultLineLength:          .large,
+  boldLineLength:             .medium,
+  withCornerRadius:           true,
+  padding:                    .fine
+)
+
+// make the component
+let ocrViewController = W3WOcrViewController(ocr: ocr, theme: theme, w3w: api)
+```
+
+The colours are specified using our custom `W3WColor` class, but you can use `UIColor` and suffix with `.w3wColor` and it will convert to our type.
