@@ -19,6 +19,17 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
   
   public var onDragging: (() -> ())?
   
+  var translations: W3WTranslationsProtocol
+  
+  public init(theme: W3WTheme?, translations: W3WTranslationsProtocol) {
+    self.translations = translations
+    super.init(theme: theme)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   public override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
@@ -26,7 +37,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
   
   public func setState(_ state: W3WOcrState) {
     let currentTitle = sections.first?.title
-    let cellItem: W3WSearchResultCellItem = .state(item: W3WSingleLabelCellItem(ocrState: state, theme: theme, resultIsEmpty: getItems().isEmpty))
+    let cellItem: W3WSearchResultCellItem = .state(item: W3WSingleLabelCellItem(ocrState: state, theme: theme, resultIsEmpty: getItems().isEmpty, translations: translations))
     let section: W3WSearchResultSectionItem = .init(type: .state, items: [cellItem])
     sections.removeAll(where: { $0.type == .state })
     sections.insert(section, at: 0)
