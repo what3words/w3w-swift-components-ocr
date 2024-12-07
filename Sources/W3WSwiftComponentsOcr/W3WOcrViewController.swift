@@ -166,8 +166,8 @@ open class W3WOcrViewController: W3WViewController {
   
 #if canImport(W3WOcrSdk)
   public convenience init(ocr: W3WOcr, theme: W3WTheme? = .what3words, w3w: W3WProtocolV4? = nil, translations: W3WTranslationsProtocol = W3WOcrTranslations()) {
-    self.translations = translations
     self.init(theme: theme)
+    self.translations = translations
     set(ocr: ocr)
     set(w3w)
   }
