@@ -17,15 +17,15 @@ public class W3WOcrTranslations: W3WTranslationsProtocol {
   
   
   public init() {
-    var currentLangaugeCode = "en"
+    var currentLanguageCode = "en"
     
     if #available(iOS 16, *) {
-      currentLangaugeCode = (NSLocale.current.language.languageCode?.identifier ?? "en") + "-" + (NSLocale.current.region?.identifier ?? "GB")
+      currentLanguageCode = (NSLocale.current.language.languageCode?.identifier ?? "en") + "-" + (NSLocale.current.region?.identifier ?? "GB")
     } else {
-      currentLangaugeCode = NSLocale.current.identifier ?? "en"
+      currentLanguageCode = NSLocale.current.identifier
     }
     
-    set(language: W3WBaseLanguage(locale: currentLangaugeCode))
+    set(language: W3WBaseLanguage(locale: currentLanguageCode))
   }
   
   
@@ -61,6 +61,5 @@ public class W3WOcrTranslations: W3WTranslationsProtocol {
     }
   }
 
-  
   
 }
