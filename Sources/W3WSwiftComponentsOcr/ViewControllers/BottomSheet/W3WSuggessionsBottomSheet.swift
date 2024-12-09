@@ -11,23 +11,28 @@ import W3WSwiftCore
 import W3WSwiftThemes
 
 open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
+  
+  var translations: W3WTranslationsProtocol
+  
   public var onDragging: (() -> ())? {
     didSet {
       tableViewController.onDragging = onDragging
     }
   }
   
-  public override init(theme: W3WTheme? = nil) {
+  public init(theme: W3WTheme? = nil, translations: W3WTranslationsProtocol) {
+    self.translations = translations
     super.init()
     set(theme: theme)
   }
   
   required public init?(coder: NSCoder) {
+    translations = W3WMockTranslation()
     fatalError("init(coder:) has not been implemented")
   }
   
   open lazy var tableViewController: W3WBottomSheetTableViewController = {
-    let viewController = W3WBottomSheetTableViewController(theme: theme?.with(background: .clear))
+    let viewController = W3WBottomSheetTableViewController(theme: theme?.with(background: .clear), translations: translations)
     return viewController
   }()
   

@@ -87,6 +87,8 @@ open class W3WOcrViewController: W3WViewController {
   /// optional w3w query engine
   var w3w: W3WProtocolV4?
   
+  var translations: W3WTranslationsProtocol
+  
   /// Current user location
   var currentLocation: CLLocationCoordinate2D?
   
@@ -108,7 +110,7 @@ open class W3WOcrViewController: W3WViewController {
   
   // MARK: - UI properties
   open lazy var bottomSheet: W3WSuggessionsBottomSheet = {
-    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme)
+    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme, translations: translations)
     return bottomSheet
   }()
   
@@ -154,23 +156,26 @@ open class W3WOcrViewController: W3WViewController {
   }()
   
   // MARK: - Init
-  public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = .what3words, w3w: W3WProtocolV4? = nil) {
+  public convenience init(ocr: W3WOcrProtocol, theme: W3WTheme? = .what3words, w3w: W3WProtocolV4? = nil, translations: W3WTranslationsProtocol = W3WOcrTranslations()) {
     self.init(theme: theme)
+    self.translations = translations
     set(ocr: ocr)
     set(w3w)
   }
   
   
 #if canImport(W3WOcrSdk)
-  public convenience init(ocr: W3WOcr, theme: W3WTheme? = .what3words, w3w: W3WProtocolV4? = nil) {
+  public convenience init(ocr: W3WOcr, theme: W3WTheme? = .what3words, w3w: W3WProtocolV4? = nil, translations: W3WTranslationsProtocol = W3WOcrTranslations()) {
     self.init(theme: theme)
+    self.translations = translations
     set(ocr: ocr)
     set(w3w)
   }
 #endif // W3WOcrSdk
   
   /// initializer override to instantiate the W3WOcrScannerView
-  public override init(theme: W3WTheme? = .what3words) {
+  public init(theme: W3WTheme? = .what3words, translations: W3WTranslationsProtocol = W3WOcrTranslations()) {
+    self.translations = translations
     super.init()
     set(theme: theme ?? .what3words)
     setup()
@@ -178,6 +183,7 @@ open class W3WOcrViewController: W3WViewController {
   
   /// initializer override to instantiate the `W3WOcrScannerView`
   public required init?(coder aDecoder: NSCoder) {
+    self.translations = W3WOcrTranslations()
     super.init(coder: aDecoder)
     set(theme: .what3words)
     setup()
@@ -268,7 +274,7 @@ open class W3WOcrViewController: W3WViewController {
   public func setCurrentLanguage(_ language: W3WLanguage?) {
     currentLanguage = language
     if let languageName = (language as? W3WBaseLanguage)?.name {
-      LanguageStrings.setLanguage(languageName)
+      (translations as? W3WOcrTranslations)?.set(language: language)
     }
   }
   
