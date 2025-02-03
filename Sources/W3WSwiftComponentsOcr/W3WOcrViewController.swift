@@ -275,7 +275,6 @@ open class W3WOcrViewController: W3WViewController {
     currentLanguage = language
     if let languageName = (language as? W3WBaseLanguage)?.name {
       (translations as? W3WOcrTranslations)?.set(language: language)
-      //LanguageStrings.setLanguage(languageName)
     }
   }
   
