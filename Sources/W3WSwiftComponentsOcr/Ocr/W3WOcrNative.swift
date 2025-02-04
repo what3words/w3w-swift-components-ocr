@@ -74,7 +74,9 @@ public class W3WOcrNative: W3WOcrProtocol {
   
 #if canImport(w3w)
   public init(sdk: What3Words) {
-    configure(w3w: sdk)
+    if let w3w = sdk as? W3WProtocolV4 {
+      configure(w3w: w3w)
+    }
   }
 #endif // w3w
 
@@ -262,7 +264,7 @@ public class W3WOcrNative: W3WOcrProtocol {
 
             var distance: Double?
             if let focusCoords = focus {
-              distance = sdk.distance(from: focusCoords, to: square.coordinates)
+              distance = (sdk as? W3WProtocolV4)?.distance(from: focusCoords, to: square.coordinates)
             }
             
             let ocrSuggestion = W3WOcrSuggestion(words: square.words,
