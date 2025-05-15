@@ -8,7 +8,7 @@
 import UIKit
 import W3WSwiftDesign
 
-extension W3WOcrViewController {
+extension W3WOcrBaseViewController {
   public func setupErrorView() {
     guard ocrView.crop != .zero else {
       return

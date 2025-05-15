@@ -11,6 +11,30 @@ import W3WSwiftThemes
 
 public extension W3WTheme {
   
+  func basicScheme() -> W3WScheme {
+    return W3WScheme(
+      colors: W3WColors(
+        foreground: labelsPrimary,
+        background: fillsPrimary,
+        tint: brandBase,
+        secondary: labelsQuaternary,
+        secondaryBackground: fillsQuaternary,
+        brand: brandBase,
+        highlight: W3WBasicColors(foreground: labelsTertiary, background: fillsTertiary),
+        border: separatorNonOpaque,
+        separator: separatorNonOpaque,
+        shadow: separatorNonOpaque,
+        placeholder: separatorNonOpaque,
+        success: W3WBasicColors(foreground: successLabel, background: successBase),
+        warning: W3WBasicColors(foreground: warningLabel, background: warningBase),
+        error: W3WBasicColors(foreground: errorLabel, background: errorBase),
+        header: W3WBasicColors(foreground: labelsQuaternary, background: fillsQuaternary),
+        line: separatorNonOpaque),
+      styles: nil
+    )
+  }
+  
+  
   /// user defined theme for ocr component
   /// if a parameter is not specified, corresponding value from standard theme will be applied
   /// - Parameters:

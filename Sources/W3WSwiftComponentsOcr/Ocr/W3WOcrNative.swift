@@ -74,7 +74,7 @@ public class W3WOcrNative: W3WOcrProtocol {
   
 #if canImport(w3w)
   public init(sdk: What3Words) {
-    configure(w3w: sdk)
+    configure(w3w: sdk as! W3WProtocolV4)
   }
 #endif // w3w
 

@@ -14,13 +14,13 @@ import W3WSwiftCore
 /// makes fake images for iOS simulator as it doesn't have access to a camera (as of this writing)
 class W3WOcrFakeImages {
 
-  let addresses = W3WSettings.simulated3WordAddresses
+  //let addresses = W3WSettings.simulated3WordAddresses
 
   
   /// gets a random three word address
   func random3wa() -> String {
-    let index = Int(NSDate().timeIntervalSince1970 / 5.0) % (addresses.count)
-    let words = addresses[index]
+    let index = Int(NSDate().timeIntervalSince1970 / 5.0) % (W3WSettings.simulated3WordAddresses.count)
+    let words = W3WSettings.simulated3WordAddresses[index]
     return words
   }
   
@@ -29,17 +29,22 @@ class W3WOcrFakeImages {
   func makeRandomThreeWordAddressImage(rect: CGRect) -> CGImage? {
     
     var image: CGImage?
+    
+    var size = rect
+    if size.width == 0 || size.height == 0 {
+      size = UIScreen.main.bounds
+    }
 
     #if canImport(UIKit) && !os(watchOS)
-    let nameLabel = UILabel(frame: rect)
+    let nameLabel = UILabel(frame: size)
     nameLabel.textAlignment = .center
     nameLabel.backgroundColor = UIColor(red: varyingFactor(seed: 1.0), green: varyingFactor(seed: 1.0), blue: varyingFactor(seed: 1.0), alpha: 1.0)
     nameLabel.textColor = .black
     nameLabel.text = random3wa()
-    nameLabel.font = UIFont.boldSystemFont(ofSize: rect.width * 0.1 * varyingFactor(seed: Double(nameLabel.text?.count ?? 0)))
+    nameLabel.font = UIFont.boldSystemFont(ofSize: size.width * 0.1 * varyingFactor(seed: Double(nameLabel.text?.count ?? 0)))
     nameLabel.minimumScaleFactor = 0.1
     nameLabel.adjustsFontSizeToFitWidth = true
-    UIGraphicsBeginImageContext(rect.size)
+    UIGraphicsBeginImageContext(size.size)
 
     if let currentContext = UIGraphicsGetCurrentContext() {
       nameLabel.layer.render(in: currentContext)

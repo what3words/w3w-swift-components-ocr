@@ -9,7 +9,7 @@ import UIKit
 import W3WSwiftDesign
 import W3WSwiftCore
 
-extension W3WOcrViewController {
+extension W3WOcrBaseViewController {
   /**
    Bottom sheet header estimated height
    

@@ -15,30 +15,11 @@ import CoreLocation
 import W3WOcrSdk
 #endif // W3WOcrSdk
 
-/// setting as to whether this should halt automatically when an address is found, or to continue
-public enum W3WOcrScanMode {
-  case continuous
-  case stopOnFirstResult
-}
 
-
-public enum W3WOcrState: String, CaseIterable {
-  case idle
-  case detecting
-  case scanning
-  case scanned
-  case error
-}
-
-
-#if !targetEnvironment(macCatalyst)
-@available(*, deprecated, message: "use W3WOcrViewController instead")
-public typealias W3WOcrScannerViewController = W3WOcrViewController
-#endif
 
 /// component for three word address OCR scanning
 @available(macCatalyst 14.0, *)
-open class W3WOcrViewController: W3WViewController {
+open class W3WOcrOldViewController: W3WViewController {
   
   // MARK: Vars
   
@@ -137,7 +118,7 @@ open class W3WOcrViewController: W3WViewController {
   }()
   
   open lazy var w3wLogo: UIView = {
-    let imageView = W3WIconView(image: .w3wLogoWithText, 
+    let imageView = W3WIconView(image: .w3wLogoWithText,
                                 scheme: .standardIcons.with(foreground: .white))
                                 //size: .w3wLogoWithTextIcon)
     imageView.contentMode = .scaleToFill
@@ -370,7 +351,7 @@ open class W3WOcrViewController: W3WViewController {
             }
             self?.state = .scanned
             if words == threeWordAddress {
-              self?.insertMoreSuggestions([result])
+              //self?.insertMoreSuggestions([result])
               self?.onSuggestions([result])
             } else {
               // Handle when autosuggest returns different word with the original ocr suggestion
@@ -378,12 +359,12 @@ open class W3WOcrViewController: W3WViewController {
                 return
               }
               self?.uniqueOcrSuggestions.insert(words)
-              self?.insertMoreSuggestions([result])
+              //self?.insertMoreSuggestions([result])
               self?.onSuggestions([result])
             }
           case .failure(let error):
             // Ignore the autosuggest error and display what the ocr provides
-            self?.insertMoreSuggestions([suggestion])
+            //self?.insertMoreSuggestions([suggestion])
             self?.onSuggestions([suggestion])
             print("autosuggest error: \((error as NSError).debugDescription)")
           }
@@ -393,7 +374,7 @@ open class W3WOcrViewController: W3WViewController {
     }
     // Just display what the ocr provides
     state = .scanned
-    insertMoreSuggestions([suggestion])
+    //insertMoreSuggestions([suggestion])
     onSuggestions([suggestion])
   }
   
@@ -436,7 +417,7 @@ open class W3WOcrViewController: W3WViewController {
   open func handleOcrError(_ error: W3WOcrError) {
     // Update state
     state = .error
-    showErrorView(title: error.description)
+    //showErrorView(title: error.description)
     onError(W3WError.message(error.description))
   }
   
@@ -522,10 +503,10 @@ open class W3WOcrViewController: W3WViewController {
     
     if ocrView.crop != oldOcrCrop {
       // update bottom sheet
-      setupBottomSheet()
+      //setupBottomSheet()
       
       // update error view
-      setupErrorView()
+      //setupErrorView()
     }
   }
   
