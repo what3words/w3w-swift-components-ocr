@@ -7,7 +7,9 @@
 
 import SwiftUI
 import W3WSwiftThemes
+import W3WSwiftDesign
 import W3WSwiftDesignSwiftUI
+import W3WSwiftPresenters
 
 
 public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
@@ -56,19 +58,9 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
     ZStack {
       if viewModel.viewType == .uploaded {
         VStack {
-          if viewModel.spinner {
-            if #available(iOS 14.0, *) {
-              ProgressView()
-                .progressViewStyle(.circular)
-                .background(Color.gray)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
-            
-          } else {
             W3WOcrStillImageView(viewModel: viewModel)
               .padding(64.0)
               .background(Color.gray)
-          }
 
           // TODO: combine this with duplicate code above
           VStack {

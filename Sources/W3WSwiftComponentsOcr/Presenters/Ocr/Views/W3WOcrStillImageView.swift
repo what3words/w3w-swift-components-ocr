@@ -12,6 +12,9 @@ struct W3WOcrStillImageView<ViewModel: W3WOcrViewModelProtocol>: View {
   // main view model
   @ObservedObject var viewModel: ViewModel
   
+  @State var showSpinner = true
+ 
+  
   var body: some View {
     VStack {
       
@@ -22,11 +25,24 @@ struct W3WOcrStillImageView<ViewModel: W3WOcrViewModelProtocol>: View {
           //.frame(width: 64.0, height: 64.0)
         
       } else {
-        Image(systemName: "photo")
+        if #available(iOS 14.0, *), showSpinner {
+          ProgressView()
+            .progressViewStyle(.circular)
+            .background(Color.gray)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+          Image(systemName: "photo")
+        }
+        //Image(systemName: "photo")
       }
     }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(Color.gray)
+      .onAppear() {
+        W3WThread.runIn(duration: .seconds(10.0)) {
+          showSpinner = false
+        }
+      }
   }
 }
 

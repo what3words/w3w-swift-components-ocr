@@ -9,6 +9,7 @@
 import SwiftUI
 import W3WSwiftCore
 import W3WSwiftThemes
+import W3WSwiftPresenters
 
 
 // https://developer.apple.com/documentation/uikit/uiimagepickercontroller
@@ -35,13 +36,13 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   public var panelViewModel = W3WPanelViewModel()
   
-  @Published public var viewType = W3WOcrViewType.video
+  @Published public var viewType = W3WOcrViewType.still
   
   //@Published public var cameraMode: Bool
   
   @Published public var stillImage: CGImage?
   
-  @Published public var spinner: Bool = false
+  //@Published public var spinner: Bool = false
   
   /// ensures output is stopped, as there can be suggestion stragglers
   //var stopOutput = false
@@ -52,55 +53,91 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   let scanMessageText = W3WLive<W3WString>("Scan a 3wa text goes here".w3w)
 
+  var selectMode = false
   
-  public init(ocr: W3WOcrProtocol, scheme: W3WScheme? = nil) {
+  var footerText = W3WLive<W3WString>("")
+
+  var footer: W3WPanelItem?
+  
+  var translations: W3WTranslationsProtocol?
+  
+//  lazy var saveButton = W3WButtonData(title: translations?.get(id: "save_button") ?? "save", onTap: { [weak self] in
+//    self?.output.send(.saveButton(self?.suggestions.selectedSuggestions ?? []))
+//  })
+//  
+//  lazy var shareButton = W3WButtonData(title: translations?.get(id: "share_button") ?? "share", onTap: { [weak self] in
+//    self?.output.send(.shareButton(self?.suggestions.selectedSuggestions ?? []))
+//  })
+//
+//  lazy var mapButton = W3WButtonData(title: translations?.get(id: "map_button") ?? "map", onTap: { [weak self] in
+//    self?.output.send(.mapButton(self?.suggestions.selectedSuggestions ?? []))
+//  })
+
+  
+  public init(ocr: W3WOcrProtocol, camera: W3WOcrCamera, footerButtons: [W3WSuggestionsViewControllerFactory], translations: W3WTranslationsProtocol? = nil, scheme: W3WScheme? = nil) {
     self.scheme = scheme
-    self.camera = W3WOcrCamera.get(camera: .back)
-    //self.cameraMode = false
+    self.camera = camera //W3WOcrCamera.get(camera: .back)
+    self.translations = translations
     
-    set(ocr: ocr)
+    footer = .buttons(convert(footerButtons: footerButtons), text: footerText)
     
     show(scanMessage: true)
-    
     bind()
     
     panelViewModel.input.send(.add(item: .suggestions(suggestions)))
+    suggestions.make(selectable: selectMode)
+    
+    showSelectionButtons()
     
     viewTypeSwitchEvent(on: viewType == .video)
-  }
-  
-  
-  
-  /// assign an OCR engine that conforms to W3WOcrProtocol to this component
-  /// - Parameters:
-  ///     - ocr: the W3WOcrProtocol conforming OCR engine
-  public func set(ocr: W3WOcrProtocol?) {
-    self.ocr = ocr
     
-    if camera == nil {
-      self.camera = W3WOcrCamera.get(camera: .back)
-      self.camera?.onCameraStarted = { [weak self, weak camera] in
-        guard let self, let camera else {
-          return
-        }
-        //self.onCameraStarted()
-      }
-    }
+    updateFooterText()
   }
+
   
-  
-  public func set(image: CGImage) {
-    self.stillImage = image
-  }
+  // MARK: Event Handlers
   
   
   func bind() {
     subscribe(to: input) { [weak self] event in
       self?.handle(event: event)
     }
+    
+    subscribe(to: suggestions.update) { [weak self] _ in
+      self?.updateFooterStatus()
+    }
   }
   
   
+  public func handle(suggestions theSuggestions: [W3WSuggestion]?) {
+    if let s = theSuggestions {
+      show(scanMessage: false)
+      suggestions.add(suggestions: s, selected: selectMode ? false : nil)
+      updateFooterText()
+    }
+  }
+  
+  
+  /// start scanning
+  public func handle(event: W3WOcrInputEvent) {
+    switch event {
+      case .image(let image):
+        if let i = image {
+          output.send(.image(i))
+        }
+      
+      case .stillImage(let image):
+        stillImage = image
+        
+      case .suggestion(let suggestion):
+        handle(suggestions: [suggestion])
+        
+      //case .spinner(let on):
+      //  spinner = on
+    }
+  }
+
+
   public func importButtonPressed() {
     output.send(.importImage)
     viewType = .uploaded
@@ -108,66 +145,15 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   
   public func captureButtonPressed() {
-    print(#function)
+    output.send(.captureButton)
   }
   
   
   public func viewTypeSwitchEvent(on: Bool) {
-    viewType = on ? .video : .still
-    
-    if viewType == .video {
-      start()
-    } else {
-      stop()
-    }
+    output.send(.liveCaptureSwitch(on))
   }
 
 
-  
-  /// start scanning
-  public func start() {
-    //stopOutput = false
-    hasStoppedScanning = false
-    if let c = camera, let o = ocr {
-      state = .detecting
-      c.start()
-      
-      o.autosuggest(video: c) { [weak self] suggestions, error in
-        self?.ocrResults(suggestions: suggestions, error: error == nil ? nil : W3WError.other(error))
-      }
-    }
-  }
-  
-  
-  public func ocrResults(suggestions: [W3WSuggestion]?, error: W3WError?) {
-    //guard let self else { return }
-    if self == nil {
-      print("The OCR system is connected to a W3WOcrViewController that no longer exists. Please ensure the OCR is connected to the current W3WOcrViewController.  Perhaps instantiate a new OCR when creating a new W3WOcrViewControlller.")
-      
-    } else if let e = error {
-      output.send(.error(e))
-      
-    } else { //if stopOutput == false {
-      handle(suggestions: suggestions)
-    }
-  }
-  
-  
-  func stop() {
-    //stopOutput = true
-    hasStoppedScanning = true
-    
-    if let c = camera, let o = ocr {
-      state = .idle
-      c.stop()
-    }
-  }
-  
-  
-//  func add(suggestion: W3WSuggestion) {
-//    show(scanMessage: false)
-//  }
-  
   
   func show(scanMessage: Bool) {
     if scanMessage {
@@ -178,90 +164,58 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   }
   
   
+  // MARK: Commands
   
-  // MARK: Event Handlers
-  
-  
-  public func handle(suggestions theSuggestions: [W3WSuggestion]?) {
-    if let s = theSuggestions {
-      show(scanMessage: false)
-      suggestions.add(suggestions: s, selected: false)
+    
+  func showSelectionButtons() {
+    let selectButton = W3WButtonData(title: "select") { [weak self] in
+      self?.selectMode.toggle()
+      self?.suggestions.make(selectable: self?.selectMode ?? false)
+      //self?.updateFooterStatus()
     }
+    
+    let selectAllButton = W3WButtonData(title: "select all") { [weak self] in
+      self?.suggestions.selectAll()
+      //self?.updateFooterStatus()
+    }
+    
+    panelViewModel.input.send(.add(item: .buttons([selectButton, selectAllButton])))
   }
   
   
-  /// start scanning
-  public func handle(event: W3WOcrInputEvent) {
-    //switch event {
-      //case .dismiss:
-      //  stop()
-        
-      //case .displayMode(let mode):
-    //}
+  func updateFooterStatus() {
+    if suggestions.selectedCount() > 0 {
+      panelViewModel.input.send(.footer(item: footer))
+    } else {
+      panelViewModel.input.send(.footer(item: nil))
+    }
+    
+    updateFooterText()
   }
 
+  
+  func updateFooterText() {
+    footerText.send("\(suggestions.selectedCount()) \(translations?.get(id: "selected") ?? "selected")".w3w)
+  }
+  
+  
+  // MARK: Untility
+  
+  
+  func convert(footerButtons: [W3WSuggestionsViewControllerFactory]) -> [W3WButtonData] {
+    var buttons = [W3WButtonData]()
 
+    for footerButton in footerButtons {
+      buttons.append(W3WButtonData(icon: footerButton.icon, title: footerButton.title, onTap: { [weak self] in
+        if let s = self {
+          self?.output.send(.footerButton(footerButton, suggestions: s.suggestions.selectedSuggestions))
+        }
+      }))
+    }
+    
+    return buttons
+  }
 
   
-  /// Handle the first ocr suggestion, if it's not duplicated then insert it on top of the bottom sheet.
-  /// - Parameters:
-  ///     - suggestions: the suggestions that was found
-//  open func handleNewSuggestions(_ suggestions: [W3WOcrSuggestion]) {
-//    guard let suggestion = suggestions.first,
-//          let threeWordAddress = suggestion.words else {
-//      return
-//    }
-//
-//    state = .scanning
-//    onReceiveRawSuggestions([suggestion])
-//
-//    // Check for inserting or moving
-//    if uniqueOcrSuggestions.contains(threeWordAddress) {
-//      handleDuplicatedSuggestion(suggestion)
-//      state = .scanned
-//      return
-//    } else {
-//      uniqueOcrSuggestions.insert(threeWordAddress)
-//    }
-//
-//    // Perform autosuggest just when there is w3w
-//    if let w3w = w3w {
-//      autosuggest(w3w: w3w, text: threeWordAddress) { [weak self] result in
-//        DispatchQueue.main.async {
-//          switch result {
-//          case .success(let autoSuggestion):
-//            let result = autoSuggestion ?? suggestion
-//            guard let words = result.words else {
-//              return
-//            }
-//            self?.state = .scanned
-//            if words == threeWordAddress {
-//              self?.insertMoreSuggestions([result])
-//              self?.onSuggestions([result])
-//            } else {
-//              // Handle when autosuggest returns different word with the original ocr suggestion
-//              if self?.uniqueOcrSuggestions.contains(words) ?? false {
-//                return
-//              }
-//              self?.uniqueOcrSuggestions.insert(words)
-//              self?.insertMoreSuggestions([result])
-//              self?.onSuggestions([result])
-//            }
-//          case .failure(let error):
-//            // Ignore the autosuggest error and display what the ocr provides
-//            self?.insertMoreSuggestions([suggestion])
-//            self?.onSuggestions([suggestion])
-//            print("autosuggest error: \((error as NSError).debugDescription)")
-//          }
-//        }
-//      }
-//      return
-//    }
-//    // Just display what the ocr provides
-//    state = .scanned
-//    insertMoreSuggestions([suggestion])
-//    onSuggestions([suggestion])
-//  }
-
   
 }

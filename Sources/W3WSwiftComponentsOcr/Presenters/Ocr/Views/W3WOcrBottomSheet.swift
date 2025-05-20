@@ -7,6 +7,9 @@
 
 import SwiftUI
 import Combine
+import W3WSwiftDesign
+import W3WSwiftPresenters
+
 
 struct W3WOcrBottomSheet<ViewModel: W3WOcrViewModelProtocol>: View {
   
@@ -25,9 +28,9 @@ struct W3WOcrBottomSheet<ViewModel: W3WOcrViewModelProtocol>: View {
       Spacer()
         .frame(maxHeight: .infinity)
       W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
-      W3WSuBottomSheet(scheme: viewModel.scheme, height: initialPanelHeight, detents: detents) {
+      W3WSuBottomSheet(scheme: viewModel.scheme, height: initialPanelHeight, detents: detents, content: {
         W3WPanelScreen(viewModel: viewModel.panelViewModel)
-      }
+      })
     }
     .background(Color.gray)
   }

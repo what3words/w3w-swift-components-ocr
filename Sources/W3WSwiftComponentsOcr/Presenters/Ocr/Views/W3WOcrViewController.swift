@@ -33,7 +33,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
 
   var detents: W3WDetents
   
-  var picker: W3WImagePickerViewController?
+  //var picker: W3WImagePickerViewController?
   
   var viewModel: ViewModel
   
@@ -65,40 +65,40 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
 
     super.init(rootView: ocrScreen)
 
-    subscribe(to: viewModel.output) { [weak self] event in
-      if case .importImage = event {
-        W3WThread.queueOnMain { [weak self] in
-          self?.showImagePicker()
-        }
-      }
-    }
+//    subscribe(to: viewModel.output) { [weak self] event in
+//      if case .importImage = event {
+//        W3WThread.queueOnMain { [weak self] in
+//          self?.showImagePicker()
+//        }
+//      }
+//    }
   }
 
   
   func showImagePicker() {
-    let pickerViewModel = W3WImagePickerViewModel()
-    
-    let pickerUseCase = W3WOcrPickerUseCase(pickerOutput: pickerViewModel.output, pickerInput: pickerViewModel.input, ocr: viewModel.ocr, ocrViewModel: viewModel)
-
-    picker = W3WImagePickerViewController()
-
-    if let p = picker {
-      p.set(viewModel: pickerViewModel, keepAlive: [pickerUseCase])
-      
-      viewModel.spinner = true
-      present(p, animated: true) { [weak self] in
-        self?.viewModel.spinner = false
-      }
-      
-      print(pickerViewModel.output)
-      
-      subscribe(to: pickerViewModel.output) { event in
-        if case .dismiss = event {
-          p.dismiss(animated: true)
-          self.picker = nil
-        }
-      }
-    }
+//    let pickerViewModel = W3WImagePickerViewModel()
+//    
+//    let pickerUseCase = W3WOcrPickerUseCase(pickerOutput: pickerViewModel.output, pickerInput: pickerViewModel.input, ocr: viewModel.ocr, ocrViewModel: viewModel)
+//
+//    picker = W3WImagePickerViewController()
+//
+//    if let p = picker {
+//      p.set(viewModel: pickerViewModel, keepAlive: [pickerUseCase])
+//      
+//      viewModel.spinner = true
+//      present(p, animated: true) { [weak self] in
+//        self?.viewModel.spinner = false
+//      }
+//      
+//      print(pickerViewModel.output)
+//      
+//      subscribe(to: pickerViewModel.output) { event in
+//        if case .dismiss = event {
+//          p.dismiss(animated: true)
+//          self.picker = nil
+//        }
+//      }
+//    }
   }
   
   

@@ -8,6 +8,7 @@
 import SwiftUI
 import W3WSwiftCore
 import W3WSwiftThemes
+import W3WSwiftPresenters
 
 
 public enum W3WOcrViewType {
@@ -36,7 +37,7 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
 
   var stillImage: CGImage? { get set }
   
-  var spinner: Bool { get set }
+  //var spinner: Bool { get set }
   
   //var cameraMode: Bool { get set }
   
@@ -48,9 +49,9 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
   
   func viewTypeSwitchEvent(on: Bool)
   
-  func ocrResults(suggestions: [W3WSuggestion]?, error: W3WError?)
+  //func ocrResults(suggestions: [W3WSuggestion]?, error: W3WError?)
   
   func handle(suggestions: [W3WSuggestion]?)
   
-  func set(image: CGImage)
+  //func set(image: CGImage)
 }
