@@ -61,7 +61,14 @@ public class W3WOcrCoordinator: W3WViewCoordinator, W3WEventSubscriberProtocol {
     }
 
     if case .footerButton(let factory, suggestions: let suggestions) = ocrOutputEvent {
-      show(vc: factory.make(suggestions))
+      switch factory.action {
+          
+        case .viewControllerFactory(forSuggestions: let closure):
+          show(vc: closure(suggestions))
+          
+        case .execute(forSuggestions: let closure):
+          closure(suggestions)
+      }
     }
   }
     

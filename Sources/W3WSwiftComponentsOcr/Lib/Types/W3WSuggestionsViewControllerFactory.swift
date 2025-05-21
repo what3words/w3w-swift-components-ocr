@@ -10,21 +10,32 @@ import W3WSwiftCore
 import W3WSwiftThemes
 
 
-public class W3WSuggestionsViewControllerFactory {
+@available(*, deprecated, renamed: "W3WSuggestionsViewAction")
+public typealias W3WSuggestionsViewControllerFactory = W3WSuggestionsViewAction
+
+
+public enum W3WViewAction {
   
-  //func make(suggestions: [W3WSuggestion]) -> UIViewController
+  case viewControllerFactory(forSuggestions: ([W3WSuggestion]) -> (UIViewController))
+  case execute(forSuggestions: ([W3WSuggestion]) -> ())
+
+}
+
+
+public class W3WSuggestionsViewAction {
   
   var icon: W3WImage?
   
   var title: String?
   
-  var make: ([W3WSuggestion]) -> (UIViewController)
+  var action: W3WViewAction
   
 
-  public init(icon: W3WImage? = nil, title: String? = nil, make: @escaping ([W3WSuggestion]) -> UIViewController) {
+  public init(icon: W3WImage? = nil, title: String? = nil, action: W3WViewAction) {
     self.icon = icon
     self.title = title
-    self.make = make
+    //self.make = make
+    self.action = action
   }
   
 }
