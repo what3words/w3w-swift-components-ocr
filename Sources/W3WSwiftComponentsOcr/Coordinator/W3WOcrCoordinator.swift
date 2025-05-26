@@ -11,7 +11,7 @@ import W3WSwiftCoordinator
 import W3WSwiftPresenters
 
 
-public class W3WOcrCoordinator: W3WViewCoordinator, W3WEventSubscriberProtocol {
+open class W3WOcrCoordinator: W3WViewCoordinator, W3WEventSubscriberProtocol {
   public var subscriptions = W3WEventsSubscriptions()
   
   let ocrViewModel: W3WOcrViewModel

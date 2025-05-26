@@ -19,7 +19,7 @@ import w3w
 
 
 @available(iOS 13.0, *)
-public class W3WOcrNative: W3WOcrProtocol {
+public class W3WOcrNative: W3WOcrProtocol, W3WUtilitiesProtocol {
 
   /// languages to use for recognition
   var languages = ["en"]  // LiveType supports at least English, so this is hardcoded
@@ -260,15 +260,15 @@ public class W3WOcrNative: W3WOcrProtocol {
         if let square = try? sdk.convertToSquare(words: words) {
           if square.coordinates != nil {
 
-            var distance: Double?
+            var dist: Double?
             if let focusCoords = focus {
-              distance = sdk.distance(from: focusCoords, to: square.coordinates)
+              dist = distance(from: focusCoords, to: square.coordinates)
             }
             
             let ocrSuggestion = W3WOcrSuggestion(words: square.words,
                                                  country: W3WBaseCountry(code: square.country?.code ?? W3WBaseLanguage.english.code),
                                                  nearestPlace: square.nearestPlace,
-                                                 distanceToFocus: (distance == nil) ? nil : W3WBaseDistance(meters: distance ?? 0.0),
+                                                 distanceToFocus: (dist == nil) ? nil : W3WBaseDistance(meters: dist ?? 0.0),
                                                  language: W3WBaseLanguage(locale: square.language?.locale ?? W3WBaseLanguage.english.locale))
             suggestions.append(ocrSuggestion)
           }

@@ -32,7 +32,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   //public var suggestions = [String:W3WSuggestion]()
   var suggestions = W3WSelectableSuggestions()
   
-  public var selectedSuggestions = Set<String>()
+  //public var selectedSuggestions = Set<String>()
 
   public var panelViewModel = W3WPanelViewModel()
   
@@ -59,6 +59,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   var footer: W3WPanelItem?
   
+  var footerButtons: [W3WSuggestionsViewControllerFactory]
+  
   var translations: W3WTranslationsProtocol?
   
 //  lazy var saveButton = W3WButtonData(title: translations?.get(id: "save_button") ?? "save", onTap: { [weak self] in
@@ -78,6 +80,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     self.scheme = scheme
     self.camera = camera //W3WOcrCamera.get(camera: .back)
     self.translations = translations
+    self.footerButtons = footerButtons
     
     footer = .buttons(convert(footerButtons: footerButtons), text: footerText)
     
@@ -184,6 +187,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   
   func updateFooterStatus() {
+    footer = .buttons(convert(footerButtons: footerButtons), text: footerText)
+    
     if suggestions.selectedCount() > 0 {
       panelViewModel.input.send(.footer(item: footer))
     } else {
@@ -206,11 +211,13 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     var buttons = [W3WButtonData]()
 
     for footerButton in footerButtons {
-      buttons.append(W3WButtonData(icon: footerButton.icon, title: footerButton.title, onTap: { [weak self] in
-        if let s = self {
-          self?.output.send(.footerButton(footerButton, suggestions: s.suggestions.selectedSuggestions))
-        }
-      }))
+      if !footerButton.onlyForSingleSuggestion || (footerButton.onlyForSingleSuggestion && suggestions.selectedCount() == 1) {
+        buttons.append(W3WButtonData(icon: footerButton.icon, title: footerButton.title, onTap: { [weak self] in
+          if let s = self {
+            self?.output.send(.footerButton(footerButton, suggestions: s.suggestions.selectedSuggestions))
+          }
+        }))
+      }
     }
     
     return buttons

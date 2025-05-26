@@ -30,11 +30,13 @@ public class W3WSuggestionsViewAction {
   
   var action: W3WViewAction
   
+  var onlyForSingleSuggestion: Bool
+  
 
-  public init(icon: W3WImage? = nil, title: String? = nil, action: W3WViewAction) {
+  public init(icon: W3WImage? = nil, title: String? = nil, onlyForSingleSuggestion: Bool = false, action: W3WViewAction) {
     self.icon = icon
     self.title = title
-    //self.make = make
+    self.onlyForSingleSuggestion = onlyForSingleSuggestion
     self.action = action
   }
   
