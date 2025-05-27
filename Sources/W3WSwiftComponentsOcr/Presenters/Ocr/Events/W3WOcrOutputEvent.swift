@@ -16,5 +16,5 @@ public enum W3WOcrOutputEvent {
   case image(CGImage)
   case captureButton
   case liveCaptureSwitch(Bool)
-  case footerButton(W3WSuggestionsViewControllerFactory, suggestions: [W3WSuggestion])
+  case footerButton(W3WSuggestionsViewAction, suggestions: [W3WSuggestion])
 }
