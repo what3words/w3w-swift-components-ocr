@@ -67,8 +67,8 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
             Spacer()
               .frame(maxHeight: .infinity)
             W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
-            W3WSuBottomSheet(scheme: viewModel.scheme, height: initialPanelHeight, detents: detents) {
-              W3WPanelScreen(viewModel: viewModel.panelViewModel)
+            W3WSuBottomSheet(scheme: viewModel.theme.value?.basicScheme(), height: initialPanelHeight, detents: detents) {
+              W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.bottomSheetScheme)
             }
           }
           .background(Color.gray)
@@ -78,19 +78,21 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
       } else {
         W3WSuOcrView(ocrView: ocrView)
           .edgesIgnoringSafeArea(.all)
+          .background(Color.clear)
 
         // TODO: move this down and remove duplicate code below
         VStack {
           Spacer()
             .frame(maxHeight: .infinity)
           W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
-          W3WSuBottomSheet(scheme: viewModel.scheme, height: initialPanelHeight, detents: detents) {
-            W3WPanelScreen(viewModel: viewModel.panelViewModel)
+          W3WSuBottomSheet(scheme: viewModel.bottomSheetScheme, height: initialPanelHeight, detents: detents) {
+            W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.bottomSheetScheme)
           }
         }
       }
     }
     .edgesIgnoringSafeArea(.bottom)
+    .background(Color.clear)
   }
   
 }

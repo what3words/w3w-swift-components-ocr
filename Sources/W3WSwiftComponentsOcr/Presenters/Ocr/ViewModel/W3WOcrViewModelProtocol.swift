@@ -25,8 +25,10 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
   
   var output: W3WEvent<W3WOcrOutputEvent> { get set }
   
-  var scheme: W3WScheme? { get set }
+  var theme: W3WLive<W3WTheme?> { get set }
 
+  var bottomSheetScheme: W3WScheme? { get set }
+  
   var ocr: W3WOcrProtocol? { get set }
   
   var camera: W3WOcrCamera? { get set }
@@ -36,6 +38,8 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
   var viewType: W3WOcrViewType { get set }
 
   var stillImage: CGImage? { get set }
+  
+  var translations: W3WTranslationsProtocol { get set }
   
   //var spinner: Bool { get set }
   

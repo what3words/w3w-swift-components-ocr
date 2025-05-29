@@ -11,12 +11,52 @@ import W3WSwiftThemes
 
 public extension W3WTheme {
   
+  
+  func ocrScheme(for: W3WOcrState) -> W3WScheme? {
+    switch `for` {
+      case .idle:
+        return .standard.with(background: .darkBlue.with(alpha: 0.9))
+      case .detecting:
+        return .standard.with(background: fillsPrimary)
+      case .scanning:
+        return .standard.with(background: fillsTertiary)
+      case .scanned:
+        return .standard.with(background: fillsQuaternary)
+      case .error:
+        return .standard.with(background: fillsQuinary)
+    }
+  }
+  
+  
+  func ocrBottomSheetScheme() -> W3WScheme {
+    return W3WScheme(
+      colors: W3WColors(
+        foreground: labelsPrimary,
+        background: systemBackgroundBasePrimary,
+        tint: fillsSecondary,
+        secondary: labelsQuaternary,
+        secondaryBackground: fillsQuaternary,
+        brand: brandBase,
+        highlight: W3WBasicColors(foreground: labelsSecondary, background: fillsQuinary),
+        border: separatorNonOpaque,
+        separator: separatorNonOpaque,
+        shadow: separatorNonOpaque,
+        placeholder: separatorNonOpaque,
+        success: W3WBasicColors(foreground: successLabel, background: successBase),
+        warning: W3WBasicColors(foreground: warningLabel, background: warningBase),
+        error: W3WBasicColors(foreground: errorLabel, background: errorBase),
+        header: W3WBasicColors(foreground: labelsQuaternary, background: fillsQuaternary),
+        line: separatorNonOpaque)
+      )
+  }
+  
+  
   func basicScheme() -> W3WScheme {
     return W3WScheme(
       colors: W3WColors(
         foreground: labelsPrimary,
         background: fillsPrimary,
-        tint: brandBase,
+        tint: fillsSecondary,
         secondary: labelsQuaternary,
         secondaryBackground: fillsQuaternary,
         brand: brandBase,

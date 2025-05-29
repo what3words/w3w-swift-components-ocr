@@ -7,6 +7,7 @@
 
 
 import W3WSwiftCore
+import W3WSwiftThemes
 import W3WSwiftCoordinator
 import W3WSwiftPresenters
 
@@ -23,10 +24,10 @@ open class W3WOcrCoordinator: W3WViewCoordinator, W3WEventSubscriberProtocol {
   var camera: W3WOcrCamera
   
   
-  public init(ocr: W3WOcrProtocol, camera: W3WOcrCamera, footerButtons: [W3WSuggestionsViewControllerFactory]) {
+  public init(ocr: W3WOcrProtocol, camera: W3WOcrCamera, footerButtons: [W3WSuggestionsViewControllerFactory], theme: W3WLive<W3WTheme?> = W3WLive<W3WTheme?>(.what3words), translations: W3WTranslationsProtocol) {
     self.camera = camera
     
-    ocrViewModel = W3WOcrViewModel(ocr: ocr, camera: camera, footerButtons: footerButtons)
+    ocrViewModel = W3WOcrViewModel(ocr: ocr, camera: camera, footerButtons: footerButtons, translations: translations, theme: theme)
     ocrUseCase = W3WOcrUseCase(camera: camera, ocr: ocr, ocrOutput: ocrViewModel.output, ocrInput: ocrViewModel.input, pickerOutput: pickerViewModel.output, pickerInput: pickerViewModel.input)
 
     let ocrViewController = W3WOcrViewController(viewModel: ocrViewModel)

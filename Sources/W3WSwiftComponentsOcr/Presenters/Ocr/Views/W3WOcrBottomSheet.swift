@@ -18,6 +18,8 @@ struct W3WOcrBottomSheet<ViewModel: W3WOcrViewModelProtocol>: View {
   
   let initialPanelHeight: CGFloat
 
+  var scheme: W3WScheme
+
   var cameraMode: Binding<Bool>
 
   @State var detents: W3WDetents
@@ -28,11 +30,10 @@ struct W3WOcrBottomSheet<ViewModel: W3WOcrViewModelProtocol>: View {
       Spacer()
         .frame(maxHeight: .infinity)
       W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
-      W3WSuBottomSheet(scheme: viewModel.scheme, height: initialPanelHeight, detents: detents, content: {
-        W3WPanelScreen(viewModel: viewModel.panelViewModel)
+      W3WSuBottomSheet(scheme: viewModel.bottomSheetScheme, height: initialPanelHeight, detents: detents, content: {
+        W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: scheme)
       })
     }
-    .background(Color.gray)
   }
 }
 

@@ -31,13 +31,17 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   // maybe we prelaod this for efficiancy?  sometimes it takes a couple seconds to come up
   //var picker: W3WImagePickerViewController?
 
-  var detents: W3WDetents
+  var detents = W3WDetents(detent: 0.0)
   
   //var picker: W3WImagePickerViewController?
   
   var viewModel: ViewModel
   
   //var pickerUseCase: W3WOcrImagePickerUseCase?
+  
+  var bottomDetent = CGFloat(90.0)
+  
+  var buttonsHieght = CGFloat(128.0)
   
   
   /// view controller containing a Settings view
@@ -52,54 +56,31 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
     //self.keepAlive.append(ocrMainViewController)
     
     ocrView = W3WOcrView(frame: .w3wWhatever)
-    
+
     if let camera = viewModel.camera {
       ocrView.set(camera: camera)
     }
-    
-    ocrView.set(lineColor: W3WCoreColor.white.uiColor, lineGap: 1.0)
-    
-    detents = W3WDetents(detents: [128.0])
-    
+        
     let ocrScreen = W3WOcrScreen(viewModel: viewModel, initialPanelHeight: 128.0, ocrView: ocrView, detents: detents)
 
     super.init(rootView: ocrScreen)
+    
+    //detents = W3WDetents(detents: [bottomDetent])
+    resetDetents()
+    
+    view.backgroundColor = .clear
+    
+    ocrView.set(scheme: viewModel.theme.value?.ocrScheme(for: .idle))
+    ocrView.set(lineColor: W3WCoreColor.white.uiColor, lineGap: 1.0)
+    subscribe(to: viewModel.theme)  { [weak self] theme in
+      W3WThread.queueOnMain {
+        self?.ocrView.set(scheme: viewModel.theme.value?.ocrScheme(for: .idle))
+      }
+    }
 
-//    subscribe(to: viewModel.output) { [weak self] event in
-//      if case .importImage = event {
-//        W3WThread.queueOnMain { [weak self] in
-//          self?.showImagePicker()
-//        }
-//      }
-//    }
   }
 
   
-  func showImagePicker() {
-//    let pickerViewModel = W3WImagePickerViewModel()
-//    
-//    let pickerUseCase = W3WOcrPickerUseCase(pickerOutput: pickerViewModel.output, pickerInput: pickerViewModel.input, ocr: viewModel.ocr, ocrViewModel: viewModel)
-//
-//    picker = W3WImagePickerViewController()
-//
-//    if let p = picker {
-//      p.set(viewModel: pickerViewModel, keepAlive: [pickerUseCase])
-//      
-//      viewModel.spinner = true
-//      present(p, animated: true) { [weak self] in
-//        self?.viewModel.spinner = false
-//      }
-//      
-//      print(pickerViewModel.output)
-//      
-//      subscribe(to: pickerViewModel.output) { event in
-//        if case .dismiss = event {
-//          p.dismiss(animated: true)
-//          self.picker = nil
-//        }
-//      }
-//    }
-  }
   
   
   required public init?(coder aDecoder: NSCoder) {
@@ -121,7 +102,19 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
     } else {
       ocrView.set(crop: defaultCrop())
     }
-    detents.add(detent: ocrView.crop.maxY + W3WPadding.heavy.value)
+    
+    resetDetents(middle: ocrView.crop.maxY - W3WPadding.heavy.value - buttonsHieght)
+  }
+  
+  
+  func resetDetents(middle: CGFloat? = nil) {
+    detents.add(detent: bottomDetent)
+    
+    if let m = middle {
+      detents.add(detent: m)
+    }
+    
+    detents.add(detent: view.frame.maxY - W3WPadding.heavy.value - buttonsHieght)
   }
   
   

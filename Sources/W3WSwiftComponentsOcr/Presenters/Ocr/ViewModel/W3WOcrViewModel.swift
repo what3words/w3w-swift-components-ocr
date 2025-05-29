@@ -23,8 +23,18 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   public var output = W3WEvent<W3WOcrOutputEvent>()
   
-  @Published public var scheme: W3WScheme?
+  public var theme: W3WLive<W3WTheme?>
+  
+  @Published public var bottomSheetScheme: W3WScheme? = W3WScheme.w3w
 
+  @Published public var viewType = W3WOcrViewType.still
+  
+  @Published public var stillImage: CGImage?
+  
+  //@Published public var cameraMode: Bool
+  
+  //@Published public var spinner: Bool = false
+  
   public var ocr: W3WOcrProtocol?
   
   public var camera: W3WOcrCamera?
@@ -35,14 +45,6 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   //public var selectedSuggestions = Set<String>()
 
   public var panelViewModel = W3WPanelViewModel()
-  
-  @Published public var viewType = W3WOcrViewType.still
-  
-  //@Published public var cameraMode: Bool
-  
-  @Published public var stillImage: CGImage?
-  
-  //@Published public var spinner: Bool = false
   
   /// ensures output is stopped, as there can be suggestion stragglers
   //var stopOutput = false
@@ -61,23 +63,26 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   var footerButtons: [W3WSuggestionsViewControllerFactory]
   
-  var translations: W3WTranslationsProtocol?
+  public var translations: W3WTranslationsProtocol
   
-//  lazy var saveButton = W3WButtonData(title: translations?.get(id: "save_button") ?? "save", onTap: { [weak self] in
-//    self?.output.send(.saveButton(self?.suggestions.selectedSuggestions ?? []))
-//  })
-//  
-//  lazy var shareButton = W3WButtonData(title: translations?.get(id: "share_button") ?? "share", onTap: { [weak self] in
-//    self?.output.send(.shareButton(self?.suggestions.selectedSuggestions ?? []))
-//  })
-//
-//  lazy var mapButton = W3WButtonData(title: translations?.get(id: "map_button") ?? "map", onTap: { [weak self] in
-//    self?.output.send(.mapButton(self?.suggestions.selectedSuggestions ?? []))
-//  })
+  var selectionButtonsShowing = false
 
+  lazy var selectButton = W3WButtonData(title: "select") { [weak self] in
+    self?.selectMode.toggle()
+    self?.suggestions.make(selectable: self?.selectMode ?? false)
+  }
   
-  public init(ocr: W3WOcrProtocol, camera: W3WOcrCamera, footerButtons: [W3WSuggestionsViewControllerFactory], translations: W3WTranslationsProtocol? = nil, scheme: W3WScheme? = nil) {
-    self.scheme = scheme
+  lazy var selectAllButton = W3WButtonData(title: "select all") { [weak self] in
+    self?.suggestions.selectAll()
+  }
+
+
+  public convenience init(ocr: W3WOcrProtocol, camera: W3WOcrCamera, footerButtons: [W3WSuggestionsViewControllerFactory], translations: W3WTranslationsProtocol = W3WOcrTranslations(), theme: W3WTheme? = .what3words) {
+    self.init(ocr: ocr, camera: camera, footerButtons: footerButtons, translations: translations, theme: W3WLive<W3WTheme?>(theme))
+  }
+  
+  public init(ocr: W3WOcrProtocol, camera: W3WOcrCamera, footerButtons: [W3WSuggestionsViewControllerFactory], translations: W3WTranslationsProtocol = W3WOcrTranslations(), theme: W3WLive<W3WTheme?>) {
+    self.theme = theme
     self.camera = camera //W3WOcrCamera.get(camera: .back)
     self.translations = translations
     self.footerButtons = footerButtons
@@ -85,12 +90,12 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     footer = .buttons(convert(footerButtons: footerButtons), text: footerText)
     
     show(scanMessage: true)
-    bind()
-    
+    bind(theme: theme)
+        
     panelViewModel.input.send(.add(item: .suggestions(suggestions)))
     suggestions.make(selectable: selectMode)
     
-    showSelectionButtons()
+    //showSelectionButtons()
     
     viewTypeSwitchEvent(on: viewType == .video)
     
@@ -101,13 +106,17 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   // MARK: Event Handlers
   
   
-  func bind() {
+  func bind(theme: W3WLive<W3WTheme?>) {
     subscribe(to: input) { [weak self] event in
       self?.handle(event: event)
     }
     
     subscribe(to: suggestions.update) { [weak self] _ in
       self?.updateFooterStatus()
+    }
+    
+    subscribe(to: theme) { [weak self] theme in
+      self?.bottomSheetScheme = theme?.ocrBottomSheetScheme()
     }
   }
   
@@ -171,18 +180,16 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
     
   func showSelectionButtons() {
-    let selectButton = W3WButtonData(title: "select") { [weak self] in
-      self?.selectMode.toggle()
-      self?.suggestions.make(selectable: self?.selectMode ?? false)
-      //self?.updateFooterStatus()
-    }
-    
-    let selectAllButton = W3WButtonData(title: "select all") { [weak self] in
-      self?.suggestions.selectAll()
-      //self?.updateFooterStatus()
-    }
-    
     panelViewModel.input.send(.add(item: .buttons([selectButton, selectAllButton])))
+  }
+  
+  
+  func hideSelectionButtons() {
+    W3WThread.runIn(duration: .seconds(5.0)) { [weak self] in
+      if let s = self {
+        s.panelViewModel.input.send(.remove(item: .buttons([s.selectButton, s.selectAllButton])))
+      }
+    }
   }
   
   
@@ -194,13 +201,24 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     } else {
       panelViewModel.input.send(.footer(item: nil))
     }
+
+    if suggestions.count() > 0 && !selectionButtonsShowing {
+      selectionButtonsShowing = true
+      showSelectionButtons()
+    }
+    
+    if suggestions.count() == 0 && selectionButtonsShowing {
+      panelViewModel.input.send(.footer(item: nil))
+      hideSelectionButtons()
+      selectionButtonsShowing = false
+    }
     
     updateFooterText()
   }
 
   
   func updateFooterText() {
-    footerText.send("\(suggestions.selectedCount()) \(translations?.get(id: "selected") ?? "selected")".w3w)
+    footerText.send("\(suggestions.selectedCount()) \(translations.get(id: "selected").w3w)".w3w)
   }
   
   
