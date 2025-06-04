@@ -165,6 +165,10 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     output.send(.liveCaptureSwitch(on))
   }
 
+  
+  public func closeButtonPressed() {
+    output.send(.dismiss)
+  }
 
   
   func show(scanMessage: Bool) {

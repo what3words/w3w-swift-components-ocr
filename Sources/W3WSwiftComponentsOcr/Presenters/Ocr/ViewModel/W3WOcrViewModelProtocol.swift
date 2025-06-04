@@ -53,6 +53,8 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
   
   func viewTypeSwitchEvent(on: Bool)
   
+  func closeButtonPressed()
+  
   //func ocrResults(suggestions: [W3WSuggestion]?, error: W3WError?)
   
   func handle(suggestions: [W3WSuggestion]?)

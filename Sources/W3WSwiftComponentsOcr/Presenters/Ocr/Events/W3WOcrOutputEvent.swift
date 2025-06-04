@@ -17,4 +17,6 @@ public enum W3WOcrOutputEvent {
   case captureButton
   case liveCaptureSwitch(Bool)
   case footerButton(W3WSuggestionsViewAction, suggestions: [W3WSuggestion])
+  case dismiss
+  
 }

@@ -90,6 +90,26 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
           }
         }
       }
+      
+      // Add the Close Button here
+      VStack {
+        HStack {
+          Spacer() // Pushes the button to the right
+          Button {
+            viewModel.closeButtonPressed()
+          } label: {
+            Image(systemName: "xmark.circle.fill")
+              .font(.largeTitle)
+              .foregroundColor(.gray) // Adjust color as needed
+              .padding()
+          }
+        }
+        Spacer() // Pushes the HStack (and button) to the top
+      }
+//      .padding(.top, UIApplication.shared.connectedScenes
+//        .compactMap { $0 as? UIWindowScene }
+//        .first?.windows.first?.safeAreaInsets.top ?? 0) // Consider safe area for top placement
+      
     }
     .edgesIgnoringSafeArea(.bottom)
     .background(Color.clear)

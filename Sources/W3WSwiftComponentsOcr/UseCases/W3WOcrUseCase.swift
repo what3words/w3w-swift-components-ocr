@@ -116,6 +116,10 @@ class W3WOcrUseCase: W3WEventSubscriberProtocol {
         print("footer", #file, #function)
         //showSuggestionView(factory: factory, suggestions: suggestions)
         
+      case .dismiss:
+        stopCamera()
+        ocr?.stop { }
+        
 //      case .saveButton(let suggestions):
 //        print("SAVE:", suggestions)
 //
