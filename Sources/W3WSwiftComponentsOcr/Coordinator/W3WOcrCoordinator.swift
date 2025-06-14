@@ -55,7 +55,7 @@ open class W3WOcrCoordinator: W3WViewCoordinator, W3WEventSubscriberProtocol {
   // MARK: Event handlers
 
   
-  func handle(ocrOutputEvent: W3WOcrOutputEvent) {
+  open func handle(ocrOutputEvent: W3WOcrOutputEvent) {
     
     if case .importImage = ocrOutputEvent {
       show(vc: makeImagePicker())
@@ -76,7 +76,7 @@ open class W3WOcrCoordinator: W3WViewCoordinator, W3WEventSubscriberProtocol {
   // MARK: Make views
 
   
-  func makeImagePicker() -> W3WImagePickerViewController {
+  public func makeImagePicker() -> W3WImagePickerViewController {
     let picker = W3WImagePickerViewController()
     picker.set(viewModel: pickerViewModel)
     

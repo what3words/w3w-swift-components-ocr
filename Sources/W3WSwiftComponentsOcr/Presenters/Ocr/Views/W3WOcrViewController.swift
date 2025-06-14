@@ -41,7 +41,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   
   var bottomDetent = CGFloat(90.0)
   
-  var buttonsHieght = CGFloat(128.0)
+  var buttonsHieght = CGFloat(180.0)
   
   
   /// view controller containing a Settings view
@@ -137,7 +137,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
     let crop = CGRect(
       origin: CGPoint(
         x: (ocrView.bounds.width - width) / 2,
-        y: W3WSettings.ocrCropInset * 2.0),
+        y: W3WRowHeight.extraLarge.value), //W3WSettings.ocrCropInset * 2.0),
       size: CGSize(
         width: width,
         height: height

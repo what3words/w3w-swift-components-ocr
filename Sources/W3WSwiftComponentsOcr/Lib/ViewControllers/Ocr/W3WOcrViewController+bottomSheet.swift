@@ -50,6 +50,7 @@ extension W3WOcrBaseViewController {
     return min(contentHeight, maxHeight)
   }
   
+  
   /// Add or update bottom sheet with min and max detents. Add bottom sheet to current viewController at min detent if needed.
   public func setupBottomSheet() {
     var detents = [minDetent]

@@ -57,51 +57,46 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   public var body: some View {
     ZStack {
       if viewModel.viewType == .uploaded {
+        
+        // still image and picker
         VStack {
-            W3WOcrStillImageView(viewModel: viewModel)
-              .padding(64.0)
-              .background(Color.gray)
-
-          // TODO: combine this with duplicate code above
-          VStack {
-            Spacer()
-              .frame(maxHeight: .infinity)
-            W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
-            W3WSuBottomSheet(scheme: viewModel.theme.value?.basicScheme(), height: initialPanelHeight, detents: detents) {
-              W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.bottomSheetScheme)
-            }
-          }
-          .background(Color.gray)
+          W3WOcrStillImageView(viewModel: viewModel)
+            .padding(.top, 64.0)
+            .background(W3WCoreColor.darkBlue.suColor)
+          
+          W3WOcrBottomOverlay(viewModel: viewModel, initialPanelHeight: initialPanelHeight, detents: detents, cameraMode: cameraMode)
+            .background(W3WCoreColor.darkBlue.suColor)
         }
-        .background(Color.gray)
+        .background(W3WCoreColor.darkBlue.suColor)
         .edgesIgnoringSafeArea(.all)
+        
+      // live OCR view
       } else {
         W3WSuOcrView(ocrView: ocrView)
           .edgesIgnoringSafeArea(.all)
           .background(Color.clear)
 
-        // TODO: move this down and remove duplicate code below
-        VStack {
-          Spacer()
-            .frame(maxHeight: .infinity)
-          W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
-          W3WSuBottomSheet(scheme: viewModel.bottomSheetScheme, height: initialPanelHeight, detents: detents) {
-            W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.bottomSheetScheme)
-          }
-        }
+        W3WOcrBottomOverlay(viewModel: viewModel, initialPanelHeight: initialPanelHeight, detents: detents, cameraMode: cameraMode)
       }
       
       // Add the Close Button here
       VStack {
-        HStack {
-          Spacer() // Pushes the button to the right
-          Button {
-            viewModel.closeButtonPressed()
-          } label: {
-            Image(systemName: "xmark.circle.fill")
-              .font(.largeTitle)
-              .foregroundColor(.gray) // Adjust color as needed
-              .padding()
+        ZStack {
+          HStack {
+            Image(uiImage: W3WImage.w3wLogoWithText.get(size: W3WIconSize(value: CGSize(width: 128, height: 21.0))))
+              .colorInvert()
+          }
+
+          HStack {
+            Spacer() // Pushes the button to the right
+            Button {
+              viewModel.closeButtonPressed()
+            } label: {
+              Image(systemName: "xmark.circle.fill")
+                .font(.largeTitle)
+                .foregroundColor(.gray) // Adjust color as needed
+                .padding()
+            }
           }
         }
         Spacer() // Pushes the HStack (and button) to the top
@@ -110,6 +105,17 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
 //        .compactMap { $0 as? UIWindowScene }
 //        .first?.windows.first?.safeAreaInsets.top ?? 0) // Consider safe area for top placement
       
+      VStack {
+        Spacer()
+          .frame(height: 72.0)
+        Text("Under Construction")
+          .padding(6.0)
+          .foregroundColor(viewModel.theme.value?.errorLabel?.suColor)
+          .background(viewModel.theme.value?.errorElevated?.suColor)
+          .font(viewModel.theme.value?.typefaces?.headline.suFont)
+          .cornerRadius(16.0, corners: .allCorners)
+        Spacer()
+      }
     }
     .edgesIgnoringSafeArea(.bottom)
     .background(Color.clear)

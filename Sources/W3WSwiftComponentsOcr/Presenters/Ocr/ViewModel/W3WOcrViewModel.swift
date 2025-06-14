@@ -53,7 +53,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// indicates it's current state: scanning/stopped
   public var state = W3WOcrState.idle
   
-  let scanMessageText = W3WLive<W3WString>("Scan a 3wa text goes here".w3w)
+  lazy var scanMessageText = W3WLive<W3WString>(translations.get(id: "ocr_scan_3wa").w3w)
 
   var selectMode = false
   
@@ -173,9 +173,9 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   func show(scanMessage: Bool) {
     if scanMessage {
-      panelViewModel.input.send(.add(item: .message(scanMessageText)))
+      panelViewModel.input.send(.add(item: .heading(scanMessageText)))
     } else {
-      panelViewModel.input.send(.remove(item: .message(scanMessageText)))
+      panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
     }
   }
   
@@ -222,7 +222,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   
   func updateFooterText() {
-    footerText.send("\(suggestions.selectedCount()) \(translations.get(id: "selected").w3w)".w3w)
+    footerText.send("\(suggestions.selectedCount()) \(translations.get(id: "ocr_w3wa_selected_number"))".w3w)
   }
   
   

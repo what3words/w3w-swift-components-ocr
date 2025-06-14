@@ -28,7 +28,7 @@ public class W3WSuggestionsViewAction {
   
   var title: String?
   
-  var action: W3WViewAction
+  public var action: W3WViewAction
   
   var onlyForSingleSuggestion: Bool
   

@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import W3WSwiftThemes
+
 
 struct W3WOcrStillImageView<ViewModel: W3WOcrViewModelProtocol>: View {
   
@@ -16,33 +18,37 @@ struct W3WOcrStillImageView<ViewModel: W3WOcrViewModelProtocol>: View {
  
   
   var body: some View {
-    VStack {
-      
-      if let image = viewModel.stillImage {
-        Image(image, scale: 1.0, label: Text("Image"))
-          .resizable()
-          .scaledToFit()
-          //.frame(width: 64.0, height: 64.0)
+
+    GeometryReader { geometry in
+      VStack {
         
-      } else {
-        if #available(iOS 14.0, *), showSpinner {
-          ProgressView()
-            .progressViewStyle(.circular)
-            .background(Color.gray)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        if let image = viewModel.stillImage {
+          //Image(image, scale: 1.0, label: Text("Image"))
+          Image(uiImage: UIImage(cgImage: image))
+            .resizable()
+            .scaledToFit()
+            //.frame(width: geometry.size.width, height: geometry.size.height)
+          
         } else {
-          Image(systemName: "photo")
+          if #available(iOS 14.0, *), showSpinner {
+            ProgressView()
+              .progressViewStyle(.circular)
+              .foregroundColor(.white)
+              .background(W3WCoreColor.darkBlue.suColor)
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
+          } else {
+            Image(systemName: "photo")
+          }
         }
-        //Image(systemName: "photo")
       }
-    }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(Color.gray)
+      .background(W3WCoreColor.darkBlue.suColor)
       .onAppear() {
         W3WThread.runIn(duration: .seconds(10.0)) {
           showSpinner = false
         }
       }
+    }
   }
 }
 
