@@ -10,20 +10,20 @@ import W3WSwiftCore
 import W3WSwiftPresenters
 
 
-class W3WOcrUseCase: W3WEventSubscriberProtocol {
-  var subscriptions = W3WEventsSubscriptions()
+open class W3WOcrUseCase: W3WEventSubscriberProtocol {
+  public var subscriptions = W3WEventsSubscriptions()
   
-  var ocrOutput: W3WEvent<W3WOcrOutputEvent>
+  public var ocrOutput: W3WEvent<W3WOcrOutputEvent>
   
-  var ocrInput: W3WEvent<W3WOcrInputEvent>
+  public var ocrInput: W3WEvent<W3WOcrInputEvent>
   
-  var pickerOutput: W3WEvent<W3WImagePickerOutputEvent>
+  public var pickerOutput: W3WEvent<W3WImagePickerOutputEvent>
   
-  var pickerInput: W3WEvent<W3WImagePickerInputEvent>
+  public var pickerInput: W3WEvent<W3WImagePickerInputEvent>
   
-  var ocr: W3WOcrProtocol?
+  public var ocr: W3WOcrProtocol?
 
-  var camera: W3WOcrCamera
+  public var camera: W3WOcrCamera
   
   var cameraRunning = false
   
@@ -38,7 +38,7 @@ class W3WOcrUseCase: W3WEventSubscriberProtocol {
   var buttons: [W3WSuggestionsViewControllerFactory] = []
   
   
-  init(buttons: [W3WSuggestionsViewControllerFactory] = [], camera: W3WOcrCamera, ocr: W3WOcrProtocol?, ocrOutput: W3WEvent<W3WOcrOutputEvent>, ocrInput: W3WEvent<W3WOcrInputEvent>, pickerOutput: W3WEvent<W3WImagePickerOutputEvent>, pickerInput: W3WEvent<W3WImagePickerInputEvent>) { //, ocrViewModel: any W3WOcrViewModelProtocol) {
+  public init(buttons: [W3WSuggestionsViewControllerFactory] = [], camera: W3WOcrCamera, ocr: W3WOcrProtocol?, ocrOutput: W3WEvent<W3WOcrOutputEvent>, ocrInput: W3WEvent<W3WOcrInputEvent>, pickerOutput: W3WEvent<W3WImagePickerOutputEvent>, pickerInput: W3WEvent<W3WImagePickerInputEvent>) { //, ocrViewModel: any W3WOcrViewModelProtocol) {
     self.ocr    = ocr
     self.camera  = camera
     self.buttons  = buttons
@@ -76,7 +76,7 @@ class W3WOcrUseCase: W3WEventSubscriberProtocol {
   }
     
   
-  func handle(pickerOutputEvent: W3WImagePickerOutputEvent) {
+  open func handle(pickerOutputEvent: W3WImagePickerOutputEvent) {
     switch pickerOutputEvent {
       case .image(let image):
         importActive = true
@@ -92,7 +92,7 @@ class W3WOcrUseCase: W3WEventSubscriberProtocol {
   }
   
   
-  func handle(ocrOutputEvent: W3WOcrOutputEvent) {
+  open func handle(ocrOutputEvent: W3WOcrOutputEvent) {
     switch ocrOutputEvent {
       case .error(let error):
         print(error, #file, #function)
