@@ -47,15 +47,10 @@ open class W3WOcrUseCase: W3WEventSubscriberProtocol {
     self.pickerInput = pickerInput
     self.pickerOutput = pickerOutput
 
-    //self.ocrViewModel = ocrViewModel
     bind()
     
     ocr?.autosuggest(video: camera) { [weak self] suggestions, error in
       self?.autosuggestCompletion(suggestions: suggestions, error: error == nil ? nil : W3WError.message(error?.description ?? "unknown"))
-      //self?.handle(suggestions: suggestions)
-      //if let e = error {
-      //  self?.handle(error: W3WError.message(error?.description ?? "unknown"))
-      //}
     }
     
     startCamera()
@@ -187,7 +182,7 @@ open class W3WOcrUseCase: W3WEventSubscriberProtocol {
 //  }
   
   
-  func handle(image: CGImage) {
+//  func handle(image: CGImage) {
 //    ocrViewModel?.set(image: image)
 //    
 //    ocr?.autosuggest(image: image, info: { _ in }) { [weak self] suggestions, error in
@@ -208,7 +203,7 @@ open class W3WOcrUseCase: W3WEventSubscriberProtocol {
 //      //  //}
 //      //}
 //    }
-  }
+//  }
   
   
   // MARK: Actions

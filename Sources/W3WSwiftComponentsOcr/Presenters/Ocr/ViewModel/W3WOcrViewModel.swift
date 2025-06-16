@@ -69,10 +69,12 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   lazy var selectButton = W3WButtonData(title: "select") { [weak self] in
     self?.selectMode.toggle()
+    print("select update:", self?.selectMode)
     self?.suggestions.make(selectable: self?.selectMode ?? false)
   }
   
   lazy var selectAllButton = W3WButtonData(title: "select all") { [weak self] in
+    self?.selectMode = true
     self?.suggestions.selectAll()
   }
 
@@ -125,6 +127,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     if let s = theSuggestions {
       show(scanMessage: false)
       suggestions.add(suggestions: s, selected: selectMode ? false : nil)
+      print("suggestion: ", "{\(s)}", selectMode)
       updateFooterText()
     }
   }
