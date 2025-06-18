@@ -1,41 +1,33 @@
 //
-//  W3WOcrViewModel.swift
+//  W3WOcrStillViewModel.swift
 //  w3w-swift-components-ocr
 //
-//  Created by Dave Duprey on 30/04/2025.
+//  Created by Dave Duprey on 17/06/2025.
 //
 
 
 import SwiftUI
-import Combine
 import W3WSwiftCore
 import W3WSwiftThemes
 import W3WSwiftPresenters
-import W3WSwiftAppEvents
 
 
 // https://developer.apple.com/documentation/uikit/uiimagepickercontroller
 // https://en.proft.me/2023/12/31/avfoundation-capturing-photo-using-avcapturesessio/
 
 
-public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtocol {
+public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscriberProtocol {
   public var subscriptions = W3WEventsSubscriptions()
   
-  public var input = W3WEvent<W3WOcrInputEvent>()
+  public var input = W3WEvent<W3WOcrStillInputEvent>()
   
-  public var output = W3WEvent<W3WOcrOutputEvent>()
+  public var output = W3WEvent<W3WOcrStillOutputEvent>()
   
   public var theme: W3WLive<W3WTheme?>
   
-  var events: W3WEvent<W3WAppEvent>
-  
-  var importLocked: W3WLive<Bool>
-  
-  var liveScanLocked: W3WLive<Bool>
-  
   @Published public var bottomSheetScheme: W3WScheme? = W3WScheme.w3w
 
-  @Published public var viewType = W3WOcrViewType.still
+  //@Published public var viewType = W3WOcrViewType.still
   
   @Published public var stillImage: CGImage?
   
@@ -69,18 +61,15 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   var footer: W3WPanelItem?
   
-  var footerButtons: [W3WSuggestionsViewAction]
+  var footerButtons: [W3WSuggestionsViewControllerFactory]
   
   public var translations: W3WTranslationsProtocol
   
   var selectionButtonsShowing = false
 
-  
-  // Buttons
-  
-  
   lazy var selectButton = W3WButtonData(title: "select") { [weak self] in
     self?.selectMode.toggle()
+    print("select update:", self?.selectMode)
     self?.suggestions.make(selectable: self?.selectMode ?? false)
   }
   
@@ -89,22 +78,16 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     self?.suggestions.selectAll()
   }
 
-  
-  // Innit
-  
 
-//  public convenience init(ocr: W3WOcrProtocol, camera: W3WOcrCamera, footerButtons: [W3WSuggestionsViewAction], translations: W3WTranslationsProtocol = W3WOcrTranslations(), theme: W3WTheme? = .what3words) {
-//    self.init(ocr: ocr, camera: camera, footerButtons: footerButtons, translations: translations, theme: W3WLive<W3WTheme?>(theme))
-//  }
+  public convenience init(ocr: W3WOcrProtocol, camera: W3WOcrCamera, footerButtons: [W3WSuggestionsViewControllerFactory], translations: W3WTranslationsProtocol = W3WOcrTranslations(), theme: W3WTheme? = .what3words) {
+    self.init(ocr: ocr, camera: camera, footerButtons: footerButtons, translations: translations, theme: W3WLive<W3WTheme?>(theme))
+  }
   
-  public init(ocr: W3WOcrProtocol, camera: W3WOcrCamera, footerButtons: [W3WSuggestionsViewAction], translations: W3WTranslationsProtocol = W3WOcrTranslations(), theme: W3WLive<W3WTheme?>, importLocked: W3WLive<Bool>, liveScanLocked: W3WLive<Bool>, events: W3WEvent<W3WAppEvent> = W3WEvent<W3WAppEvent>()) {
+  public init(ocr: W3WOcrProtocol, camera: W3WOcrCamera, footerButtons: [W3WSuggestionsViewControllerFactory], translations: W3WTranslationsProtocol = W3WOcrTranslations(), theme: W3WLive<W3WTheme?>) {
     self.theme = theme
     self.camera = camera //W3WOcrCamera.get(camera: .back)
     self.translations = translations
     self.footerButtons = footerButtons
-    self.importLocked = importLocked
-    self.liveScanLocked = liveScanLocked
-    self.events = events
     
     footer = .buttons(convert(footerButtons: footerButtons), text: footerText)
     
@@ -116,7 +99,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     
     //showSelectionButtons()
     
-    viewTypeSwitchEvent(on: viewType == .video)
+    //viewTypeSwitchEvent(on: viewType == .video)
     
     updateFooterText()
   }
@@ -151,7 +134,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   
   /// start scanning
-  public func handle(event: W3WOcrInputEvent) {
+  public func handle(event: W3WOcrStillInputEvent) {
     switch event {
       case .image(let image):
         if let i = image {
@@ -172,7 +155,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   public func importButtonPressed() {
     output.send(.importImage)
-    viewType = .uploaded
+    //viewType = .uploaded
   }
   
   

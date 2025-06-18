@@ -22,6 +22,7 @@ let package = Package(
       .package(url: "https://github.com/what3words/w3w-swift-design.git", branch: "staging"), //"1.0.0" ..< "2.0.0"),
       .package(url: "git@github.com:what3words/w3w-swift-design-swiftui.git", branch: "staging"), //"1.0.0" ..< "2.0.0"),
       .package(url: "git@github.com:w3w-internal/w3w-swift-coordinator.git", "1.0.0" ..< "2.0.0"),
+      .package(url: "git@github.com:w3w-internal/w3w-swift-app-events.git", "1.0.0" ..< "2.0.0"),
       .package(url: "git@github.com:what3words/w3w-swift-presenters.git", branch: "staging")
     ],
     targets: [
@@ -35,7 +36,8 @@ let package = Package(
               .product(name: "W3WSwiftDesign", package: "w3w-swift-design"),
               .product(name: "W3WSwiftDesignSwiftUI", package: "w3w-swift-design-swiftui"),
               .product(name: "W3WSwiftPresenters", package: "w3w-swift-presenters"),
-              .product(name: "W3WSwiftCoordinator", package: "w3w-swift-coordinator")
+              .product(name: "W3WSwiftCoordinator", package: "w3w-swift-coordinator"),
+              .product(name: "W3WSwiftAppEvents", package: "w3w-swift-app-events")
             ],
             resources: [.process("Resources")]
         ),

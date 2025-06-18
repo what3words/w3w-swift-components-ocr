@@ -5,11 +5,12 @@
 //  Created by Dave Duprey on 15/05/2025.
 //
 
-
+import UIKit
 import W3WSwiftCore
 import W3WSwiftThemes
 import W3WSwiftCoordinator
 import W3WSwiftPresenters
+import W3WSwiftAppEvents
 
 
 open class W3WOcrCoordinator: W3WViewCoordinator, W3WEventSubscriberProtocol {
@@ -17,22 +18,31 @@ open class W3WOcrCoordinator: W3WViewCoordinator, W3WEventSubscriberProtocol {
   
   public let ocrViewModel: W3WOcrViewModel
   
-  let ocrUseCase: W3WOcrUseCase
+  var ocrUseCase: W3WOcrUseCase?
   
-  let pickerViewModel = W3WImagePickerViewModel()
+  // preload this, it takes a long time to init when done on demand, make sure this isn't slowing the OCR startup
+  let picker = UIImagePickerController()
+  
+  lazy var pickerViewModel = W3WImagePickerViewModel(picker: picker)
 
   var camera: W3WOcrCamera
+
+  var appEvents = W3WEvent<W3WAppEvent>()
   
+  var importLocked = W3WLive<Bool>(true)
+  var liveScanLocked = W3WLive<Bool>(true)
+
   
   public init(ocr: W3WOcrProtocol, camera: W3WOcrCamera, footerButtons: [W3WSuggestionsViewControllerFactory], theme: W3WLive<W3WTheme?> = W3WLive<W3WTheme?>(.what3words), translations: W3WTranslationsProtocol) {
     self.camera = camera
     
-    ocrViewModel = W3WOcrViewModel(ocr: ocr, camera: camera, footerButtons: footerButtons, translations: translations, theme: theme)
-    ocrUseCase = W3WOcrUseCase(camera: camera, ocr: ocr, ocrOutput: ocrViewModel.output, ocrInput: ocrViewModel.input, pickerOutput: pickerViewModel.output, pickerInput: pickerViewModel.input)
+    ocrViewModel = W3WOcrViewModel(ocr: ocr, camera: camera, footerButtons: footerButtons, translations: translations, theme: theme, importLocked: importLocked, liveScanLocked: liveScanLocked, events: appEvents)
 
     let ocrViewController = W3WOcrViewController(viewModel: ocrViewModel)
     super.init(rootViewController: ocrViewController)
-    
+
+    ocrUseCase = W3WOcrUseCase(camera: camera, ocr: ocr, ocrOutput: ocrViewModel.output, ocrInput: ocrViewModel.input, pickerOutput: pickerViewModel.output, pickerInput: pickerViewModel.input)
+
     bind()
   }
   
@@ -63,12 +73,6 @@ open class W3WOcrCoordinator: W3WViewCoordinator, W3WEventSubscriberProtocol {
 
     if case .footerButton(let factory, suggestions: let suggestions) = ocrOutputEvent {
       factory.action(suggestions, rootViewController)
-//      switch factory.action {
-//        case .viewControllerFactory(forSuggestions: let closure):
-//          show(vc: closure(suggestions))
-//        case .execute(forSuggestions: let closure):
-//          closure(suggestions)
-//      }
     }
   }
     
@@ -76,13 +80,13 @@ open class W3WOcrCoordinator: W3WViewCoordinator, W3WEventSubscriberProtocol {
   // MARK: Make views
 
   
-  public func makeImagePicker() -> W3WImagePickerViewController {
-    let picker = W3WImagePickerViewController()
-    picker.set(viewModel: pickerViewModel)
+  public func makeImagePicker() -> UIImagePickerController {
+    //let picker = W3WImagePickerViewController()
+    //picker.set(viewModel: pickerViewModel)
     
     subscribe(to: pickerViewModel.output) { [weak self] event in
       if case .dismiss = event {
-        picker.dismiss(animated: true)
+        self?.picker.dismiss(animated: true)
       }
     }
     
