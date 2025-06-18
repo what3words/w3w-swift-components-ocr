@@ -19,11 +19,8 @@ open class W3WOcrCoordinator: W3WViewCoordinator, W3WEventSubscriberProtocol {
   public let ocrViewModel: W3WOcrViewModel
   
   var ocrUseCase: W3WOcrUseCase?
-  
-  // preload this, it takes a long time to init when done on demand, make sure this isn't slowing the OCR startup
-  let picker = UIImagePickerController()
-  
-  lazy var pickerViewModel = W3WImagePickerViewModel(picker: picker)
+    
+  lazy var pickerViewModel = W3WImagePickerViewModel()
 
   var camera: W3WOcrCamera
 
@@ -81,12 +78,12 @@ open class W3WOcrCoordinator: W3WViewCoordinator, W3WEventSubscriberProtocol {
 
   
   public func makeImagePicker() -> UIImagePickerController {
-    //let picker = W3WImagePickerViewController()
-    //picker.set(viewModel: pickerViewModel)
+    let picker = W3WImagePickerViewController()
+    picker.set(viewModel: pickerViewModel)
     
     subscribe(to: pickerViewModel.output) { [weak self] event in
       if case .dismiss = event {
-        self?.picker.dismiss(animated: true)
+        picker.dismiss(animated: true)
       }
     }
     
