@@ -206,6 +206,10 @@ public class W3WOcrCamera: W3WVideoStream {
       self.onNewImage(image)
     }
     
+    imageProcessor.onError = { [weak self] error in
+      self?.onError(W3WOcrError.coreError(message: error.description))
+    }
+    
     // connect the camera IO to the delegate
     if let session = session {
       if session.inputs.count == 0 {

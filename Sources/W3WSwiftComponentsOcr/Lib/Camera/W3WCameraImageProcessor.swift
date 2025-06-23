@@ -22,7 +22,8 @@ class W3WCameraImageProcessor: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 
   /// callback for any new images
   var onNewImage: (CGImage) -> () = { _ in }
-  //var onNewVideoBuffer: (CMSampleBuffer) -> () = { _ in }
+
+  var onError: (W3WError) -> () = { _ in }
   
   /// orientaion of the camera
   var orientation: AVCaptureVideoOrientation = .portrait
@@ -70,6 +71,8 @@ class W3WCameraImageProcessor: NSObject, AVCaptureVideoDataOutputSampleBufferDel
     // crop the incoming image, and send to whomever is interested
     if let i = image(from: sampleBuffer, crop: crop) {
       onNewImage(i)
+    } else {
+      onError(.message("Ocr returned an image, but can't crop it. Check the crop shape: \(crop)"))
     }
   }
   
