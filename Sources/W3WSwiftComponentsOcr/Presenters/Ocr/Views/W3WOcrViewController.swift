@@ -137,7 +137,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
     let crop = CGRect(
       origin: CGPoint(
         x: (ocrView.bounds.width - width) / 2,
-        y: W3WRowHeight.extraLarge.value), //W3WSettings.ocrCropInset * 2.0),
+        y: W3WSettings.ocrTopPadding),
       size: CGSize(
         width: width,
         height: height

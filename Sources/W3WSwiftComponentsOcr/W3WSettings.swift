@@ -21,6 +21,7 @@ public extension W3WSettings {
   static let ocrViewfinderInset:          CGFloat   = 0.0
   static let ocrViewfinderLineWidth:      CGFloat   = 3.0
   static let ocrCropInset:                CGFloat   = 24.0
+  static let ocrTopPadding:               CGFloat   = 128.0
   static let ocrAddressLabelMaxWidth:     CGFloat   = 256.0
   static let ocrAddressLabelMaxHeight:    CGFloat   = 32.0
 

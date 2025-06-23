@@ -61,7 +61,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         // still image and picker
         VStack {
           W3WOcrStillImageView(viewModel: viewModel)
-            .padding(.top, 64.0)
+            .padding(.top, W3WSettings.ocrTopPadding)
             .background(W3WCoreColor.darkBlue.suColor)
           
           W3WOcrBottomOverlay(viewModel: viewModel, initialPanelHeight: initialPanelHeight, detents: detents, cameraMode: cameraMode)
