@@ -72,7 +72,8 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         
       // live OCR view
       } else {
-        W3WSuOcrView(ocrView: ocrView)
+        //W3WSuOcrView(ocrView: ocrView)
+        W3WSuOcrMockView(ocrView: ocrView)
           .edgesIgnoringSafeArea(.all)
           .background(Color.clear)
 

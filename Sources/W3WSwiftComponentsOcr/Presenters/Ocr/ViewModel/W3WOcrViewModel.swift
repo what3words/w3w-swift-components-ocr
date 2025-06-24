@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Combine
+import CoreLocation
 import W3WSwiftCore
 import W3WSwiftThemes
 import W3WSwiftPresenters
@@ -265,6 +266,22 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     return buttons
   }
 
+  
+  // MARK: Debug
+  
+  
+  var timer: Timer?
+  
+  public func spewOutRandomAddresses(w3w: W3WProtocolV4) {
+    timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] timer in
+      let coords = CLLocationCoordinate2D(latitude: CLLocationDegrees.random(in: 51.0 ... 52.0), longitude: CLLocationDegrees.random(in: -0.1 ... 0.1))
+      w3w.convertTo3wa(coordinates: coords, language: W3WBaseLanguage(locale: "en")) { square, error in
+        if let suggestion = square as? W3WSuggestion {
+          self?.handle(suggestions: [suggestion])
+        }
+      }
+    }
+  }
   
   
 }
