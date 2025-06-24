@@ -53,7 +53,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   //public var selectedSuggestions = Set<String>()
 
-  public var panelViewModel = W3WPanelViewModel()
+  public var panelViewModel = W3WPanelViewModel(scheme: W3WLive<W3WScheme?>(.w3w), language: W3WLive<W3WLanguage?>(W3WBaseLanguage(locale: "en")))
   
   /// ensures output is stopped, as there can be suggestion stragglers
   //var stopOutput = false
