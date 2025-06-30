@@ -8,49 +8,58 @@
 import SwiftUI
 import W3WSwiftCore
 import W3WSwiftThemes
+import W3WSwiftPresenters
 
 
-public enum W3WOcrViewType {
-  case video
-  case still
-  case uploaded
-}
-
-
-
+/// protocol for view model for the ocr view
 public protocol W3WOcrViewModelProtocol: ObservableObject {
   
+  /// ocr inout events
   var input: W3WEvent<W3WOcrInputEvent> { get set }
   
+  /// ocr output events
   var output: W3WEvent<W3WOcrOutputEvent> { get set }
   
+  @available(*, deprecated, message: "replaced with theme")
   var scheme: W3WScheme? { get set }
 
+  /// theme for the view
+  var theme: W3WLive<W3WTheme?> { get set }
+
+  /// scheme for the bottom sheet
+  var bottomSheetScheme: W3WScheme? { get set }
+
+  /// the ocr service
   var ocr: W3WOcrProtocol? { get set }
   
+  /// the camera
   var camera: W3WOcrCamera? { get set }
   
+  /// view model for the panel in the bottom sheet
   var panelViewModel: W3WPanelViewModel { get set }
 
+  /// the view mode - for still / live - perhaps depricated?
   var viewType: W3WOcrViewType { get set }
 
-  var stillImage: CGImage? { get set }
+  /// translations for text
+  var translations: W3WTranslationsProtocol { get set }
   
-  var spinner: Bool { get set }
-  
-  //var cameraMode: Bool { get set }
-  
-  // interation
-  
+
+  /// called by UI when the import button is pressed
   func importButtonPressed()
   
+  /// called by UI when the capture button is pressed
   func captureButtonPressed()
   
+  /// called by UI when the live capture switch is switched
   func viewTypeSwitchEvent(on: Bool)
   
+  /// do something with the actual scanning result
   func ocrResults(suggestions: [W3WSuggestion]?, error: W3WError?)
   
+  /// handle a new scan result
   func handle(suggestions: [W3WSuggestion]?)
   
-  func set(image: CGImage)
+  /// called by UI when the close button is pressed
+  func closeButtonPressed()
 }

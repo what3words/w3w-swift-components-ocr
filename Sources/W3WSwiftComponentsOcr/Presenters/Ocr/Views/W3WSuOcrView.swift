@@ -10,13 +10,15 @@ import SwiftUI
 import W3WSwiftThemes
 
 
+/// Holds a UIKit W3WOcrView in a SwiftUI view
 struct W3WSuOcrView: UIViewRepresentable {
-  
-  //let ocrView = W3WOcrView(frame: UIScreen.main.bounds)
   
   let ocrView: W3WOcrView
   
-  
+
+  /// Holds a UIKit W3WOcrView in a SwiftUI view
+  /// - Parameters:
+  ///     - ocrView: the UIView derived W3WOcrView to embed
   public init(ocrView: W3WOcrView) {
     self.ocrView = ocrView
   }
@@ -28,9 +30,6 @@ struct W3WSuOcrView: UIViewRepresentable {
   
   
   func updateUIView(_ uiView: W3WOcrView, context: Context) {
-    //DispatchQueue.main.async { [ocrView] in
-    //  ocrView.set(crop: defaultCrop())
-    //}
   }
   
 }

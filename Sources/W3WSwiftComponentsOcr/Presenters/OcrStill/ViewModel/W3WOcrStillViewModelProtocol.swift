@@ -1,0 +1,32 @@
+//
+//  W3WOcrStillViewModelProtocol.swift
+//  w3w-swift-components-ocr
+//
+//  Created by Dave Duprey on 28/06/2025.
+//
+
+import Combine
+import CoreGraphics
+import W3WSwiftThemes
+import W3WSwiftPresenters
+
+
+/// a protocol for view model for still image ocr
+public protocol W3WOcrStillViewModelProtocol: ObservableObject {
+  
+  /// input events for still imagfe ocr
+  var input: W3WEvent<W3WOcrStillInputEvent> { get set }
+  
+  /// output events for still imagfe ocr
+  var output: W3WEvent<W3WOcrStillOutputEvent> { get set }
+  
+  /// the scheme to use
+  var scheme: W3WScheme? { get set }
+
+  /// the image to scan
+  var image: CGImage? { get set }
+
+  /// the view model for the bottom sheet panel
+  var panelViewModel: W3WPanelViewModel { get set }
+  
+}

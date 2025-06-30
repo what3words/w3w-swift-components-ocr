@@ -9,64 +9,89 @@
 import SwiftUI
 import W3WSwiftCore
 import W3WSwiftThemes
+import W3WSwiftPresenters
+import W3WSwiftAppEvents
 
 
-// https://developer.apple.com/documentation/uikit/uiimagepickercontroller
-// https://en.proft.me/2023/12/31/avfoundation-capturing-photo-using-avcapturesessio/
-
-
+/// model for the ocr view
 public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtocol {
   public var subscriptions = W3WEventsSubscriptions()
   
+  /// ocr inout events
   public var input = W3WEvent<W3WOcrInputEvent>()
   
+  /// ocr output events
   public var output = W3WEvent<W3WOcrOutputEvent>()
   
+  /// theme for the view
+  public var theme: W3WLive<W3WTheme?>
+
+  /// used to be just a scheme, upgrade to theme
+  @available(*, deprecated, message: "replaced with theme")
   @Published public var scheme: W3WScheme?
 
+  /// scheme for the bottom sheet
+  @Published public var bottomSheetScheme: W3WScheme? = W3WScheme.w3w
+
+  /// app events of rlogging / analytics
+  var events: W3WEvent<W3WAppEvent>
+  
+  /// the ocr service
   public var ocr: W3WOcrProtocol?
   
+  /// the camera
   public var camera: W3WOcrCamera?
   
-  //public var suggestions = [String:W3WSuggestion]()
+  /// the suggestions that ocr collects
   var suggestions = W3WSelectableSuggestions()
-  
-  public var selectedSuggestions = Set<String>()
 
+  /// view model for the panel in the bottom sheet
   public var panelViewModel = W3WPanelViewModel()
   
+  /// the view mode - for still / live - perhaps depricated?
   @Published public var viewType = W3WOcrViewType.video
-  
-  //@Published public var cameraMode: Bool
-  
-  @Published public var stillImage: CGImage?
-  
-  @Published public var spinner: Bool = false
-  
-  /// ensures output is stopped, as there can be suggestion stragglers
-  //var stopOutput = false
-  
+
+  /// indicates if the scanning is stopped
   var hasStoppedScanning = false
+  
   /// indicates it's current state: scanning/stopped
   public var state = W3WOcrState.idle
   
-  let scanMessageText = W3WLive<W3WString>("Scan a 3wa text goes here".w3w)
+  /// intro message for scanning
+  lazy var scanMessageText = W3WLive<W3WString>(translations.get(id: "ocr_scan_3wa").w3w)
+
+  /// translations for text
+  public var translations: W3WTranslationsProtocol
+
+  /// logic for the bottom sheet
+  let bottomSheetLogic: W3WBottomSheetLogic
 
   
-  public init(ocr: W3WOcrProtocol, scheme: W3WScheme? = nil) {
-    self.scheme = scheme
-    self.camera = W3WOcrCamera.get(camera: .back)
-    //self.cameraMode = false
+  /// model for the ocr view
+  public init(ocr: W3WOcrProtocol, theme: W3WLive<W3WTheme?>? = nil, footerButtons: [W3WSuggestionsViewAction] = [], translations: W3WTranslationsProtocol = W3WOcrTranslations(), events: W3WEvent<W3WAppEvent> = W3WEvent<W3WAppEvent>()) {
+    self.scheme        = .w3w
+    self.theme         = theme ?? W3WLive<W3WTheme?>(.what3words)
+    self.camera        = W3WOcrCamera.get(camera: .back)
+    self.translations  = translations
+    self.events        = events
+
+    // make the manager fro the bottom sheet
+    self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations)
     
+    // set the ocr service to actually do the scanning
     set(ocr: ocr)
     
+    // show the default message at the bottom
     show(scanMessage: true)
     
+    // connect events to functions
     bind()
     
-    panelViewModel.input.send(.add(item: .suggestions(suggestions)))
+    // start the OCR process
+    start()
     
-    viewTypeSwitchEvent(on: viewType == .video)
+    // DEBUG
+    handle(suggestions: [W3WBaseSuggestion(words: "fancy.duck.cloud")])
   }
   
   
@@ -89,41 +114,68 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   }
   
   
-  public func set(image: CGImage) {
-    self.stillImage = image
-  }
-  
-  
+  /// connect the events to functions
   func bind() {
+    // input events
     subscribe(to: input) { [weak self] event in
       self?.handle(event: event)
     }
-  }
-  
-  
-  public func importButtonPressed() {
-    output.send(.importImage)
-    viewType = .uploaded
-  }
-  
-  
-  public func captureButtonPressed() {
-    print(#function)
-  }
-  
-  
-  public func viewTypeSwitchEvent(on: Bool) {
-    viewType = on ? .video : .still
     
-    if viewType == .video {
-      start()
-    } else {
-      stop()
+    // theme changes (light / dark, etc)
+    subscribe(to: theme) { [weak self] theme in
+      self?.bottomSheetScheme = theme?.ocrBottomSheetScheme()
+    }
+    
+    // when the user selects a single address
+    suggestions.singleSelection = { [weak self] selection in
+      self?.output.send(.selected(selection))
+    }
+    
+    // when a button is tapped on the bottom panel
+    bottomSheetLogic.onButton = { [weak self] button, suggestions in
+      self?.output.send(.footerButton(button, suggestions: suggestions))
     }
   }
-
+  
+  
+  /// called by UI when the import button is pressed
+  public func importButtonPressed() {
+    output.send(.importImage)
+    //viewType = .uploaded
+  }
+  
+  
+  /// called by UI when the capture button is pressed
+  public func captureButtonPressed() {
+    output.send(.captureButton)
+  }
+  
+  
+  /// called by UI when the live capture switch is switched
+  public func viewTypeSwitchEvent(on: Bool) {
+    output.send(.liveCaptureSwitch(on))
+  }
 
   
+  /// called by UI when the close button is pressed
+  public func closeButtonPressed() {
+    output.send(.dismiss)
+  }
+
+  
+  /// shows/hides the inital scan message
+  func show(scanMessage: Bool) {
+    if scanMessage {
+      panelViewModel.input.send(.add(item: .heading(scanMessageText)))
+    } else {
+      panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
+    }
+  }
+  
+  
+  // MARK: Commands
+  
+    
   /// start scanning
   public func start() {
     //stopOutput = false
@@ -139,6 +191,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   }
   
   
+  /// do something with the actual scanning result
   public func ocrResults(suggestions: [W3WSuggestion]?, error: W3WError?) {
     //guard let self else { return }
     if self == nil {
@@ -152,9 +205,9 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     }
   }
   
-  
+
+  /// stop the scanning
   func stop() {
-    //stopOutput = true
     hasStoppedScanning = true
     
     if let c = camera, let o = ocr {
@@ -163,105 +216,34 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     }
   }
   
-  
-//  func add(suggestion: W3WSuggestion) {
-//    show(scanMessage: false)
-//  }
-  
-  
-  func show(scanMessage: Bool) {
-    if scanMessage {
-      panelViewModel.input.send(.add(item: .message(scanMessageText)))
-    } else {
-      panelViewModel.input.send(.remove(item: .message(scanMessageText)))
-    }
-  }
-  
-  
-  
+    
   // MARK: Event Handlers
   
   
+  /// handle a new scan result
   public func handle(suggestions theSuggestions: [W3WSuggestion]?) {
     if let s = theSuggestions {
-      show(scanMessage: false)
+      show(scanMessage: false) // remove text if any
+
+      // show the suggestion on screen
       suggestions.add(suggestions: s, selected: false)
+      
+      // send events
+      for suggestion in theSuggestions ?? [] {
+        output.send(.detected(suggestion))
+      }
     }
   }
   
   
-  /// start scanning
+  /// input events
   public func handle(event: W3WOcrInputEvent) {
-    //switch event {
-      //case .dismiss:
-      //  stop()
-        
-      //case .displayMode(let mode):
-    //}
+    switch event {
+      case .startScanning:
+        start()
+      case .stopScanning:
+        stop()
+    }
   }
-
-
-
-  
-  /// Handle the first ocr suggestion, if it's not duplicated then insert it on top of the bottom sheet.
-  /// - Parameters:
-  ///     - suggestions: the suggestions that was found
-//  open func handleNewSuggestions(_ suggestions: [W3WOcrSuggestion]) {
-//    guard let suggestion = suggestions.first,
-//          let threeWordAddress = suggestion.words else {
-//      return
-//    }
-//
-//    state = .scanning
-//    onReceiveRawSuggestions([suggestion])
-//
-//    // Check for inserting or moving
-//    if uniqueOcrSuggestions.contains(threeWordAddress) {
-//      handleDuplicatedSuggestion(suggestion)
-//      state = .scanned
-//      return
-//    } else {
-//      uniqueOcrSuggestions.insert(threeWordAddress)
-//    }
-//
-//    // Perform autosuggest just when there is w3w
-//    if let w3w = w3w {
-//      autosuggest(w3w: w3w, text: threeWordAddress) { [weak self] result in
-//        DispatchQueue.main.async {
-//          switch result {
-//          case .success(let autoSuggestion):
-//            let result = autoSuggestion ?? suggestion
-//            guard let words = result.words else {
-//              return
-//            }
-//            self?.state = .scanned
-//            if words == threeWordAddress {
-//              self?.insertMoreSuggestions([result])
-//              self?.onSuggestions([result])
-//            } else {
-//              // Handle when autosuggest returns different word with the original ocr suggestion
-//              if self?.uniqueOcrSuggestions.contains(words) ?? false {
-//                return
-//              }
-//              self?.uniqueOcrSuggestions.insert(words)
-//              self?.insertMoreSuggestions([result])
-//              self?.onSuggestions([result])
-//            }
-//          case .failure(let error):
-//            // Ignore the autosuggest error and display what the ocr provides
-//            self?.insertMoreSuggestions([suggestion])
-//            self?.onSuggestions([suggestion])
-//            print("autosuggest error: \((error as NSError).debugDescription)")
-//          }
-//        }
-//      }
-//      return
-//    }
-//    // Just display what the ocr provides
-//    state = .scanned
-//    insertMoreSuggestions([suggestion])
-//    onSuggestions([suggestion])
-//  }
-
   
 }

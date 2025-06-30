@@ -7,19 +7,22 @@
 //
 
 import UIKit
-import W3WSwiftCore
-import W3WSwiftDesign
 import CoreLocation
+import W3WSwiftCore
+import W3WSwiftThemes
+import W3WSwiftDesign
 
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
 #endif // W3WOcrSdk
 
 
+/// the UIKit view controller holding the OCR view
 @available(macCatalyst 14.0, *)
 open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingViewController<W3WOcrScreen<ViewModel>>, W3WEventSubscriberProtocol {
   public var subscriptions = W3WEventsSubscriptions()
   
+  /// the UIKit OCR view
   var ocrView: W3WOcrView
 
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
@@ -27,19 +30,19 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
 
   /// keeps a reference to objects to keep them alive and release them on destruction
   public var keepAlive: [Any?]
-  
-  // maybe we prelaod this for efficiancy?  sometimes it takes a couple seconds to come up
-  //var picker: W3WImagePickerViewController?
 
-  var detents: W3WDetents
-  
-  var picker: W3WImagePickerViewController?
-  
+  /// the view model for the OCR view
   var viewModel: ViewModel
   
-  //var pickerUseCase: W3WOcrImagePickerUseCase?
+  /// the detents for snapping the bottomsheet into place
+  var detents = W3WDetents(detent: 0.0)
+
+  // magic numbers (😬) for the initial values - move these elsewhere...
+  var bottomDetent = CGFloat(90.0)
+  var buttonsHieght = CGFloat(180.0)
+
   
-  
+
   /// view controller containing a Settings view
   /// - Parameters:
   ///     - viewModel: the viewmodel for the view
@@ -48,64 +51,55 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
     self.keepAlive = keepAlive
     self.viewModel = viewModel
 
-    //let ocrMainViewController = W3WOcrBaseViewController(ocr: viewModel.ocr)
-    //self.keepAlive.append(ocrMainViewController)
-    
+    // make the UIKit OCR view
     ocrView = W3WOcrView(frame: .w3wWhatever)
     
+    // attach the camera to the OCR view
     if let camera = viewModel.camera {
       ocrView.set(camera: camera)
     }
     
+    // set the colours
     ocrView.set(lineColor: W3WCoreColor.white.uiColor, lineGap: 1.0)
     
-    detents = W3WDetents(detents: [128.0])
-    
+    // make the SwitUI representable view for the UIKit view
     let ocrScreen = W3WOcrScreen(viewModel: viewModel, initialPanelHeight: 128.0, ocrView: ocrView, detents: detents)
 
+    // start 'er up
     super.init(rootView: ocrScreen)
-
-    subscribe(to: viewModel.output) { [weak self] event in
-      if case .importImage = event {
-        W3WThread.queueOnMain { [weak self] in
-          self?.showImagePicker()
-        }
-      }
-    }
-  }
-
-  
-  func showImagePicker() {
-    let pickerViewModel = W3WImagePickerViewModel()
     
-    let pickerUseCase = W3WOcrPickerUseCase(pickerOutput: pickerViewModel.output, pickerInput: pickerViewModel.input, ocr: viewModel.ocr, ocrViewModel: viewModel)
+    // initialise the detents
+    resetDetents()
 
-    picker = W3WImagePickerViewController()
-
-    if let p = picker {
-      p.set(viewModel: pickerViewModel, keepAlive: [pickerUseCase])
-      
-      viewModel.spinner = true
-      present(p, animated: true) { [weak self] in
-        self?.viewModel.spinner = false
-      }
-      
-      print(pickerViewModel.output)
-      
-      subscribe(to: pickerViewModel.output) { event in
-        if case .dismiss = event {
-          p.dismiss(animated: true)
-          self.picker = nil
-        }
+    // set colours and bind to themes
+    view.backgroundColor = .clear
+    ocrView.set(scheme: viewModel.theme.value?.ocrScheme(for: .idle))
+    ocrView.set(lineColor: W3WCoreColor.white.uiColor, lineGap: 1.0)
+    subscribe(to: viewModel.theme)  { [weak self] theme in
+      W3WThread.queueOnMain {
+        self?.ocrView.set(scheme: viewModel.theme.value?.ocrScheme(for: .idle))
       }
     }
   }
-  
+
   
   required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
+  
+ 
+  /// set the detents
+  func resetDetents(middle: CGFloat? = nil) {
+    detents.add(detent: bottomDetent)
+    
+    if let m = middle {
+      detents.add(detent: m)
+    }
+    
+    detents.add(detent: view.frame.maxY - W3WPadding.heavy.value - buttonsHieght)
+  }
+ 
   
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   /// - Parameters:
@@ -115,16 +109,19 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   }
 
   
+  /// set the OCR crop to a value that makes sense for the current view
   func updateCrop() {
     if let customCrop = customCrop {
       ocrView.set(crop: customCrop)
     } else {
       ocrView.set(crop: defaultCrop())
     }
-    detents.add(detent: ocrView.crop.maxY + W3WPadding.heavy.value)
+    
+    resetDetents(middle: ocrView.crop.maxY - W3WPadding.heavy.value - buttonsHieght)
   }
+
   
-  
+  /// calculate a good crop for the OCR viewfinder
   func defaultCrop() -> CGRect {
     let inset = W3WSettings.ocrCropInset
     let width: CGFloat
@@ -155,6 +152,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   }
 
   
+  /// when the window dimensions change, update the OCR viewfinder crop
   open override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     updateCrop()
