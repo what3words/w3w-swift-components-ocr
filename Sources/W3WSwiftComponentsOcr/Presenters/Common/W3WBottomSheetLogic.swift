@@ -104,6 +104,14 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   
   /// logic to update the footer text and buttons
+  func add(suggestions theSuggestions: [W3WSuggestion]?) {
+    if let s = theSuggestions {
+      suggestions.add(suggestions: s, selected: selectMode ? false : nil)
+    }
+  }
+  
+  
+  /// logic to update the footer text and buttons
   func updateFooterStatus() {
     footer = .buttons(convert(footerButtons: footerButtons), text: footerText)
     

@@ -67,14 +67,18 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
 
           HStack {
             Spacer() // Pushes the button to the right
-            Button {
+            W3WCloseButtonX() {
               viewModel.closeButtonPressed()
-            } label: {
-              Image(systemName: "xmark.circle.fill")
-                .font(.largeTitle)
-                .foregroundColor(.gray) // Adjust color as needed
-                .padding()
             }
+//            Button {
+//              viewModel.closeButtonPressed()
+//            } label: {
+//              Image(systemName: "xmark.circle.fill")
+//                .font(.largeTitle)
+//                .foregroundColor(W3WCoreColor(hex: 0x4B7189).suColor)
+//                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
+//                .padding(.trailing)
+//            }
           }
         }
         Spacer() // Pushes the HStack (and button) to the top

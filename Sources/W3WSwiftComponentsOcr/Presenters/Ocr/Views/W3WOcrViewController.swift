@@ -126,22 +126,28 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
     let inset = W3WSettings.ocrCropInset
     let width: CGFloat
     let height: CGFloat
+    
+    // iPad width and height
     if UIDevice.current.userInterfaceIdiom == .pad {
       width = ocrView.bounds.width - inset * 2.0
       height = width * 0.75
+      
+    // potrait width and height
     } else  if ocrView.bounds.width < ocrView.bounds.height {
-      // potrait
       width = ocrView.bounds.width - inset * 2.0
       height = width
+      
+    // landscape width and height
     } else {
-      // landscape
       width = ocrView.bounds.width * 0.8 - inset * 2.0
       height = width * W3WSettings.ocrViewfinderRatioLandscape
     }
+    
+    // the crop
     let crop = CGRect(
       origin: CGPoint(
         x: (ocrView.bounds.width - width) / 2,
-        y: W3WSettings.ocrCropInset * 2.0),
+        y: W3WSettings.ocrCropInset * 2.0 + view.safeAreaInsets.top),
       size: CGSize(
         width: width,
         height: height

@@ -226,7 +226,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
       show(scanMessage: false) // remove text if any
 
       // show the suggestion on screen
-      suggestions.add(suggestions: s, selected: false)
+      //suggestions.add(suggestions: s, selected: false)
+      bottomSheetLogic.add(suggestions: s)
       
       // send events
       for suggestion in theSuggestions ?? [] {

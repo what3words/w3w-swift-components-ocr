@@ -24,14 +24,15 @@ open class W3WOcrStillViewController<ViewModel: W3WOcrStillViewModelProtocol>: W
   /// keeps a reference to objects to keep them alive and release them on destruction
   public var keepAlive: [Any?]
   
+  /// the view model
   var viewModel: ViewModel
   
+  /// detents for the bottom sheet to snap to
   var detents = W3WDetents(detent: 0.0)
 
+  // magic numbers (😬) for the initial values - move these elsewhere...
   var bottomDetent = CGFloat(90.0)
-  
   var buttonsHieght = CGFloat(180.0)
-
   
   
   /// the UIKit view controller holding the OCR view
@@ -68,8 +69,6 @@ open class W3WOcrStillViewController<ViewModel: W3WOcrStillViewModelProtocol>: W
     
     detents.add(detent: view.frame.maxY - W3WPadding.heavy.value - buttonsHieght)
   }
- 
-  
   
 }
 

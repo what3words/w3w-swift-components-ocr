@@ -104,8 +104,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
         }
         
         // send suggestions to view
-        self?.bottomSheetLogic.suggestions.add(suggestions: suggestions)
-        //self?.panelViewModel.input.send(.add(item: .suggestions(selectableSuggestions)))
+        self?.bottomSheetLogic.add(suggestions: suggestions)
       }
     }
   }
