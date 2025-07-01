@@ -44,6 +44,12 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
   /// translations for text
   var translations: W3WTranslationsProtocol { get set }
   
+  /// the binding to the lock on the import button
+  var lockOnImportButton: Bool { get set }
+
+  /// the binding to the lock on the live/still switch
+  var lockOnLiveSwitch: Bool { get set }
+
 
   /// called by UI when the import button is pressed
   func importButtonPressed()
@@ -53,9 +59,6 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
   
   /// called by UI when the live capture switch is switched
   func viewTypeSwitchEvent(on: Bool)
-  
-  /// do something with the actual scanning result
-  func ocrResults(suggestions: [W3WSuggestion]?, error: W3WError?)
   
   /// handle a new scan result
   func handle(suggestions: [W3WSuggestion]?)

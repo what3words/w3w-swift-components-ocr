@@ -48,6 +48,14 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
               )
           })
           .frame(width: iconPadding)
+          .disabled(viewModel.lockOnImportButton)
+          .isLockedOcr(viewModel.lockOnImportButton, alignment: .topTrailing) //, offsetX: 32.0, offsetY: 32.0, lockColor: .red)
+          // if the button is disabled, we still need to send back the tap so the app can show a payment page
+          .onTapGesture {
+            if viewModel.lockOnImportButton {
+              viewModel.importButtonPressed()
+            }
+          }
 
 
           Spacer()
@@ -57,15 +65,27 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
             Toggle("", isOn: $cameraMode)
               .frame(width: toggleSize)
               .tint(viewModel.bottomSheetScheme?.colors?.brand?.suColor ?? W3WColor.red.suColor)
-              .toggleStyle(BorderedSwitchToggleStyle(trackColorOn: viewModel.bottomSheetScheme?.colors?.brand?.suColor ?? W3WColor.red.suColor, borderColor: .white))
+              .toggleStyle(BorderedSwitchToggleStyle(isLocked: viewModel.lockOnLiveSwitch, trackColorOn: viewModel.bottomSheetScheme?.colors?.brand?.suColor ?? W3WColor.red.suColor, borderColor: .white))
               .frame(width: iconPadding)
+              .disabled(viewModel.lockOnLiveSwitch)
+              .onTapGesture { // if the toggle is disabled, we still need to send back the tap so the app can show a payment page
+                if viewModel.lockOnLiveSwitch {
+                  viewModel.viewTypeSwitchEvent(on: cameraMode)
+                }
+              }
           } else {
             Toggle("", isOn: $cameraMode)
               .frame(width: toggleSize)
-              .toggleStyle(BorderedSwitchToggleStyle(trackColorOn: viewModel.bottomSheetScheme?.colors?.brand?.suColor ?? W3WColor.red.suColor, borderColor: .white))
+              //.toggleStyle(BorderedSwitchToggleStyle(trackColorOn: viewModel.bottomSheetScheme?.colors?.brand?.suColor ?? W3WColor.red.suColor, borderColor: .white))
               .frame(width: iconPadding)
+              .disabled(viewModel.lockOnLiveSwitch)
+              .isLockedOcr(viewModel.lockOnLiveSwitch, alignment: .topTrailing, offsetX: -12.0, offsetY: -12.0) //, lockColor: .red)
+              .onTapGesture { // if the toggle is disabled, we still need to send back the tap so the app can show a payment page
+                if viewModel.lockOnLiveSwitch {
+                  viewModel.viewTypeSwitchEvent(on: cameraMode)
+                }
+              }
           }
-
         }
         
         // button text

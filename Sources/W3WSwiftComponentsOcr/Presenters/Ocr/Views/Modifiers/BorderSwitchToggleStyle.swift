@@ -7,6 +7,7 @@
 
 import SwiftUI
 import W3WSwiftThemes
+import W3WSwiftDesignSwiftUI
 
 
 /// styling the SwiftUI toggle
@@ -18,9 +19,11 @@ struct BorderedSwitchToggleStyle: ToggleStyle {
   private let thumbColor: Color
   private let borderColor: Color
   private let borderWidth: CGFloat
+  let isLocked: Bool // Add this new property
+
   
-  
-  init(trackColorOn: Color = W3WCoreColor.darkBlue.suColor, trackColorOff: Color = W3WCoreColor.darkBlue.suColor, thumbColor: Color = W3WCoreColor.white.suColor, borderColor: Color = W3WCoreColor.white.suColor, borderWidth: CGFloat = 2.0) {
+  init(isLocked: Bool, trackColorOn: Color = W3WCoreColor.darkBlue.suColor, trackColorOff: Color = W3WCoreColor.darkBlue.suColor, thumbColor: Color = W3WCoreColor.white.suColor, borderColor: Color = W3WCoreColor.white.suColor, borderWidth: CGFloat = 2.0) {
+    self.isLocked = isLocked
     self.trackColorOn = trackColorOn
     self.trackColorOff = trackColorOff
     self.thumbColor = thumbColor
@@ -56,6 +59,21 @@ struct BorderedSwitchToggleStyle: ToggleStyle {
         
         // Position the thumb based on the toggle's state
           .offset(x: configuration.isOn ? 10 : -10)
+
+        
+        if isLocked { // Use the new isLocked property
+              // The lock icon, positioned relative to the 51x31 ZStack
+              W3WIconImage(
+                  iconImage: .w3wLock,
+                  iconSize: 16,
+                  color: W3WCoreColor.white.suColor // Use your desired lockColor
+              )
+              .padding(3)
+              .background(W3WTheme.what3words.brandBase?.suColor)
+              .clipShape(Circle())
+              .offset(x: 26.0, y: -16.0)
+          }
+
         
       }
       .frame(width: 51, height: 31) // The fixed size of our switch

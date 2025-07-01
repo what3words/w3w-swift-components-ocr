@@ -32,9 +32,18 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   /// scheme for the bottom sheet
   @Published public var bottomSheetScheme: W3WScheme? = W3WScheme.w3w
+  
+  /// the view mode - for still / live - perhaps depricated?
+  @Published public var viewType = W3WOcrViewType.still
+  
+  /// the binding to the lock on the import button
+  @Published public var lockOnImportButton = true
+
+  /// the binding to the lock on the live/still switch
+  @Published public var lockOnLiveSwitch = true
 
   /// app events of rlogging / analytics
-  var events: W3WEvent<W3WAppEvent>
+  var events: W3WEvent<W3WAppEvent>?
   
   /// the ocr service
   public var ocr: W3WOcrProtocol?
@@ -47,9 +56,6 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   /// view model for the panel in the bottom sheet
   public var panelViewModel = W3WPanelViewModel()
-  
-  /// the view mode - for still / live - perhaps depricated?
-  @Published public var viewType = W3WOcrViewType.video
 
   /// indicates if the scanning is stopped
   var hasStoppedScanning = false
@@ -66,14 +72,25 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// logic for the bottom sheet
   let bottomSheetLogic: W3WBottomSheetLogic
 
+  /// the most recent suggestions found - for "still" mode
+  var lastSuggestions = [W3WSuggestion]()
+  
+  /// indicates it the import feature is locked or not
+  var importLocked = W3WLive<Bool>(true)
+  
+  /// indicates it the live scan feature is locked or not
+  var liveScanLocked = W3WLive<Bool>(true)
+
   
   /// model for the ocr view
-  public init(ocr: W3WOcrProtocol, theme: W3WLive<W3WTheme?>? = nil, footerButtons: [W3WSuggestionsViewAction] = [], translations: W3WTranslationsProtocol = W3WOcrTranslations(), events: W3WEvent<W3WAppEvent> = W3WEvent<W3WAppEvent>()) {
-    self.scheme        = .w3w
-    self.theme         = theme ?? W3WLive<W3WTheme?>(.what3words)
-    self.camera        = W3WOcrCamera.get(camera: .back)
-    self.translations  = translations
-    self.events        = events
+  public init(ocr: W3WOcrProtocol, theme: W3WLive<W3WTheme?>? = nil, footerButtons: [W3WSuggestionsViewAction] = [], importLocked: W3WLive<Bool>, liveScanLocked: W3WLive<Bool>, translations: W3WTranslationsProtocol = W3WOcrTranslations(), events: W3WEvent<W3WAppEvent>? = W3WEvent<W3WAppEvent>()) {
+    self.scheme         = .w3w
+    self.theme          = theme ?? W3WLive<W3WTheme?>(.what3words)
+    self.camera         = W3WOcrCamera.get(camera: .back)
+    self.translations   = translations
+    self.events         = events
+    self.importLocked   = importLocked
+    self.liveScanLocked = liveScanLocked
 
     // make the manager fro the bottom sheet
     self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations)
@@ -135,6 +152,16 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     bottomSheetLogic.onButton = { [weak self] button, suggestions in
       self?.output.send(.footerButton(button, suggestions: suggestions))
     }
+    
+    // follow the settings for pro mode
+    subscribe(to: importLocked) { [weak self] value in
+      self?.lockOnImportButton = value
+    }
+    
+    // follow the settings for pro mode
+    subscribe(to: liveScanLocked) { [weak self] value in
+      self?.lockOnLiveSwitch = value
+    }
   }
   
   
@@ -148,6 +175,10 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// called by UI when the capture button is pressed
   public func captureButtonPressed() {
     output.send(.captureButton)
+    
+    if viewType == .still {
+      bottomSheetLogic.add(suggestions: lastSuggestions)
+    }
   }
   
   
@@ -185,14 +216,14 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
       c.start()
       
       o.autosuggest(video: c) { [weak self] suggestions, error in
-        self?.ocrResults(suggestions: suggestions, error: error == nil ? nil : W3WError.other(error))
+        self?.autosuggestCompletion(suggestions: suggestions, error: error == nil ? nil : W3WError.other(error))
       }
     }
   }
   
   
   /// do something with the actual scanning result
-  public func ocrResults(suggestions: [W3WSuggestion]?, error: W3WError?) {
+  public func autosuggestCompletion(suggestions: [W3WSuggestion]?, error: W3WError?) {
     //guard let self else { return }
     if self == nil {
       print("The OCR system is connected to a W3WOcrViewController that no longer exists. Please ensure the OCR is connected to the current W3WOcrViewController.  Perhaps instantiate a new OCR when creating a new W3WOcrViewControlller.")
@@ -225,14 +256,19 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     if let s = theSuggestions {
       show(scanMessage: false) // remove text if any
 
-      // show the suggestion on screen
-      //suggestions.add(suggestions: s, selected: false)
-      bottomSheetLogic.add(suggestions: s)
+      // remember the most recent results for "still" mode
+      lastSuggestions = s
+      
+      // we are in live scan mode, send all suggestions to the panel
+      if viewType == .video {
+        bottomSheetLogic.add(suggestions: s)
+      }
       
       // send events
       for suggestion in theSuggestions ?? [] {
         output.send(.detected(suggestion))
       }
+        
     }
   }
   
