@@ -120,6 +120,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
     }
     .edgesIgnoringSafeArea(.bottom)
     .background(Color.clear)
+    .layoutDirectionFromAppearance()
   }
   
 }
