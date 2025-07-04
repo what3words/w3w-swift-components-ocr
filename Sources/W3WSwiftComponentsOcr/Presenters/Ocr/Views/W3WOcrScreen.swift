@@ -13,6 +13,10 @@ import W3WSwiftPresenters
 
 /// the main ocr swiftui screen
 public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
+  /// An enum used as a unique identifier for tracking the height of different view components
+  private enum Height {
+    case content
+  }
   
   /// main view model
   @ObservedObject var viewModel: ViewModel
@@ -23,8 +27,9 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   /// the OCR UIIvew
   let ocrView: W3WOcrView
   
-  /// the detents to snap the bottom sheet to
-  @State var detents: W3WDetents
+  /// The dynamically measured height of the entire screen content,
+  /// captured using `.onHeightChange(_:for: .content)`
+  @State private var contentHeight: CGFloat = 0
   
   /// a binding for the viewType for the ui switch to connect with the viewModel's viewMode value
   var cameraMode: Binding<Bool> {
@@ -34,27 +39,23 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
     )
   }
   
-
-  /// the main ocr swiftui screen
-  init(viewModel: ViewModel, initialPanelHeight: CGFloat, ocrView: W3WOcrView, detents: W3WDetents) {
-    self.viewModel = viewModel
-    self.initialPanelHeight = initialPanelHeight
-    self.ocrView = ocrView
-    self.detents = detents
-  }
-  
-  
   public var body: some View {
     ZStack {
       // UIViewRepresentable for OCR view
       W3WSuOcrView(ocrView: ocrView)
         .edgesIgnoringSafeArea(.all)
-
+        
       // bottom sheet
       VStack {
         Spacer()
           .frame(maxHeight: .infinity)
-        W3WOcrBottomSheet(viewModel: viewModel, initialPanelHeight: initialPanelHeight, scheme: viewModel.bottomSheetScheme ?? .w3wOcr, cameraMode: cameraMode, detents: detents)
+        W3WOcrBottomSheet(
+          viewModel: viewModel,
+          initialPanelHeight: initialPanelHeight,
+          parentHeight: contentHeight,
+          scheme: viewModel.bottomSheetScheme ?? .w3wOcr,
+          cameraMode: cameraMode
+        )
       }
       
       // Add the Close Button here
@@ -86,6 +87,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
     }
     .edgesIgnoringSafeArea(.bottom)
     .background(Color.clear)
+    .onHeightChange($contentHeight, for: Height.content)
   }
   
 }

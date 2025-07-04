@@ -34,14 +34,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   /// the view model for the OCR view
   var viewModel: ViewModel
   
-  /// the detents for snapping the bottomsheet into place
-  var detents = W3WDetents(detent: 0.0)
-
-  // magic numbers (😬) for the initial values - move these elsewhere...
-  var bottomDetent = CGFloat(90.0)
   var buttonsHieght = CGFloat(180.0)
-
-  
 
   /// view controller containing a Settings view
   /// - Parameters:
@@ -63,14 +56,11 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
     ocrView.set(lineColor: W3WCoreColor.white.uiColor, lineGap: 1.0)
     
     // make the SwitUI representable view for the UIKit view
-    let ocrScreen = W3WOcrScreen(viewModel: viewModel, initialPanelHeight: 128.0, ocrView: ocrView, detents: detents)
+    let ocrScreen = W3WOcrScreen(viewModel: viewModel, initialPanelHeight: 128.0, ocrView: ocrView)
 
     // start 'er up
     super.init(rootView: ocrScreen)
     
-    // initialise the detents
-    resetDetents()
-
     // set colours and bind to themes
     view.backgroundColor = .clear
     ocrView.set(scheme: viewModel.theme.value?.ocrScheme(for: .idle))
@@ -85,19 +75,6 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   
   required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  
- 
-  /// set the detents
-  func resetDetents(middle: CGFloat? = nil) {
-    detents.add(detent: bottomDetent)
-    
-    if let m = middle {
-      detents.add(detent: m)
-    }
-    
-    detents.add(detent: view.frame.maxY - W3WPadding.heavy.value - buttonsHieght)
   }
  
   
@@ -117,7 +94,11 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
       ocrView.set(crop: defaultCrop())
     }
     
-    resetDetents(middle: ocrView.crop.maxY - W3WPadding.heavy.value - buttonsHieght)
+    /// Important: Always check before updating, otherwise this will cause
+    /// a recursive call to viewDidLayoutSubviews.
+    if viewModel.ocrCropRect != ocrView.crop {
+      viewModel.ocrCropRect = ocrView.crop
+    }
   }
 
   
