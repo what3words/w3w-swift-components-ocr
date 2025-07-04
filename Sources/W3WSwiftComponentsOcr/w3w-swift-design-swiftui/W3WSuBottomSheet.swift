@@ -15,7 +15,7 @@ public struct W3WSuBottomSheet<Content: View>: View {
 
   @State var height: CGFloat
 
-  @State var detents = W3WDetents(detent: 64.0)
+  let detents: W3WDetents
 
   @ViewBuilder let content: Content
 
@@ -45,7 +45,9 @@ public struct W3WSuBottomSheet<Content: View>: View {
           }
         }
         .onEnded { value in
-          self.height = detents.nearest(value: height)
+          withAnimation {
+            self.height = detents.nearest(value: height)
+          }
         }
     )
     }

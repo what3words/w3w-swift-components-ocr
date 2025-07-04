@@ -23,9 +23,6 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
     
   /// initial height for the bottom sheet
   let initialPanelHeight: CGFloat
-  
-  /// detents to snap the bottom sheet to
-  @State var detents: W3WDetents
 
   /// The dynamically measured height of the entire screen content,
   /// captured using `.onHeightChange(_:for: .content)`
@@ -39,23 +36,45 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
   /// Helps compute safe padding and positioning relative to the image.
   @State private var bottomHeight: CGFloat = 0
   
+  private let detentPadding: CGFloat = 50
+  
   /// still image ocr view, showing bottom sheet
   public var body: some View {
-    ZStack {
-      W3WOcrStillImageView(viewModel: viewModel)
-        .onHeightChange($imageHeight, for: Height.image)
-        .padding(.bottom, min(contentHeight - imageHeight, bottomHeight))
-      
-      VStack {
-        Spacer()
-        W3WSuBottomSheet(scheme: viewModel.scheme, height: initialPanelHeight, detents: detents, content: {
-          W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.scheme)
-        })
-        .onHeightChange($bottomHeight, for: Height.bottom)
+    VStack {
+      W3WNavigationBar(
+        scheme: viewModel.scheme?
+          .with(foreground: W3WColor(light: .darkBlue, dark: .white))
+          .with(secondary: W3WColor(light: .black, dark: .white)),
+        translations: viewModel.translations,
+        onBack: viewModel.dismissButtonPressed)
+      ZStack {
+        W3WOcrStillImageView(viewModel: viewModel)
+          .onHeightChange($imageHeight, for: Height.image)
+          .frame(maxHeight: contentHeight / 2)
+          .padding(.bottom, min(contentHeight - imageHeight, bottomHeight))
+          .animation(.default, value: bottomHeight)
+        VStack {
+          Spacer()
+          W3WSuBottomSheet(
+            scheme: viewModel.scheme,
+            height: initialPanelHeight,
+            detents: W3WDetents(detents: [
+              initialPanelHeight,
+              contentHeight - detentPadding,
+              contentHeight - imageHeight - detentPadding
+            ])) {
+            W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.scheme)
+          }
+          .onHeightChange($bottomHeight, for: Height.bottom)
+        }
       }
+      .background(W3WCoreColor.darkBlue.suColor)
+      .onHeightChange($contentHeight, for: Height.content)
     }
-    .background(W3WCoreColor.darkBlue.suColor)
-    .onHeightChange($contentHeight, for: Height.content)
     .edgesIgnoringSafeArea(.bottom)
+    .background(
+      viewModel.scheme?.colors?.secondaryBackground?.current.suColor
+        .edgesIgnoringSafeArea(.all)
+    )
   }
 }

@@ -23,10 +23,15 @@ public protocol W3WOcrStillViewModelProtocol: ObservableObject {
   /// the scheme to use
   var scheme: W3WScheme? { get set }
 
+  /// the translations
+  var translations: W3WTranslationsProtocol { get }
+  
   /// the image to scan
   var image: CGImage? { get set }
 
   /// the view model for the bottom sheet panel
   var panelViewModel: W3WPanelViewModel { get set }
   
+  /// called by UI when the dismiss button is pressed
+  func dismissButtonPressed()
 }
