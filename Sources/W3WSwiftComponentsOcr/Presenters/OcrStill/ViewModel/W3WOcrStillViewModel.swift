@@ -9,12 +9,12 @@ import Combine
 import CoreGraphics
 import W3WSwiftCore
 import W3WSwiftThemes
-import W3WSwiftComponentsOcr
 import W3WSwiftPresenters
 
 
 /// a view model for still image ocr
 public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscriberProtocol {
+  
   public var subscriptions = W3WEventsSubscriptions()
   
   /// input events for still imagfe ocr
@@ -25,6 +25,9 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   
   /// the suggestoins found in the image
   var suggestions = W3WSelectableSuggestions()
+  
+  /// the translations
+  public var translations: W3WTranslationsProtocol
   
   /// the ocr service to do the scanning
   public var ocr: W3WOcrProtocol
@@ -45,6 +48,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   /// a view mdoel for still image ocr
   public init(ocr: W3WOcrProtocol, footerButtons: [W3WSuggestionsViewAction], translations: W3WTranslationsProtocol, theme: W3WLive<W3WTheme?>) {
     self.ocr = ocr
+    self.translations = translations
     self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations)
     
     // connect events to functions
@@ -109,4 +113,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
     }
   }
   
+  public func dismissButtonPressed() {
+    output.send(.dismiss)
+  }
 }
