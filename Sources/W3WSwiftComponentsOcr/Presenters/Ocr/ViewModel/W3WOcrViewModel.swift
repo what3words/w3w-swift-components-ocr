@@ -96,7 +96,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     self.liveScanLocked = liveScanLocked
 
     // make the manager fro the bottom sheet
-    self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations)
+    self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .video)
     
     // set the ocr service to actually do the scanning
     set(ocr: ocr)
@@ -109,9 +109,6 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     
     // start the OCR process
     start()
-    
-    // DEBUG
-    handle(suggestions: [W3WBaseSuggestion(words: "fancy.duck.cloud")])
   }
   
   

@@ -47,6 +47,8 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   /// callback for when a button is tapped containing the button tpped and the currently selected suggestions
   var onButton: (W3WSuggestionsViewAction, [W3WSuggestion]) -> () = { _,_ in }
 
+  /// indicates the contect of the bottom sheet - video or still image
+  var viewType: W3WOcrViewType
   
   // Buttons
   
@@ -68,11 +70,12 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   
   /// manages a bottom sheet on an ocr screen
-  init(suggestions: W3WSelectableSuggestions, panelViewModel: W3WPanelViewModel, footerButtons: [W3WSuggestionsViewAction], translations: W3WTranslationsProtocol) {
-    self.suggestions = suggestions
+  init(suggestions: W3WSelectableSuggestions, panelViewModel: W3WPanelViewModel, footerButtons: [W3WSuggestionsViewAction], translations: W3WTranslationsProtocol, viewType: W3WOcrViewType) {
+    self.suggestions   = suggestions
     self.panelViewModel = panelViewModel
     self.footerButtons = footerButtons
     self.translations = translations
+    self.viewType    = viewType
 
     // create the try again button
     let tryAgainButton = W3WButtonData(icon: nil, title: translations.get(id: "ocr_import_photo_tryAgainButton")) {
@@ -86,9 +89,6 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
 
     // set up the footer
     updateFooterStatus()
-
-    // DEBUG
-    suggestions.add(suggestion: W3WBaseSuggestion(words: "fancy.duck.cloud"))
 
     // connect the events pipelines
     bind()
@@ -121,13 +121,15 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
       panelViewModel.input.send(.footer(item: nil))
     }
 
-    panelViewModel.input.send(.remove(item: tryAgainItem))
-    panelViewModel.input.send(.remove(item: notFound))
-    if suggestions.count() == 0 {
-      panelViewModel.input.send(.add(item: tryAgainItem))
-      panelViewModel.input.send(.add(item: notFound))
+    if viewType == .still {
+      panelViewModel.input.send(.remove(item: tryAgainItem))
+      panelViewModel.input.send(.remove(item: notFound))
+      if suggestions.count() == 0 {
+        panelViewModel.input.send(.add(item: tryAgainItem))
+        panelViewModel.input.send(.add(item: notFound))
+      }
     }
-    
+      
     if suggestions.count() > 0 && !selectionButtonsShowing {
       panelViewModel.input.send(.remove(item: notFound))
       selectionButtonsShowing = true

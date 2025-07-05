@@ -49,7 +49,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   public init(ocr: W3WOcrProtocol, footerButtons: [W3WSuggestionsViewAction], translations: W3WTranslationsProtocol, theme: W3WLive<W3WTheme?>) {
     self.ocr = ocr
     self.translations = translations
-    self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations)
+    self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .still)
     
     // connect events to functions
     bind(theme: theme)
