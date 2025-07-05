@@ -89,7 +89,6 @@ public class W3WOcrNative: W3WOcrProtocol {
     if #available(iOS 15.0, *) {
       if let ocrLangauges = try? temp.supportedRecognitionLanguages() { //}, let w3wLanguages = languages {
         self.supportedLanguages = ocrLangauges
-        //self.languagesQueried = true
       }
     }
     

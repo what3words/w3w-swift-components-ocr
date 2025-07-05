@@ -177,6 +177,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     output.send(.captureButton)
     
     if viewType == .still {
+      //camera?.pause() // should we pause the camera on still capture?
       bottomSheetLogic.add(suggestions: lastSuggestions)
     }
   }
@@ -184,6 +185,10 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   /// called by UI when the live capture switch is switched
   public func viewTypeSwitchEvent(on: Bool) {
+    if on { // if we pause the camera on still capture, the unpause (see above)
+      //camera?.unpause()
+    }
+    
     output.send(.liveCaptureSwitch(on))
   }
 

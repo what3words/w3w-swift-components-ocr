@@ -106,6 +106,24 @@ public class W3WOcrCamera: W3WVideoStream {
       self.onCameraStarted?()
     }
   }
+  
+  
+  /// keep camera connected to view, but stop running
+  public func pause() {
+    if self.session?.isRunning ?? false {
+      self.session?.stopRunning()
+    }
+  }
+  
+  
+  /// start paused camera back up again
+  public func unpause() {
+    if !(self.session?.isRunning ?? false) {
+      self.session?.startRunning()
+    }
+  }
+
+  
   /// tell the camera to stop producing images
   public func stop() {
     //print("camera.stop()")
