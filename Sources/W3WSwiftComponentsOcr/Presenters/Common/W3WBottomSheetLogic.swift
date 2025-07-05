@@ -24,7 +24,7 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   lazy var notFound =  W3WPanelItem.heading(W3WLive<W3WString>(translations.get(id: "ocr_import_photo_errorMessage").w3w))
 
   /// the try again button
-  let tryAgainItem: W3WPanelItem
+  var tryAgainItem: W3WPanelItem = .buttons([], text: W3WLive("".w3w))
 
   /// the buttons at the bottom that show conditionally
   var footerButtons: [W3WSuggestionsViewAction]
@@ -46,6 +46,9 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   /// callback for when a button is tapped containing the button tpped and the currently selected suggestions
   var onButton: (W3WSuggestionsViewAction, [W3WSuggestion]) -> () = { _,_ in }
+  
+  /// when the try again button is tapped
+  var onTryAgain: () -> () = { }
 
   /// indicates the contect of the bottom sheet - video or still image
   var viewType: W3WOcrViewType
@@ -78,8 +81,8 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
     self.viewType    = viewType
 
     // create the try again button
-    let tryAgainButton = W3WButtonData(icon: nil, title: translations.get(id: "ocr_import_photo_tryAgainButton")) {
-      print("reload") // make htis work
+    let tryAgainButton = W3WButtonData(icon: nil, title: translations.get(id: "ocr_import_photo_tryAgainButton")) { [weak self] in
+      self?.onTryAgain()
     }
     tryAgainItem = W3WPanelItem.buttons([tryAgainButton], text: W3WLive<W3WString>("".w3w))
     

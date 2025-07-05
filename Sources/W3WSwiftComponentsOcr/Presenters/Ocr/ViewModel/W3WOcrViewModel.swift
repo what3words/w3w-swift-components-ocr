@@ -202,9 +202,9 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// shows/hides the inital scan message
   func show(scanMessage: Bool) {
     if scanMessage {
-      panelViewModel.input.send(.add(item: .heading(scanMessageText)))
+      bottomSheetLogic.panelViewModel.input.send(.add(item: .heading(scanMessageText)))
     } else {
-      panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
+      bottomSheetLogic.panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
     }
   }
   
@@ -259,7 +259,6 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// handle a new scan result
   public func handle(suggestions theSuggestions: [W3WSuggestion]?) {
     if let s = theSuggestions {
-      show(scanMessage: false) // remove text if any
 
       // remember the most recent results for "still" mode
       lastSuggestions = s
@@ -273,7 +272,11 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
       for suggestion in theSuggestions ?? [] {
         output.send(.detected(suggestion))
       }
-        
+
+      // remove text if suggestions are available
+      if bottomSheetLogic.suggestions.count() > 0 {
+        show(scanMessage: false)
+      }
     }
   }
   

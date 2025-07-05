@@ -38,6 +38,9 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   /// the image to scan
   @Published public var image: CGImage?
   
+  /// the image to scan
+  @Published public var isLoading: Bool = false
+  
   /// the view model for the bottom sheet panel
   public var panelViewModel = W3WPanelViewModel()
   
@@ -72,6 +75,11 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
     bottomSheetLogic.onButton = { [weak self] button, suggestions in
       self?.output.send(.footerButton(button, suggestions: suggestions))
     }
+    
+    // called when the try again button is pressed
+    bottomSheetLogic.onTryAgain = { [weak self] in
+      self?.output.send(.tryAgain)
+    }
 
     // list for changes to the suggesitons list
     subscribe(to: suggestions.update) { [weak self] event in
@@ -89,6 +97,12 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
         showImage(image: i)
         scanImage(image: i)
         bottomSheetLogic.updateFooterStatus()
+        
+      case .isLoading:
+        isLoading = true
+        
+      case .notLoading:
+        isLoading = false
     }
   }
   

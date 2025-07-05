@@ -15,6 +15,7 @@ public enum W3WOcrStillOutputEvent: W3WAppEventConvertable {
   
   case error(W3WError)
   case footerButton(W3WSuggestionsViewAction, suggestions: [W3WSuggestion])
+  case tryAgain
   case dismiss
   
   
@@ -26,6 +27,9 @@ public enum W3WOcrStillOutputEvent: W3WAppEventConvertable {
 
       case .footerButton(let action, suggestions: let suggestions):
         return W3WAppEvent(type: Self.self, name: "ocr.footerButton", parameters: ["action": .text(action.title)])
+
+      case .tryAgain:
+        return W3WAppEvent(type: Self.self, name: "ocr.tryAgain")
 
       case .dismiss:
         return W3WAppEvent(type: Self.self, name: "ocr.dismiss")

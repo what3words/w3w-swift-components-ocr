@@ -22,16 +22,21 @@ struct W3WOcrStillImageView<ViewModel: W3WOcrStillViewModelProtocol>: View {
         .aspectRatio(contentMode: .fit)
       
       // if not image show a placeholder
-    } else if #available(iOS 15.0, *) {
-      // iOS 15+ show progress spinner
-      ProgressView()
-        .progressViewStyle(.circular)
-        .tint(.white)
-      
-      // iOS 14- show image icon
     } else {
-      Image(systemName: "photo")
-        .foregroundColor(.white)
+      if viewModel.isLoading {
+        if #available(iOS 15.0, *) {
+          // iOS 15+ show progress spinner
+          ProgressView()
+            .progressViewStyle(.circular)
+            .tint(.white)
+            .controlSize(.large)
+          
+          // iOS 14- show image icon
+        } else {
+          Image(systemName: "photo")
+            .foregroundColor(.white)
+        }
+      }
     }
   }
 }

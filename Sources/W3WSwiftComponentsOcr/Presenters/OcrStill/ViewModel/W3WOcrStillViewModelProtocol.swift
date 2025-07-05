@@ -28,7 +28,10 @@ public protocol W3WOcrStillViewModelProtocol: ObservableObject {
   
   /// the image to scan
   var image: CGImage? { get set }
-
+  
+  /// progress indicator
+  var isLoading: Bool { get set }
+  
   /// the view model for the bottom sheet panel
   var panelViewModel: W3WPanelViewModel { get set }
   
