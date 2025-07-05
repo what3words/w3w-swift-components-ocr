@@ -48,6 +48,9 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// the ocr service
   public var ocr: W3WOcrProtocol?
   
+  /// the ocr service crop rect
+  @Published public var ocrCropRect: CGRect = .zero
+  
   /// the camera
   public var camera: W3WOcrCamera?
   

@@ -10,7 +10,7 @@ import Foundation
 
 /// a store of positions that a view may move to
 @available(*, deprecated, message: "delete this class and make the one in W3WSwiftDesign public, and maybe moce to W3WSwiftTheme so it can be used in both")
-public class W3WDetents {
+public struct W3WDetents {
   
   var detents = [CGFloat]()
 
@@ -25,22 +25,22 @@ public class W3WDetents {
   }
 
 
-  public func add(detent: CGFloat) {
+  public mutating func add(detent: CGFloat) {
     detents.append(detent)
   }
   
   
-  public func add(detents arr: [CGFloat]) {
+  public mutating func add(detents arr: [CGFloat]) {
     detents.append(contentsOf: arr)
   }
   
   
-  public func remove(detent: CGFloat) {
+  public mutating func remove(detent: CGFloat) {
     detents.removeAll(where: { d in d == detent })
   }
   
   
-  public func removeDetents() {
+  public mutating func removeDetents() {
     detents.removeAll()
   }
 

@@ -27,13 +27,7 @@ open class W3WOcrStillViewController<ViewModel: W3WOcrStillViewModelProtocol>: W
   /// the view model
   var viewModel: ViewModel
   
-  /// detents for the bottom sheet to snap to
-  var detents = W3WDetents(detent: 0.0)
-
-  // magic numbers (😬) for the initial values - move these elsewhere...
-  var bottomDetent = CGFloat(90.0)
   var buttonsHieght = CGFloat(180.0)
-  
   
   /// the UIKit view controller holding the OCR view
   /// - Parameters:
@@ -44,31 +38,15 @@ open class W3WOcrStillViewController<ViewModel: W3WOcrStillViewModelProtocol>: W
     self.viewModel = viewModel
 
     // the ocr screen for still image
-    let ocrScreen = W3WOcrStillScreen(viewModel: viewModel, initialPanelHeight: buttonsHieght, detents: detents)
+    let ocrScreen = W3WOcrStillScreen(viewModel: viewModel, initialPanelHeight: buttonsHieght)
 
     // initialise the swiftui vie using the uikit view
     super.init(rootView: ocrScreen)
-    
-    // initialise the detents
-    resetDetents()
   }
 
   
   required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-  
-  /// set the detents to places that make sense
-  func resetDetents(middle: CGFloat? = nil) {
-    detents.add(detent: bottomDetent)
-    
-    if let m = middle {
-      detents.add(detent: m)
-    }
-    
-    detents.add(detent: view.frame.maxY - W3WPadding.heavy.value - buttonsHieght)
-  }
-  
 }
 
