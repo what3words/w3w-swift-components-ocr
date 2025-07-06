@@ -78,6 +78,12 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   }
  
   
+  override open func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    viewModel.input.send(.stopScanning)
+  }
+  
+  
   /// user defined camera crop, if nil then defaults are used, if set then the camera crop is set to this (specified in view coordinates)
   /// - Parameters:
   ///     - crop: camera crop to use specified in view coordinates
