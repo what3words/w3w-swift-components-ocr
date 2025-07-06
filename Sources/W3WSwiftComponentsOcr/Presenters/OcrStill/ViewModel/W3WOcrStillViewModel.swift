@@ -10,6 +10,7 @@ import CoreGraphics
 import W3WSwiftCore
 import W3WSwiftThemes
 import W3WSwiftPresenters
+import W3WSwiftAppEvents
 
 
 /// a view model for still image ocr
@@ -74,17 +75,36 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
     // listen for bottom sheet button presses
     bottomSheetLogic.onButton = { [weak self] button, suggestions in
       self?.output.send(.footerButton(button, suggestions: suggestions))
+      self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrHeaderButton, parameters: ["button": .text(button.title)])))
     }
     
     // called when the try again button is pressed
     bottomSheetLogic.onTryAgain = { [weak self] in
       self?.output.send(.tryAgain)
+      self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrTryAgain)))
     }
 
     // list for changes to the suggesitons list
     subscribe(to: suggestions.update) { [weak self] event in
       self?.panelViewModel.objectWillChange.send()
     }
+    
+    bottomSheetLogic.onSelectButton = { [weak self] in
+      if (self?.bottomSheetLogic.selectMode ?? false) {
+        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultDeselect)))
+      } else {
+        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultSelect)))
+      }
+    }
+    
+    bottomSheetLogic.onSelectAllButton = { [weak self] in
+      if (self?.bottomSheetLogic.selectMode ?? false) {
+        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultSelectAll)))
+      } else {
+        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultDeselectAll)))
+      }
+    }
+
   }
   
   
@@ -115,10 +135,16 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   
   /// scan an image for three word addresses
   func scanImage(image: CGImage?) {
+    output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoImport, parameters: ["width": .number(image == nil ? nil : Float(image!.width)), "height": .number(image == nil ? nil : Float(image!.height))])))
+    
     if let i = image {
       ocr.autosuggest(image: i, info: { _ in }) { [weak self] suggestions, error in
         if let e = error {
           self?.output.send(.error(.other(e)))
+        }
+        
+        if suggestions.count == 0 {
+          self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrNoResultFound)))
         }
         
         // send suggestions to view

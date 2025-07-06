@@ -49,23 +49,32 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   /// when the try again button is tapped
   var onTryAgain: () -> () = { }
+  
+  /// when the select button is tapped
+  var onSelectButton: () -> () = { }
+  
+  /// when the select all button is tapped
+  var onSelectAllButton: () -> () = { }
 
   /// indicates the contect of the bottom sheet - video or still image
   var viewType: W3WOcrViewType
   
-  // Buttons
+  
+  // MARK: Buttons
   
 
   /// the select button representation
   lazy var selectButton = W3WButtonData(title: "select") { [weak self] in
     self?.selectMode.toggle()
     self?.suggestions.make(selectable: self?.selectMode ?? false)
+    self?.onSelectButton()
   }
   
   /// the select all button representation
   lazy var selectAllButton = W3WButtonData(title: "select all") { [weak self] in
     self?.selectMode = true
     self?.suggestions.selectAll()
+    self?.onSelectAllButton()
   }
 
   
@@ -98,12 +107,18 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   }
   
   
+  // MARK: Events
+  
+  
   /// connect events to functions
   func bind() {
     subscribe(to: suggestions.update) { [weak self] event in
       self?.updateFooterStatus()
     }
   }
+  
+  
+  // MARK: Commands
   
   
   /// logic to update the footer text and buttons

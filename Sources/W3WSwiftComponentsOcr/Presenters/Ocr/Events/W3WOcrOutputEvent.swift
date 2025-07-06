@@ -35,6 +35,9 @@ public enum W3WOcrOutputEvent: W3WAppEventConvertable {
   
   /// the close button was tapped
   case dismiss
+  
+  /// pass though any analytic events
+  case analytic(W3WAppEvent)
 
   
   public func asAppEvent() -> W3WAppEvent {
@@ -63,6 +66,9 @@ public enum W3WOcrOutputEvent: W3WAppEventConvertable {
 
       case .dismiss:
         return W3WAppEvent(type: Self.self, name: "ocr.dismiss")
+        
+      case .analytic(let event):
+        return event
     }
   }
   
