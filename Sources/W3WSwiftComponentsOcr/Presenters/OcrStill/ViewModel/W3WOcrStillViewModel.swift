@@ -91,9 +91,9 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
     
     bottomSheetLogic.onSelectButton = { [weak self] in
       if (self?.bottomSheetLogic.selectMode ?? false) {
-        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultDeselect)))
-      } else {
         self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultSelect)))
+      } else {
+        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultDeselect)))
       }
     }
     
