@@ -56,7 +56,11 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
     ocrView.set(lineColor: W3WCoreColor.white.uiColor, lineGap: 1.0)
     
     // make the SwitUI representable view for the UIKit view
-    let ocrScreen = W3WOcrScreen(viewModel: viewModel, initialPanelHeight: 128.0, ocrView: ocrView)
+    let ocrScreen = W3WOcrScreen(
+      viewModel: viewModel,
+      initialPanelHeight: 128.0,
+      ocrView: ocrView
+    )
 
     // start 'er up
     super.init(rootView: ocrScreen)
@@ -68,6 +72,12 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
     subscribe(to: viewModel.theme)  { [weak self] theme in
       W3WThread.queueOnMain {
         self?.ocrView.set(scheme: viewModel.theme.value?.ocrScheme(for: .idle))
+      }
+    }
+    subscribe(to: viewModel.ocrCropRect)  { [weak self] rect in
+      self?.customCrop = rect
+      W3WThread.queueOnMain {
+        self?.updateCrop()
       }
     }
   }
@@ -98,12 +108,6 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
       ocrView.set(crop: customCrop)
     } else {
       ocrView.set(crop: defaultCrop())
-    }
-    
-    /// Important: Always check before updating, otherwise this will cause
-    /// a recursive call to viewDidLayoutSubviews.
-    if viewModel.ocrCropRect != ocrView.crop {
-      viewModel.ocrCropRect = ocrView.crop
     }
   }
 

@@ -14,28 +14,17 @@ struct W3WCloseButtonX: View {
   var onTap: () -> ()
   
   var body: some View {
-    Button {
-      onTap()
-    } label: {
-
-      // iOS 15+
-      if #available(iOS 15.0, *) {
-        Image(systemName: "xmark.circle.fill")
-          .font(.largeTitle)
-          //.foregroundColor(W3WCoreColor(hex: 0x4B7189).suColor)
-          //.background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
-          .foregroundStyle(.thinMaterial)
-          //.foregroundStyle(.orange, .green, .yellow)
-          .padding(.trailing)
-
-      // iOS 14-
-      } else {
-        Image(systemName: "xmark.circle.fill")
-          .font(.largeTitle)
-          .foregroundColor(W3WCoreColor(hex: 0x4B7189).suColor)
-          //.background(W3WColor.background.current.suColor)
-          .padding(.trailing)
-      }
+    Button(action: onTap) {
+      Image(systemName: "xmark")
+        .font(.system(size: 14, weight: .medium))
+        .foregroundColor(W3WCoreColor.white.suColor)
+        .frame(width: 34, height: 34)
+        .background(
+          W3WCoreColor(hex: 0x7F7F7F).suColor
+            .background(W3WCoreColor(hex: 0xC2C2C2).suColor.opacity(0.5))
+            .opacity(0.2)
+        )
+        .clipShape(.circle)
     }
   }
 }

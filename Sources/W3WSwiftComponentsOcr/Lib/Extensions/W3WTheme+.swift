@@ -47,8 +47,9 @@ public extension W3WTheme {
         error: W3WBasicColors(foreground: errorLabel, background: errorBase),
         //header: W3WBasicColors(foreground: labelsQuaternary, background: fillsQuaternary),
         header: W3WBasicColors(foreground: labelsTertiary, background: fillsQuaternary),
-        line: separatorNonOpaque)
-      )
+        line: separatorNonOpaque),
+      styles: .w3wOcr
+    )
   }
   
   
