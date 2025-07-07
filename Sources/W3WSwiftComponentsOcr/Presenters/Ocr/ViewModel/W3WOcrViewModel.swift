@@ -154,7 +154,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     // when a button is tapped on the bottom panel
     bottomSheetLogic.onButton = { [weak self] button, suggestions in
       self?.output.send(.footerButton(button, suggestions: suggestions))
-      self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrHeaderButton, parameters: ["button": .text(button.title)])))
+      self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(button.title), "words": .text(self?.makeWordsString(suggestions: suggestions))])))
     }
     
     bottomSheetLogic.onSelectButton = { [weak self] in
@@ -331,4 +331,13 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     }
   }
   
+  
+  // MARK: Utility
+
+
+  func makeWordsString(suggestions: [W3WSuggestion]) -> String {
+    let retval = suggestions.compactMap { $0.words }
+    return retval.joined(separator: ",")
+  }
+
 }

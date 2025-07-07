@@ -75,7 +75,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
     // listen for bottom sheet button presses
     bottomSheetLogic.onButton = { [weak self] button, suggestions in
       self?.output.send(.footerButton(button, suggestions: suggestions))
-      self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(button.title)])))
+      self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(button.title), "words": .text(self?.makeWordsString(suggestions: suggestions))])))
     }
     
     // called when the try again button is pressed
@@ -156,4 +156,14 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   public func dismissButtonPressed() {
     output.send(.dismiss)
   }
+  
+  
+  // MARK: Utility
+
+
+  func makeWordsString(suggestions: [W3WSuggestion]) -> String {
+    let retval = suggestions.compactMap { $0.words }
+    return retval.joined(separator: ",")
+  }
+
 }
