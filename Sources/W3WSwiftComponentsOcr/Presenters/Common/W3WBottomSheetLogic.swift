@@ -71,7 +71,7 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   }
   
   /// the select all button representation
-  lazy var selectAllButton = W3WButtonData(title: translations.get(id: "ocr_selectAllButton")) { [weak self] in
+  lazy var selectAllButton = W3WButtonData(title: translations.get(id: "ocr_select_allButton")) { [weak self] in
     self?.selectMode = true
     self?.suggestions.selectAll()
     self?.onSelectAllButton()

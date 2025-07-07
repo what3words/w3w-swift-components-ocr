@@ -145,6 +145,8 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
         
         if suggestions.count == 0 {
           self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrNoResultFound)))
+        } else {
+          self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoCapture)))
         }
         
         // send suggestions to view
