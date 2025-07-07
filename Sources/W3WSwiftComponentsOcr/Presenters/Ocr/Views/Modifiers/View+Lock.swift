@@ -33,11 +33,12 @@ public extension View {
         // TODO: Add lock images when ready
         W3WIconImage(
           iconImage: .w3wLock,
-          iconSize: 16,
+          iconSize: 12,
           color: lockColor
-        ).padding(3)
-          .background(W3WTheme.what3words.brandBase?.suColor)
-          .clipShape(Circle())
+        )
+        .frame(width: 14, height: 14)
+        .background(W3WTheme.what3words.brandBase?.suColor)
+        .clipShape(.circle)
       })
   }
 }

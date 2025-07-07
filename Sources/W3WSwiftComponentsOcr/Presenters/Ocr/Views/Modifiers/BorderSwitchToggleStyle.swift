@@ -12,7 +12,6 @@ import W3WSwiftDesignSwiftUI
 
 /// styling the SwiftUI toggle
 struct BorderedSwitchToggleStyle: ToggleStyle {
-  
   // Define the colors and sizes we'll use
   private let trackColorOn: Color
   private let trackColorOff: Color
@@ -20,10 +19,11 @@ struct BorderedSwitchToggleStyle: ToggleStyle {
   private let borderColor: Color
   private let borderWidth: CGFloat
   let isLocked: Bool // Add this new property
-
+  let hideLabel: Bool
   
-  init(isLocked: Bool, trackColorOn: Color = W3WCoreColor.darkBlue.suColor, trackColorOff: Color = W3WCoreColor.darkBlue.suColor, thumbColor: Color = W3WCoreColor.white.suColor, borderColor: Color = W3WCoreColor.white.suColor, borderWidth: CGFloat = 2.0) {
+  init(isLocked: Bool, hideLabel: Bool = true, trackColorOn: Color = W3WCoreColor.darkBlue.suColor, trackColorOff: Color = W3WCoreColor.darkBlue.suColor, thumbColor: Color = W3WCoreColor.white.suColor, borderColor: Color = W3WCoreColor.white.suColor, borderWidth: CGFloat = 2.0) {
     self.isLocked = isLocked
+    self.hideLabel = hideLabel
     self.trackColorOn = trackColorOn
     self.trackColorOff = trackColorOff
     self.thumbColor = thumbColor
@@ -36,9 +36,10 @@ struct BorderedSwitchToggleStyle: ToggleStyle {
   func makeBody(configuration: Configuration) -> some View {
     // A HStack to hold the label and our custom switch
     HStack {
-      configuration.label
-      
-      Spacer()
+      if !hideLabel {
+        configuration.label
+        Spacer()
+      }
       
       // This ZStack creates our custom switch component
       ZStack {
@@ -65,13 +66,13 @@ struct BorderedSwitchToggleStyle: ToggleStyle {
               // The lock icon, positioned relative to the 51x31 ZStack
               W3WIconImage(
                   iconImage: .w3wLock,
-                  iconSize: 16,
+                  iconSize: 12,
                   color: W3WCoreColor.white.suColor // Use your desired lockColor
               )
-              .padding(3)
+              .frame(width: 14, height: 14)
               .background(W3WTheme.what3words.brandBase?.suColor)
-              .clipShape(Circle())
-              .offset(x: 26.0, y: -16.0)
+              .clipShape(.circle)
+              .offset(x: 23.0, y: -13.0)
           }
 
         

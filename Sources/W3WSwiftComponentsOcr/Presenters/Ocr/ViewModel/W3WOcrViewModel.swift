@@ -49,7 +49,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   public var ocr: W3WOcrProtocol?
   
   /// the ocr service crop rect
-  @Published public var ocrCropRect: CGRect = .zero
+  public let ocrCropRect = W3WEvent<CGRect>()
   
   /// the camera
   public var camera: W3WOcrCamera?
