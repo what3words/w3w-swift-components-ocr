@@ -33,26 +33,6 @@ public extension W3WAppEventName {
   static let ocrSelectNavigate: W3WAppEventName   = "ocr.select_navigate"    // Pro users  Triggered when user clicks "Select", then selects three word addresses, then clicks "Map" on the OCR main screen.  three_word_address: array
 
   static let ocrHeaderButton: W3WAppEventName = "ocr.header_button" // when one of the select buttons is tapped
-  
-  //  public static let ocrPhotoImport: W3WAppEventName             = "ocr.photo_import"
-  //  public static let proPaywallOcrPhotoImport: W3WAppEventName  = "ocr.pro_paywall_ocr_photo_import"
-  //  public static let ocrLiveScan: W3WAppEventName              = "ocr.live_scan"
-  //  public static let proPaywallOcrLiveScan: W3WAppEventName   = "pro_paywall_ocr_live_scan"
-  //  public static let ocrLiveScanOff: W3WAppEventName         = "ocr.live_scan_off"
-  //  public static let ocrLiveScanOn: W3WAppEventName         = "ocr.live_scan_on"
-  //  public static let ocrPhotoCapture: W3WAppEventName       = "ocr.photo_capture"
-  //  public static let ocrResultPhotoImport: W3WAppEventName  = "ocr.result_photo_import"
-  //  public static let ocrResultPhotoCapture: W3WAppEventName = "ocr.result_photo_capture"
-  //  public static let ocrResultLiveScan: W3WAppEventName     = "ocr.result_live_scan"
-  //  public static let ocrNoResultFound: W3WAppEventName      = "ocr.no_result_found"
-  //  public static let ocrTryAgain: W3WAppEventName           = "ocr.try_again"
-  //  public static let ocrResultSelect: W3WAppEventName       = "ocr.result_select"
-  //  public static let ocrResultSelectAll: W3WAppEventName    = "ocr.result_select_all"
-  //  public static let ocrResultDeselect: W3WAppEventName     = "ocr.result_deselect"
-  //  public static let ocrResultDeselectAll: W3WAppEventName  = "ocr.result_deselect_all"
-  //  public static let ocrSelectSave: W3WAppEventName         = "ocr.select_save"
-  //  public static let ocrSelectShare: W3WAppEventName        = "ocr.select_share"
-  //  public static let ocrSelectNavigate: W3WAppEventName     = "ocr.select_navigate"
-
+  static let ocrFooterButton: W3WAppEventName = "ocr.footer_button" // when one of the select buttons is tapped
   
 }

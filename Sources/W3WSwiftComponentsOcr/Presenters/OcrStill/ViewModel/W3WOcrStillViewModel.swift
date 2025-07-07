@@ -75,7 +75,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
     // listen for bottom sheet button presses
     bottomSheetLogic.onButton = { [weak self] button, suggestions in
       self?.output.send(.footerButton(button, suggestions: suggestions))
-      self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrHeaderButton, parameters: ["button": .text(button.title)])))
+      self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(button.title)])))
     }
     
     // called when the try again button is pressed
