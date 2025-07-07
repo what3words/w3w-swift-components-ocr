@@ -41,7 +41,7 @@ struct W3WOcrBottomSheet<ViewModel: W3WOcrViewModelProtocol>: View {
   private let detentPadding: CGFloat = 25
 
   var body: some View {
-    VStack {
+    VStack(spacing: 0) {
       Spacer()
         .frame(maxHeight: .infinity)
       W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
