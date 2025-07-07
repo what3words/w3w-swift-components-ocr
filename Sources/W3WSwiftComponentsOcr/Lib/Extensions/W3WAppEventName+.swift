@@ -32,7 +32,7 @@ public extension W3WAppEventName {
   static let ocrSelectShare: W3WAppEventName       = "ocr.select_share"       // Pro users  Triggered when user clicks "Select", then selects three word addresses, then clicks "Share" on the OCR main screen.  three_word_address: array
   static let ocrSelectNavigate: W3WAppEventName   = "ocr.select_navigate"    // Pro users  Triggered when user clicks "Select", then selects three word addresses, then clicks "Map" on the OCR main screen.  three_word_address: array
 
-  //public static let ocrHeaderButton: W3WAppEventName = "ocr.header_button" // when one of the select buttons is tapped
+  static let ocrHeaderButton: W3WAppEventName = "ocr.header_button" // when one of the select buttons is tapped
   
   //  public static let ocrPhotoImport: W3WAppEventName             = "ocr.photo_import"
   //  public static let proPaywallOcrPhotoImport: W3WAppEventName  = "ocr.pro_paywall_ocr_photo_import"

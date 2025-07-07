@@ -15,10 +15,10 @@ import W3WOcrSdk
 
 #if canImport(w3w)
 import w3w
+extension What3Words: W3WUtilitiesProtocol { }
 #endif // w3w
 
 
-extension What3Words: W3WUtilitiesProtocol { }
 
 @available(iOS 13.0, *)
 public class W3WOcrNative: W3WOcrProtocol {
