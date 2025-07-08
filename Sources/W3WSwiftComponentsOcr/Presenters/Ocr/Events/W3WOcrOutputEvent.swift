@@ -5,6 +5,7 @@
 //  Created by Dave Duprey on 30/04/2025.
 //
 
+import CoreGraphics
 import W3WSwiftCore
 import W3WSwiftAppEvents
 
@@ -25,7 +26,7 @@ public enum W3WOcrOutputEvent: W3WAppEventConvertable {
   case importImage
   
   /// the capture image button was tapped
-  case captureButton
+  case captureButton(CGImage?)
   
   /// the live capture switch was switched
   case liveCaptureSwitch(Bool)
@@ -35,6 +36,9 @@ public enum W3WOcrOutputEvent: W3WAppEventConvertable {
   
   /// the close button was tapped
   case dismiss
+  
+  /// pass though any analytic events
+  case analytic(W3WAppEvent)
 
   
   public func asAppEvent() -> W3WAppEvent {
@@ -63,6 +67,9 @@ public enum W3WOcrOutputEvent: W3WAppEventConvertable {
 
       case .dismiss:
         return W3WAppEvent(type: Self.self, name: "ocr.dismiss")
+        
+      case .analytic(let event):
+        return event
     }
   }
   

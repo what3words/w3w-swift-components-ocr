@@ -33,6 +33,12 @@ public class W3WOcrCamera: W3WVideoStream {
   /// video output tap
   var output: AVCaptureVideoDataOutput?
   
+  /// photo output tap (for still images)
+  var photoOutput: AVCapturePhotoOutput?
+  
+  /// A temporary delegate for photo capture to get a still image
+  private var photoCaptureDelegate: PhotoCaptureProcessor?
+
   /// thread to be used to process IO
   var thread = DispatchQueue(label: "background_queue", qos: .background)
   
@@ -228,7 +234,14 @@ public class W3WOcrCamera: W3WVideoStream {
     if let session = session {
       if session.inputs.count == 0 {
         //session.sessionPreset = preset
-        
+
+        if session.canSetSessionPreset(.photo) {
+          session.sessionPreset = .photo
+          print("W3WOcrCamera Debug: Session preset set to .photo")
+        } else {
+          print("W3WOcrCamera Warning: Cannot set session preset to .photo. Falling back to default.")
+        }
+        
         if let c = camera {
           if let i = try? AVCaptureDeviceInput(device: c) {
             input  = i
@@ -243,6 +256,15 @@ public class W3WOcrCamera: W3WVideoStream {
             
             // set the delegate and thread to use for camera output
             output?.setSampleBufferDelegate(imageProcessor, queue: thread)
+
+            // Setup AVCapturePhotoOutput for still images
+            photoOutput = AVCapturePhotoOutput()
+            if let photoOutput = photoOutput {
+              photoOutput.isHighResolutionCaptureEnabled = true
+              if session.canAddOutput(photoOutput) {
+                session.addOutput(photoOutput)
+              }
+            }
           }
         }
       }
@@ -267,6 +289,71 @@ public class W3WOcrCamera: W3WVideoStream {
       //print(#function, "STOP")
   }
   
+  
+  // MARK: - Capture Still Image
+   
+   /// Captures a still image and returns it as a CGImage.
+   /// - Parameter completion: A closure that will be called with the captured CGImage or nil if an error occurs.
+  public func captureStillImage(completion: @escaping (CGImage?) -> Void) {
+      guard let photoOutput = photoOutput else {
+          completion(nil)
+          return
+      }
+          
+      // Use a photo settings for high-resolution output
+      // FIX: Specify the pixel format to ensure a pixel buffer is provided.
+      let photoSettings = AVCapturePhotoSettings(format: [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)])
+       
+      // Ensure high resolution is enabled for this specific photo capture request.
+      if photoOutput.isHighResolutionCaptureEnabled {
+          photoSettings.isHighResolutionPhotoEnabled = true
+          print("W3WOcrCamera Debug: High resolution photo enabled for capture settings.")
+      } else {
+          print("W3WocrCamera Warning: High resolution capture is NOT enabled for photoOutput itself.")
+      }
+        
+      // Create a temporary delegate for this capture
+      photoCaptureDelegate = PhotoCaptureProcessor { [weak self] cgImage in
+          // Clear the temporary delegate once the photo is processed
+          self?.photoCaptureDelegate = nil
+          completion(cgImage)
+      }
+          
+      // Capture the photo
+      photoOutput.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate!)
+  }
+  
+  
+//   public func captureStillImage(completion: @escaping (CGImage?) -> Void) {
+//       guard let photoOutput = photoOutput else {
+//           completion(nil)
+//           return
+//       }
+//       
+//       // Use a photo settings for high-resolution output
+//       let photoSettings = AVCapturePhotoSettings()
+//       
+//       // Ensure high resolution is enabled for this specific photo capture request. This is the key setting that usually ensures a pixel buffer is available
+//       if photoOutput.isHighResolutionCaptureEnabled {
+//           photoSettings.isHighResolutionPhotoEnabled = true
+//           print("W3WOcrCamera Debug: High resolution photo enabled for capture settings.")
+//       } else {
+//           print("W3WOcrCamera Warning: High resolution capture is NOT enabled for photoOutput itself. This might affect pixel buffer availability.")
+//           // If this warning appears, double-check your `connectInputAndOutput()` where `photoOutput` is created.
+//           // It should have: `photoOutput.isHighResolutionCaptureEnabled = true` if supported.
+//       }
+//     
+//       // Create a temporary delegate for this capture
+//       photoCaptureDelegate = PhotoCaptureProcessor { [weak self] cgImage in
+//           // Clear the temporary delegate once the photo is processed
+//           self?.photoCaptureDelegate = nil
+//           completion(cgImage)
+//       }
+//       
+//       // Capture the photo
+//       photoOutput.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate!)
+//   }
+
   
   // MARK: - Camera Access - Static
   

@@ -78,6 +78,9 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// the most recent suggestions found - for "still" mode
   var lastSuggestions = [W3WSuggestion]()
   
+  /// we need a boolean to check if we sent an event after the first live scan result
+  var firstLiveScanResultHappened = false
+  
   /// indicates it the import feature is locked or not
   var importLocked = W3WLive<Bool>(true)
   
@@ -151,8 +154,25 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     // when a button is tapped on the bottom panel
     bottomSheetLogic.onButton = { [weak self] button, suggestions in
       self?.output.send(.footerButton(button, suggestions: suggestions))
+      self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(button.title), "words": .text(self?.makeWordsString(suggestions: suggestions))])))
     }
     
+    bottomSheetLogic.onSelectButton = { [weak self] in
+      if (self?.bottomSheetLogic.selectMode ?? false) {
+        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultSelect)))
+      } else {
+        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultDeselect)))
+      }
+    }
+    
+    bottomSheetLogic.onSelectAllButton = { [weak self] in
+      if (self?.bottomSheetLogic.selectMode ?? false) {
+        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultSelectAll)))
+      } else {
+        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultDeselectAll)))
+      }
+    }
+
     // follow the settings for pro mode
     subscribe(to: importLocked) { [weak self] value in
       self?.lockOnImportButton = value
@@ -168,18 +188,25 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// called by UI when the import button is pressed
   public func importButtonPressed() {
     output.send(.importImage)
-    //viewType = .uploaded
+
+    if !lockOnImportButton {
+      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrPhotoImport)))
+    }
   }
   
   
   /// called by UI when the capture button is pressed
   public func captureButtonPressed() {
-    output.send(.captureButton)
+    camera?.captureStillImage() { [weak self] image in
+      self?.output.send(.captureButton(image))
+    }
     
     if viewType == .still {
       //camera?.pause() // should we pause the camera on still capture?
       bottomSheetLogic.add(suggestions: lastSuggestions)
     }
+
+    output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrPhotoCapture)))
   }
   
   
@@ -190,6 +217,15 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     }
     
     output.send(.liveCaptureSwitch(on))
+    
+    if !lockOnLiveSwitch {
+      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScan, parameters: ["on": .boolean(on)])))
+      if on {
+        output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScanOn)))
+      } else {
+        output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScanOff)))
+      }
+    }
   }
 
   
@@ -214,14 +250,20 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     
   /// start scanning
   public func start() {
-    //stopOutput = false
     hasStoppedScanning = false
+    firstLiveScanResultHappened = false
+    
     if let c = camera, let o = ocr {
       state = .detecting
       c.start()
       
       o.autosuggest(video: c) { [weak self] suggestions, error in
         self?.autosuggestCompletion(suggestions: suggestions, error: error == nil ? nil : W3WError.other(error))
+        
+        if !(self?.firstLiveScanResultHappened ?? false) {
+          self?.firstLiveScanResultHappened = true
+          self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultLiveScan)))
+        }
       }
     }
   }
@@ -291,4 +333,13 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     }
   }
   
+  
+  // MARK: Utility
+
+
+  func makeWordsString(suggestions: [W3WSuggestion]) -> String {
+    let retval = suggestions.compactMap { $0.words }
+    return retval.joined(separator: ",")
+  }
+
 }
