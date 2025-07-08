@@ -197,7 +197,9 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   /// called by UI when the capture button is pressed
   public func captureButtonPressed() {
-    output.send(.captureButton)
+    camera?.captureStillImage() { [weak self] image in
+      self?.output.send(.captureButton(image))
+    }
     
     if viewType == .still {
       //camera?.pause() // should we pause the camera on still capture?

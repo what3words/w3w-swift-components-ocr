@@ -5,6 +5,7 @@
 //  Created by Dave Duprey on 30/04/2025.
 //
 
+import CoreGraphics
 import W3WSwiftCore
 import W3WSwiftAppEvents
 
@@ -25,7 +26,7 @@ public enum W3WOcrOutputEvent: W3WAppEventConvertable {
   case importImage
   
   /// the capture image button was tapped
-  case captureButton
+  case captureButton(CGImage?)
   
   /// the live capture switch was switched
   case liveCaptureSwitch(Bool)
