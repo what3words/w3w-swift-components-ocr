@@ -60,20 +60,32 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   var viewType: W3WOcrViewType
   
   
+  // MARK: Computed Vars
+
+  
+  var isAllSelected: Bool {
+    return suggestions.selectedCount() == suggestions.count()
+  }
+  
+  
   // MARK: Buttons
   
 
   /// the select button representation
-  lazy var selectButton = W3WButtonData(title: translations.get(id: "ocr_selectButton")) { [weak self] in
+  lazy var selectButton = W3WButtonData(title: translations.get(id: "ocr_selectButton"), highlight: .secondary) { [weak self] in
     self?.selectMode.toggle()
     self?.suggestions.make(selectable: self?.selectMode ?? false)
     self?.onSelectButton()
   }
   
   /// the select all button representation
-  lazy var selectAllButton = W3WButtonData(title: translations.get(id: "ocr_select_allButton")) { [weak self] in
+  lazy var selectAllButton = W3WButtonData(title: translations.get(id: "ocr_select_allButton"), highlight: .secondary) { [weak self] in
     self?.selectMode = true
-    self?.suggestions.selectAll()
+    if self?.isAllSelected ?? false {
+      self?.suggestions.setAll(selected: false)
+    } else {
+      self?.suggestions.setAll(selected: true)
+    }
     self?.onSelectAllButton()
   }
 
@@ -162,6 +174,7 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
     }
     
     updateFooterText()
+    updateSelectButtons()
   }
 
   
@@ -186,6 +199,21 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
     }
   }
 
+  
+  func updateSelectButtons() {
+    if isAllSelected {
+      selectAllButton.highlight = .primary
+    } else {
+      selectAllButton.highlight = .secondary
+    }
+    
+    if selectMode {
+      selectButton.highlight = .primary
+    } else {
+      selectButton.highlight = .secondary
+    }
+  }
+  
   
   // MARK: Utility
   
