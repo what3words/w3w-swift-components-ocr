@@ -250,6 +250,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     
   /// start scanning
   public func start() {
+    guard state == .idle else { return }
+    
     hasStoppedScanning = false
     firstLiveScanResultHappened = false
     
