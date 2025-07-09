@@ -96,7 +96,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   
   override open func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    viewModel.input.send(.stopScanning)
+    viewModel.input.send(.pauseScanning)
   }
   
   
