@@ -60,8 +60,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// view model for the panel in the bottom sheet
   public var panelViewModel = W3WPanelViewModel()
 
-  /// indicates if the scanning is stopped
-  var hasStoppedScanning = false
+  /// indicates if the scanning is paused
+  var hasPausedScanning = false
   
   /// indicates it's current state: scanning/stopped
   public var state = W3WOcrState.idle
@@ -232,6 +232,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// called by UI when the close button is pressed
   public func closeButtonPressed() {
     output.send(.dismiss)
+    stop()
   }
 
   
@@ -250,20 +251,24 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     
   /// start scanning
   public func start() {
-    hasStoppedScanning = false
-    firstLiveScanResultHappened = false
+    guard let camera, let ocr else { return }
+    guard state == .idle else { return }
     
-    if let c = camera, let o = ocr {
-      state = .detecting
-      c.start()
+    guard !hasPausedScanning else {
+      camera.unpause()
+      return
+    }
+    
+    firstLiveScanResultHappened = false
+    state = .detecting
+    camera.start()
+    
+    ocr.autosuggest(video: camera) { [weak self] suggestions, error in
+      self?.autosuggestCompletion(suggestions: suggestions, error: error == nil ? nil : W3WError.other(error))
       
-      o.autosuggest(video: c) { [weak self] suggestions, error in
-        self?.autosuggestCompletion(suggestions: suggestions, error: error == nil ? nil : W3WError.other(error))
-        
-        if !(self?.firstLiveScanResultHappened ?? false) {
-          self?.firstLiveScanResultHappened = true
-          self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultLiveScan)))
-        }
+      if !(self?.firstLiveScanResultHappened ?? false) {
+        self?.firstLiveScanResultHappened = true
+        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultLiveScan)))
       }
     }
   }
@@ -284,13 +289,24 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   }
   
 
+  /// pause the scanning
+  func pause() {
+    hasPausedScanning = true
+    
+    if let camera {
+      state = .idle
+      camera.pause()
+    }
+  }
+  
+  
   /// stop the scanning
   func stop() {
-    hasStoppedScanning = true
+    hasPausedScanning = true
     
-    if let c = camera, let o = ocr {
+    if let camera {
       state = .idle
-      c.stop()
+      camera.stop()
     }
   }
   
@@ -328,8 +344,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     switch event {
       case .startScanning:
         start()
-      case .stopScanning:
-        stop()
+      case .pauseScanning:
+        pause()
     }
   }
   

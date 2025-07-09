@@ -12,7 +12,7 @@ import W3WSwiftAppEvents
 public enum W3WOcrInputEvent: String, W3WAppEventConvertable {
   
   case startScanning
-  case stopScanning
+  case pauseScanning
   
   public func asAppEvent() -> W3WAppEvent {
     return W3WAppEvent(type: Self.self, name: W3WAppEventName(value: "ocr." + self.rawValue))
