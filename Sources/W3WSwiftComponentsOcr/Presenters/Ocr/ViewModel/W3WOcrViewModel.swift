@@ -92,7 +92,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   
   /// model for the ocr view
-  public init(ocr: W3WOcrProtocol, theme: W3WLive<W3WTheme?>? = nil, footerButtons: [W3WSuggestionsViewAction] = [], importLocked: W3WLive<Bool>, liveScanLocked: W3WLive<Bool>, selectableSuggestionList: W3WLive<Bool>, translations: W3WTranslationsProtocol = W3WOcrTranslations(), events: W3WEvent<W3WAppEvent>? = W3WEvent<W3WAppEvent>()) {
+  public init(ocr: W3WOcrProtocol, theme: W3WLive<W3WTheme?>? = nil, footerButtons: [W3WSuggestionsViewAction] = [], importLocked: W3WLive<Bool>, liveScanLocked: W3WLive<Bool>, selectableSuggestionList: W3WLive<Bool> = W3WLive<Bool>(true), translations: W3WTranslationsProtocol = W3WOcrTranslations(), events: W3WEvent<W3WAppEvent>? = W3WEvent<W3WAppEvent>()) {
     self.scheme         = .w3w
     self.theme          = theme ?? W3WLive<W3WTheme?>(.what3words)
     self.camera         = W3WOcrCamera.get(camera: .back)
