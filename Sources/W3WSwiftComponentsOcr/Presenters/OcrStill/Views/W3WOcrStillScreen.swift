@@ -15,7 +15,7 @@ import W3WSwiftPresenters
 public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
   /// An enum used as a unique identifier for tracking the height of different view components
   private enum Height {
-    case content, image, bottom
+    case content, image
   }
   
   /// main view model
@@ -36,11 +36,11 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
   /// Helps compute safe padding and positioning relative to the image.
   @State private var bottomHeight: CGFloat = 0
   
-  private let detentPadding: CGFloat = 50
+  private let detentPadding: CGFloat = 16
   
   /// still image ocr view, showing bottom sheet
   public var body: some View {
-    VStack {
+    VStack(spacing: 0) {
       W3WNavigationBar(
         scheme: viewModel.scheme?
           .with(foreground: W3WColor(light: .darkBlue, dark: .white))
@@ -53,28 +53,23 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
           .frame(maxHeight: contentHeight / 2)
           .padding(.bottom, min(contentHeight - imageHeight, bottomHeight))
           .animation(.default, value: bottomHeight)
-        VStack {
-          Spacer()
-          W3WSuBottomSheet(
-            scheme: viewModel.scheme,
-            height: initialPanelHeight,
-            detents: W3WDetents(detents: [
-              initialPanelHeight,
-              contentHeight - detentPadding,
-              contentHeight - imageHeight - detentPadding
-            ])) {
+        
+        W3WSuBottomSheet(
+          scheme: viewModel.scheme,
+          height: initialPanelHeight,
+          onHeightChange: { height in
+            bottomHeight = height
+          },
+          detents: W3WDetents(detents: [
+            initialPanelHeight,
+            contentHeight - detentPadding,
+            contentHeight - imageHeight - detentPadding
+          ])) {
             W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.scheme)
           }
-          .onHeightChange($bottomHeight, for: Height.bottom)
-        }
       }
       .background(W3WCoreColor.darkBlue.suColor)
       .onHeightChange($contentHeight, for: Height.content)
     }
-    .edgesIgnoringSafeArea(.bottom)
-    .background(
-      viewModel.scheme?.colors?.secondaryBackground?.current.suColor
-        .edgesIgnoringSafeArea(.all)
-    )
   }
 }

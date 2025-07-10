@@ -34,7 +34,6 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   /// the view model for the OCR view
   var viewModel: ViewModel
   
-  var buttonsHieght = CGFloat(180.0)
 
   /// view controller containing a Settings view
   /// - Parameters:
@@ -56,11 +55,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
     ocrView.set(lineColor: W3WCoreColor.white.uiColor, lineGap: 1.0)
     
     // make the SwitUI representable view for the UIKit view
-    let ocrScreen = W3WOcrScreen(
-      viewModel: viewModel,
-      initialPanelHeight: 128.0,
-      ocrView: ocrView
-    )
+    let ocrScreen = W3WOcrScreen(viewModel: viewModel, ocrView: ocrView)
 
     // start 'er up
     super.init(rootView: ocrScreen)
