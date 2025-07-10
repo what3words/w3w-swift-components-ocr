@@ -71,10 +71,5 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
       .background(W3WCoreColor.darkBlue.suColor)
       .onHeightChange($contentHeight, for: Height.content)
     }
-    .edgesIgnoringSafeArea(.bottom)
-    .background(
-      viewModel.scheme?.colors?.secondaryBackground?.current.suColor
-        .edgesIgnoringSafeArea(.all)
-    )
   }
 }
