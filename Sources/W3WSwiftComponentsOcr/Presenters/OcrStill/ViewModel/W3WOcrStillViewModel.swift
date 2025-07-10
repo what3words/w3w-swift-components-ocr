@@ -53,7 +53,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
 
   
   /// a view mdoel for still image ocr
-  public init(ocr: W3WOcrProtocol, footerButtons: [W3WSuggestionsViewAction], selectableSuggestionList: W3WLive<Bool>, translations: W3WTranslationsProtocol, theme: W3WLive<W3WTheme?>) {
+  public init(ocr: W3WOcrProtocol, footerButtons: [W3WSuggestionsViewAction], selectableSuggestionList: W3WLive<Bool> = W3WLive<Bool>(true), translations: W3WTranslationsProtocol, theme: W3WLive<W3WTheme?>) {
     self.ocr = ocr
     self.translations = translations
     self.selectableSuggestionList = selectableSuggestionList
