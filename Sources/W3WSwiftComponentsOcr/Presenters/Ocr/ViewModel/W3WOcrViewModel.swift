@@ -87,9 +87,12 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// indicates it the live scan feature is locked or not
   var liveScanLocked = W3WLive<Bool>(true)
 
+  /// allows the suggestions to be selected into a list
+  var selectableSuggestionList = W3WLive<Bool>(true)
+  
   
   /// model for the ocr view
-  public init(ocr: W3WOcrProtocol, theme: W3WLive<W3WTheme?>? = nil, footerButtons: [W3WSuggestionsViewAction] = [], importLocked: W3WLive<Bool>, liveScanLocked: W3WLive<Bool>, translations: W3WTranslationsProtocol = W3WOcrTranslations(), events: W3WEvent<W3WAppEvent>? = W3WEvent<W3WAppEvent>()) {
+  public init(ocr: W3WOcrProtocol, theme: W3WLive<W3WTheme?>? = nil, footerButtons: [W3WSuggestionsViewAction] = [], importLocked: W3WLive<Bool>, liveScanLocked: W3WLive<Bool>, selectableSuggestionList: W3WLive<Bool> = W3WLive<Bool>(true), translations: W3WTranslationsProtocol = W3WOcrTranslations(), events: W3WEvent<W3WAppEvent>? = W3WEvent<W3WAppEvent>()) {
     self.scheme         = .w3w
     self.theme          = theme ?? W3WLive<W3WTheme?>(.what3words)
     self.camera         = W3WOcrCamera.get(camera: .back)
@@ -99,7 +102,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     self.liveScanLocked = liveScanLocked
 
     // make the manager fro the bottom sheet
-    self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .video)
+    self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .video, selectableSuggestionList: selectableSuggestionList)
     
     // set the ocr service to actually do the scanning
     set(ocr: ocr)

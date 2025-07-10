@@ -48,12 +48,16 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   /// the bottom sheet logic
   let bottomSheetLogic: W3WBottomSheetLogic
 
+  /// allows the suggestions to be selected into a list
+  var selectableSuggestionList = W3WLive<Bool>(true)
+
   
   /// a view mdoel for still image ocr
-  public init(ocr: W3WOcrProtocol, footerButtons: [W3WSuggestionsViewAction], translations: W3WTranslationsProtocol, theme: W3WLive<W3WTheme?>) {
+  public init(ocr: W3WOcrProtocol, footerButtons: [W3WSuggestionsViewAction], selectableSuggestionList: W3WLive<Bool> = W3WLive<Bool>(true), translations: W3WTranslationsProtocol, theme: W3WLive<W3WTheme?>) {
     self.ocr = ocr
     self.translations = translations
-    self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .still)
+    self.selectableSuggestionList = selectableSuggestionList
+    self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .still, selectableSuggestionList: selectableSuggestionList)
     
     // connect events to functions
     bind(theme: theme)

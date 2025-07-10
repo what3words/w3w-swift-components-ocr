@@ -59,6 +59,9 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   /// indicates the contect of the bottom sheet - video or still image
   var viewType: W3WOcrViewType
   
+  /// allows the suggestions to be selected into a list
+  var selectableSuggestionList = W3WLive<Bool>(true)
+
   
   // MARK: Computed Vars
 
@@ -94,12 +97,13 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   
   /// manages a bottom sheet on an ocr screen
-  init(suggestions: W3WSelectableSuggestions, panelViewModel: W3WPanelViewModel, footerButtons: [W3WSuggestionsViewAction], translations: W3WTranslationsProtocol, viewType: W3WOcrViewType) {
-    self.suggestions   = suggestions
+  init(suggestions: W3WSelectableSuggestions, panelViewModel: W3WPanelViewModel, footerButtons: [W3WSuggestionsViewAction], translations: W3WTranslationsProtocol, viewType: W3WOcrViewType, selectableSuggestionList: W3WLive<Bool>) {
+    self.suggestions    = suggestions
     self.panelViewModel = panelViewModel
-    self.footerButtons = footerButtons
-    self.translations = translations
-    self.viewType    = viewType
+    self.footerButtons  = footerButtons
+    self.translations    = translations
+    self.viewType          = viewType
+    self.selectableSuggestionList = selectableSuggestionList
 
     // create the try again button
     let tryAgainButton = W3WButtonData(icon: nil, title: translations.get(id: "ocr_import_photo_tryAgainButton")) { [weak self] in
@@ -160,13 +164,13 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
       }
     }
       
-    if suggestions.count() > 0 && !selectionButtonsShowing {
+    if suggestions.count() > 0 && !selectionButtonsShowing && selectableSuggestionList.value {
       panelViewModel.input.send(.remove(item: notFound))
       selectionButtonsShowing = true
       showSelectionButtons()
     }
     
-    if suggestions.count() == 0 && selectionButtonsShowing {
+    if suggestions.count() == 0 && selectionButtonsShowing || !selectableSuggestionList.value {
       panelViewModel.input.send(.remove(item: notFound))
       panelViewModel.input.send(.footer(item: nil))
       hideSelectionButtons()
