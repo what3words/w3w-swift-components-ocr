@@ -49,6 +49,12 @@ public struct W3WSuBottomSheet<Accessory: View, Content: View>: View {
       .frame(height: height)
       .onSizeChange({ onHeightChange($0.height) }, for: Height.content)
       .frame(maxHeight: .infinity, alignment: .bottom)
+      .background(
+        // Hackaround to force a background at the bottom area
+        background
+          .frame(height: geometry.safeAreaInsets.bottom)
+          .frame(maxHeight: .infinity, alignment: .bottom)
+      )
     }
   }
 }
