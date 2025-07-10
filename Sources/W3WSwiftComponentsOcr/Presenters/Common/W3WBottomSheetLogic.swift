@@ -29,9 +29,6 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   /// the buttons at the bottom that show conditionally
   var footerButtons: [W3WSuggestionsViewAction]
 
-  /// the footer that holds teh bottom buttons
-  var footer: W3WPanelItem?
-
   /// the text shown next to the footer buttons
   var footerText = W3WLive<W3WString>("")
   
@@ -112,7 +109,6 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
     tryAgainItem = W3WPanelItem.buttons([tryAgainButton], text: W3WLive<W3WString>("".w3w))
     
     // initial set up of the panel
-    panelViewModel.input.send(.footer(item: footer))
     panelViewModel.input.send(.add(item: .suggestions(suggestions)))
 
     // set up the footer
@@ -147,7 +143,7 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   /// logic to update the footer text and buttons
   func updateFooterStatus() {
-    footer = .buttons(convert(footerButtons: footerButtons), text: footerText)
+    let footer: W3WPanelItem = .buttons(convert(footerButtons: footerButtons), text: footerText)
     
     if suggestions.selectedCount() > 0 {
       panelViewModel.input.send(.footer(item: footer))
@@ -190,15 +186,15 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   /// show the buttons at the top [select] and [select all]
   func showSelectionButtons() {
-    panelViewModel.input.send(.add(item: .buttons([selectButton, selectAllButton])))
+    panelViewModel.input.send(.header(item: .buttons([selectButton, selectAllButton])))
   }
   
   
   /// hide the buttons at the top [select] and [select all]
   func hideSelectionButtons() {
     W3WThread.runIn(duration: .seconds(5.0)) { [weak self] in
-      if let s = self {
-        s.panelViewModel.input.send(.remove(item: .buttons([s.selectButton, s.selectAllButton])))
+      if let self {
+        self.panelViewModel.input.send(.header(item: nil))
       }
     }
   }
