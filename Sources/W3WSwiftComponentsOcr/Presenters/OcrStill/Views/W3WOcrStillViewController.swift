@@ -27,7 +27,7 @@ open class W3WOcrStillViewController<ViewModel: W3WOcrStillViewModelProtocol>: W
   /// the view model
   var viewModel: ViewModel
   
-  var buttonsHieght = CGFloat(180.0)
+  var buttonsHeight = CGFloat(210.0)
   
   /// the UIKit view controller holding the OCR view
   /// - Parameters:
@@ -38,7 +38,7 @@ open class W3WOcrStillViewController<ViewModel: W3WOcrStillViewModelProtocol>: W
     self.viewModel = viewModel
 
     // the ocr screen for still image
-    let ocrScreen = W3WOcrStillScreen(viewModel: viewModel, initialPanelHeight: buttonsHieght)
+    let ocrScreen = W3WOcrStillScreen(viewModel: viewModel, initialPanelHeight: buttonsHeight)
 
     // initialise the swiftui vie using the uikit view
     super.init(rootView: ocrScreen)

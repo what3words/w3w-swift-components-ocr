@@ -21,15 +21,15 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   /// main view model
   @ObservedObject var viewModel: ViewModel
   
-  /// initial height for the bottom sheet
-  let initialPanelHeight: CGFloat
-
   /// the OCR UIIvew
   let ocrView: W3WOcrView
   
   /// The dynamically measured height of the entire screen content,
   /// captured using `.onHeightChange(_:for: .content)`
   @State private var contentHeight: CGFloat = 0
+  
+  /// initial height for the bottom sheet
+  private let initialPanelHeight: CGFloat = 216
   
   /// the padding for ocr view
   private let ocrViewPadding: CGFloat = 35
@@ -75,17 +75,13 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
       }
       
       // bottom sheet
-      VStack {
-        Spacer()
-          .frame(maxHeight: .infinity)
-        W3WOcrBottomSheet(
-          viewModel: viewModel,
-          initialPanelHeight: initialPanelHeight,
-          parentHeight: contentHeight,
-          scheme: viewModel.bottomSheetScheme ?? .w3wOcr,
-          cameraMode: cameraMode
-        )
-      }
+      W3WOcrBottomSheet(
+        viewModel: viewModel,
+        initialPanelHeight: initialPanelHeight,
+        parentHeight: contentHeight,
+        scheme: viewModel.bottomSheetScheme ?? .w3wOcr,
+        cameraMode: cameraMode
+      )
     }
     .edgesIgnoringSafeArea(.bottom)
     .background(Color.clear)

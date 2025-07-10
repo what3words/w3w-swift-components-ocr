@@ -13,10 +13,6 @@ import W3WSwiftPresenters
 
 /// bottom sheet containing action buttons and a panel for suggestions and footer
 struct W3WOcrBottomSheet<ViewModel: W3WOcrViewModelProtocol>: View {
-  /// An enum used as a unique identifier for tracking the height of different view components
-  private enum Height {
-    case buttons
-  }
   
   /// main view model
   @ObservedObject var viewModel: ViewModel
@@ -33,30 +29,22 @@ struct W3WOcrBottomSheet<ViewModel: W3WOcrViewModelProtocol>: View {
   /// if the camera is live or still
   var cameraMode: Binding<Bool>
   
-  /// The dynamically measured height of main buttons,
-  /// captured using `.onHeightChange(_:for: .buttons)`
-  @State private var buttonsHeight: CGFloat = 0
-  
   /// An extra vertical spacing applied to the calculated detent heights.
-  private let detentPadding: CGFloat = 25
+  private let detentPadding: CGFloat = 16
 
   var body: some View {
-    VStack(spacing: 0) {
-      Spacer()
-        .frame(maxHeight: .infinity)
-      W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
-        .onHeightChange($buttonsHeight, for: Height.buttons)
-      W3WSuBottomSheet(
-        scheme: viewModel.bottomSheetScheme,
-        height: initialPanelHeight,
-        detents: W3WDetents(detents: [
-          initialPanelHeight,
-          parentHeight / 2 - buttonsHeight - detentPadding,
-          parentHeight - buttonsHeight - detentPadding
-        ])) {
+    W3WSuBottomSheet(
+      scheme: viewModel.bottomSheetScheme,
+      height: initialPanelHeight,
+      detents: W3WDetents(detents: [
+        initialPanelHeight,
+        parentHeight / 2 - detentPadding,
+        parentHeight - detentPadding
+      ]),
+      accessory: {
+        W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
+      }) {
         W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: scheme)
       }
-    }
   }
 }
-
