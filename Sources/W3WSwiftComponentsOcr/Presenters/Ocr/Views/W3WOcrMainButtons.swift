@@ -46,7 +46,7 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
       // capture button
       Button(action: viewModel.captureButtonPressed) {
         Circle()
-          .frame(width: innerCircleDiameter)
+          .frame(width: innerCircleDiameter, height: innerCircleDiameter)
           .overlay(
             Circle()
               .stroke(Color.white, lineWidth: W3WLineThickness.fourPoint.value)
