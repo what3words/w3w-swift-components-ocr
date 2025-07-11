@@ -41,6 +41,9 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
   /// view model for the panel in the bottom sheet
   var panelViewModel: W3WPanelViewModel { get set }
 
+  /// indicates it's current state: scanning/stopped
+  var state: W3WOcrState { get }
+  
   /// the view mode - for still / live - perhaps depricated?
   var viewType: W3WOcrViewType { get set }
 
@@ -52,8 +55,7 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
 
   /// the binding to the lock on the live/still switch
   var lockOnLiveSwitch: Bool { get set }
-
-
+  
   /// called by UI when the import button is pressed
   func importButtonPressed()
   

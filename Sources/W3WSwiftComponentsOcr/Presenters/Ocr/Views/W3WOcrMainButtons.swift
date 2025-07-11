@@ -97,6 +97,7 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
     
     return VStack(spacing: 8) {
       toggle
+        .disabled(viewModel.lockOnLiveSwitch)
         .frame(width: 60, height: W3WRowHeight.medium.value)
         .toggleStyle(BorderedSwitchToggleStyle(isLocked: viewModel.lockOnLiveSwitch, trackColorOn: viewModel.bottomSheetScheme?.colors?.brand?.suColor ?? W3WColor.red.suColor, borderColor: .white))
         .onTapGesture { // if the toggle is disabled, we still need to send back the tap so the app can show a payment page

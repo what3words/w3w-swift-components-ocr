@@ -71,5 +71,6 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
       .background(W3WCoreColor.darkBlue.suColor)
       .onHeightChange($contentHeight, for: Height.content)
     }
+    .navigationBarHidden(true) // Fix unwanted navigation bar on iOS 15
   }
 }
