@@ -85,13 +85,17 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   
   override open func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    viewModel.input.send(.startScanning)
+    if viewModel.state == .idle {
+      viewModel.input.send(.startScanning)
+    }
   }
   
   
   override open func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    viewModel.input.send(.pauseScanning)
+    if viewModel.state == .detecting {
+      viewModel.input.send(.pauseScanning)
+    }
   }
   
   

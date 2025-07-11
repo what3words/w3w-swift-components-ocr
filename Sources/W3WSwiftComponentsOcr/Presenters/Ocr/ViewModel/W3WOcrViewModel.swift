@@ -59,9 +59,6 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   /// view model for the panel in the bottom sheet
   public var panelViewModel = W3WPanelViewModel()
-
-  /// indicates if the scanning is paused
-  var hasPausedScanning = false
   
   /// indicates it's current state: scanning/stopped
   public var state = W3WOcrState.idle
@@ -257,11 +254,12 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     guard let camera, let ocr else { return }
     guard state == .idle else { return }
     
-    guard !hasPausedScanning else {
+    // Maybe we need a better check if there is a paused session
+    if camera.session != nil {
       camera.unpause()
       return
     }
-    
+
     firstLiveScanResultHappened = false
     state = .detecting
     camera.start()
@@ -294,8 +292,6 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   /// pause the scanning
   func pause() {
-    hasPausedScanning = true
-    
     if let camera {
       state = .idle
       camera.pause()
@@ -305,8 +301,6 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   /// stop the scanning
   func stop() {
-    hasPausedScanning = true
-    
     if let camera {
       state = .idle
       camera.stop()
