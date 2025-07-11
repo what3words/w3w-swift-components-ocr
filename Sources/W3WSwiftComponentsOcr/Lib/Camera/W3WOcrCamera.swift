@@ -301,7 +301,6 @@ public class W3WOcrCamera: W3WVideoStream {
       }
           
       // Use a photo settings for high-resolution output
-      // FIX: Specify the pixel format to ensure a pixel buffer is provided.
       let photoSettings = AVCapturePhotoSettings()
        
       // Ensure high resolution is enabled for this specific photo capture request.

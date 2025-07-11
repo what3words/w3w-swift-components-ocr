@@ -24,6 +24,7 @@ class PhotoCaptureProcessor: NSObject, AVCapturePhotoCaptureDelegate {
             return
         }
             
+        // Fix orientation before converting to CGImage, since orientation metadata is lost in CGImage.
         guard let imageData = photo.fileDataRepresentation(),
               let uiImage = UIImage(data: imageData)?.orientationFixed,
               let cgImage = uiImage.cgImage else {
