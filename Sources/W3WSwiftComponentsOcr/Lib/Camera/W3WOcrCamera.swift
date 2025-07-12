@@ -125,7 +125,7 @@ public class W3WOcrCamera: W3WVideoStream {
   /// start paused camera back up again
   public func unpause() {
     if !(self.session?.isRunning ?? false) {
-      W3WThread.runOnMain { [weak self] in
+      W3WThread.runInBackground { [weak self] in
         self?.session?.startRunning()
       }
     }
@@ -297,6 +297,13 @@ public class W3WOcrCamera: W3WVideoStream {
    /// Captures a still image and returns it as a CGImage.
    /// - Parameter completion: A closure that will be called with the captured CGImage or nil if an error occurs.
   public func captureStillImage(completion: @escaping (CGImage?) -> Void) {
+      #if targetEnvironment(simulator)
+        let faker = W3WOcrFakeImages()
+        let image = faker.makeRandomThreeWordAddressImage(rect: CGRect(origin: .zero, size: CGSize(width: 1024.0, height: 768.0)))
+        completion(image)
+        return
+      #endif
+
       guard let photoOutput = photoOutput else {
           completion(nil)
           return
