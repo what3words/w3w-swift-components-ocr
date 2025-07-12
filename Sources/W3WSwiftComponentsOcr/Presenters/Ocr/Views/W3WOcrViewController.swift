@@ -61,7 +61,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
     super.init(rootView: ocrScreen)
     
     // set colours and bind to themes
-    view.backgroundColor = .clear
+    view.backgroundColor = W3WColor.darkBlue.current.uiColor
     ocrView.set(scheme: viewModel.theme.value?.ocrScheme(for: .idle))
     ocrView.set(lineColor: W3WCoreColor.white.uiColor, lineGap: 1.0)
     subscribe(to: viewModel.theme)  { [weak self] theme in
