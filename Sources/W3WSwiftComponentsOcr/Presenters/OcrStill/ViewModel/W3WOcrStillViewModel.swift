@@ -140,7 +140,8 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   /// scan an image for three word addresses
   func scanImage(image: CGImage?) {
     output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoImport, parameters: ["width": .number(image == nil ? nil : Float(image!.width)), "height": .number(image == nil ? nil : Float(image!.height))])))
-    
+    bottomSheetLogic.results(found: false)
+
     if let i = image {
       ocr.autosuggest(image: i, info: { _ in }) { [weak self] suggestions, error in
         if let e = error {
@@ -148,8 +149,10 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
         }
         
         if suggestions.count == 0 {
+          self?.bottomSheetLogic.results(found: false)
           self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrNoResultFound)))
         } else {
+          self?.bottomSheetLogic.results(found: true)
           self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoCapture)))
         }
         

@@ -125,7 +125,9 @@ public class W3WOcrCamera: W3WVideoStream {
   /// start paused camera back up again
   public func unpause() {
     if !(self.session?.isRunning ?? false) {
-      self.session?.startRunning()
+      W3WThread.runOnMain { [weak self] in
+        self?.session?.startRunning()
+      }
     }
   }
 

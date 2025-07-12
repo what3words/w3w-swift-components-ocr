@@ -23,6 +23,12 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   /// the not found message
   lazy var notFound =  W3WPanelItem.heading(W3WLive<W3WString>(translations.get(id: "ocr_import_photo_errorMessage").w3w))
 
+  /// the invitation to scan message
+  lazy var scanMessage =  W3WPanelItem.heading(W3WLive<W3WString>(translations.get(id: "ocr_scan_3wa").w3w))
+
+  /// the invitation to scan message
+  lazy var blankMessage =  W3WPanelItem.heading(W3WLive<W3WString>("".w3w))
+
   /// the try again button
   var tryAgainItem: W3WPanelItem = .buttons([], text: W3WLive("".w3w))
 
@@ -59,6 +65,9 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   /// allows the suggestions to be selected into a list
   var selectableSuggestionList = W3WLive<Bool>(true)
 
+  /// indicates that nothing was found in a still image
+  var resultsFound: Bool? = nil
+  
   
   // MARK: Computed Vars
 
@@ -133,32 +142,84 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   // MARK: Commands
   
   
+  /// tells the view that OCR did it's work on a still image and it found nothing
+  func results(found: Bool) {
+    resultsFound = found
+    updateFooterStatus()
+  }
+  
+  
   /// logic to update the footer text and buttons
   func add(suggestions theSuggestions: [W3WSuggestion]?) {
     if let s = theSuggestions {
-      suggestions.add(suggestions: s, selected: selectMode ? false : nil)
+      if !does(list: suggestions.allSuggestions, alreadyContain: s) {
+        suggestions.add(suggestions: s, selected: selectMode ? false : nil)
+        updateFooterStatus()
+      }
     }
   }
   
+  
+  /// checks to see if any suggestion in `alreadyContains` is in the `list`
+  func does(list: [W3WSuggestion], alreadyContain: [W3WSuggestion]) -> Bool {
+    var retval = false
+    
+    for suggestion in alreadyContain {
+      retval = retval || list.contains(where: { s in s.words == suggestion.words })
+    }
+    
+    return retval
+  }
   
   /// logic to update the footer text and buttons
   func updateFooterStatus() {
     let footer: W3WPanelItem = .buttons(convert(footerButtons: footerButtons), text: footerText)
     
+    // if there are selected suggestions then show the footer
     if suggestions.selectedCount() > 0 {
       panelViewModel.input.send(.footer(item: footer))
     } else {
       panelViewModel.input.send(.footer(item: nil))
     }
 
+    // if this is for a still image, then there are three possible states
     if viewType == .still {
-      panelViewModel.input.send(.remove(item: tryAgainItem))
-      panelViewModel.input.send(.remove(item: notFound))
-      if suggestions.count() == 0 {
-        panelViewModel.input.send(.add(item: tryAgainItem))
-        panelViewModel.input.send(.add(item: notFound))
+      if let found = resultsFound {
+        
+        // clear previous items
+        panelViewModel.input.send(.remove(item: blankMessage))
+        panelViewModel.input.send(.remove(item: tryAgainItem))
+        panelViewModel.input.send(.remove(item: notFound))
+
+        // results were found
+        if found {
+
+        // results were not found
+        } else {
+          panelViewModel.input.send(.add(item: tryAgainItem))
+          panelViewModel.input.send(.add(item: notFound))
+        }
+        
+      // view just started up, results are niether found or unfound
+      } else {
+        panelViewModel.input.send(.add(item: blankMessage))
       }
     }
+    
+//    if viewType == .still && resultsFound == false {
+//      panelViewModel.input.send(.remove(item: blankMessage))
+//      panelViewModel.input.send(.remove(item: scanMessage))
+//      panelViewModel.input.send(.remove(item: tryAgainItem))
+//      panelViewModel.input.send(.remove(item: notFound))
+//      if suggestions.count() == 0 {
+//        panelViewModel.input.send(.add(item: tryAgainItem))
+//        panelViewModel.input.send(.add(item: notFound))
+//      }
+//    }
+//    
+//    if viewType == .still && (resultsFound == nil) {
+//      panelViewModel.input.send(.add(item: blankMessage))
+//    }
       
     if suggestions.count() > 0 && !selectionButtonsShowing && selectableSuggestionList.value {
       panelViewModel.input.send(.remove(item: notFound))
