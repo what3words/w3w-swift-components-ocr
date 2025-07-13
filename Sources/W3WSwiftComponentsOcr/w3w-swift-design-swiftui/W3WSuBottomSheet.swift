@@ -41,6 +41,7 @@ public struct W3WSuBottomSheet<Accessory: View, Content: View>: View {
             .padding(W3WPadding.medium.value)
           
           content()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .background(background)
         .cornerRadius(cornerRadius, corners: [.topLeft, .topRight])
