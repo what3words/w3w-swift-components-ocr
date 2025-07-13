@@ -49,11 +49,12 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
           .frame(width: innerCircleDiameter, height: innerCircleDiameter)
           .overlay(
             Circle()
-              .stroke(Color.white, lineWidth: W3WLineThickness.fourPoint.value)
+              .stroke(viewModel.viewType == .video ? W3WColor.white.with(alpha: 0.8).suColor : W3WColor.white.suColor, lineWidth: W3WLineThickness.fourPoint.value)
               .frame(width: outerCircleDiameter, height: outerCircleDiameter)
           )
       }
-      .foregroundColor(.white)
+      .foregroundColor(viewModel.viewType == .video ? W3WColor.white.with(alpha: 0.8).suColor : W3WColor.white.suColor)
+      .disabled(viewModel.viewType != .video)
     }
     .padding(.bottom, W3WMargin.three.value)
   }
