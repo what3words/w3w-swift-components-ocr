@@ -176,7 +176,7 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   /// logic to update the footer text and buttons
   func updateFooterStatus() {
-    let footer: W3WPanelItem = .buttons(convert(footerButtons: footerButtons), text: footerText)
+    let footer: W3WPanelItem = .buttonsAndTitle(convert(footerButtons: footerButtons), text: footerText)
     
     // if there are selected suggestions then show the footer
     if suggestions.selectedCount() > 0 {
