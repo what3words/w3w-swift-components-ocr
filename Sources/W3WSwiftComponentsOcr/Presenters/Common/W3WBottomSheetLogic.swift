@@ -30,7 +30,7 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   lazy var blankMessage =  W3WPanelItem.heading(W3WLive<W3WString>("".w3w))
 
   /// the try again button
-  var tryAgainItem: W3WPanelItem = .buttons([], text: W3WLive("".w3w))
+  var tryAgainItem: W3WPanelItem = .button(.init(onTap: {}))
 
   /// the buttons at the bottom that show conditionally
   var footerButtons: [W3WSuggestionsViewAction]
@@ -112,10 +112,13 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
     self.selectableSuggestionList = selectableSuggestionList
 
     // create the try again button
-    let tryAgainButton = W3WButtonData(icon: nil, title: translations.get(id: "ocr_import_photo_tryAgainButton")) { [weak self] in
+    let tryAgainButton = W3WButtonData(
+      icon: nil,
+      title: translations.get(id: "ocr_import_photo_tryAgainButton")
+    ) { [weak self] in
       self?.onTryAgain()
     }
-    tryAgainItem = W3WPanelItem.buttons([tryAgainButton], text: W3WLive<W3WString>("".w3w))
+    tryAgainItem = W3WPanelItem.button(tryAgainButton)
     
     // initial set up of the panel
     panelViewModel.input.send(.add(item: .suggestions(suggestions)))
@@ -173,7 +176,7 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   /// logic to update the footer text and buttons
   func updateFooterStatus() {
-    let footer: W3WPanelItem = .buttons(convert(footerButtons: footerButtons), text: footerText)
+    let footer: W3WPanelItem = .buttonsAndTitle(convert(footerButtons: footerButtons), text: footerText)
     
     // if there are selected suggestions then show the footer
     if suggestions.selectedCount() > 0 {
