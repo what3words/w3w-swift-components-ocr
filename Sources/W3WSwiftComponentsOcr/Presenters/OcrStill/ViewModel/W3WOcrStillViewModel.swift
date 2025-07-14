@@ -93,6 +93,11 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
       self?.panelViewModel.objectWillChange.send()
     }
     
+    // when the user selects a single address
+    suggestions.singleSelection = { [weak self] selection in
+      self?.output.send(.selected(selection))
+    }
+    
     bottomSheetLogic.onSelectButton = { [weak self] in
       if (self?.bottomSheetLogic.selectMode ?? false) {
         self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultSelect)))
@@ -108,7 +113,6 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
         self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultDeselectAll)))
       }
     }
-
   }
   
   
