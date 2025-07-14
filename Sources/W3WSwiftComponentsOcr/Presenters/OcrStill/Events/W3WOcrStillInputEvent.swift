@@ -32,10 +32,6 @@ public enum W3WOcrStillInputEvent: W3WAppEventConvertable {
 
       case .notLoading:
         return W3WAppEvent(type: Self.self, name: "ocr.notLoading")
-
-      case .image(let image):
-        return W3WAppEvent(type: Self.self, name: "ocr.still.image", parameters: ["resolution": .text("\(image?.width ?? Int(0.0)),\(image?.height ?? Int(0.0))")])
     }
   }
-
 }
