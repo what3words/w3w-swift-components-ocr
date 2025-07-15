@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
+import Combine
 import W3WSwiftThemes
 import W3WSwiftDesignSwiftUI
 import W3WSwiftPresenters
-import Combine
 
 /// the main ocr swiftui screen
 public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
@@ -28,13 +28,16 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   /// captured using `.onHeightChange(_:for: .content)`
   @State private var contentHeight: CGFloat = 0
   
+  /// The current bounding rectangle of the OCR crop area, in screen coordinates
   @State private var ocrCropRect: CGRect = .zero
   
   /// initial height for the bottom sheet
   private let initialPanelHeight: CGFloat = 216
 
+  /// The current height of the bottom sheet (can change based on suggestion state)
   @State private var bottomSheetHeight: CGFloat = 216
   
+  /// Whether the OCR system currently has suggestions to show
   @State private var hasSuggestions = false
   
   /// a binding for the viewType for the ui switch to connect with the viewModel's viewMode value
