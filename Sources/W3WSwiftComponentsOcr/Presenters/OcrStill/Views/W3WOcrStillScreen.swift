@@ -22,7 +22,7 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
   @ObservedObject var viewModel: ViewModel
     
   /// initial height for the bottom sheet
-  let initialPanelHeight: CGFloat
+  private let initialHeight: CGFloat
 
   /// The dynamically measured height of the entire screen content,
   /// captured using `.onHeightChange(_:for: .content)`
@@ -34,9 +34,14 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
   
   /// The dynamically measured height of the bottom sheet component.
   /// Helps compute safe padding and positioning relative to the image.
-  @State private var bottomHeight: CGFloat = 0
+  @State private var bottomHeight: CGFloat
+
+  init(viewModel: ViewModel, initialHeight: CGFloat) {
+    self.viewModel = viewModel
+    self.initialHeight = initialHeight
+    self.bottomHeight = initialHeight
+  }
   
-  private let detentPadding: CGFloat = 16
   
   /// still image ocr view, showing bottom sheet
   public var body: some View {
@@ -56,14 +61,11 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
         
         W3WSuBottomSheet(
           scheme: viewModel.scheme,
-          height: initialPanelHeight,
-          onHeightChange: { height in
-            bottomHeight = height
-          },
+          height: $bottomHeight,
           detents: W3WDetents(detents: [
-            initialPanelHeight,
-            contentHeight - detentPadding,
-            contentHeight - imageHeight - detentPadding
+            initialHeight,
+            contentHeight - W3WPadding.bold.value,
+            contentHeight - imageHeight - W3WPadding.bold.value
           ])) {
             W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.scheme)
           }

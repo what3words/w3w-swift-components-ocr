@@ -28,15 +28,14 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   /// captured using `.onHeightChange(_:for: .content)`
   @State private var contentHeight: CGFloat = 0
   
+  @State private var ocrCropRect: CGRect = .zero
+  
   /// initial height for the bottom sheet
   private let initialPanelHeight: CGFloat = 216
 
   @State private var bottomSheetHeight: CGFloat = 216
   
   @State private var hasSuggestions = false
-  
-  /// the padding for ocr view
-  private let ocrViewPadding: CGFloat = 35
   
   /// a binding for the viewType for the ui switch to connect with the viewModel's viewMode value
   var cameraMode: Binding<Bool> {
@@ -70,10 +69,11 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         Color.clear
           .aspectRatio(contentMode: .fit)
           .onRectChange { rect in
+            ocrCropRect = rect
             viewModel.ocrCropRect.send(rect)
           }
           .overlay(W3WCornerMarkers(lineLength: 60, lineWidth: 6))
-          .padding(.horizontal, ocrViewPadding)
+          .padding(.horizontal, W3WMargin.four.value)
           .padding(.vertical, W3WPadding.bold.value)
         Spacer()
       }
@@ -92,8 +92,11 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         .onReceive(hasSuggestionsPublisher, perform: updateHasSuggestions)
     }
     .edgesIgnoringSafeArea(.bottom)
-    .background(Color.clear)
-    .onHeightChange($contentHeight, for: Height.content)
+    .background(
+      Color.clear
+        .onHeightChange($contentHeight, for: Height.content)
+        .edgesIgnoringSafeArea(.all)
+    )
     .navigationBarHidden(true) // Fix unwanted navigation bar on iOS 15
   }
   
@@ -115,22 +118,18 @@ private extension W3WOcrScreen {
     hasSuggestions.toggle()
     // If there are suggessions, resize bottom sheet accordingly
     if hasSuggestions {
-      bottomSheetHeight = contentHeight / 2 - W3WPadding.bold.value
+      bottomSheetHeight = middleDetent
     } else {
       bottomSheetHeight = initialPanelHeight
     }
   }
   
+  var middleDetent: CGFloat {
+    contentHeight - ocrCropRect.maxY - W3WMargin.two.value
+  }
+  
   var bottomSheetDetents: W3WDetents {
-    if hasSuggestions {
-      return W3WDetents(detents: [
-        contentHeight / 2 - W3WPadding.bold.value
-      ])
-    } else {
-      return W3WDetents(detents: [
-        initialPanelHeight,
-        contentHeight / 2 - W3WPadding.bold.value
-      ])
-    }
+    let detents = hasSuggestions ? [middleDetent] : [initialPanelHeight, middleDetent]
+    return W3WDetents(detents: detents)
   }
 }

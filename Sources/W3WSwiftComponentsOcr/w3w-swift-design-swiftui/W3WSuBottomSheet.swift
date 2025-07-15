@@ -19,8 +19,6 @@ public struct W3WSuBottomSheet<Accessory: View, Content: View>: View {
   
   @Binding var height: CGFloat
   
-  var onHeightChange: ((CGFloat) -> Void) = { _ in }
-  
   let detents: W3WDetents
   
   @ViewBuilder let accessory: () -> Accessory
@@ -48,7 +46,6 @@ public struct W3WSuBottomSheet<Accessory: View, Content: View>: View {
         .gesture(dragGesture(maxHeight: geometry.size.height))
       }
       .frame(height: height)
-      .onSizeChange({ onHeightChange($0.height) }, for: Height.content)
       .frame(maxHeight: .infinity, alignment: .bottom)
       .background(
         // Hackaround to force a background at the bottom area
@@ -93,14 +90,12 @@ private extension W3WSuBottomSheet {
 public extension W3WSuBottomSheet where Accessory == EmptyView {
   init(
     scheme: W3WScheme?,
-    height: CGFloat,
-    onHeightChange: @escaping (CGFloat) -> Void = { _ in },
+    height: Binding<CGFloat>,
     detents: W3WDetents,
     @ViewBuilder content: @escaping () -> Content
   ) {
     self.scheme = scheme
-    self._height = .constant(height)
-    self.onHeightChange = onHeightChange
+    self._height = height
     self.detents = detents
     self.accessory = { EmptyView() }
     self.content = content
