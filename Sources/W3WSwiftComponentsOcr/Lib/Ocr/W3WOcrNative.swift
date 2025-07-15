@@ -277,11 +277,8 @@ public class W3WOcrNative: W3WOcrProtocol {
         }
       }
       
-      if suggestions.count > 0 {
-        completion(suggestions, nil)
-      } else {
-        completion([], W3WOcrError.coreError(message: "No suggestions found"))
-      }
+      // condition removed to allow empty results through for "no results" feedback
+      completion(suggestions, nil)
 
       // only return boxes if there is only one
       if frameInfo.boxes.count > 1 {
