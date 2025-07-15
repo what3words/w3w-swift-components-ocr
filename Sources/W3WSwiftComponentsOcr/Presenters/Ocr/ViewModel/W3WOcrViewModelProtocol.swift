@@ -38,6 +38,9 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
   /// the camera
   var camera: W3WOcrCamera? { get set }
   
+  /// the suggestions that ocr collects
+  var suggestions: W3WSelectableSuggestions { get }
+  
   /// view model for the panel in the bottom sheet
   var panelViewModel: W3WPanelViewModel { get set }
 

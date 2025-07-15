@@ -55,7 +55,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   public var camera: W3WOcrCamera?
   
   /// the suggestions that ocr collects
-  var suggestions = W3WSelectableSuggestions()
+  public var suggestions = W3WSelectableSuggestions()
 
   /// view model for the panel in the bottom sheet
   public var panelViewModel = W3WPanelViewModel()
