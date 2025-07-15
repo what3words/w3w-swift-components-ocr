@@ -146,22 +146,29 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
     output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoImport, parameters: ["width": .number(image == nil ? nil : Float(image!.width)), "height": .number(image == nil ? nil : Float(image!.height))])))
     bottomSheetLogic.results(found: false)
 
-    if let i = image {
-      ocr.autosuggest(image: i, info: { _ in }) { [weak self] suggestions, error in
-        if let e = error {
-          self?.output.send(.error(.other(e)))
+    guard let image else { return }
+    isLoading = true
+    
+    W3WThread.runInBackground { [weak self] in
+      self?.ocr.autosuggest(image: image, info: { _ in }) { [weak self] suggestions, error in
+        W3WThread.runOnMain { [weak self] in
+          guard let self else { return }
+          isLoading = false
+          if let e = error {
+            output.send(.error(.other(e)))
+          }
+          
+          if suggestions.count == 0 {
+            bottomSheetLogic.results(found: false)
+            output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrNoResultFound)))
+          } else {
+            bottomSheetLogic.results(found: true)
+            output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoCapture)))
+          }
+          
+          // send suggestions to view
+          bottomSheetLogic.add(suggestions: suggestions)
         }
-        
-        if suggestions.count == 0 {
-          self?.bottomSheetLogic.results(found: false)
-          self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrNoResultFound)))
-        } else {
-          self?.bottomSheetLogic.results(found: true)
-          self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoCapture)))
-        }
-        
-        // send suggestions to view
-        self?.bottomSheetLogic.add(suggestions: suggestions)
       }
     }
   }

@@ -63,6 +63,9 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// indicates it's current state: scanning/stopped
   public var state = W3WOcrState.idle
   
+  /// indicates if there is a photo being processed
+  @Published public var isTakingPhoto = false
+  
   /// intro message for scanning
   lazy var scanMessageText = W3WLive<W3WString>(translations.get(id: "ocr_scan_3wa").w3w)
 
@@ -197,12 +200,14 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   /// called by UI when the capture button is pressed
   public func captureButtonPressed() {
+    isTakingPhoto = true
+    
     camera?.captureStillImage() { [weak self] image in
       self?.output.send(.captureButton(image))
+      self?.isTakingPhoto = false
     }
     
     if viewType == .still {
-      //camera?.pause() // should we pause the camera on still capture?
       bottomSheetLogic.add(suggestions: lastSuggestions)
     }
 
@@ -254,6 +259,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     guard let camera, let ocr else { return }
     guard state == .idle else { return }
     
+    state = .detecting
+    
     // Maybe we need a better check if there is a paused session
     if camera.session != nil {
       camera.unpause()
@@ -261,7 +268,6 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     }
 
     firstLiveScanResultHappened = false
-    state = .detecting
     camera.start()
     
     ocr.autosuggest(video: camera) { [weak self] suggestions, error in

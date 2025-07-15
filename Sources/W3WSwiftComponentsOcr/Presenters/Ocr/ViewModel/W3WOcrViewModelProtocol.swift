@@ -47,6 +47,9 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
   /// indicates it's current state: scanning/stopped
   var state: W3WOcrState { get }
   
+  /// indicates if there is a photo being processed
+  var isTakingPhoto: Bool { get }
+  
   /// the view mode - for still / live - perhaps depricated?
   var viewType: W3WOcrViewType { get set }
 

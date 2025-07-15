@@ -279,6 +279,8 @@ public class W3WOcrNative: W3WOcrProtocol {
       
       if suggestions.count > 0 {
         completion(suggestions, nil)
+      } else {
+        completion([], W3WOcrError.coreError(message: "No suggestions found"))
       }
 
       // only return boxes if there is only one
