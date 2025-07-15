@@ -67,7 +67,11 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
             contentHeight - W3WPadding.bold.value,
             contentHeight - imageHeight - W3WPadding.bold.value
           ])) {
-            W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.scheme)
+            if viewModel.isLoading {
+              W3WProgressView(color: W3WColor.w3wLabelsPrimaryBlackInverse.uiColor)
+            } else {
+              W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.scheme)
+            }
           }
       }
       .background(W3WCoreColor.darkBlue.suColor)

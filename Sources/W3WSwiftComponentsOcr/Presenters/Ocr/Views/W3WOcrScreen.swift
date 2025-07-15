@@ -89,7 +89,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         accessory: {
           W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
         }) {
-          W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.scheme)
+          W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.bottomSheetScheme)
         }
         .animation(.easeIn, value: hasSuggestions)
         .onReceive(hasSuggestionsPublisher, perform: updateHasSuggestions)
