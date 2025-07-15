@@ -9,7 +9,7 @@ import SwiftUI
 import W3WSwiftThemes
 import W3WSwiftDesignSwiftUI
 import W3WSwiftPresenters
-
+import Combine
 
 /// the main ocr swiftui screen
 public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
@@ -30,6 +30,10 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   
   /// initial height for the bottom sheet
   private let initialPanelHeight: CGFloat = 216
+
+  @State private var bottomSheetHeight: CGFloat = 216
+  
+  @State private var hasSuggestions = false
   
   /// the padding for ocr view
   private let ocrViewPadding: CGFloat = 35
@@ -75,13 +79,17 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
       }
       
       // bottom sheet
-      W3WOcrBottomSheet(
-        viewModel: viewModel,
-        initialPanelHeight: initialPanelHeight,
-        parentHeight: contentHeight,
-        scheme: viewModel.bottomSheetScheme ?? .w3wOcr,
-        cameraMode: cameraMode
-      )
+      W3WSuBottomSheet(
+        scheme: viewModel.bottomSheetScheme,
+        height: $bottomSheetHeight,
+        detents: bottomSheetDetents,
+        accessory: {
+          W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
+        }) {
+          W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.scheme)
+        }
+        .animation(.easeIn, value: hasSuggestions)
+        .onReceive(hasSuggestionsPublisher, perform: updateHasSuggestions)
     }
     .edgesIgnoringSafeArea(.bottom)
     .background(Color.clear)
@@ -89,4 +97,40 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
     .navigationBarHidden(true) // Fix unwanted navigation bar on iOS 15
   }
   
+}
+
+// MARK: - Helpers
+private extension W3WOcrScreen {
+  var hasSuggestionsPublisher: AnyPublisher<Bool, Never> {
+    viewModel.panelViewModel.output.compactMap { event in
+      guard case .hasSuggestions(let flag) = event else { return nil }
+      return flag
+    }
+    .eraseToAnyPublisher()
+  }
+  
+  func updateHasSuggestions(_ flag: Bool) {
+    guard hasSuggestions != flag else { return }
+    
+    hasSuggestions.toggle()
+    // If there are suggessions, resize bottom sheet accordingly
+    if hasSuggestions {
+      bottomSheetHeight = contentHeight / 2 - W3WPadding.bold.value
+    } else {
+      bottomSheetHeight = initialPanelHeight
+    }
+  }
+  
+  var bottomSheetDetents: W3WDetents {
+    if hasSuggestions {
+      return W3WDetents(detents: [
+        contentHeight / 2 - W3WPadding.bold.value
+      ])
+    } else {
+      return W3WDetents(detents: [
+        initialPanelHeight,
+        contentHeight / 2 - W3WPadding.bold.value
+      ])
+    }
+  }
 }

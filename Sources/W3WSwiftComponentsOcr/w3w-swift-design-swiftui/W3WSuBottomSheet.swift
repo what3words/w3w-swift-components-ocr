@@ -17,7 +17,7 @@ public struct W3WSuBottomSheet<Accessory: View, Content: View>: View {
   
   public let scheme: W3WScheme?
   
-  @State var height: CGFloat
+  @Binding var height: CGFloat
   
   var onHeightChange: ((CGFloat) -> Void) = { _ in }
   
@@ -99,7 +99,7 @@ public extension W3WSuBottomSheet where Accessory == EmptyView {
     @ViewBuilder content: @escaping () -> Content
   ) {
     self.scheme = scheme
-    self.height = height
+    self._height = .constant(height)
     self.onHeightChange = onHeightChange
     self.detents = detents
     self.accessory = { EmptyView() }
