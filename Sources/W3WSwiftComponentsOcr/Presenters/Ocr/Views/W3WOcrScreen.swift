@@ -108,9 +108,8 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
 // MARK: - Helpers
 private extension W3WOcrScreen {
   var hasSuggestionsPublisher: AnyPublisher<Bool, Never> {
-    viewModel.panelViewModel.output.compactMap { event in
-      guard case .hasSuggestions(let flag) = event else { return nil }
-      return flag
+    viewModel.suggestions.update.map { _ in
+      viewModel.suggestions.count() > 0
     }
     .eraseToAnyPublisher()
   }
