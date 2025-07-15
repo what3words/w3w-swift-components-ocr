@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
+import Combine
 import W3WSwiftThemes
 import W3WSwiftDesignSwiftUI
 import W3WSwiftPresenters
-
 
 /// the main ocr swiftui screen
 public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
@@ -28,11 +28,17 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   /// captured using `.onHeightChange(_:for: .content)`
   @State private var contentHeight: CGFloat = 0
   
+  /// The current bounding rectangle of the OCR crop area, in screen coordinates
+  @State private var ocrCropRect: CGRect = .zero
+  
   /// initial height for the bottom sheet
   private let initialPanelHeight: CGFloat = 216
+
+  /// The current height of the bottom sheet (can change based on suggestion state)
+  @State private var bottomSheetHeight: CGFloat = 216
   
-  /// the padding for ocr view
-  private let ocrViewPadding: CGFloat = 35
+  /// Whether the OCR system currently has suggestions to show
+  @State private var hasSuggestions = false
   
   /// a binding for the viewType for the ui switch to connect with the viewModel's viewMode value
   var cameraMode: Binding<Bool> {
@@ -66,27 +72,67 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         Color.clear
           .aspectRatio(contentMode: .fit)
           .onRectChange { rect in
+            ocrCropRect = rect
             viewModel.ocrCropRect.send(rect)
           }
           .overlay(W3WCornerMarkers(lineLength: 60, lineWidth: 6))
-          .padding(.horizontal, ocrViewPadding)
+          .padding(.horizontal, W3WMargin.four.value)
           .padding(.vertical, W3WPadding.bold.value)
         Spacer()
       }
       
       // bottom sheet
-      W3WOcrBottomSheet(
-        viewModel: viewModel,
-        initialPanelHeight: initialPanelHeight,
-        parentHeight: contentHeight,
-        scheme: viewModel.bottomSheetScheme ?? .w3wOcr,
-        cameraMode: cameraMode
-      )
+      W3WSuBottomSheet(
+        scheme: viewModel.bottomSheetScheme,
+        height: $bottomSheetHeight,
+        detents: bottomSheetDetents,
+        accessory: {
+          W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
+        }) {
+          W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.scheme)
+        }
+        .animation(.easeIn, value: hasSuggestions)
+        .onReceive(hasSuggestionsPublisher, perform: updateHasSuggestions)
     }
     .edgesIgnoringSafeArea(.bottom)
-    .background(Color.clear)
-    .onHeightChange($contentHeight, for: Height.content)
+    .background(
+      Color.clear
+        .onHeightChange($contentHeight, for: Height.content)
+        .edgesIgnoringSafeArea(.all)
+    )
     .navigationBarHidden(true) // Fix unwanted navigation bar on iOS 15
   }
   
+}
+
+// MARK: - Helpers
+private extension W3WOcrScreen {
+  var hasSuggestionsPublisher: AnyPublisher<Bool, Never> {
+    viewModel.panelViewModel.output.compactMap { event in
+      guard case .hasSuggestions(let flag) = event else { return nil }
+      return flag
+    }
+    .eraseToAnyPublisher()
+  }
+  
+  func updateHasSuggestions(_ flag: Bool) {
+    guard hasSuggestions != flag else { return }
+    
+    hasSuggestions.toggle()
+    // If there are suggessions, resize bottom sheet accordingly
+    if hasSuggestions {
+      bottomSheetHeight = middleDetent
+    } else {
+      bottomSheetHeight = initialPanelHeight
+    }
+  }
+  
+  var middleDetent: CGFloat {
+    contentHeight - ocrCropRect.maxY - W3WMargin.two.value
+  }
+  
+  var bottomSheetDetents: W3WDetents {
+    let detents = hasSuggestions ? [middleDetent] : [initialPanelHeight, middleDetent]
+    return W3WDetents(detents: detents)
+  }
 }

@@ -38,7 +38,7 @@ open class W3WOcrStillViewController<ViewModel: W3WOcrStillViewModelProtocol>: W
     self.viewModel = viewModel
 
     // the ocr screen for still image
-    let ocrScreen = W3WOcrStillScreen(viewModel: viewModel, initialPanelHeight: buttonsHeight)
+    let ocrScreen = W3WOcrStillScreen(viewModel: viewModel, initialHeight: buttonsHeight)
 
     // initialise the swiftui vie using the uikit view
     super.init(rootView: ocrScreen)
