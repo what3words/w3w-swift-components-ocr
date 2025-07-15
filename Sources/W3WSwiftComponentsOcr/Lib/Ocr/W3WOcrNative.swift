@@ -278,9 +278,7 @@ public class W3WOcrNative: W3WOcrProtocol {
       }
       
       // condition removed to allow empty results through for "no results" feedback
-      //if suggestions.count > 0 {
       completion(suggestions, nil)
-      //}
 
       // only return boxes if there is only one
       if frameInfo.boxes.count > 1 {
