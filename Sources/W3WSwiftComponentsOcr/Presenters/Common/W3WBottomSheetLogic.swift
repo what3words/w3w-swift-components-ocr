@@ -156,7 +156,7 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   func add(suggestions theSuggestions: [W3WSuggestion]?) {
     if let s = theSuggestions {
       if !does(list: suggestions.allSuggestions, alreadyContain: s) {
-        suggestions.add(suggestions: s, selected: selectMode ? false : nil)
+        suggestions.add(suggestions: s, selected: selectMode)
         updateFooterStatus()
       }
     }

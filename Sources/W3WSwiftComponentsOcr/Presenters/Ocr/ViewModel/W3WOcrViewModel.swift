@@ -326,7 +326,10 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
       
       // we are in live scan mode, send all suggestions to the panel
       if viewType == .video {
-        bottomSheetLogic.add(suggestions: s)
+        DispatchQueue.main.async { [weak self] in
+          guard let self else { return }
+          self.bottomSheetLogic.add(suggestions: s)
+        }
       }
       
       // send events
