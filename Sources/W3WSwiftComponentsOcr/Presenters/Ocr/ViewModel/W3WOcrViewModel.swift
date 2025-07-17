@@ -73,7 +73,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   public var translations: W3WTranslationsProtocol
 
   /// logic for the bottom sheet
-  let bottomSheetLogic: W3WBottomSheetLogic
+  var bottomSheetLogic: W3WBottomSheetLogicProtocol
 
   /// the most recent suggestions found - for "still" mode
   var lastSuggestions = [W3WSuggestion]()
@@ -110,7 +110,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     self.liveScanLocked = liveScanLocked
     self.panelViewModel = W3WPanelViewModel(language: language, translations: translations)
     // make the manager fro the bottom sheet
-    self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .video, selectableSuggestionList: selectableSuggestionList)
+    self.bottomSheetLogic = W3WBottomSheetLogicInsanity(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .video, selectableSuggestionList: selectableSuggestionList)
     
     // set the ocr service to actually do the scanning
     set(ocr: ocr)
@@ -252,9 +252,11 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// shows/hides the inital scan message
   func show(scanMessage: Bool) {
     if scanMessage {
-      bottomSheetLogic.panelViewModel.input.send(.add(item: .heading(scanMessageText)))
+      //bottomSheetLogic.panelViewModel.input.send(.add(item: .heading(scanMessageText)))
+      panelViewModel.input.send(.add(item: .heading(scanMessageText)))
     } else {
-      bottomSheetLogic.panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
+      //bottomSheetLogic.panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
+      panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
     }
   }
   

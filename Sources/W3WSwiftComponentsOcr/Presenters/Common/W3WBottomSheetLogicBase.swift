@@ -11,7 +11,7 @@ import W3WSwiftPresenters
 
 
 /// manages a bottom sheet on an ocr screen
-class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
+class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberProtocol {
   var subscriptions = W3WEventsSubscriptions()
 
   /// the model for the panel in the bottom sheet
@@ -43,9 +43,6 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   /// indicates if we are in selection mode or in regular mode
   var selectMode = false
-
-  /// keeps track of if the selection button is showing - maybe this could be a computed value?
-  var selectionButtonsShowing = false
   
   /// callback for when a button is tapped containing the button tpped and the currently selected suggestions
   var onButton: (W3WSuggestionsViewAction, [W3WSuggestion]) -> () = { _,_ in }
@@ -82,20 +79,12 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
 
   /// the select button representation
   lazy var selectButton = W3WButtonData(title: translations.get(id: "ocr_selectButton"), highlight: .secondary) { [weak self] in
-    self?.selectMode.toggle()
-    self?.suggestions.make(selectable: self?.selectMode ?? false)
-    self?.onSelectButton()
+    self?.selectButtonTapped()
   }
   
   /// the select all button representation
   lazy var selectAllButton = W3WButtonData(title: translations.get(id: "ocr_select_allButton"), highlight: .secondary) { [weak self] in
-    self?.selectMode = true
-    if self?.isAllSelected ?? false {
-      self?.suggestions.setAll(selected: false)
-    } else {
-      self?.suggestions.setAll(selected: true)
-    }
-    self?.onSelectAllButton()
+    self?.selectAllButtonTapped()
   }
 
   
@@ -142,6 +131,14 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   }
   
   
+  func selectButtonTapped() {
+  }
+  
+  
+  func selectAllButtonTapped() {
+  }
+
+  
   // MARK: Commands
   
   
@@ -156,7 +153,7 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   func add(suggestions theSuggestions: [W3WSuggestion]?) {
     if let s = theSuggestions {
       if !does(list: suggestions.allSuggestions, alreadyContain: s) {
-        suggestions.add(suggestions: s, selected: selectMode)
+        suggestions.add(suggestions: s, selected: selectMode ? false : nil)
         updateFooterStatus()
       }
     }
@@ -174,71 +171,9 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
     return retval
   }
   
+  
   /// logic to update the footer text and buttons
   func updateFooterStatus() {
-    let footer: W3WPanelItem = .buttonsAndTitle(convert(footerButtons: footerButtons), text: footerText)
-    
-    // if there are selected suggestions then show the footer
-    if suggestions.selectedCount() > 0 {
-      panelViewModel.input.send(.footer(item: footer))
-    } else {
-      panelViewModel.input.send(.footer(item: nil))
-    }
-
-    // if this is for a still image, then there are three possible states
-    if viewType == .still {
-      if let found = resultsFound {
-        
-        // clear previous items
-        panelViewModel.input.send(.remove(item: blankMessage))
-        panelViewModel.input.send(.remove(item: tryAgainItem))
-        panelViewModel.input.send(.remove(item: notFound))
-
-        // results were found
-        if found {
-
-        // results were not found
-        } else {
-          panelViewModel.input.send(.add(item: tryAgainItem))
-          panelViewModel.input.send(.add(item: notFound))
-        }
-        
-      // view just started up, results are niether found or unfound
-      } else {
-        panelViewModel.input.send(.add(item: blankMessage))
-      }
-    }
-    
-//    if viewType == .still && resultsFound == false {
-//      panelViewModel.input.send(.remove(item: blankMessage))
-//      panelViewModel.input.send(.remove(item: scanMessage))
-//      panelViewModel.input.send(.remove(item: tryAgainItem))
-//      panelViewModel.input.send(.remove(item: notFound))
-//      if suggestions.count() == 0 {
-//        panelViewModel.input.send(.add(item: tryAgainItem))
-//        panelViewModel.input.send(.add(item: notFound))
-//      }
-//    }
-//    
-//    if viewType == .still && (resultsFound == nil) {
-//      panelViewModel.input.send(.add(item: blankMessage))
-//    }
-      
-    if suggestions.count() > 0 && !selectionButtonsShowing && selectableSuggestionList.value {
-      panelViewModel.input.send(.remove(item: notFound))
-      selectionButtonsShowing = true
-      showSelectionButtons()
-    }
-    
-    if suggestions.count() == 0 && selectionButtonsShowing || !selectableSuggestionList.value {
-      panelViewModel.input.send(.remove(item: notFound))
-      panelViewModel.input.send(.footer(item: nil))
-      hideSelectionButtons()
-      selectionButtonsShowing = false
-    }
-    
-    updateFooterText()
-    updateSelectButtons()
   }
 
   
@@ -256,28 +191,13 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   /// hide the buttons at the top [select] and [select all]
   func hideSelectionButtons() {
-    W3WThread.runIn(duration: .seconds(5.0)) { [weak self] in
+    W3WThread.runOnMain { [weak self] in
       if let self {
         self.panelViewModel.input.send(.header(item: nil))
       }
     }
   }
 
-  
-  func updateSelectButtons() {
-    if isAllSelected {
-      selectAllButton.highlight = .primary
-    } else {
-      selectAllButton.highlight = .secondary
-    }
-    
-    if selectMode {
-      selectButton.highlight = .primary
-    } else {
-      selectButton.highlight = .secondary
-    }
-  }
-  
   
   // MARK: Utility
   
