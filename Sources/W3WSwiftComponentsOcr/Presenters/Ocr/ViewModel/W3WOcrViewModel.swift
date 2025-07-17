@@ -58,7 +58,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   public var suggestions = W3WSelectableSuggestions()
 
   /// view model for the panel in the bottom sheet
-  public var panelViewModel = W3WPanelViewModel()
+  public var panelViewModel: W3WPanelViewModel
   
   /// indicates it's current state: scanning/stopped
   public var state = W3WOcrState.idle
@@ -92,7 +92,15 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   
   /// model for the ocr view
-  public init(ocr: W3WOcrProtocol, theme: W3WLive<W3WTheme?>? = nil, footerButtons: [W3WSuggestionsViewAction] = [], importLocked: W3WLive<Bool>, liveScanLocked: W3WLive<Bool>, selectableSuggestionList: W3WLive<Bool> = W3WLive<Bool>(true), translations: W3WTranslationsProtocol = W3WOcrTranslations(), events: W3WEvent<W3WAppEvent>? = W3WEvent<W3WAppEvent>()) {
+  public init(ocr: W3WOcrProtocol,
+              theme: W3WLive<W3WTheme?>? = nil,
+              footerButtons: [W3WSuggestionsViewAction] = [],
+              importLocked: W3WLive<Bool>,
+              liveScanLocked: W3WLive<Bool>,
+              selectableSuggestionList: W3WLive<Bool> = W3WLive<Bool>(true),
+              translations: W3WTranslationsProtocol = W3WOcrTranslations(),
+              events: W3WEvent<W3WAppEvent>? = W3WEvent<W3WAppEvent>(),
+              language: W3WLive<W3WLanguage?>? = nil) {
     self.scheme         = .w3w
     self.theme          = theme ?? W3WLive<W3WTheme?>(.what3words)
     self.camera         = W3WOcrCamera.get(camera: .back)
@@ -100,7 +108,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     self.events         = events
     self.importLocked   = importLocked
     self.liveScanLocked = liveScanLocked
-
+    self.panelViewModel = W3WPanelViewModel(language: language, translations: translations)
     // make the manager fro the bottom sheet
     self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .video, selectableSuggestionList: selectableSuggestionList)
     
