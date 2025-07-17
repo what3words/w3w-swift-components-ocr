@@ -43,7 +43,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   @Published public var isLoading: Bool = false
   
   /// the view model for the bottom sheet panel
-  public var panelViewModel = W3WPanelViewModel()
+  public var panelViewModel: W3WPanelViewModel
   
   /// the bottom sheet logic
   let bottomSheetLogic: W3WBottomSheetLogic
@@ -53,10 +53,15 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
 
   
   /// a view mdoel for still image ocr
-  public init(ocr: W3WOcrProtocol, footerButtons: [W3WSuggestionsViewAction], selectableSuggestionList: W3WLive<Bool> = W3WLive<Bool>(true), translations: W3WTranslationsProtocol, theme: W3WLive<W3WTheme?>) {
+  public init(ocr: W3WOcrProtocol,
+              footerButtons: [W3WSuggestionsViewAction],
+              selectableSuggestionList: W3WLive<Bool> = W3WLive<Bool>(true),
+              translations: W3WTranslationsProtocol,
+              theme: W3WLive<W3WTheme?>) {
     self.ocr = ocr
     self.translations = translations
     self.selectableSuggestionList = selectableSuggestionList
+    self.panelViewModel = W3WPanelViewModel(translations: translations)
     self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .still, selectableSuggestionList: selectableSuggestionList)
     
     // connect events to functions
