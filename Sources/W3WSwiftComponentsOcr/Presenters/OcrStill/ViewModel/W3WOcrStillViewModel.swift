@@ -49,7 +49,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   public var panelViewModel: W3WPanelViewModel
   
   /// the bottom sheet logic
-  let bottomSheetLogic: W3WBottomSheetLogic
+  var bottomSheetLogic: W3WBottomSheetLogicProtocol
 
   /// allows the suggestions to be selected into a list
   var selectableSuggestionList = W3WLive<Bool>(true)
@@ -65,7 +65,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
     self.translations = translations
     self.selectableSuggestionList = selectableSuggestionList
     self.panelViewModel = W3WPanelViewModel(translations: translations)
-    self.bottomSheetLogic = W3WBottomSheetLogic(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .still, selectableSuggestionList: selectableSuggestionList)
+    self.bottomSheetLogic = W3WBottomSheetLogicInsanity(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .still, selectableSuggestionList: selectableSuggestionList)
     
     // connect events to functions
     bind(theme: theme)
