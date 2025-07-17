@@ -20,6 +20,9 @@ public protocol W3WOcrStillViewModelProtocol: ObservableObject {
   /// output events for still imagfe ocr
   var output: W3WEvent<W3WOcrStillOutputEvent> { get set }
   
+  /// indicates that if the ocr did collects any suggestions
+  var hasSuggestions: Bool { get }
+  
   /// the scheme to use
   var scheme: W3WScheme? { get set }
 

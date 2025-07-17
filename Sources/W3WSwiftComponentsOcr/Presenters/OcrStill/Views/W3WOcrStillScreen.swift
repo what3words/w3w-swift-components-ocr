@@ -61,7 +61,7 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
         
         W3WSuBottomSheet(
           scheme: viewModel.scheme,
-          height: $bottomHeight,
+          height: bottomSheetHeight,
           detents: W3WDetents(detents: [
             initialHeight,
             contentHeight - W3WPadding.bold.value,
@@ -78,5 +78,15 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
       .onHeightChange($contentHeight, for: Height.content)
     }
     .navigationBarHidden(true) // Fix unwanted navigation bar on iOS 15
+  }
+}
+
+// MARK: - Helpers
+private extension W3WOcrStillScreen {
+  var bottomSheetHeight: Binding<CGFloat>? {
+    if viewModel.hasSuggestions {
+      return $bottomHeight
+    }
+    return nil
   }
 }
