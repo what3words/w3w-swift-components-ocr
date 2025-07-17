@@ -27,6 +27,9 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   /// the suggestoins found in the image
   var suggestions = W3WSelectableSuggestions()
   
+  /// indicates that if the ocr did collects any suggestions
+  @Published public var hasSuggestions: Bool = false
+  
   /// the translations
   public var translations: W3WTranslationsProtocol
   
@@ -95,6 +98,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
 
     // list for changes to the suggesitons list
     subscribe(to: suggestions.update) { [weak self] event in
+      self?.hasSuggestions = self?.suggestions.count() != 0
       self?.panelViewModel.objectWillChange.send()
     }
     

@@ -62,7 +62,8 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
   private var importButton: some View {
     VStack(spacing: 8) {
       Button(action: { viewModel.importButtonPressed() }, label: {
-        Image(systemName: "photo.badge.plus")
+        Image(uiImage: W3WImage.photoBadgePlus.get())
+          .renderingMode(.template)
           .frame(width: W3WRowHeight.medium.value, height: W3WRowHeight.medium.value)
           .foregroundColor(.white)
           .background(W3WCoreColor.darkBlue.suColor)

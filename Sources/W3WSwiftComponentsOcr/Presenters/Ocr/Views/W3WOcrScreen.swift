@@ -94,11 +94,10 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         .animation(.easeIn, value: hasSuggestions)
         .onReceive(hasSuggestionsPublisher, perform: updateHasSuggestions)
     }
-    .edgesIgnoringSafeArea(.bottom)
     .background(
       Color.clear
         .onHeightChange($contentHeight, for: Height.content)
-        .edgesIgnoringSafeArea(.all)
+        .edgesIgnoringSafeArea(.top)
     )
     .navigationBarHidden(true) // Fix unwanted navigation bar on iOS 15
   }
