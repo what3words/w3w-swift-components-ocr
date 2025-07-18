@@ -138,6 +138,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     
     // when the user selects a single address
     suggestions.singleSelection = { [weak self] selection in
+      // Stop scanning as the selection will be handled externally after this view is dismissed
+      self?.stop()
       self?.output.send(.selected(selection))
     }
     
@@ -291,16 +293,10 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   
   /// Stop the scanning
-  ///
-  /// Call this when dismissing the view to ensure the camera stops cleanly.
-  /// Setting `camera = nil` prevents `stop()` from being called multiple times
-  /// on the same camera instance.
-  public func stop() {
+  func stop() {
     if let camera {
       state = .idle
       camera.stop()
-      
-      self.camera = nil
     }
   }
   
