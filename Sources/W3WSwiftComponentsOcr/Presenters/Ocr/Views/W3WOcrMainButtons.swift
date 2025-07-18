@@ -54,7 +54,7 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
                      height: outerCircleDiameter)
           )
       }
-      .foregroundColor(viewModel.viewType == .video ? W3WColor.white.with(alpha: 0.8).suColor : W3WColor.white.suColor)
+      .foregroundColor(viewModel.viewType == .video ? W3WColor.white.with(alpha: 0.3).suColor : W3WColor.white.suColor)
       .disabled(viewModel.viewType == .video || viewModel.isTakingPhoto)
     }
     .padding(.bottom, W3WMargin.three.value)
