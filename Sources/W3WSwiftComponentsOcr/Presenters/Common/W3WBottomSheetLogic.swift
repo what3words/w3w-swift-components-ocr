@@ -279,18 +279,10 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   /// hide the buttons at the top [select] and [select all]
   func hideSelectionButtons() {
-//    W3WThread.runIn(duration: .seconds(0.1)) { [weak self] in
-//      if let self {
-//        self.panelViewModel.input.send(.buttonHeader(item: nil))
-//      }
-//    }
     self.panelViewModel.input.send(.buttonHeader(item: nil))
   }
   
   func hideFooter() {
-//    W3WThread.runIn(duration: .seconds(0.1)) { [weak self] in
-//      self?.panelViewModel.input.send(.footer(item: nil))
-//    }
     self.panelViewModel.input.send(.footer(item: nil))
   }
 

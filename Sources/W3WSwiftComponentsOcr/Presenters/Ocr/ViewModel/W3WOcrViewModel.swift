@@ -89,7 +89,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   /// allows the suggestions to be selected into a list
   var selectableSuggestionList = W3WLive<Bool>(true)
-  
+  /// default = false. will set to true once receiving event = .resetScanResult, used to decide when to show header title
   var hasJustResetSuggestions: Bool = false
   
   
