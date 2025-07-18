@@ -49,8 +49,9 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
           .frame(width: innerCircleDiameter, height: innerCircleDiameter)
           .overlay(
             Circle()
-              .stroke(viewModel.viewType == .video ? W3WColor.white.with(alpha: 0.8).suColor : W3WColor.white.suColor, lineWidth: W3WLineThickness.fourPoint.value)
-              .frame(width: outerCircleDiameter, height: outerCircleDiameter)
+              .stroke(viewModel.viewType == .video ? W3WColor.white.with(alpha: 0.3).suColor : W3WColor.white.suColor, lineWidth: W3WLineThickness.fourPoint.value)
+              .frame(width: outerCircleDiameter,
+                     height: outerCircleDiameter)
           )
       }
       .foregroundColor(viewModel.viewType == .video ? W3WColor.white.with(alpha: 0.8).suColor : W3WColor.white.suColor)
@@ -61,10 +62,18 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
   
   private var importButton: some View {
     VStack(spacing: 8) {
-      Button(action: { viewModel.importButtonPressed() }, label: {
-        Image(uiImage: W3WImage.photoBadgePlus.get())
+      Button(action: {
+        viewModel.importButtonPressed()
+      }) {
+        let originalImage = W3WImage.photoBadgePlus.get()
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 17, weight: .regular)
+        let sizedImage = originalImage.withConfiguration(symbolConfig)
+        Image(uiImage: sizedImage)
           .renderingMode(.template)
-          .frame(width: W3WRowHeight.medium.value, height: W3WRowHeight.medium.value)
+          .frame(
+            width: 50.0,
+            height: 50.0
+          )
           .foregroundColor(.white)
           .background(W3WCoreColor.darkBlue.suColor)
           .clipShape(.circle)
@@ -72,10 +81,9 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
             Circle()
               .stroke(Color.white, lineWidth: 2.0)
           )
-      })
+      }
       .disabled(viewModel.lockOnImportButton)
-      .isLockedOcr(viewModel.lockOnImportButton, alignment: .topTrailing) //, offsetX: 32.0, offsetY: 32.0, lockColor: .red)
-      // if the button is disabled, we still need to send back the tap so the app can show a payment page
+      .isLockedOcr(viewModel.lockOnImportButton, alignment: .topTrailing)
       .onTapGesture {
         if viewModel.lockOnImportButton {
           viewModel.importButtonPressed()
