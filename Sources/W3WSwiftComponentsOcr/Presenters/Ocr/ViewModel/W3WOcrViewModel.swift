@@ -250,7 +250,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     stop()
   }
   
-      /// shows/hides the inital scan message
+  // show/hide header
   func showHeader(_ value: Bool) {
     if value {
       panelViewModel.input.send(.header(item: .heading(scanMessageText)))
