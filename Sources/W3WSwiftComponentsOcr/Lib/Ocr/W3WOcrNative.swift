@@ -169,7 +169,9 @@ public class W3WOcrNative: W3WOcrProtocol {
     
     // Create a new request to recognize text if not there already
     if request == nil {
-      request = VNRecognizeTextRequest(completionHandler: { [weak self] request, error in self?.recognizeTextHandler(request: request, error: error, info: info, completion: completion)})
+      request = VNRecognizeTextRequest(completionHandler: { [weak self] request, error in
+        self?.recognizeTextHandler(request: request, error: error, info: info, completion: completion)
+      })
     }
     request?.recognitionLanguages = languages
     
@@ -188,16 +190,16 @@ public class W3WOcrNative: W3WOcrProtocol {
   ///     - completion: called when a three word address is found
   public func autosuggest(video: W3WVideoStream, completion: @escaping ([W3WOcrSuggestion], W3WOcrError?) -> ())  {
     self.completion = completion
-    self.info       = { info in video.onFrameInfo(info) }
+    self.info       = { [weak video] info in
+      video?.onFrameInfo(info)
+    }
     
-    video.onNewImage = { [weak self, weak video] image in
-      guard let self,
-            let video
-      else {
-        return
-      }
+    video.onNewImage = { [weak self] image in
+      guard let self else { return }
       self.lastImageResolution = CGSize(width: image.width, height: image.height)
-      self.autosuggest(image: image, info: self.info, completion: { suggestions, error in self.completion(suggestions, error) })
+      self.autosuggest(image: image, info: self.info) { [weak self] suggestions, error in
+        self?.completion(suggestions, error)
+      }
     }
   }
   

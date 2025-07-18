@@ -108,12 +108,10 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     self.events         = events
     self.importLocked   = importLocked
     self.liveScanLocked = liveScanLocked
+    self.ocr = ocr
     self.panelViewModel = W3WPanelViewModel(language: language, translations: translations)
     // make the manager fro the bottom sheet
     self.bottomSheetLogic = W3WBottomSheetLogicInsanity(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .video, selectableSuggestionList: selectableSuggestionList)
-    
-    // set the ocr service to actually do the scanning
-    set(ocr: ocr)
     
     // show the default message at the bottom
     show(scanMessage: true)
@@ -125,26 +123,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     start()
   }
   
-  
-  
-  /// assign an OCR engine that conforms to W3WOcrProtocol to this component
-  /// - Parameters:
-  ///     - ocr: the W3WOcrProtocol conforming OCR engine
-  public func set(ocr: W3WOcrProtocol?) {
-    self.ocr = ocr
-    
-    if camera == nil {
-      self.camera = W3WOcrCamera.get(camera: .back)
-      self.camera?.onCameraStarted = { [weak self, weak camera] in
-        guard let self, let camera else {
-          return
-        }
-        //self.onCameraStarted()
-      }
-    }
-  }
-  
-  
+
   /// connect the events to functions
   func bind() {
     // input events
@@ -159,6 +138,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     
     // when the user selects a single address
     suggestions.singleSelection = { [weak self] selection in
+      // Stop scanning as the selection will be handled externally after this view is dismissed
+      self?.stop()
       self?.output.send(.selected(selection))
     }
     
@@ -281,26 +262,22 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     camera.start()
     
     ocr.autosuggest(video: camera) { [weak self] suggestions, error in
-      self?.autosuggestCompletion(suggestions: suggestions, error: error == nil ? nil : W3WError.other(error))
+      guard let self else { return }
+      autosuggestCompletion(suggestions: suggestions, error: error)
       
-      if !(self?.firstLiveScanResultHappened ?? false) {
-        self?.firstLiveScanResultHappened = true
-        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultLiveScan)))
+      if !firstLiveScanResultHappened {
+        firstLiveScanResultHappened = true
+        output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultLiveScan)))
       }
     }
   }
   
   
   /// do something with the actual scanning result
-  public func autosuggestCompletion(suggestions: [W3WSuggestion]?, error: W3WError?) {
-    //guard let self else { return }
-    if self == nil {
-      print("The OCR system is connected to a W3WOcrViewController that no longer exists. Please ensure the OCR is connected to the current W3WOcrViewController.  Perhaps instantiate a new OCR when creating a new W3WOcrViewControlller.")
-      
-    } else if let e = error {
-      output.send(.error(e))
-      
-    } else { //if stopOutput == false {
+  public func autosuggestCompletion(suggestions: [W3WSuggestion]?, error: Error?) {
+    if let error {
+      output.send(.error(W3WError.other(error)))
+    } else {
       handle(suggestions: suggestions)
     }
   }
@@ -315,7 +292,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   }
   
   
-  /// stop the scanning
+  /// Stop the scanning
   func stop() {
     if let camera {
       state = .idle
@@ -329,28 +306,27 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   /// handle a new scan result
   public func handle(suggestions theSuggestions: [W3WSuggestion]?) {
-    if let s = theSuggestions {
-
-      // remember the most recent results for "still" mode
-      lastSuggestions = s
-      
-      // we are in live scan mode, send all suggestions to the panel
-      if viewType == .video {
-        DispatchQueue.main.async { [weak self] in
-          guard let self else { return }
-          self.bottomSheetLogic.add(suggestions: s)
-        }
+    guard let theSuggestions else { return }
+    
+    // remember the most recent results for "still" mode
+    lastSuggestions = theSuggestions
+    
+    // we are in live scan mode, send all suggestions to the panel
+    if viewType == .video {
+      DispatchQueue.main.async { [weak self] in
+        guard let self else { return }
+        self.bottomSheetLogic.add(suggestions: theSuggestions)
       }
-      
-      // send events
-      for suggestion in theSuggestions ?? [] {
-        output.send(.detected(suggestion))
-      }
-
-      // remove text if suggestions are available
-      if bottomSheetLogic.suggestions.count() > 0 {
-        show(scanMessage: false)
-      }
+    }
+    
+    // send events
+    for suggestion in theSuggestions {
+      output.send(.detected(suggestion))
+    }
+    
+    // remove text if suggestions are available
+    if bottomSheetLogic.suggestions.count() > 0 {
+      show(scanMessage: false)
     }
   }
   
