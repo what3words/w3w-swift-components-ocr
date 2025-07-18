@@ -139,6 +139,29 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
     subscribe(to: suggestions.update) { [weak self] event in
       self?.updateFooterStatus()
     }
+    
+    subscribe(to: panelViewModel.input) { [weak self] event in
+      self?.handleEventSubscription(event: event)
+    }
+  }
+  
+  func handleEventSubscription(event: W3WPanelInputEvent) {
+    switch event {
+    case .reset:
+      resetAll()
+    default:
+      break
+    }
+  }
+  
+  func resetAll() {
+    selectMode = false
+    selectionButtonsShowing = false
+    self.suggestions = .init()
+    self.selectableSuggestionList = .init(true)
+    self.panelViewModel.input.send(.add(item: .suggestions(suggestions)))
+    updateFooterStatus()
+    hideSelectionButtons()
   }
   
   
@@ -250,17 +273,25 @@ class W3WBottomSheetLogic: W3WEventSubscriberProtocol {
   
   /// show the buttons at the top [select] and [select all]
   func showSelectionButtons() {
-    panelViewModel.input.send(.header(item: .buttons([selectButton, selectAllButton])))
+    panelViewModel.input.send(.buttonHeader(item: .buttons([selectButton, selectAllButton])))
   }
   
   
   /// hide the buttons at the top [select] and [select all]
   func hideSelectionButtons() {
-    W3WThread.runIn(duration: .seconds(5.0)) { [weak self] in
-      if let self {
-        self.panelViewModel.input.send(.header(item: nil))
-      }
-    }
+//    W3WThread.runIn(duration: .seconds(0.1)) { [weak self] in
+//      if let self {
+//        self.panelViewModel.input.send(.buttonHeader(item: nil))
+//      }
+//    }
+    self.panelViewModel.input.send(.buttonHeader(item: nil))
+  }
+  
+  func hideFooter() {
+//    W3WThread.runIn(duration: .seconds(0.1)) { [weak self] in
+//      self?.panelViewModel.input.send(.footer(item: nil))
+//    }
+    self.panelViewModel.input.send(.footer(item: nil))
   }
 
   
