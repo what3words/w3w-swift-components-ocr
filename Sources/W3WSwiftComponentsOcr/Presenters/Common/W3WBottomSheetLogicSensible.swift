@@ -16,10 +16,6 @@ import W3WSwiftPresenters
 /// when all items are selected
 class W3WBottomSheetLogicSensible: W3WBottomSheetLogicBase {
 
-  /// keeps track of if the selection button is showing - maybe this could be a computed value?
-  var selectionButtonsShowing = false
-
-  
   // MARK: Innit
   
   
@@ -34,14 +30,14 @@ class W3WBottomSheetLogicSensible: W3WBottomSheetLogicBase {
   
   override func selectButtonTapped() {
     selectMode.toggle()
-    suggestions.make(selectable: selectMode ?? false)
+    suggestions.make(selectable: selectMode)
     onSelectButton()
   }
   
   
   override func selectAllButtonTapped() {
     selectMode = true
-    if isAllSelected ?? false {
+    if isAllSelected {
       suggestions.setAll(selected: false)
     } else {
       suggestions.setAll(selected: true)

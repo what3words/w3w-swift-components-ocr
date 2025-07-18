@@ -12,6 +12,10 @@ import W3WSwiftPresenters
 
 /// manages a bottom sheet on an ocr screen
 class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberProtocol {
+  
+  /// keeps track of if the selection button is showing - maybe this could be a computed value?
+  var selectionButtonsShowing: Bool = false
+  
   var subscriptions = W3WEventsSubscriptions()
 
   /// the model for the panel in the bottom sheet
@@ -128,6 +132,29 @@ class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberPr
     subscribe(to: suggestions.update) { [weak self] event in
       self?.updateFooterStatus()
     }
+    
+    subscribe(to: panelViewModel.input) { [weak self] event in
+      self?.handleEventSubscription(event: event)
+    }
+  }
+  
+  func handleEventSubscription(event: W3WPanelInputEvent) {
+    switch event {
+    case .reset:
+      resetAll()
+    default:
+      break
+    }
+  }
+  
+  func resetAll() {
+    selectMode = false
+    selectionButtonsShowing = false
+    self.suggestions = .init()
+    self.selectableSuggestionList = .init(true)
+    self.panelViewModel.input.send(.add(item: .suggestions(suggestions)))
+    updateFooterStatus()
+    hideSelectionButtons()
   }
   
   
@@ -185,17 +212,17 @@ class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberPr
   
   /// show the buttons at the top [select] and [select all]
   func showSelectionButtons() {
-    panelViewModel.input.send(.header(item: .buttons([selectButton, selectAllButton])))
+    panelViewModel.input.send(.buttonHeader(item: .buttons([selectButton, selectAllButton])))
   }
   
   
   /// hide the buttons at the top [select] and [select all]
   func hideSelectionButtons() {
-    W3WThread.runOnMain { [weak self] in
-      if let self {
-        self.panelViewModel.input.send(.header(item: nil))
-      }
-    }
+    self.panelViewModel.input.send(.buttonHeader(item: nil))
+  }
+  
+  func hideFooter() {
+    self.panelViewModel.input.send(.footer(item: nil))
   }
 
   

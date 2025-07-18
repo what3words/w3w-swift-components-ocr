@@ -15,6 +15,8 @@ protocol W3WBottomSheetLogicProtocol {
 
   /// indicates if we are in selection mode or in regular mode
   var selectMode: Bool { get set }
+  
+  var selectionButtonsShowing: Bool { get set }
 
   /// callback for when a button is tapped containing the button tpped and the currently selected suggestions
   var onButton: (W3WSuggestionsViewAction, [W3WSuggestion]) -> () { get set }
