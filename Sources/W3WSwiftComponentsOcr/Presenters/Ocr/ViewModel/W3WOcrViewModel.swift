@@ -5,7 +5,7 @@
 //  Created by Dave Duprey on 30/04/2025.
 //
 
-
+import Combine
 import SwiftUI
 import W3WSwiftCore
 import W3WSwiftThemes
@@ -52,16 +52,13 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   public let ocrCropRect = W3WEvent<CGRect>()
   
   /// the camera
-  public var camera: W3WOcrCamera?
+  public let camera = W3WLive<W3WOcrCamera?>(nil)
   
   /// the suggestions that ocr collects
   public var suggestions = W3WSelectableSuggestions()
 
   /// view model for the panel in the bottom sheet
   public var panelViewModel: W3WPanelViewModel
-  
-  /// indicates it's current state: scanning/stopped
-  public var state = W3WOcrState.idle
   
   /// indicates if there is a photo being processed
   @Published public var isTakingPhoto = false
@@ -89,6 +86,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   /// allows the suggestions to be selected into a list
   var selectableSuggestionList = W3WLive<Bool>(true)
+  
   /// default = false. will set to true once receiving event = .resetScanResult, used to decide when to show header title
   var hasJustResetSuggestions: Bool = false
   
@@ -105,7 +103,6 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
               language: W3WLive<W3WLanguage?>? = nil) {
     self.scheme         = .w3w
     self.theme          = theme ?? W3WLive<W3WTheme?>(.what3words)
-    self.camera         = W3WOcrCamera.get(camera: .back)
     self.translations   = translations
     self.events         = events
     self.importLocked   = importLocked
@@ -120,14 +117,12 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     
     // connect events to functions
     bind()
-    
-    // start the OCR process
-    start()
   }
-  
+}
 
-  /// connect the events to functions
-  func bind() {
+// MARK: Bindings
+private extension W3WOcrViewModel {
+  private func bind() {
     // input events
     subscribe(to: input) { [weak self] event in
       self?.handle(event: event)
@@ -140,8 +135,6 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     
     // when the user selects a single address
     suggestions.singleSelection = { [weak self] selection in
-      // Stop scanning as the selection will be handled externally after this view is dismissed
-      self?.stop()
       self?.output.send(.selected(selection))
     }
     
@@ -178,84 +171,39 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     }
   }
   
-  
-  /// called by UI when the import button is pressed
-  public func importButtonPressed() {
-    output.send(.importImage)
+  func handle(event: W3WOcrInputEvent) {
+    switch event {
+    case .trackCameraMode:
+      trackCameraMode()
+      
+    case .startScanning:
+      start()
+      
+    case .capturePhoto:
+      capturePhoto()
+      
+    case .importPhoto:
+      importPhoto()
+      
+    case .resetScanResult:
+      panelViewModel.input.send(.reset)
+      hasJustResetSuggestions = true
+      showHeader(true)
+      
+    case .dismiss:
+      output.send(.dismiss)
+      stop()
+    }
+  }
+}
 
-    if !lockOnImportButton {
-      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrPhotoImport)))
-    }
-  }
-  
-  
-  /// called by UI when the capture button is pressed
-  public func captureButtonPressed() {
-    isTakingPhoto = true
-    
-    camera?.captureStillImage() { [weak self] image in
-      self?.output.send(.captureButton(image))
-      self?.isTakingPhoto = false
-    }
-    
-    if viewType == .still {
-      bottomSheetLogic.add(suggestions: lastSuggestions)
-    }
-
-    output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrPhotoCapture)))
-  }
-  
-  
-  /// called by UI when the live capture switch is switched
-  public func viewTypeSwitchEvent(on: Bool) {
-    if on { // if we pause the camera on still capture, the unpause (see above)
-      //camera?.unpause()
-    }
-    
-    output.send(.liveCaptureSwitch(on))
-    
-    if !lockOnLiveSwitch {
-      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScan, parameters: ["on": .boolean(on)])))
-      if on {
-        output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScanOn)))
-      } else {
-        output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScanOff)))
-      }
-    }
-  }
-
-  
-  /// called by UI when the close button is pressed
-  public func closeButtonPressed() {
-    output.send(.dismiss)
-    stop()
-  }
-  
-  // show/hide header
-  func showHeader(_ value: Bool) {
-    if value {
-      panelViewModel.input.send(.header(item: .heading(scanMessageText)))
-    } else {
-      panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
-    }
-  }
-  
-  // MARK: Commands
-  
-    
+// MARK: Actions
+private extension W3WOcrViewModel {
   /// start scanning
-  public func start() {
-    guard let camera, let ocr else { return }
-    guard state == .idle else { return }
-    
-    state = .detecting
-    
-    // Maybe we need a better check if there is a paused session
-    if camera.session != nil {
-      camera.unpause()
-      return
-    }
-
+  func start() {
+    guard let camera = W3WOcrCamera.get(camera: .back), let ocr else { return }
+    defer { self.camera.send(camera) }
+  
     firstLiveScanResultHappened = false
     camera.start()
     
@@ -270,9 +218,16 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     }
   }
   
-  
+  /// Stop the scanning
+  func stop() {
+    camera.value?.stop()
+  }
+}
+
+// MARK: Helpers
+private extension W3WOcrViewModel {
   /// do something with the actual scanning result
-  public func autosuggestCompletion(suggestions: [W3WSuggestion]?, error: Error?) {
+  func autosuggestCompletion(suggestions: [W3WSuggestion]?, error: Error?) {
     if let error {
       output.send(.error(W3WError.other(error)))
     } else {
@@ -280,30 +235,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     }
   }
   
-
-  /// pause the scanning
-  func pause() {
-    if let camera {
-      state = .idle
-      camera.pause()
-    }
-  }
-  
-  
-  /// Stop the scanning
-  func stop() {
-    if let camera {
-      state = .idle
-      camera.stop()
-    }
-  }
-  
-    
-  // MARK: Event Handlers
-  
-  
   /// handle a new scan result
-  public func handle(suggestions theSuggestions: [W3WSuggestion]?) {
+  func handle(suggestions theSuggestions: [W3WSuggestion]?) {
     guard let theSuggestions else { return }
     
     // remember the most recent results for "still" mode
@@ -329,28 +262,54 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     }
   }
   
+  // show/hide header
+  func showHeader(_ flag: Bool) {
+    let item: W3WPanelItem = .heading(scanMessageText)
+    let event: W3WPanelInputEvent = flag ? .header(item: item) : .remove(item: item)
+    panelViewModel.input.send(event)
+  }
   
-  /// input events
-  public func handle(event: W3WOcrInputEvent) {
-    switch event {
-    case .startScanning:
-      start()
-    case .pauseScanning:
-      pause()
-    case .resetScanResult:
-      panelViewModel.input.send(.reset)
-      hasJustResetSuggestions = true
-      showHeader(true)
+  func capturePhoto() {
+    isTakingPhoto = true
+    camera.value?.captureStillImage { [weak self] image in
+      self?.output.send(.captureButton(image))
+      self?.isTakingPhoto = false
+    }
+    if viewType == .still {
+      bottomSheetLogic.add(suggestions: lastSuggestions)
+    }
+    output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrPhotoCapture)))
+    
+    // Stop the camera
+    stop()
+  }
+  
+  /// called by UI when the import button is pressed
+  func importPhoto() {
+    output.send(.importImage)
+
+    if !lockOnImportButton {
+      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrPhotoImport)))
+      
+      // Stop the camera
+      stop()
     }
   }
   
+  /// called by UI when the live capture switch is switched
+  func trackCameraMode() {
+    let isLiveCaptureOn = viewType == .video
+    output.send(.liveCaptureSwitch(isLiveCaptureOn))
+    
+    guard !lockOnLiveSwitch else { return }
+    
+    output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScan, parameters: ["on": .boolean(isLiveCaptureOn)])))
+    let orcLive: W3WAppEventName = isLiveCaptureOn ? .ocrLiveScanOn : .ocrLiveScanOff
+    output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: orcLive)))
+  }
   
-  // MARK: Utility
-
-
   func makeWordsString(suggestions: [W3WSuggestion]) -> String {
     let retval = suggestions.compactMap { $0.words }
     return retval.joined(separator: ",")
   }
-
 }

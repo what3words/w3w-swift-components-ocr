@@ -44,7 +44,9 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
       .lineLimit(1)
       
       // capture button
-      Button(action: viewModel.captureButtonPressed) {
+      Button(action: {
+        viewModel.input.send(.capturePhoto)
+      }) {
         Circle()
           .frame(width: innerCircleDiameter, height: innerCircleDiameter)
           .overlay(
@@ -63,7 +65,7 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
   private var importButton: some View {
     VStack(spacing: 8) {
       Button(action: {
-        viewModel.importButtonPressed()
+        viewModel.input.send(.importPhoto)
       }) {
         let originalImage = W3WImage.photoBadgePlus.get()
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 17, weight: .regular)
@@ -86,7 +88,7 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
       .isLockedOcr(viewModel.lockOnImportButton, alignment: .topTrailing)
       .onTapGesture {
         if viewModel.lockOnImportButton {
-          viewModel.importButtonPressed()
+          viewModel.input.send(.importPhoto)
         }
       }
       
@@ -112,7 +114,7 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
         .toggleStyle(BorderedSwitchToggleStyle(isLocked: viewModel.lockOnLiveSwitch, trackColorOn: viewModel.bottomSheetScheme?.colors?.brand?.suColor ?? W3WColor.red.suColor, borderColor: .white))
         .onTapGesture { // if the toggle is disabled, we still need to send back the tap so the app can show a payment page
           if viewModel.lockOnLiveSwitch {
-            viewModel.viewTypeSwitchEvent(on: cameraMode)
+            viewModel.input.send(.trackCameraMode)
           }
         }
       Text(viewModel.translations.get(id: "ocr_live_scanButton"))

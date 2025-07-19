@@ -11,9 +11,12 @@ import W3WSwiftAppEvents
 /// input events for ocr
 public enum W3WOcrInputEvent: String, W3WAppEventConvertable {
   
+  case trackCameraMode
   case resetScanResult
   case startScanning
-  case pauseScanning
+  case capturePhoto
+  case importPhoto
+  case dismiss
   
   public func asAppEvent() -> W3WAppEvent {
     return W3WAppEvent(type: Self.self, name: W3WAppEventName(value: "ocr." + self.rawValue))

@@ -46,11 +46,6 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
     // make the UIKit OCR view
     ocrView = W3WOcrView(frame: .w3wWhatever)
     
-    // attach the camera to the OCR view
-    if let camera = viewModel.camera {
-      ocrView.set(camera: camera)
-    }
-    
     // set the colours
     ocrView.set(lineColor: W3WCoreColor.white.uiColor, lineGap: 1.0)
     
@@ -59,7 +54,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
 
     // start 'er up
     super.init(rootView: ocrScreen)
-    
+   
     // set colours and bind to themes
     view.backgroundColor = W3WColor.darkBlue.current.uiColor
     ocrView.set(scheme: viewModel.theme.value?.ocrScheme(for: .idle))
@@ -68,6 +63,11 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
       W3WThread.queueOnMain {
         self?.ocrView.set(scheme: viewModel.theme.value?.ocrScheme(for: .idle))
       }
+    }
+    // attach the camera to the OCR view
+    subscribe(to: viewModel.camera)  { [weak self] camera in
+      guard let camera else { return }
+      self?.ocrView.set(camera: camera)
     }
     subscribe(to: viewModel.ocrCropRect)  { [weak self] rect in
       self?.customCrop = rect
@@ -83,19 +83,9 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   }
  
   
-  override open func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    if viewModel.state == .idle {
-      viewModel.input.send(.startScanning)
-    }
-  }
-  
-  
-  override open func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    if viewModel.state == .detecting {
-      viewModel.input.send(.pauseScanning)
-    }
+  override open func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.input.send(.startScanning)
   }
   
   

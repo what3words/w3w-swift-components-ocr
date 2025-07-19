@@ -43,8 +43,11 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   /// a binding for the viewType for the ui switch to connect with the viewModel's viewMode value
   var cameraMode: Binding<Bool> {
     Binding(
-      get: { self.viewModel.viewType == .video },
-      set: { newValue in self.viewModel.viewType = newValue ? .video : .still; viewModel.viewTypeSwitchEvent(on: newValue) }
+      get: { viewModel.viewType == .video },
+      set: { newValue in
+        viewModel.viewType = newValue ? .video : .still
+        viewModel.input.send(.trackCameraMode)
+      }
     )
   }
   
@@ -62,9 +65,11 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
             .get(size: W3WIconSize(value: CGSize(width: 128, height: 21.0)))
           )
           
-          W3WCloseButtonX(onTap: viewModel.closeButtonPressed)
-            .padding(.trailing, W3WPadding.heavy.value)
-            .frame(maxWidth: .infinity, alignment: .trailing)
+          W3WCloseButtonX {
+            viewModel.input.send(.dismiss)
+          }
+          .padding(.trailing, W3WPadding.heavy.value)
+          .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .padding(.vertical, W3WPadding.light.value)
         
