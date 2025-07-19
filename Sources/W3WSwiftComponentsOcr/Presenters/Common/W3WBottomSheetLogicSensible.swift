@@ -16,10 +16,6 @@ import W3WSwiftPresenters
 /// when all items are selected
 class W3WBottomSheetLogicSensible: W3WBottomSheetLogicBase {
 
-  /// keeps track of if the selection button is showing - maybe this could be a computed value?
-  var selectionButtonsShowing = false
-
-  
   // MARK: Innit
   
   
@@ -34,14 +30,14 @@ class W3WBottomSheetLogicSensible: W3WBottomSheetLogicBase {
   
   override func selectButtonTapped() {
     selectMode.toggle()
-    suggestions.make(selectable: selectMode ?? false)
+    suggestions.make(selectable: selectMode)
     onSelectButton()
   }
   
   
   override func selectAllButtonTapped() {
     selectMode = true
-    if isAllSelected ?? false {
+    if isAllSelected {
       suggestions.setAll(selected: false)
     } else {
       suggestions.setAll(selected: true)
@@ -103,17 +99,17 @@ class W3WBottomSheetLogicSensible: W3WBottomSheetLogicBase {
 //      panelViewModel.input.send(.add(item: blankMessage))
 //    }
       
-    if suggestions.count() > 0 && !selectionButtonsShowing && selectableSuggestionList.value {
+    if suggestions.count() > 0 && !areSelectionButtonsVisible && selectableSuggestionList.value {
       panelViewModel.input.send(.remove(item: notFound))
-      selectionButtonsShowing = true
+      areSelectionButtonsVisible = true
       showSelectionButtons()
     }
     
-    if suggestions.count() == 0 && selectionButtonsShowing || !selectableSuggestionList.value {
+    if suggestions.count() == 0 && areSelectionButtonsVisible || !selectableSuggestionList.value {
       panelViewModel.input.send(.remove(item: notFound))
       panelViewModel.input.send(.footer(item: nil))
       hideSelectionButtons()
-      selectionButtonsShowing = false
+      areSelectionButtonsVisible = false
     }
     
     updateFooterText()

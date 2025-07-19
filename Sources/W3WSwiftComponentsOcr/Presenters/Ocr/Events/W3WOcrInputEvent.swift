@@ -11,6 +11,7 @@ import W3WSwiftAppEvents
 /// input events for ocr
 public enum W3WOcrInputEvent: String, W3WAppEventConvertable {
   
+  case resetScanResult
   case startScanning
   case pauseScanning
   

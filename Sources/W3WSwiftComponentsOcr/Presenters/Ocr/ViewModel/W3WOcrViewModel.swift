@@ -89,6 +89,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   /// allows the suggestions to be selected into a list
   var selectableSuggestionList = W3WLive<Bool>(true)
+  /// default = false. will set to true once receiving event = .resetScanResult, used to decide when to show header title
+  var hasJustResetSuggestions: Bool = false
   
   
   /// model for the ocr view
@@ -114,7 +116,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     self.bottomSheetLogic = W3WBottomSheetLogicInsanity(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .video, selectableSuggestionList: selectableSuggestionList)
     
     // show the default message at the bottom
-    show(scanMessage: true)
+    showHeader(true)
     
     // connect events to functions
     bind()
@@ -228,19 +230,15 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     output.send(.dismiss)
     stop()
   }
-
   
-  /// shows/hides the inital scan message
-  func show(scanMessage: Bool) {
-    if scanMessage {
-      //bottomSheetLogic.panelViewModel.input.send(.add(item: .heading(scanMessageText)))
-      panelViewModel.input.send(.add(item: .heading(scanMessageText)))
+  // show/hide header
+  func showHeader(_ value: Bool) {
+    if value {
+      panelViewModel.input.send(.header(item: .heading(scanMessageText)))
     } else {
-      //bottomSheetLogic.panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
       panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
     }
   }
-  
   
   // MARK: Commands
   
@@ -326,7 +324,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     
     // remove text if suggestions are available
     if bottomSheetLogic.suggestions.count() > 0 {
-      show(scanMessage: false)
+      showHeader(hasJustResetSuggestions)
+      hasJustResetSuggestions = false
     }
   }
   
@@ -334,10 +333,14 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// input events
   public func handle(event: W3WOcrInputEvent) {
     switch event {
-      case .startScanning:
-        start()
-      case .pauseScanning:
-        pause()
+    case .startScanning:
+      start()
+    case .pauseScanning:
+      pause()
+    case .resetScanResult:
+      panelViewModel.input.send(.reset)
+      hasJustResetSuggestions = true
+      showHeader(true)
     }
   }
   
