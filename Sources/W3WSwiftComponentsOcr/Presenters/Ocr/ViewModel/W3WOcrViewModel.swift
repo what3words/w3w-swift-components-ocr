@@ -255,7 +255,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     if value {
       panelViewModel.input.send(.header(item: .heading(scanMessageText)))
     } else {
-      panelViewModel.input.send(.header(item: nil))
+//      panelViewModel.input.send(.header(item: nil))
+      panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
     }
   }
   

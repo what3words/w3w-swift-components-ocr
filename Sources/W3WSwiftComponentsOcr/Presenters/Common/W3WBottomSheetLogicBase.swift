@@ -212,13 +212,14 @@ class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberPr
   
   /// show the buttons at the top [select] and [select all]
   func showSelectionButtons() {
-    panelViewModel.input.send(.buttonHeader(item: .buttons([selectButton, selectAllButton])))
+    panelViewModel.input.send(.header(item: .buttons([selectButton, selectAllButton])))
   }
   
   
   /// hide the buttons at the top [select] and [select all]
   func hideSelectionButtons() {
-    self.panelViewModel.input.send(.buttonHeader(item: nil))
+//    self.panelViewModel.input.send(.header(item: nil))
+    self.panelViewModel.input.send(.remove(item: .buttons([selectButton, selectAllButton])))
   }
   
   func hideFooter() {
