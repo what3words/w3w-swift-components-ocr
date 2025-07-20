@@ -16,11 +16,6 @@ import W3WSwiftPresenters
 /// selectable anymore. Select All selects all, and stays
 /// highlighted even if no items are selected anymore
 class W3WBottomSheetLogicInsanity: W3WBottomSheetLogicBase {
-
-  /// keeps track of if the selection button is showing - maybe this could be a computed value?
-  var selectionButtonsShowing = false
-
-  
   // MARK: Innit
   
   
