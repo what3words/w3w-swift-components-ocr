@@ -75,6 +75,12 @@ class W3WBottomSheetLogicInsanity: W3WBottomSheetLogicBase {
       panelViewModel.input.send(.footer(item: footer))
     } else {
       panelViewModel.input.send(.footer(item: nil))
+      panelViewModel.input.send(.remove(item: tryAgainItem))
+      panelViewModel.input.send(.remove(item: notFound))
+      if let resultsFound, !resultsFound {
+        panelViewModel.input.send(.add(item: tryAgainItem))
+        panelViewModel.input.send(.add(item: notFound))
+      }
     }
     
     // if there any suggestions then show selection buttons
