@@ -11,7 +11,7 @@ public enum W3WOcrAnalyticEvent {
   case proPaywallOcrPhotoImport
   case proPaywallOcrLiveScan
   case ocrPhotoImport
-  case ocrLiveScan
+  //case ocrLiveScan
   case ocrLiveScanOff
   case ocrLiveScanOn
   case ocrPhotoCapture

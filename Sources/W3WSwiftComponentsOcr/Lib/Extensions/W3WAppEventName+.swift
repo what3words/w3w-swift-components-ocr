@@ -15,7 +15,7 @@ public extension W3WAppEventName {
   static let proPaywallOcrPhotoImport: W3WAppEventName = "ocr.pro_paywall_ocr_photo_import" // non-Pro users  Defined under Paywall section.
   static let proPaywallOcrLiveScan: W3WAppEventName   = "ocr.pro_paywall_ocr_live_scan"    // non-Pro users  Defined under Paywall section.
   static let ocrPhotoImport: W3WAppEventName          = "ocr.photo_import"                // Pro users  Triggered when user clicks the import photo button while it is unlocked on the OCR main screen.
-  static let ocrLiveScan: W3WAppEventName             = "ocr.live_scan"                  // Pro users  Triggered when user clicks on Live Scan while it is unlocked on the OCR main screen.
+  //static let ocrLiveScan: W3WAppEventName             = "ocr.live_scan"                  // Pro users  Triggered when user clicks on Live Scan while it is unlocked on the OCR main screen.
   static let ocrLiveScanOff: W3WAppEventName          = "ocr.live_scan_off"             // Pro users  Triggered when user toggles on Live scan on the OCR main screen.
   static let ocrLiveScanOn: W3WAppEventName           = "ocr.live_scan_on"             // Pro users  Triggered when user toggles off Live scan on the OCR main screen.
   static let ocrPhotoCapture: W3WAppEventName         = "ocr.photo_capture"           // All users  Triggered when user clicks on the captures photo button on the OCR main screen.

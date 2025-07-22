@@ -303,7 +303,6 @@ private extension W3WOcrViewModel {
     
     guard !lockOnLiveSwitch else { return }
     
-    output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScan, parameters: ["on": .boolean(isLiveCaptureOn)])))
     let orcLive: W3WAppEventName = isLiveCaptureOn ? .ocrLiveScanOn : .ocrLiveScanOff
     output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: orcLive)))
   }

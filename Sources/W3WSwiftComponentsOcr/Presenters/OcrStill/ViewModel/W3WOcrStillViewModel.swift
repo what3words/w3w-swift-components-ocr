@@ -130,9 +130,9 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
     switch input {
       
       // when an image comes in, scan it
-      case .image(let i):
+      case .image(let i, let source):
         showImage(image: i)
-        scanImage(image: i)
+        scanImage(image: i, source: source)
         bottomSheetLogic.updateFooterStatus()
         
       case .isLoading:
@@ -151,14 +151,14 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
 
   
   /// scan an image for three word addresses
-  func scanImage(image: CGImage?) {
-    output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoImport, parameters: ["width": .number(image == nil ? nil : Float(image!.width)), "height": .number(image == nil ? nil : Float(image!.height))])))
+  func scanImage(image: CGImage?, source: W3WOcrImageSource = .unknown) {
+    //output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoImport, parameters: ["width": .number(image == nil ? nil : Float(image!.width)), "height": .number(image == nil ? nil : Float(image!.height))])))
     bottomSheetLogic.results(found: false)
 
     guard let image else { return }
     isLoading = true
     
-    W3WThread.runInBackground { [weak self] in
+    W3WThread.runInBackground { [weak self, source] in
       self?.ocr.autosuggest(image: image, info: { _ in }) { [weak self] suggestions, error in
         W3WThread.runOnMain { [weak self] in
           guard let self else { return }
@@ -172,7 +172,12 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
             output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrNoResultFound)))
           } else {
             bottomSheetLogic.results(found: true)
-            output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoCapture)))
+            if case .camera = source {
+              output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoCapture)))
+            }
+            if case .photoLibrary = source {
+              output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoImport)))
+            }
           }
           
           // send suggestions to view
