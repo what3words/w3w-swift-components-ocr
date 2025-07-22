@@ -16,11 +16,6 @@ import W3WSwiftPresenters
 /// selectable anymore. Select All selects all, and stays
 /// highlighted even if no items are selected anymore
 class W3WBottomSheetLogicInsanity: W3WBottomSheetLogicBase {
-
-  /// keeps track of if the selection button is showing - maybe this could be a computed value?
-  var selectionButtonsShowing = false
-
-  
   // MARK: Innit
   
   
@@ -39,8 +34,8 @@ class W3WBottomSheetLogicInsanity: W3WBottomSheetLogicBase {
   
   override func selectButtonTapped() {
     selectMode.toggle()
-    suggestions.make(selectable: selectMode ?? false)
-    selectButton.highlight = (selectMode ?? false) ? .primary : .secondary
+    suggestions.make(selectable: selectMode)
+    selectButton.highlight = selectMode ? .primary : .secondary
     onSelectButton()
     
     if selectAllButton.highlight == .primary {
@@ -54,7 +49,7 @@ class W3WBottomSheetLogicInsanity: W3WBottomSheetLogicBase {
   override func selectAllButtonTapped() {
     selectMode = true
 
-    if isAllSelected ?? false {
+    if isAllSelected {
       suggestions.setAll(selected: false)
       selectAllButton.highlight = .secondary
       
@@ -80,6 +75,12 @@ class W3WBottomSheetLogicInsanity: W3WBottomSheetLogicBase {
       panelViewModel.input.send(.footer(item: footer))
     } else {
       panelViewModel.input.send(.footer(item: nil))
+      panelViewModel.input.send(.remove(item: tryAgainItem))
+      panelViewModel.input.send(.remove(item: notFound))
+      if let resultsFound, !resultsFound {
+        panelViewModel.input.send(.add(item: tryAgainItem))
+        panelViewModel.input.send(.add(item: notFound))
+      }
     }
     
     // if there any suggestions then show selection buttons

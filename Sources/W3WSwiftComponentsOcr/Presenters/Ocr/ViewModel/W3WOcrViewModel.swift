@@ -5,7 +5,7 @@
 //  Created by Dave Duprey on 30/04/2025.
 //
 
-
+import Combine
 import SwiftUI
 import W3WSwiftCore
 import W3WSwiftThemes
@@ -52,16 +52,13 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   public let ocrCropRect = W3WEvent<CGRect>()
   
   /// the camera
-  public var camera: W3WOcrCamera?
+  public let camera = W3WLive<W3WOcrCamera?>(nil)
   
   /// the suggestions that ocr collects
   public var suggestions = W3WSelectableSuggestions()
 
   /// view model for the panel in the bottom sheet
   public var panelViewModel: W3WPanelViewModel
-  
-  /// indicates it's current state: scanning/stopped
-  public var state = W3WOcrState.idle
   
   /// indicates if there is a photo being processed
   @Published public var isTakingPhoto = false
@@ -90,6 +87,9 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// allows the suggestions to be selected into a list
   var selectableSuggestionList = W3WLive<Bool>(true)
   
+  /// default = false. will set to true once receiving event = .resetScanResult, used to decide when to show header title
+  var hasJustResetSuggestions: Bool = false
+  
   
   /// model for the ocr view
   public init(ocr: W3WOcrProtocol,
@@ -103,50 +103,26 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
               language: W3WLive<W3WLanguage?>? = nil) {
     self.scheme         = .w3w
     self.theme          = theme ?? W3WLive<W3WTheme?>(.what3words)
-    self.camera         = W3WOcrCamera.get(camera: .back)
     self.translations   = translations
     self.events         = events
     self.importLocked   = importLocked
     self.liveScanLocked = liveScanLocked
+    self.ocr = ocr
     self.panelViewModel = W3WPanelViewModel(language: language, translations: translations)
     // make the manager fro the bottom sheet
     self.bottomSheetLogic = W3WBottomSheetLogicInsanity(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .video, selectableSuggestionList: selectableSuggestionList)
     
-    // set the ocr service to actually do the scanning
-    set(ocr: ocr)
-    
     // show the default message at the bottom
-    show(scanMessage: true)
+    showHeader(true)
     
     // connect events to functions
     bind()
-    
-    // start the OCR process
-    start()
   }
-  
-  
-  
-  /// assign an OCR engine that conforms to W3WOcrProtocol to this component
-  /// - Parameters:
-  ///     - ocr: the W3WOcrProtocol conforming OCR engine
-  public func set(ocr: W3WOcrProtocol?) {
-    self.ocr = ocr
-    
-    if camera == nil {
-      self.camera = W3WOcrCamera.get(camera: .back)
-      self.camera?.onCameraStarted = { [weak self, weak camera] in
-        guard let self, let camera else {
-          return
-        }
-        //self.onCameraStarted()
-      }
-    }
-  }
-  
-  
-  /// connect the events to functions
-  func bind() {
+}
+
+// MARK: Bindings
+private extension W3WOcrViewModel {
+  private func bind() {
     // input events
     subscribe(to: input) { [weak self] event in
       self?.handle(event: event)
@@ -195,185 +171,144 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     }
   }
   
-  
-  /// called by UI when the import button is pressed
-  public func importButtonPressed() {
-    output.send(.importImage)
+  func handle(event: W3WOcrInputEvent) {
+    switch event {
+    case .trackCameraMode:
+      trackCameraMode()
+      
+    case .startScanning:
+      start()
+      
+    case .capturePhoto:
+      capturePhoto()
+      
+    case .importPhoto:
+      importPhoto()
+      
+    case .resetScanResult:
+      panelViewModel.input.send(.reset)
+      hasJustResetSuggestions = true
+      showHeader(true)
+      
+    case .dismiss:
+      output.send(.dismiss)
+      stop()
+    }
+  }
+}
 
-    if !lockOnImportButton {
-      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrPhotoImport)))
-    }
-  }
-  
-  
-  /// called by UI when the capture button is pressed
-  public func captureButtonPressed() {
-    isTakingPhoto = true
-    
-    camera?.captureStillImage() { [weak self] image in
-      self?.output.send(.captureButton(image))
-      self?.isTakingPhoto = false
-    }
-    
-    if viewType == .still {
-      bottomSheetLogic.add(suggestions: lastSuggestions)
-    }
-
-    output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrPhotoCapture)))
-  }
-  
-  
-  /// called by UI when the live capture switch is switched
-  public func viewTypeSwitchEvent(on: Bool) {
-    if on { // if we pause the camera on still capture, the unpause (see above)
-      //camera?.unpause()
-    }
-    
-    output.send(.liveCaptureSwitch(on))
-    
-    if !lockOnLiveSwitch {
-      //output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScan, parameters: ["on": .boolean(on)])))
-      if on {
-        output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScanOn)))
-      } else {
-        output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScanOff)))
-      }
-    }
-  }
-
-  
-  /// called by UI when the close button is pressed
-  public func closeButtonPressed() {
-    output.send(.dismiss)
-    stop()
-  }
-
-  
-  /// shows/hides the inital scan message
-  func show(scanMessage: Bool) {
-    if scanMessage {
-      //bottomSheetLogic.panelViewModel.input.send(.add(item: .heading(scanMessageText)))
-      panelViewModel.input.send(.add(item: .heading(scanMessageText)))
-    } else {
-      //bottomSheetLogic.panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
-      panelViewModel.input.send(.remove(item: .heading(scanMessageText)))
-    }
-  }
-  
-  
-  // MARK: Commands
-  
-    
+// MARK: Actions
+private extension W3WOcrViewModel {
   /// start scanning
-  public func start() {
-    guard let camera, let ocr else { return }
-    guard state == .idle else { return }
-    
-    state = .detecting
-    
-    // Maybe we need a better check if there is a paused session
-    if camera.session != nil {
-      camera.unpause()
-      return
-    }
-
+  func start() {
+    guard let camera = W3WOcrCamera.get(camera: .back), let ocr else { return }
+    defer { self.camera.send(camera) }
+  
     firstLiveScanResultHappened = false
     camera.start()
     
     ocr.autosuggest(video: camera) { [weak self] suggestions, error in
-      self?.autosuggestCompletion(suggestions: suggestions, error: error == nil ? nil : W3WError.other(error))
+      guard let self else { return }
+      autosuggestCompletion(suggestions: suggestions, error: error)
       
-      if !(self?.firstLiveScanResultHappened ?? false) {
-        if !(self?.liveScanLocked.value ?? true) {
-          self?.firstLiveScanResultHappened = true
-          self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultLiveScan)))
-        }
+      if !firstLiveScanResultHappened {
+        firstLiveScanResultHappened = true
+        output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultLiveScan)))
       }
     }
   }
   
-  
+  /// Stop the scanning
+  func stop() {
+    camera.value?.stop()
+  }
+}
+
+// MARK: Helpers
+private extension W3WOcrViewModel {
   /// do something with the actual scanning result
-  public func autosuggestCompletion(suggestions: [W3WSuggestion]?, error: W3WError?) {
-    //guard let self else { return }
-    if self == nil {
-      print("The OCR system is connected to a W3WOcrViewController that no longer exists. Please ensure the OCR is connected to the current W3WOcrViewController.  Perhaps instantiate a new OCR when creating a new W3WOcrViewControlller.")
-      
-    } else if let e = error {
-      output.send(.error(e))
-      
-    } else { //if stopOutput == false {
+  func autosuggestCompletion(suggestions: [W3WSuggestion]?, error: Error?) {
+    if let error {
+      output.send(.error(W3WError.other(error)))
+    } else {
       handle(suggestions: suggestions)
     }
   }
   
-
-  /// pause the scanning
-  func pause() {
-    if let camera {
-      state = .idle
-      camera.pause()
-    }
-  }
-  
-  
-  /// stop the scanning
-  func stop() {
-    if let camera {
-      state = .idle
-      camera.stop()
-    }
-  }
-  
-    
-  // MARK: Event Handlers
-  
-  
   /// handle a new scan result
-  public func handle(suggestions theSuggestions: [W3WSuggestion]?) {
-    if let s = theSuggestions {
-
-      // remember the most recent results for "still" mode
-      lastSuggestions = s
-      
-      // we are in live scan mode, send all suggestions to the panel
-      if viewType == .video {
-        DispatchQueue.main.async { [weak self] in
-          guard let self else { return }
-          self.bottomSheetLogic.add(suggestions: s)
-        }
+  func handle(suggestions theSuggestions: [W3WSuggestion]?) {
+    guard let theSuggestions else { return }
+    
+    // remember the most recent results for "still" mode
+    lastSuggestions = theSuggestions
+    
+    // we are in live scan mode, send all suggestions to the panel
+    if viewType == .video {
+      DispatchQueue.main.async { [weak self] in
+        guard let self else { return }
+        self.bottomSheetLogic.add(suggestions: theSuggestions)
       }
-      
-      // send events
-      for suggestion in theSuggestions ?? [] {
-        output.send(.detected(suggestion))
-      }
-
-      // remove text if suggestions are available
-      if bottomSheetLogic.suggestions.count() > 0 {
-        show(scanMessage: false)
-      }
+    }
+    
+    // send events
+    for suggestion in theSuggestions {
+      output.send(.detected(suggestion))
+    }
+    
+    // remove text if suggestions are available
+    if bottomSheetLogic.suggestions.count() > 0 {
+      showHeader(hasJustResetSuggestions)
+      hasJustResetSuggestions = false
     }
   }
   
+  // show/hide header
+  func showHeader(_ flag: Bool) {
+    let item: W3WPanelItem = .heading(scanMessageText)
+    let event: W3WPanelInputEvent = flag ? .header(item: item) : .remove(item: item)
+    panelViewModel.input.send(event)
+  }
   
-  /// input events
-  public func handle(event: W3WOcrInputEvent) {
-    switch event {
-      case .startScanning:
-        start()
-      case .pauseScanning:
-        pause()
+  func capturePhoto() {
+    isTakingPhoto = true
+    camera.value?.captureStillImage { [weak self] image in
+      self?.output.send(.captureButton(image))
+      self?.isTakingPhoto = false
+    }
+    if viewType == .still {
+      bottomSheetLogic.add(suggestions: lastSuggestions)
+    }
+    output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrPhotoCapture)))
+    
+    // Stop the camera
+    stop()
+  }
+  
+  /// called by UI when the import button is pressed
+  func importPhoto() {
+    output.send(.importImage)
+
+    if !lockOnImportButton {
+      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrPhotoImport)))
+      
+      // Stop the camera
+      stop()
     }
   }
   
+  /// called by UI when the live capture switch is switched
+  func trackCameraMode() {
+    let isLiveCaptureOn = viewType == .video
+    output.send(.liveCaptureSwitch(isLiveCaptureOn))
+    
+    guard !lockOnLiveSwitch else { return }
+    
+    let orcLive: W3WAppEventName = isLiveCaptureOn ? .ocrLiveScanOn : .ocrLiveScanOff
+    output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: orcLive)))
+  }
   
-  // MARK: Utility
-
-
   func makeWordsString(suggestions: [W3WSuggestion]) -> String {
     let retval = suggestions.compactMap { $0.words }
     return retval.joined(separator: ",")
   }
-
 }
