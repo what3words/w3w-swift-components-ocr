@@ -104,6 +104,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         .onHeightChange($contentHeight, for: Height.content)
         .edgesIgnoringSafeArea(.top)
     )
+    .layoutDirectionFromAppearance()
     .navigationBarHidden(true) // Fix unwanted navigation bar on iOS 15
   }
   
