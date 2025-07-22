@@ -13,7 +13,7 @@ import W3WSwiftAppEvents
 public enum W3WOcrStillInputEvent: W3WAppEventConvertable {
   
   /// send an image in
-  case image(CGImage?)
+  case image(CGImage?, W3WOcrImageSource)
   
   /// starts a spinner
   case isLoading
@@ -24,8 +24,8 @@ public enum W3WOcrStillInputEvent: W3WAppEventConvertable {
   
   public func asAppEvent() -> W3WAppEvent {
     switch self {
-      case .image(let image):
-        return W3WAppEvent(type: Self.self, name: "ocr.still.image", parameters: ["resolution": .text("\(image?.width ?? Int(0.0)),\(image?.height ?? Int(0.0))")])
+      case .image(let image, let source):
+        return W3WAppEvent(type: Self.self, name: "ocr.still.image", parameters: ["resolution": .text("\(image?.width ?? Int(0.0)),\(image?.height ?? Int(0.0))"), "source": .text(source.description)])
 
       case .isLoading:
         return W3WAppEvent(type: Self.self, name: "ocr.loading")

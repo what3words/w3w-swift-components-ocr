@@ -232,7 +232,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     output.send(.liveCaptureSwitch(on))
     
     if !lockOnLiveSwitch {
-      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScan, parameters: ["on": .boolean(on)])))
+      //output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScan, parameters: ["on": .boolean(on)])))
       if on {
         output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrLiveScanOn)))
       } else {
@@ -284,8 +284,10 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
       self?.autosuggestCompletion(suggestions: suggestions, error: error == nil ? nil : W3WError.other(error))
       
       if !(self?.firstLiveScanResultHappened ?? false) {
-        self?.firstLiveScanResultHappened = true
-        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultLiveScan)))
+        if !(self?.liveScanLocked.value ?? true) {
+          self?.firstLiveScanResultHappened = true
+          self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultLiveScan)))
+        }
       }
     }
   }
