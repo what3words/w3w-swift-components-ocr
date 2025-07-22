@@ -83,8 +83,8 @@ class W3WBottomSheetLogicInsanity: W3WBottomSheetLogicBase {
       }
     }
     
-    // if there any suggestions then show selection buttons
-    if suggestions.count() > 0 {
+    // if there any suggestions & those are selectable, i.e pro mode, then show selection buttons
+    if suggestions.count() > 0 && selectableSuggestionList.value {
       showSelectionButtons()
     } else {
       hideSelectionButtons()
