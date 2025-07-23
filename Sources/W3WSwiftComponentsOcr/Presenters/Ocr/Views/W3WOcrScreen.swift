@@ -116,8 +116,7 @@ private extension W3WOcrScreen {
   var hasSuggestionsPublisher: AnyPublisher<Bool, Never> {
     viewModel.suggestions.update
       .map { _ in
-        print("hasSuggestionsPublisher", viewModel.suggestions.count() > 0)
-        return viewModel.suggestions.count() > 0
+        viewModel.suggestions.count() > 0
       }
       .removeDuplicates()
       .eraseToAnyPublisher()
