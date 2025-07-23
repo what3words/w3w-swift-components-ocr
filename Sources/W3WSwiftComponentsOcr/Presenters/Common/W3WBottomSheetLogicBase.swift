@@ -176,24 +176,14 @@ class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberPr
   
   /// logic to update the footer text and buttons
   func add(suggestions theSuggestions: [W3WSuggestion]?) {
-    if let s = theSuggestions {
-      if !does(list: suggestions.allSuggestions, alreadyContain: s) {
-        suggestions.add(suggestions: s, selected: selectMode ? false : nil)
-        updateFooterStatus()
-      }
+    guard let theSuggestions else { return }
+    let filtered = theSuggestions.filter { suggestion in
+      !suggestions.allSuggestions.contains(where: { $0.words == suggestion.words })
     }
-  }
-  
-  
-  /// checks to see if any suggestion in `alreadyContains` is in the `list`
-  func does(list: [W3WSuggestion], alreadyContain: [W3WSuggestion]) -> Bool {
-    var retval = false
-    
-    for suggestion in alreadyContain {
-      retval = retval || list.contains(where: { s in s.words == suggestion.words })
+    if !filtered.isEmpty {
+      suggestions.add(suggestions: theSuggestions, selected: selectMode ? false : nil)
+      updateFooterStatus()
     }
-    
-    return retval
   }
   
   
