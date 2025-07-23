@@ -90,6 +90,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
       W3WSuBottomSheet(
         scheme: viewModel.bottomSheetScheme,
         height: $bottomSheetHeight,
+        maxHeight: middleDetent,
         detents: bottomSheetDetents,
         accessory: {
           W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
