@@ -90,6 +90,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
       W3WSuBottomSheet(
         scheme: viewModel.bottomSheetScheme,
         height: $bottomSheetHeight,
+        maxHeight: middleDetent,
         detents: bottomSheetDetents,
         accessory: {
           W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
@@ -113,10 +114,12 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
 // MARK: - Helpers
 private extension W3WOcrScreen {
   var hasSuggestionsPublisher: AnyPublisher<Bool, Never> {
-    viewModel.suggestions.update.map { _ in
-      viewModel.suggestions.count() > 0
-    }
-    .eraseToAnyPublisher()
+    viewModel.suggestions.update
+      .map { _ in
+        viewModel.suggestions.count() > 0
+      }
+      .removeDuplicates()
+      .eraseToAnyPublisher()
   }
   
   func updateHasSuggestions(_ flag: Bool) {

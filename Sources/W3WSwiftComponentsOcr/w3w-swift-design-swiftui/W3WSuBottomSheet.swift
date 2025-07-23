@@ -24,6 +24,8 @@ public struct W3WSuBottomSheet<Accessory: View, Content: View>: View {
   
   private let heightMode: HeightMode
   
+  private let maxHeight: CGFloat?
+  
   let detents: W3WDetents
   
   @ViewBuilder let accessory: () -> Accessory
@@ -33,6 +35,7 @@ public struct W3WSuBottomSheet<Accessory: View, Content: View>: View {
   public init(
     scheme: W3WScheme?,
     height: Binding<CGFloat>?,
+    maxHeight: CGFloat? = nil,
     detents: W3WDetents,
     accessory: @escaping () -> Accessory,
     content: @escaping () -> Content
@@ -43,6 +46,7 @@ public struct W3WSuBottomSheet<Accessory: View, Content: View>: View {
     } else {
       self.heightMode = .fixed
     }
+    self.maxHeight = maxHeight
     self.detents = detents
     self.accessory = accessory
     self.content = content
@@ -52,7 +56,7 @@ public struct W3WSuBottomSheet<Accessory: View, Content: View>: View {
     GeometryReader { geometry in
       VStack(spacing: 0) {
         accessory()
-        panelContent(maxHeight: geometry.size.height)
+        panelContent(maxHeight: maxHeight ?? geometry.size.height)
       }
       .frame(height: height)
       .fixedSize(horizontal: false, vertical: true)
@@ -102,11 +106,12 @@ private extension W3WSuBottomSheet {
         .gesture(DragGesture()
           .onChanged { value in
             let newHeight = height.wrappedValue - (value.location.y - value.startLocation.y)
-            if newHeight > 64.0 && newHeight < maxHeight {
+            if newHeight < 64 {
+              height.wrappedValue = 64
+            } else if newHeight > maxHeight {
+              height.wrappedValue = maxHeight
+            } else {
               height.wrappedValue = newHeight
-            }
-            if height.wrappedValue < 0.0 {
-              height.wrappedValue = 0.0
             }
           }
           .onEnded { value in
@@ -133,12 +138,14 @@ public extension W3WSuBottomSheet where Accessory == EmptyView {
   init(
     scheme: W3WScheme?,
     height: Binding<CGFloat>?,
+    maxHeight: CGFloat? = nil,
     detents: W3WDetents,
     @ViewBuilder content: @escaping () -> Content
   ) {
     self.init(
       scheme: scheme,
       height: height,
+      maxHeight: maxHeight,
       detents: detents,
       accessory: { EmptyView() },
       content: content
