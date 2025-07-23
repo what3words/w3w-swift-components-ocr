@@ -132,22 +132,10 @@ class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberPr
     subscribe(to: suggestions.update) { [weak self] event in
       self?.updateFooterStatus()
     }
-    
-    subscribe(to: panelViewModel.input) { [weak self] event in
-      self?.handleEventSubscription(event: event)
-    }
   }
   
-  func handleEventSubscription(event: W3WPanelInputEvent) {
-    switch event {
-    case .reset:
-      resetAll()
-    default:
-      break
-    }
-  }
   
-  func resetAll() {
+  func reset() {
     selectMode = false
     areSelectionButtonsVisible = false
     suggestions.clear()

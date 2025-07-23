@@ -38,4 +38,6 @@ protocol W3WBottomSheetLogicProtocol {
   func updateFooterText()
   
   func results(found: Bool)
+  
+  func reset()
 }

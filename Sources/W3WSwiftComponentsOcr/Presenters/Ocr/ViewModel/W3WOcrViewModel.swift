@@ -186,7 +186,7 @@ private extension W3WOcrViewModel {
       importPhoto()
       
     case .resetScanResult:
-      panelViewModel.input.send(.reset)
+      bottomSheetLogic.reset()
       hasJustResetSuggestions = true
       showHeader(true)
       
@@ -209,7 +209,9 @@ private extension W3WOcrViewModel {
     
     ocr.autosuggest(video: camera) { [weak self] suggestions, error in
       guard let self else { return }
-      autosuggestCompletion(suggestions: suggestions, error: error)
+      W3WThread.runOnMain {
+        self.autosuggestCompletion(suggestions: suggestions, error: error)
+      }
       
       if !firstLiveScanResultHappened {
         firstLiveScanResultHappened = true
@@ -221,6 +223,7 @@ private extension W3WOcrViewModel {
   /// Stop the scanning
   func stop() {
     camera.value?.stop()
+    ocr?.stop {}
   }
 }
 
@@ -246,7 +249,7 @@ private extension W3WOcrViewModel {
     if viewType == .video {
       DispatchQueue.main.async { [weak self] in
         guard let self else { return }
-        self.bottomSheetLogic.add(suggestions: theSuggestions)
+        bottomSheetLogic.add(suggestions: theSuggestions)
       }
     }
     
