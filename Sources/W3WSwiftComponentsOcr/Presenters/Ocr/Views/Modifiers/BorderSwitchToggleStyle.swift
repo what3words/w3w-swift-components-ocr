@@ -79,9 +79,10 @@ struct BorderedSwitchToggleStyle: ToggleStyle {
       }
       .frame(width: 51, height: 31) // The fixed size of our switch
       .onTapGesture {
-        // IMPORTANT: This makes the custom view interactive
-        // We wrap the state change in an animation block
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+        /// The previous spring animation (`.spring(response: 0.3, dampingFraction: 0.7)`) caused
+        /// the thumb to jump vertically if the parent view was being panned during the animation.
+        /// Switching to a shorter `.easeInOut` animation helps reduce that visual glitch.
+        withAnimation(.easeInOut(duration: 0.075)) {
           configuration.isOn.toggle()
         }
       }
