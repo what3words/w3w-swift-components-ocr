@@ -150,9 +150,7 @@ class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberPr
   func resetAll() {
     selectMode = false
     areSelectionButtonsVisible = false
-    self.suggestions = .init()
-    self.selectableSuggestionList = .init(false)
-    self.panelViewModel.input.send(.add(item: .suggestions(suggestions)))
+    suggestions.clear()
     updateFooterStatus()
     hideSelectionButtons()
   }

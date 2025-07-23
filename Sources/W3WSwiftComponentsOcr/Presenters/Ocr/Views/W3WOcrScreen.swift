@@ -113,10 +113,13 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
 // MARK: - Helpers
 private extension W3WOcrScreen {
   var hasSuggestionsPublisher: AnyPublisher<Bool, Never> {
-    viewModel.suggestions.update.map { _ in
-      viewModel.suggestions.count() > 0
-    }
-    .eraseToAnyPublisher()
+    viewModel.suggestions.update
+      .map { _ in
+        print("hasSuggestionsPublisher", viewModel.suggestions.count() > 0)
+        return viewModel.suggestions.count() > 0
+      }
+      .removeDuplicates()
+      .eraseToAnyPublisher()
   }
   
   func updateHasSuggestions(_ flag: Bool) {
