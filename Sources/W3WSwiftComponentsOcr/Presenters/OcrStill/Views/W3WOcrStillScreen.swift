@@ -70,7 +70,7 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
             if viewModel.isLoading {
               W3WProgressView(color: W3WColor.w3wLabelsPrimaryBlackInverse.uiColor)
             } else {
-              W3WPanelScreen(viewModel: viewModel.panelViewModel, scheme: viewModel.scheme)
+              W3WPanelScreen(viewModel: viewModel.panelViewModel)
             }
           }
       }
