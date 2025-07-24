@@ -133,12 +133,17 @@ private extension W3WOcrScreen {
   func updateHasSuggestions(_ flag: Bool) {
     guard hasSuggestions != flag else { return }
     
-    hasSuggestions.toggle()
-    // If there are suggessions, resize bottom sheet accordingly
-    if hasSuggestions {
-      bottomSheetHeight = middleDetent
-    } else {
-      bottomSheetHeight = initialPanelHeight
+    /// Ensure suggestions are fully loaded before triggering the animation,
+    /// otherwise there will be a visible stutter when the animation runs.
+    /// TODO: Revisit this logic after updating `W3WBottomSheetLogic`.
+    W3WThread.runIn(duration: .seconds(0.1)) {
+      hasSuggestions.toggle()
+      // If there are suggessions, resize bottom sheet accordingly
+      if hasSuggestions {
+        bottomSheetHeight = middleDetent
+      } else {
+        bottomSheetHeight = initialPanelHeight
+      }
     }
   }
   
