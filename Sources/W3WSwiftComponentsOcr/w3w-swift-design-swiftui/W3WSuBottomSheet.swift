@@ -37,8 +37,8 @@ public struct W3WSuBottomSheet<Accessory: View, Content: View>: View {
     height: Binding<CGFloat>?,
     maxHeight: CGFloat? = nil,
     detents: W3WDetents,
-    accessory: @escaping () -> Accessory,
-    content: @escaping () -> Content
+    @ViewBuilder accessory: @escaping () -> Accessory,
+    @ViewBuilder content: @escaping () -> Content
   ) {
     self.scheme = scheme
     if let height {
@@ -106,8 +106,8 @@ private extension W3WSuBottomSheet {
         .gesture(DragGesture()
           .onChanged { value in
             let newHeight = height.wrappedValue - (value.location.y - value.startLocation.y)
-            if newHeight < 64 {
-              height.wrappedValue = 64
+            if newHeight < W3WRowHeight.large.value {
+              height.wrappedValue = W3WRowHeight.large.value
             } else if newHeight > maxHeight {
               height.wrappedValue = maxHeight
             } else {
