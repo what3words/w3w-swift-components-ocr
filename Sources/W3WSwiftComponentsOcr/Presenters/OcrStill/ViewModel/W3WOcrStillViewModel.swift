@@ -60,11 +60,12 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
               footerButtons: [W3WSuggestionsViewAction],
               selectableSuggestionList: W3WLive<Bool> = W3WLive<Bool>(true),
               translations: W3WTranslationsProtocol,
-              theme: W3WLive<W3WTheme?>) {
+              theme: W3WLive<W3WTheme?>,
+              language: W3WLive<W3WLanguage?>? = nil) {
     self.ocr = ocr
     self.translations = translations
     self.selectableSuggestionList = selectableSuggestionList
-    self.panelViewModel = W3WPanelViewModel(translations: translations)
+    self.panelViewModel = W3WPanelViewModel(theme: theme, language: language, translations: translations)
     self.bottomSheetLogic = W3WBottomSheetLogicInsanity(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .still, selectableSuggestionList: selectableSuggestionList)
     
     // connect events to functions

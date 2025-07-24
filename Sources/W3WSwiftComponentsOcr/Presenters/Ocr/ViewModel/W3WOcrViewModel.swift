@@ -108,10 +108,14 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
     self.importLocked   = importLocked
     self.liveScanLocked = liveScanLocked
     self.ocr = ocr
-    self.panelViewModel = W3WPanelViewModel(language: language, translations: translations)
+    self.panelViewModel = W3WPanelViewModel(theme: theme, language: language, translations: translations)
     // make the manager fro the bottom sheet
-    self.bottomSheetLogic = W3WBottomSheetLogicInsanity(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .video, selectableSuggestionList: selectableSuggestionList)
-    
+    self.bottomSheetLogic = W3WBottomSheetLogicInsanity(suggestions: suggestions,
+                                                        panelViewModel: panelViewModel,
+                                                        footerButtons: footerButtons,
+                                                        translations: translations,
+                                                        viewType: .video,
+                                                        selectableSuggestionList: selectableSuggestionList)
     // show the default message at the bottom
     showHeader(true)
     
