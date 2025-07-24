@@ -105,6 +105,14 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         .onHeightChange($contentHeight, for: Height.content)
         .edgesIgnoringSafeArea(.top)
     )
+    .onAppear {
+      /// When `W3WOcrScreen` reappears, the OCR crop region can become incorrect.
+      /// This timer re-applies the crop rect as a temporary workaround.
+      /// TODO: Refactor once `W3WBottomSheetLogicBase` has been updated for SwiftUI.
+      Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+        viewModel.ocrCropRect.send(ocrCropRect)
+      }
+    }
     .layoutDirectionFromAppearance()
     .navigationBarHidden(true) // Fix unwanted navigation bar on iOS 15
   }
