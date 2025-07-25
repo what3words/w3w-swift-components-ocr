@@ -216,11 +216,6 @@ private extension W3WOcrViewModel {
       W3WThread.runOnMain {
         self.autosuggestCompletion(suggestions: suggestions, error: error)
       }
-      
-      if !firstLiveScanResultHappened {
-        firstLiveScanResultHappened = true
-        output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultLiveScan)))
-      }
     }
   }
   
@@ -254,6 +249,11 @@ private extension W3WOcrViewModel {
       DispatchQueue.main.async { [weak self] in
         guard let self else { return }
         bottomSheetLogic.add(suggestions: theSuggestions)
+        
+        if !firstLiveScanResultHappened {
+          firstLiveScanResultHappened = true
+          output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultLiveScan)))
+        }
       }
     }
     
