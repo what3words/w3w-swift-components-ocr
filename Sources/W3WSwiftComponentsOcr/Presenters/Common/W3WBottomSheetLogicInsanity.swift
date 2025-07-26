@@ -83,11 +83,20 @@ class W3WBottomSheetLogicInsanity: W3WBottomSheetLogicBase {
       }
     }
     
-    // if there any suggestions & those are selectable, i.e pro mode, then show selection buttons
-    if suggestions.count() > 0 && selectableSuggestionList.value {
-      showSelectionButtons()
+    /// show/hide selection buttons if there any selectable suggestions, i.e pro mode
+    if selectableSuggestionList.value {
+      if suggestions.count() > 0  {
+        showSelectionButtons()
+      } else {
+        hideSelectionButtons()
+      }
+      /// otherwise show/hide `Scanned` title
     } else {
-      hideSelectionButtons()
+      if suggestions.count() > 0  {
+        showScannedTitle()
+      } else {
+        hideScannedTitle()
+      }
     }
     
     updateFooterText()
