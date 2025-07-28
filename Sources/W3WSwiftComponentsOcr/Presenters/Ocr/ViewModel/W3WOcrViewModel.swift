@@ -317,6 +317,6 @@ private extension W3WOcrViewModel {
   
   func makeWordsString(suggestions: [W3WSuggestion]) -> String {
     let retval = suggestions.compactMap { $0.words }
-    return "[" + retval.joined(separator: "],[") + "]"
+    return "[\"" + retval.joined(separator: "\"],[\"") + "\"]"
   }
 }

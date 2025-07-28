@@ -198,7 +198,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
 
   func makeWordsString(suggestions: [W3WSuggestion]) -> String {
     let retval = suggestions.compactMap { $0.words }
-    return "[" + retval.joined(separator: "],[") + "]"
+    return "[\"" + retval.joined(separator: "\"],[\"") + "\"]"
   }
 
 }
