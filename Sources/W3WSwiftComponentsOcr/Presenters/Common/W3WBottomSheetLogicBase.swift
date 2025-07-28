@@ -194,9 +194,20 @@ class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberPr
   
   /// hide the buttons at the top [select] and [select all]
   func hideSelectionButtons() {
-    self.panelViewModel.input.send(.remove(item: .buttons([selectButton, selectAllButton])))
+    panelViewModel.input.send(.remove(item: .buttons([selectButton, selectAllButton])))
   }
 
+  
+  /// show the title `Scanned` at the top
+  func showScannedTitle() {
+    panelViewModel.input.send(.header(item: .title(translations.get(id: "scan_state_found"))))
+  }
+  
+  
+  /// hide the title `Scanned` at the top
+  func hideScannedTitle() {
+    panelViewModel.input.send(.remove(item: .title(translations.get(id: "scan_state_found"))))
+  }
   
   // MARK: Utility
   
