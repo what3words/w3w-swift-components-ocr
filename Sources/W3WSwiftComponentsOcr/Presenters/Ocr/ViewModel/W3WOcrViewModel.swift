@@ -314,8 +314,9 @@ private extension W3WOcrViewModel {
     output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: orcLive)))
   }
   
+  
   func makeWordsString(suggestions: [W3WSuggestion]) -> String {
     let retval = suggestions.compactMap { $0.words }
-    return retval.joined(separator: ",")
+    return "[" + retval.joined(separator: "],[") + "]"
   }
 }
