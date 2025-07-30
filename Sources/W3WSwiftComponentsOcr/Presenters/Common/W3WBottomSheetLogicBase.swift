@@ -42,6 +42,8 @@ class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberPr
   /// the text shown next to the footer buttons
   var footerText = W3WLive<W3WString>("")
   
+  var selectedSuggestionsCount = W3WLive<W3WString>("")
+  
   /// the translations
   var translations: W3WTranslationsProtocol
   
@@ -182,6 +184,7 @@ class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberPr
   
   /// update the text in the footer
   func updateFooterText() {
+    selectedSuggestionsCount.send("\(suggestions.selectedCount())".w3w)
     footerText.send("\(suggestions.selectedCount()) \(translations.get(id: "ocr_w3wa_selected_number"))".w3w)
   }
  
