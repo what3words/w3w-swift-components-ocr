@@ -261,22 +261,24 @@ public class W3WOcrNative: W3WOcrProtocol {
       let candidates  = Set(w3w.findPossible3wa(text: cleanedText))
       
       for words in candidates {
-        if let square = try? sdk.convertToSquare(words: words) {
-          if square.coordinates != nil {
-
-            var distance: Double?
-            if let focusCoords = focus {
-              distance = sdk.distance(from: focusCoords, to: square.coordinates)
-            }
-            
-            let ocrSuggestion = W3WOcrSuggestion(words: square.words,
-                                                 country: W3WBaseCountry(code: square.country?.code ?? W3WBaseLanguage.english.code),
-                                                 nearestPlace: square.nearestPlace,
-                                                 distanceToFocus: (distance == nil) ? nil : W3WBaseDistance(meters: distance ?? 0.0),
-                                                 language: W3WBaseLanguage(locale: square.language?.locale ?? W3WBaseLanguage.english.locale))
-            suggestions.append(ocrSuggestion)
-          }
-        }
+        guard let square = try? sdk.convertToSquare(words: words),
+              let language = square.language?.code,
+              languages.contains(where: { $0.hasPrefix(language) }),
+              square.coordinates != nil
+        else { continue }
+        
+        let distance: Double? = {
+          guard let focus else { return nil }
+          return sdk.distance(from: focus, to: square.coordinates)
+        }()
+        
+        let ocrSuggestion = W3WOcrSuggestion(
+          words: square.words,
+          country: W3WBaseCountry(code: square.country?.code ?? W3WBaseLanguage.english.code),
+          nearestPlace: square.nearestPlace,
+          distanceToFocus: (distance == nil) ? nil : W3WBaseDistance(meters: distance ?? 0.0),
+          language: W3WBaseLanguage(locale: square.language?.locale ?? W3WBaseLanguage.english.locale))
+        suggestions.append(ocrSuggestion)
       }
       
       // condition removed to allow empty results through for "no results" feedback
