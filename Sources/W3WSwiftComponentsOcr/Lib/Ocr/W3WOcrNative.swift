@@ -11,12 +11,15 @@ import CoreLocation
 import W3WSwiftCore
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
-#endif // W3WOcrSdk
+#else
+#error("W3WOcrSdk framework not found")
+#endif
 
 #if canImport(w3w)
 import w3w
-extension What3Words: W3WUtilitiesProtocol { }
-#endif // w3w
+#else
+#error("w3w framework not found")
+#endif
 
 
 
