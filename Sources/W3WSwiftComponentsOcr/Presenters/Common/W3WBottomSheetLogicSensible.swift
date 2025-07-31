@@ -51,7 +51,7 @@ class W3WBottomSheetLogicSensible: W3WBottomSheetLogicBase {
   
   /// logic to update the footer text and buttons
   override func updateFooterStatus() {
-    let footer: W3WPanelItem = .buttonsAndTitle(convert(footerButtons: footerButtons), text: footerText)
+    let footer: W3WPanelItem = .buttonsAndTitle(convert(footerButtons: footerButtons), text: footerText, highlightedText: selectedSuggestionsCount)
     
     // if there are selected suggestions then show the footer
     if suggestions.selectedCount() > 0 {
