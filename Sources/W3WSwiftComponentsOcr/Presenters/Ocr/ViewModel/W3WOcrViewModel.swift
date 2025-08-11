@@ -59,15 +59,9 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   
   /// indicates if there is a photo being processed
   @Published public var isTakingPhoto = false
-  
-  /// intro message for scanning
-  lazy var scanMessageText = translations.get(id: "ocr_scan_3wa")
 
   /// translations for text
   public var translations: W3WTranslationsProtocol
-
-  /// the most recent suggestions found - for "still" mode
-  var lastSuggestions = [W3WSuggestion]()
   
   /// we need a boolean to check if we sent an event after the first live scan result
   var firstLiveScanResultHappened = false
@@ -235,9 +229,6 @@ private extension W3WOcrViewModel {
   func handle(suggestions theSuggestions: [W3WSuggestion]?) {
     guard let theSuggestions else { return }
     
-    // remember the most recent results for "still" mode
-    lastSuggestions = theSuggestions
-    
     // we are in live scan mode, send all suggestions to the panel
     if viewType == .video {
       DispatchQueue.main.async { [weak self] in
@@ -262,9 +253,6 @@ private extension W3WOcrViewModel {
     camera.value?.captureStillImage { [weak self] image in
       self?.output.send(.captureButton(image))
       self?.isTakingPhoto = false
-    }
-    if viewType == .still {
-      panelViewModel.add(suggestions: lastSuggestions)
     }
     output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrPhotoCapture)))
     
