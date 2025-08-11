@@ -25,13 +25,13 @@ class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberPr
   var suggestions: W3WSelectableSuggestions
   
   /// the not found message
-  lazy var notFound =  W3WPanelItem.heading(W3WLive<W3WString>(translations.get(id: "ocr_import_photo_errorMessage").w3w))
+  lazy var notFound =  W3WPanelItem.heading(translations.get(id: "ocr_import_photo_errorMessage"))
 
   /// the invitation to scan message
-  lazy var scanMessage =  W3WPanelItem.heading(W3WLive<W3WString>(translations.get(id: "ocr_scan_3wa").w3w))
+  lazy var scanMessage =  W3WPanelItem.heading(translations.get(id: "ocr_scan_3wa"))
 
   /// the invitation to scan message
-  lazy var blankMessage =  W3WPanelItem.heading(W3WLive<W3WString>("".w3w))
+  lazy var blankMessage =  W3WPanelItem.heading("")
 
   /// the try again button
   var tryAgainItem: W3WPanelItem = .button(.init(onTap: {}))
@@ -116,7 +116,7 @@ class W3WBottomSheetLogicBase: W3WBottomSheetLogicProtocol, W3WEventSubscriberPr
     tryAgainItem = W3WPanelItem.button(tryAgainButton)
     
     // initial set up of the panel
-    panelViewModel.input.send(.add(item: .suggestions(suggestions)))
+    panelViewModel.input.send(.add(item: .suggestions(suggestions.allSuggestions)))
 
     // set up the footer
     updateFooterStatus()
