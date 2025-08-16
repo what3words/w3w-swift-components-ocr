@@ -55,11 +55,11 @@ open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
   }
   
   public func scrollToTop() {
-    w3wView?.set(position: .bottom(height: getDetents().max()), animate: .defaultAnimationSpeed)
+    w3wView?.set(position: .bottom(height: detents.max()), animate: .defaultAnimationSpeed)
   }
   
   public func scrollToBottom() {
-    w3wView?.set(position: .bottom(height: getDetents().min()), animate: .defaultAnimationSpeed)
+    w3wView?.set(position: .bottom(height: detents.min()), animate: .defaultAnimationSpeed)
   }
   
   public var isEmpty: Bool {

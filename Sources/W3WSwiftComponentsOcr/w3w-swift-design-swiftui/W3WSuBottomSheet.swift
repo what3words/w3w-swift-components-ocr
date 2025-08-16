@@ -8,6 +8,7 @@
 
 import SwiftUI
 import W3WSwiftThemes
+import W3WSwiftDesignSwiftUI
 
 public struct W3WSuBottomSheet<Accessory: View, Content: View>: View {
   /// An enum used as a unique identifier for tracking the height of different view components
