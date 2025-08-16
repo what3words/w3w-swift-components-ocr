@@ -40,7 +40,7 @@ public class W3WOcrCamera: W3WVideoStream {
   private var photoCaptureDelegate: PhotoCaptureProcessor?
 
   /// thread to be used to process IO
-  var thread = DispatchQueue(label: "background_queue", qos: .background)
+  private let thread = DispatchQueue(label: "background_queue", qos: .userInitiated, target: .global())
   
   /// delegate to capture the camera output
   let imageProcessor: W3WCameraImageProcessor! //() // AVCaptureVideoDataOutputSampleBufferDelegate needs to be a NSObject derivitive.  This class isn't, so we make a member object that conforms
