@@ -140,9 +140,10 @@ public class W3WOcrCamera: W3WVideoStream {
     imageProcessor.stop()
     disconnectInputAndOutput()
 #else
-    self.disconnectInputAndOutput()
+    
     thread.async { [weak self] in
       guard let self else { return }
+      self.disconnectInputAndOutput()
       self.session?.beginConfiguration()
       self.session?.commitConfiguration()
       self.session?.stopRunning()
@@ -326,7 +327,7 @@ public class W3WOcrCamera: W3WVideoStream {
           self?.photoCaptureDelegate = nil
           completion(cgImage)
       }
-          
+
       // Capture the photo
       photoOutput.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate!)
   }
