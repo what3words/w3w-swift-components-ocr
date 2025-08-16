@@ -193,16 +193,24 @@ private extension W3WOcrViewModel {
 private extension W3WOcrViewModel {
   /// start scanning
   func start() {
-    guard let camera = W3WOcrCamera.get(camera: .back), let ocr else { return }
+    guard let camera = W3WOcrCamera.get(camera: .back) else { return }
     defer { self.camera.send(camera) }
   
     firstLiveScanResultHappened = false
     camera.start()
     
-    ocr.autosuggest(video: camera) { [weak self] suggestions, error in
-      guard let self else { return }
-      W3WThread.runOnMain {
-        self.autosuggestCompletion(suggestions: suggestions, error: error)
+    subscribe(to: $viewType) { [weak self] value in
+      switch value {
+      case .video:
+        self?.ocr?.autosuggest(video: camera) {  suggestions, error in
+          W3WThread.runOnMain { [weak self] in
+            self?.autosuggestCompletion(suggestions: suggestions, error: error)
+          }
+        }
+        
+      default:
+        self?.ocr?.stop {}
+        camera.onNewImage = { _ in }
       }
     }
   }
