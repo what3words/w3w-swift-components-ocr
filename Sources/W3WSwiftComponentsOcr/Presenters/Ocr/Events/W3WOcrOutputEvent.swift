@@ -11,7 +11,7 @@ import W3WSwiftAppEvents
 
 
 /// output events for ocr
-public enum W3WOcrOutputEvent: W3WAppEventConvertable {
+public enum W3WOcrOutputEvent {
   
   /// error
   case error(W3WError)
@@ -31,47 +31,58 @@ public enum W3WOcrOutputEvent: W3WAppEventConvertable {
   /// the live capture switch was switched
   case liveCaptureSwitch(Bool)
   
-  /// a footer button was tapped
-  case footerButton(W3WSuggestionsViewAction, suggestions: [W3WSuggestion])
+  /// footer button save tapped
+  case saveSuggestions(title: String, suggestions: [W3WSuggestion])
+  
+  /// footer button share tapped
+  case shareSuggestion(title: String, suggestion: W3WSuggestion)
+  
+  /// footer button view tapped
+  case viewSuggestions(title: String, suggestions: [W3WSuggestion])
   
   /// the close button was tapped
   case dismiss
   
   /// pass though any analytic events
   case analytic(W3WAppEvent)
+}
 
-  
+extension W3WOcrOutputEvent: W3WAppEventConvertable {
   public func asAppEvent() -> W3WAppEvent {
     switch self {
-
-      case .error(let error):
-        return W3WAppEvent(type: Self.self, name: "ocr.error", parameters: ["error": .error(error)])
-
-      case .detected(let suggestion):
-        return W3WAppEvent(type: Self.self, name: "ocr.detected", parameters: ["suggestion": .suggestion(suggestion)])
-
-      case .selected(let suggestion):
-        return W3WAppEvent(type: Self.self, name: "ocr.selected", parameters: ["suggestion": .suggestion(suggestion)])
-
-      case .importImage:
-        return W3WAppEvent(type: Self.self, name: "ocr.importImage")
-
-      case .captureButton:
-        return W3WAppEvent(type: Self.self, name: "ocr.captureButton")
-
-      case .liveCaptureSwitch(let value):
-        return W3WAppEvent(type: Self.self, name: "ocr.liveCaptureSwitch", parameters: ["value": .boolean(value)])
-
-      case .footerButton(let action, suggestions: let suggestions):
-        return W3WAppEvent(type: Self.self, name: "ocr.footerButton", parameters: ["action": .text(action.title)])
-
-      case .dismiss:
-        return W3WAppEvent(type: Self.self, name: "ocr.dismiss")
-        
-      case .analytic(let event):
-        return event
+      
+    case .error(let error):
+      return W3WAppEvent(type: Self.self, name: "ocr.error", parameters: ["error": .error(error)])
+      
+    case .detected(let suggestion):
+      return W3WAppEvent(type: Self.self, name: "ocr.detected", parameters: ["suggestion": .suggestion(suggestion)])
+      
+    case .selected(let suggestion):
+      return W3WAppEvent(type: Self.self, name: "ocr.selected", parameters: ["suggestion": .suggestion(suggestion)])
+      
+    case .importImage:
+      return W3WAppEvent(type: Self.self, name: "ocr.importImage")
+      
+    case .captureButton:
+      return W3WAppEvent(type: Self.self, name: "ocr.captureButton")
+      
+    case .liveCaptureSwitch(let value):
+      return W3WAppEvent(type: Self.self, name: "ocr.liveCaptureSwitch", parameters: ["value": .boolean(value)])
+      
+    case .saveSuggestions(let title, _):
+      return W3WAppEvent(type: Self.self, name: "ocr.footerButton", parameters: ["action": .text(title)])
+      
+    case .shareSuggestion(let title, _):
+      return W3WAppEvent(type: Self.self, name: "ocr.footerButton", parameters: ["action": .text(title)])
+      
+    case .viewSuggestions(let title, _):
+      return W3WAppEvent(type: Self.self, name: "ocr.footerButton", parameters: ["action": .text(title)])
+      
+    case .dismiss:
+      return W3WAppEvent(type: Self.self, name: "ocr.dismiss")
+      
+    case .analytic(let event):
+      return event
     }
   }
-  
-
 }

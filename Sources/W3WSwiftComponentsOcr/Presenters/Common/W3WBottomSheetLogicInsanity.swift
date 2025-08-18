@@ -62,44 +62,4 @@ class W3WBottomSheetLogicInsanity: W3WBottomSheetLogicBase {
     onSelectAllButton()
   }
 
- 
-  // Logic
-  
-  
-  /// logic to update the footer text and buttons
-  override func updateFooterStatus() {
-    let footer: W3WPanelItem = .buttonsAndTitle(convert(footerButtons: footerButtons), text: footerText, highlightedText: selectedSuggestionsCount)
-    
-    // if there are selected suggestions then show the footer
-    if suggestions.selectedCount() > 0 {
-      panelViewModel.input.send(.footer(item: footer))
-    } else {
-      panelViewModel.input.send(.footer(item: nil))
-      panelViewModel.input.send(.remove(item: tryAgainItem))
-      panelViewModel.input.send(.remove(item: notFound))
-      if let resultsFound, !resultsFound {
-        panelViewModel.input.send(.add(item: tryAgainItem))
-        panelViewModel.input.send(.add(item: notFound))
-      }
-    }
-    
-    /// show/hide selection buttons if there any selectable suggestions, i.e pro mode
-    if selectableSuggestionList.value {
-      if suggestions.count() > 0  {
-        showSelectionButtons()
-      } else {
-        hideSelectionButtons()
-      }
-      /// otherwise show/hide `Scanned` title
-    } else {
-      if suggestions.count() > 0  {
-        showScannedTitle()
-      } else {
-        hideScannedTitle()
-      }
-    }
-    
-    updateFooterText()
-  }
-
 }

@@ -96,9 +96,10 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
           W3WOcrMainButtons(viewModel: viewModel, cameraMode: cameraMode)
         }) {
           W3WPanelScreen(viewModel: viewModel.panelViewModel)
+            .animation(nil, value: hasSuggestions)
         }
         .animation(.easeIn, value: hasSuggestions)
-        .onReceive(hasSuggestionsPublisher, perform: updateHasSuggestions)
+        .onReceive(viewModel.panelViewModel.hasSuggestions, perform: updateHasSuggestions)
     }
     .background(
       Color.clear
@@ -108,7 +109,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
     .onAppear {
       /// When `W3WOcrScreen` reappears, the OCR crop region can become incorrect.
       /// This timer re-applies the crop rect as a temporary workaround.
-      /// TODO: Refactor once `W3WBottomSheetLogicBase` has been updated for SwiftUI.
+      /// TODO: Refactor once `W3WOcrView` has been updated for SwiftUI.
       Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
         viewModel.ocrCropRect.send(ocrCropRect)
       }
@@ -121,29 +122,15 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
 
 // MARK: - Helpers
 private extension W3WOcrScreen {
-  var hasSuggestionsPublisher: AnyPublisher<Bool, Never> {
-    viewModel.suggestions.update
-      .map { _ in
-        viewModel.suggestions.count() > 0
-      }
-      .removeDuplicates()
-      .eraseToAnyPublisher()
-  }
-  
   func updateHasSuggestions(_ flag: Bool) {
     guard hasSuggestions != flag else { return }
     
-    /// Ensure suggestions are fully loaded before triggering the animation,
-    /// otherwise there will be a visible stutter when the animation runs.
-    /// TODO: Revisit this logic after updating `W3WBottomSheetLogic`.
-    W3WThread.runIn(duration: .seconds(0.1)) {
-      hasSuggestions.toggle()
-      // If there are suggessions, resize bottom sheet accordingly
-      if hasSuggestions {
-        bottomSheetHeight = middleDetent
-      } else {
-        bottomSheetHeight = initialPanelHeight
-      }
+    hasSuggestions.toggle()
+    // If there are suggessions, resize bottom sheet accordingly
+    if hasSuggestions {
+      bottomSheetHeight = middleDetent
+    } else {
+      bottomSheetHeight = initialPanelHeight
     }
   }
   

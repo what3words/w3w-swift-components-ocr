@@ -24,9 +24,6 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   /// output events for still imagfe ocr
   public var output = W3WEvent<W3WOcrStillOutputEvent>()
   
-  /// the suggestoins found in the image
-  var suggestions = W3WSelectableSuggestions()
-  
   /// indicates that if the ocr did collects any suggestions
   @Published public var hasSuggestions: Bool = false
   
@@ -48,30 +45,36 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   /// the view model for the bottom sheet panel
   public var panelViewModel: W3WPanelViewModel
   
-  /// the bottom sheet logic
-  var bottomSheetLogic: W3WBottomSheetLogicProtocol
-
-  /// allows the suggestions to be selected into a list
-  var selectableSuggestionList = W3WLive<Bool>(true)
-
-  
   /// a view mdoel for still image ocr
   public init(ocr: W3WOcrProtocol,
-              footerButtons: [W3WSuggestionsViewAction],
-              selectableSuggestionList: W3WLive<Bool> = W3WLive<Bool>(true),
+              isProUser: W3WLive<Bool> = W3WLive<Bool>(true),
               translations: W3WTranslationsProtocol,
               theme: W3WLive<W3WTheme?>,
               language: W3WLive<W3WLanguage?>? = nil) {
     self.ocr = ocr
     self.translations = translations
-    self.selectableSuggestionList = selectableSuggestionList
-    self.panelViewModel = W3WPanelViewModel(theme: theme, language: language, translations: translations)
-    self.bottomSheetLogic = W3WBottomSheetLogicInsanity(suggestions: suggestions, panelViewModel: panelViewModel, footerButtons: footerButtons, translations: translations, viewType: .still, selectableSuggestionList: selectableSuggestionList)
+    self.panelViewModel = W3WPanelViewModel(
+      mode: .singleShot,
+      isProUser: isProUser,
+      theme: theme,
+      language: language,
+      translations: translations
+    )
     
     // connect events to functions
     bind(theme: theme)
+    
+    // bind panelViewModel's output
+    subscribe(to: panelViewModel.output) { [weak self] event in
+      self?.handle(event: event)
+    }
+    
+    panelViewModel.hasSuggestions
+      .sink(receiveValue: { [weak self] hasSuggestions in
+        self?.hasSuggestions = hasSuggestions
+      })
+      .store(in: &subscriptions)
   }
-  
   
   /// connect events to functions
   func bind(theme: W3WLive<W3WTheme?>) {
@@ -84,45 +87,6 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
     subscribe(to: input) { [weak self] event in
       self?.handle(input: event)
     }
-    
-    // listen for bottom sheet button presses
-    bottomSheetLogic.onButton = { [weak self] button, suggestions in
-      self?.output.send(.footerButton(button, suggestions: suggestions))
-      self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(button.title), "words": .text(self?.makeWordsString(suggestions: suggestions))])))
-    }
-    
-    // called when the try again button is pressed
-    bottomSheetLogic.onTryAgain = { [weak self] in
-      self?.output.send(.tryAgain)
-      self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrTryAgain)))
-    }
-
-    // list for changes to the suggesitons list
-    subscribe(to: suggestions.update) { [weak self] event in
-      self?.hasSuggestions = self?.suggestions.count() != 0
-      self?.panelViewModel.objectWillChange.send()
-    }
-    
-    // when the user selects a single address
-    suggestions.singleSelection = { [weak self] selection in
-      self?.output.send(.selected(selection))
-    }
-    
-    bottomSheetLogic.onSelectButton = { [weak self] in
-      if (self?.bottomSheetLogic.selectMode ?? false) {
-        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultSelect)))
-      } else {
-        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultDeselect)))
-      }
-    }
-    
-    bottomSheetLogic.onSelectAllButton = { [weak self] in
-      if (self?.bottomSheetLogic.selectMode ?? false) {
-        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultSelectAll)))
-      } else {
-        self?.output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultDeselectAll)))
-      }
-    }
   }
   
   
@@ -134,7 +98,6 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
       case .image(let i, let source):
         showImage(image: i)
         scanImage(image: i, source: source)
-        bottomSheetLogic.updateFooterStatus()
         
       case .isLoading:
         isLoading = true
@@ -144,6 +107,36 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
     }
   }
   
+  private func handle(event: W3WPanelOutputEvent) {
+    switch event {
+    case .retry:
+      output.send(.tryAgain)
+      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrTryAgain)))
+      
+    case .setSelectionMode(let flag):
+      let event: W3WAppEventName = flag ? .ocrResultSelect : .ocrResultDeselect
+      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: event)))
+      
+    case .selectAllItems(let flag):
+      let event: W3WAppEventName = flag ? .ocrResultSelectAll : .ocrResultDeselectAll
+      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: event)))
+      
+    case .viewSuggestion(let suggestion):
+      output.send(.selected(suggestion))
+      
+    case let .saveSuggestions(title, suggestions):
+      output.send(.saveSuggestions(title: title, suggestions: suggestions))
+      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: suggestions))])))
+      
+    case let .shareSuggestion(title, suggestion):
+      output.send(.shareSuggestion(title: title, suggestion: suggestion))
+      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: [suggestion]))])))
+      
+    case let .viewSuggestions(title, suggestions):
+      output.send(.viewSuggestions(title: title, suggestions: suggestions))
+      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: suggestions))])))
+    }
+  }
   
   /// put an image up on the screen
   func showImage(image: CGImage?) {
@@ -153,9 +146,6 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   
   /// scan an image for three word addresses
   func scanImage(image: CGImage?, source: W3WOcrImageSource = .unknown) {
-    //output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoImport, parameters: ["width": .number(image == nil ? nil : Float(image!.width)), "height": .number(image == nil ? nil : Float(image!.height))])))
-    bottomSheetLogic.results(found: false)
-
     guard let image else { return }
     isLoading = true
     
@@ -164,15 +154,13 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
         W3WThread.runOnMain { [weak self] in
           guard let self else { return }
           isLoading = false
-          if let e = error {
-            output.send(.error(.other(e)))
+          if let error {
+            output.send(.error(.other(error)))
           }
           
-          if suggestions.count == 0 {
-            bottomSheetLogic.results(found: false)
+          if suggestions.isEmpty {
             output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrNoResultFound)))
           } else {
-            bottomSheetLogic.results(found: true)
             if case .camera = source {
               output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoCapture)))
             }
@@ -181,8 +169,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
             }
           }
           
-          // send suggestions to view
-          bottomSheetLogic.add(suggestions: suggestions)
+          panelViewModel.add(suggestions: suggestions)
         }
       }
     }
