@@ -8,7 +8,6 @@
 import SwiftUI
 import Combine
 import W3WSwiftThemes
-import W3WSwiftDesignSwiftUI
 import W3WSwiftPresenters
 
 /// the main ocr swiftui screen
