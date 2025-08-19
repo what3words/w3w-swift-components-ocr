@@ -210,6 +210,8 @@ public class W3WOcrNative: W3WOcrProtocol {
   public func stop(completion: @escaping () -> () = { }) {
     W3WOcrNative.callingC2C = false
     request = nil
+    self.completion = { _,_ in }
+    self.info = { _ in }
     completion()
   }
 

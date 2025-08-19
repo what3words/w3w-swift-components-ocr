@@ -40,7 +40,7 @@ public class W3WOcrCamera: W3WVideoStream {
   private var photoCaptureDelegate: PhotoCaptureProcessor?
 
   /// thread to be used to process IO
-  var thread = DispatchQueue(label: "background_queue", qos: .background)
+  private let thread = DispatchQueue(label: "background_queue", qos: .userInitiated, target: .global())
   
   /// delegate to capture the camera output
   let imageProcessor: W3WCameraImageProcessor! //() // AVCaptureVideoDataOutputSampleBufferDelegate needs to be a NSObject derivitive.  This class isn't, so we make a member object that conforms
@@ -140,9 +140,10 @@ public class W3WOcrCamera: W3WVideoStream {
     imageProcessor.stop()
     disconnectInputAndOutput()
 #else
-    self.disconnectInputAndOutput()
+    
     thread.async { [weak self] in
       guard let self else { return }
+      self.disconnectInputAndOutput()
       self.session?.beginConfiguration()
       self.session?.commitConfiguration()
       self.session?.stopRunning()
@@ -326,7 +327,7 @@ public class W3WOcrCamera: W3WVideoStream {
           self?.photoCaptureDelegate = nil
           completion(cgImage)
       }
-          
+
       // Capture the photo
       photoOutput.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate!)
   }
