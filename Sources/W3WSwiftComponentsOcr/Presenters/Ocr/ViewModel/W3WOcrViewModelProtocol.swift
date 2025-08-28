@@ -33,7 +33,7 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
   var ocr: W3WOcrProtocol? { get set }
   
   /// the camera
-  var camera: W3WLive<W3WOcrCamera?> { get }
+  var camera: W3WOcrCamera? { get }
   
   /// the ocr service crop rect
   var ocrCropRect: W3WEvent<CGRect> { get }

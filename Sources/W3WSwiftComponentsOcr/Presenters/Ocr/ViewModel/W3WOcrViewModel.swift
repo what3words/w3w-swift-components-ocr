@@ -52,7 +52,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   public let ocrCropRect = W3WEvent<CGRect>()
   
   /// the camera
-  public let camera = W3WLive<W3WOcrCamera?>(nil)
+  @Published public var camera: W3WOcrCamera?
 
   /// view model for the panel in the bottom sheet
   public var panelViewModel: W3WPanelViewModel
@@ -194,7 +194,7 @@ private extension W3WOcrViewModel {
   /// start scanning
   func start() {
     guard let camera = W3WOcrCamera.get(camera: .back) else { return }
-    defer { self.camera.send(camera) }
+    defer { self.camera = camera }
   
     firstLiveScanResultHappened = false
     camera.start()
@@ -217,8 +217,8 @@ private extension W3WOcrViewModel {
   
   /// Stop the scanning
   func stop() {
-    camera.value?.stop()
-    camera.send(nil)
+    camera?.stop()
+    camera = nil
     ocr?.stop {}
   }
 }
@@ -258,7 +258,7 @@ private extension W3WOcrViewModel {
   }
     
   func capturePhoto() {
-    guard let camera = camera.value else { return }
+    guard let camera else { return }
     
     isTakingPhoto = true
     camera.captureStillImage { [weak self] image in

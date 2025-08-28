@@ -20,9 +20,6 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   /// main view model
   @ObservedObject var viewModel: ViewModel
   
-  /// the OCR UIIvew
-  let ocrView: W3WOcrView
-  
   /// The dynamically measured height of the entire screen content,
   /// captured using `.onHeightChange(_:for: .content)`
   @State private var contentHeight: CGFloat = 0
@@ -52,9 +49,10 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   
   public var body: some View {
     ZStack {
-      // UIViewRepresentable for OCR view
-      W3WSuOcrView(ocrView: ocrView)
-        .edgesIgnoringSafeArea(.all)
+      W3WSuOcrView(session: viewModel.camera?.session)
+        .id(viewModel.camera?.id) // To trigger session update when new camera is created
+        .overlay(ocrOverlay)
+        .edgesIgnoringSafeArea(.all).compositingGroup()
         
       VStack {
         ZStack {
@@ -117,6 +115,21 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
     .navigationBarHidden(true) // Fix unwanted navigation bar on iOS 15
   }
   
+}
+
+// MARK: - UIs
+extension W3WOcrScreen {
+  var ocrOverlay: some View {
+    let color = viewModel.theme.value?.ocrScheme(for: .idle)?.colors?.background?.suColor
+    let regionOfInterest = GeometryReader { geometry in
+      Rectangle() // Opaque background
+      Rectangle() // Actual regionOfInterest
+        .frame(width: ocrCropRect.width, height: ocrCropRect.height)
+        .offset(x: ocrCropRect.minX, y: ocrCropRect.minY)
+        .blendMode(.destinationOut)
+    }
+    return color?.mask(regionOfInterest)
+  }
 }
 
 // MARK: - Helpers

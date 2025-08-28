@@ -5,31 +5,36 @@
 //  Created by Dave Duprey on 30/04/2025.
 //
 
-import UIKit
 import SwiftUI
-import W3WSwiftThemes
+import AVFoundation
 
 
-/// Holds a UIKit W3WOcrView in a SwiftUI view
 struct W3WSuOcrView: UIViewRepresentable {
+  let session: AVCaptureSession?
   
-  let ocrView: W3WOcrView
+  func makeUIView(context: Context) -> UIView {
+    PreviewView(session: session)
+  }
   
+  func updateUIView(_ uiView: UIView, context: Context) {}
+}
 
-  /// Holds a UIKit W3WOcrView in a SwiftUI view
-  /// - Parameters:
-  ///     - ocrView: the UIView derived W3WOcrView to embed
-  public init(ocrView: W3WOcrView) {
-    self.ocrView = ocrView
+
+private extension W3WSuOcrView {
+  final class PreviewView: UIView {
+    private let previewLayer = AVCaptureVideoPreviewLayer()
+    
+    convenience init(session: AVCaptureSession?) {
+      self.init(frame: .zero)
+      previewLayer.videoGravity = .resizeAspectFill
+      layer.addSublayer(previewLayer)
+      
+      previewLayer.session = session
+    }
+    
+    override func layoutSubviews() {
+      super.layoutSubviews()
+      previewLayer.frame = bounds
+    }
   }
-  
-  
-  func makeUIView(context: Context) -> W3WOcrView {
-    return ocrView
-  }
-  
-  
-  func updateUIView(_ uiView: W3WOcrView, context: Context) {
-  }
-  
 }

@@ -18,6 +18,7 @@ import W3WOcrSdk
 /// Interface for iOS' camera for the OCR SDK
 @available(macCatalyst 14.0, *)
 public class W3WOcrCamera: W3WVideoStream {
+  let id = UUID()
   
   // MARK: Vars
   
