@@ -218,6 +218,7 @@ private extension W3WOcrViewModel {
   /// Stop the scanning
   func stop() {
     camera.value?.stop()
+    camera.send(nil)
     ocr?.stop {}
   }
 }
@@ -257,8 +258,10 @@ private extension W3WOcrViewModel {
   }
     
   func capturePhoto() {
+    guard let camera = camera.value else { return }
+    
     isTakingPhoto = true
-    camera.value?.captureStillImage { [weak self] image in
+    camera.captureStillImage { [weak self] image in
       self?.output.send(.captureButton(image))
       self?.isTakingPhoto = false
     }
