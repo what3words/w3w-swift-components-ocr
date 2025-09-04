@@ -56,10 +56,23 @@ private extension W3WSuOcrView {
         })
         .store(in: &cancellables)
     }
-    
+        
     override func layoutSubviews() {
       super.layoutSubviews()
       previewLayer.frame = bounds
+      previewLayer.connection?.videoOrientation = UIDevice.current.videoOrientation
+    }
+  }
+}
+
+private extension UIDevice {
+  var videoOrientation: AVCaptureVideoOrientation {
+    switch orientation {
+    case .portrait: .portrait
+    case .portraitUpsideDown: .portraitUpsideDown
+    case .landscapeLeft: .landscapeRight
+    case .landscapeRight: .landscapeLeft
+    default: .portrait
     }
   }
 }
