@@ -38,7 +38,7 @@ public class W3WOcrCamera: W3WVideoStream {
   var photoOutput: AVCapturePhotoOutput?
   
   /// A temporary delegate for photo capture to get a still image
-  private var photoCaptureDelegate: PhotoCaptureProcessor?
+  private let photoCaptureDelegate = PhotoCaptureProcessor()
 
   /// thread to be used to process IO
   private let thread = DispatchQueue(label: "background_queue", qos: .userInitiated, target: .global())
@@ -165,7 +165,8 @@ public class W3WOcrCamera: W3WVideoStream {
   /// - Parameters:
   ///     - crop: the region to crop images to, provided in camera coordinates
   public func set(crop: CGRect) {
-    imageProcessor.set(crop: CGRect(x: trunc(crop.origin.x), y: trunc(crop.origin.y), width: trunc(crop.size.width), height: trunc(crop.size.height)))
+    imageProcessor.set(crop: crop)
+    photoCaptureDelegate.crop = crop
   }
   
   
@@ -184,30 +185,9 @@ public class W3WOcrCamera: W3WVideoStream {
     
     if let r = imageProcessor.resolution {
       resolution = r
-    } else {
-      if let r = inputDimensions() {
-        resolution = r
-      }
     }
     
     return resolution
-  }
-  
-  
-  /// Returns the resolution of the active input device
-  /// - Returns: the resolution of the active input device
-  public func inputDimensions() -> CGSize? {
-    // get the video dimensions
-    if let formatDescription = input?.device.activeFormat.formatDescription {
-      let videoDimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
-      if imageProcessor.orientation == .portrait || imageProcessor.orientation == .portraitUpsideDown {
-        return CGSize(width: CGFloat(videoDimensions.height), height: CGFloat(videoDimensions.width))
-      } else {
-        return CGSize(width: CGFloat(videoDimensions.width), height: CGFloat(videoDimensions.height))
-      }
-    }
-    
-    return nil
   }
   
   
@@ -316,14 +296,14 @@ public class W3WOcrCamera: W3WVideoStream {
       }
         
       // Create a temporary delegate for this capture
-      photoCaptureDelegate = PhotoCaptureProcessor { [weak self] cgImage in
-          // Clear the temporary delegate once the photo is processed
-          self?.photoCaptureDelegate = nil
-          completion(cgImage)
+    
+      photoCaptureDelegate.completionHandler = { [weak self] cgImage in
+        self?.photoCaptureDelegate.completionHandler = nil
+        completion(cgImage)
       }
-
+    
       // Capture the photo
-      photoOutput.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate!)
+      photoOutput.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate)
   }
   
   

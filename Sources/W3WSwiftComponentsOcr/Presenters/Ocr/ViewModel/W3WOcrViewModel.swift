@@ -48,17 +48,17 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// the ocr service
   public var ocr: W3WOcrProtocol?
   
-  /// the ocr service crop rect
-  public let ocrCropRect = W3WEvent<CGRect>()
-  
   /// the camera
   @Published public var camera: W3WOcrCamera?
 
   /// view model for the panel in the bottom sheet
   public var panelViewModel: W3WPanelViewModel
   
+  /// indicates if there is a camera session running
+  @Published public private(set) var isPreviewing = false
+  
   /// indicates if there is a photo being processed
-  @Published public var isTakingPhoto = false
+  @Published public private(set) var isTakingPhoto = false
 
   /// translations for text
   public var translations: W3WTranslationsProtocol
@@ -72,10 +72,6 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// indicates it the live scan feature is locked or not
   var liveScanLocked = W3WLive<Bool>(true)
 
-  /// allows the suggestions to be selected into a list
-  var selectableSuggestionList = W3WLive<Bool>(true)
-  
-  
   /// model for the ocr view
   public init(ocr: W3WOcrProtocol,
               theme: W3WLive<W3WTheme?>? = nil,
@@ -198,6 +194,7 @@ private extension W3WOcrViewModel {
   
     firstLiveScanResultHappened = false
     camera.start()
+    isPreviewing = true
     
     subscribe(to: $viewType) { [weak self] value in
       switch value {
@@ -220,6 +217,7 @@ private extension W3WOcrViewModel {
     camera?.stop()
     camera = nil
     ocr?.stop {}
+    isPreviewing = false
   }
 }
 
