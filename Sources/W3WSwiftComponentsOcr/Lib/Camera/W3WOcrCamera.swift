@@ -89,7 +89,6 @@ public class W3WOcrCamera: W3WVideoStream {
   
   /// tell the camera to start producing images
   public func start() {
-    //print("camera.start()")
     connectInputAndOutput()
     
     // if this is the simulator, then fake the real camera
@@ -97,10 +96,7 @@ public class W3WOcrCamera: W3WVideoStream {
     imageProcessor.start()
 #else
     thread.async { [weak self] in
-      guard let self else { return }
-      self.session?.beginConfiguration()
-      self.session?.commitConfiguration()
-      self.session?.startRunning()
+      self?.session?.startRunning()
     }
 #endif
     startCountdown()
@@ -144,8 +140,6 @@ public class W3WOcrCamera: W3WVideoStream {
     thread.async { [weak self] in
       guard let self else { return }
       self.disconnectInputAndOutput()
-      self.session?.beginConfiguration()
-      self.session?.commitConfiguration()
       self.session?.stopRunning()
       self.session = nil
     }
@@ -226,7 +220,7 @@ public class W3WOcrCamera: W3WVideoStream {
     //print(#function, "START")
     self.session = nil
     startAvSystem()
-    self.session?.beginConfiguration()
+    session?.beginConfiguration()
     // assign the delegates callback for camera images
     imageProcessor.onNewImage = { [weak self] image in
       guard let self else { return }
@@ -272,8 +266,7 @@ public class W3WOcrCamera: W3WVideoStream {
         }
       }
     }
-    self.session?.commitConfiguration()
-    //print(#function, "STARTED")
+    session?.commitConfiguration()
   }
   
   
