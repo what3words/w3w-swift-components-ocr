@@ -65,8 +65,6 @@ public class W3WOcrCamera: W3WVideoStream {
     
     // init the W3WOcrVideoStream parent class
     super.init()
-    
-    //connectInputAndOutput()
   }
   
   
@@ -80,8 +78,6 @@ public class W3WOcrCamera: W3WVideoStream {
     
     // init the W3WOcrVideoStream parent class
     super.init()
-    
-    //connectInputAndOutput()
   }
   
   
@@ -96,7 +92,7 @@ public class W3WOcrCamera: W3WVideoStream {
 #if targetEnvironment(simulator)
     imageProcessor.start()
 #else
-    thread.async { [weak self] in
+    thread.sync { [weak self] in
       self?.session?.startRunning()
     }
 #endif
@@ -135,12 +131,10 @@ public class W3WOcrCamera: W3WVideoStream {
     // if this is the simulator, then fake the real camera
 #if targetEnvironment(simulator)
     imageProcessor.stop()
-    disconnectInputAndOutput()
 #else
     
-    thread.async { [weak self] in
+    thread.sync { [weak self] in
       guard let self else { return }
-      self.disconnectInputAndOutput()
       self.session?.stopRunning()
       self.session = nil
     }
@@ -209,61 +203,41 @@ public class W3WOcrCamera: W3WVideoStream {
     }
     
     // connect the camera IO to the delegate
-    if let session = session {
-      if session.inputs.count == 0 {
-        //session.sessionPreset = preset
-
-        if session.canSetSessionPreset(.photo) {
-          session.sessionPreset = .photo
-          print("W3WOcrCamera Debug: Session preset set to .photo")
-        } else {
-          print("W3WOcrCamera Warning: Cannot set session preset to .photo. Falling back to default.")
-        }
-        
-        if let c = camera {
-          if let i = try? AVCaptureDeviceInput(device: c) {
-            input  = i
-            output = AVCaptureVideoDataOutput()
-            
-            if let cameraOutput = output {
-              if session.canAddInput(i) && session.canAddOutput(cameraOutput) {
-                session.addInput(i)
-                session.addOutput(cameraOutput)
-              }
+    if let session {
+      if session.canSetSessionPreset(.photo) {
+        session.sessionPreset = .photo
+        print("W3WOcrCamera Debug: Session preset set to .photo")
+      } else {
+        print("W3WOcrCamera Warning: Cannot set session preset to .photo. Falling back to default.")
+      }
+      
+      if let c = camera {
+        if let i = try? AVCaptureDeviceInput(device: c) {
+          input  = i
+          output = AVCaptureVideoDataOutput()
+          
+          if let cameraOutput = output {
+            if session.canAddInput(i) && session.canAddOutput(cameraOutput) {
+              session.addInput(i)
+              session.addOutput(cameraOutput)
             }
-            
-            // set the delegate and thread to use for camera output
-            output?.setSampleBufferDelegate(imageProcessor, queue: thread)
+          }
+          
+          // set the delegate and thread to use for camera output
+          output?.setSampleBufferDelegate(imageProcessor, queue: thread)
 
-            // Setup AVCapturePhotoOutput for still images
-            photoOutput = AVCapturePhotoOutput()
-            if let photoOutput = photoOutput {
-              photoOutput.isHighResolutionCaptureEnabled = true
-              if session.canAddOutput(photoOutput) {
-                session.addOutput(photoOutput)
-              }
+          // Setup AVCapturePhotoOutput for still images
+          photoOutput = AVCapturePhotoOutput()
+          if let photoOutput = photoOutput {
+            photoOutput.isHighResolutionCaptureEnabled = true
+            if session.canAddOutput(photoOutput) {
+              session.addOutput(photoOutput)
             }
           }
         }
       }
     }
     session?.commitConfiguration()
-  }
-  
-  
-  /// disconnects the camera and output to the session
-  func disconnectInputAndOutput() {
-      //print(#function, "START")
-      self.session?.beginConfiguration()
-      for input in self.session?.inputs ?? [] {
-        self.session?.removeInput(input)
-      }
-      
-      for output in self.session?.outputs ?? [] {
-        self.session?.removeOutput(output)
-      }
-      self.session?.commitConfiguration()
-      //print(#function, "STOP")
   }
   
   
