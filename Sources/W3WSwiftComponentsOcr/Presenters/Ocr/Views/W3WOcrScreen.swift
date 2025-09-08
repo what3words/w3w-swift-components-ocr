@@ -20,9 +20,6 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   /// main view model
   @ObservedObject var viewModel: ViewModel
   
-  /// the OCR UIIvew
-  let ocrView: W3WOcrView
-  
   /// The dynamically measured height of the entire screen content,
   /// captured using `.onHeightChange(_:for: .content)`
   @State private var contentHeight: CGFloat = 0
@@ -52,9 +49,12 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   
   public var body: some View {
     ZStack {
-      // UIViewRepresentable for OCR view
-      W3WSuOcrView(ocrView: ocrView)
-        .edgesIgnoringSafeArea(.all)
+      W3WSuOcrView(session: viewModel.camera?.session, cropRect: ocrCropRect) { rect in
+        viewModel.camera?.set(crop: rect)
+      }
+      .id(viewModel.camera?.id) // To trigger session update when new camera is created
+      .overlay(ocrOverlay)
+      .edgesIgnoringSafeArea(.all)
         
       VStack {
         ZStack {
@@ -77,7 +77,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
           .aspectRatio(contentMode: .fit)
           .onRectChange { rect in
             ocrCropRect = rect
-            viewModel.ocrCropRect.send(rect)
+            viewModel.camera?.set(crop: rect)
           }
           .overlay(W3WCornerMarkers(lineLength: 60, lineWidth: 6))
           .padding(.horizontal, W3WMargin.four.value)
@@ -105,18 +105,27 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         .onHeightChange($contentHeight, for: Height.content)
         .edgesIgnoringSafeArea(.top)
     )
-    .onAppear {
-      /// When `W3WOcrScreen` reappears, the OCR crop region can become incorrect.
-      /// This timer re-applies the crop rect as a temporary workaround.
-      /// TODO: Refactor once `W3WOcrView` has been updated for SwiftUI.
-      Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
-        viewModel.ocrCropRect.send(ocrCropRect)
-      }
-    }
     .layoutDirectionFromAppearance()
     .navigationBarHidden(true) // Fix unwanted navigation bar on iOS 15
   }
-  
+}
+
+// MARK: - UIs
+private extension W3WOcrScreen {
+  var ocrOverlay: some View {
+    let color = viewModel.theme.value?.ocrScheme(for: .idle)?.colors?.background?.suColor
+    let regionOfInterest = GeometryReader { geometry in
+      Rectangle() // Opaque background
+      
+      if viewModel.isPreviewing {
+        Rectangle() // Actual regionOfInterest
+          .frame(width: ocrCropRect.width, height: ocrCropRect.height)
+          .offset(x: ocrCropRect.minX, y: ocrCropRect.minY)
+          .blendMode(.destinationOut)
+      }
+    }
+    return color?.mask(regionOfInterest)
+  }
 }
 
 // MARK: - Helpers

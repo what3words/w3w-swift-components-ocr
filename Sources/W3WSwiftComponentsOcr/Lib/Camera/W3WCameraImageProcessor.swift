@@ -19,35 +19,15 @@ import W3WOcrSdk
 class W3WCameraImageProcessor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
    
   // MARK: Vars
-
+  
   /// callback for any new images
   var onNewImage: (CGImage) -> () = { _ in }
-  //var onNewVideoBuffer: (CMSampleBuffer) -> () = { _ in }
-  
-  /// orientaion of the camera
-  var orientation: AVCaptureVideoOrientation = .portrait
-  
-  /// this monitors device orientation
-  lazy var orientationObserver = W3WOcrOrientationObserver()
-  
+
   /// resultution of the camera
   var resolution: CGSize?
   
   /// region to crop output images to
-  var crop: CGRect?
-  
-  
-  // MARK: Init
-
-  override init() {
-    super.init()
-
-    self.orientation = orientationObserver.currentOrientationForCamera()
-    
-    orientationObserver.onNewOrientation = { [weak self] orientation in
-      self?.orientation = orientation
-    }
-  }
+  var crop: CGRect = .zero
   
   
   /// sets a crop for all returning images in camera coordinates
@@ -63,42 +43,24 @@ class W3WCameraImageProcessor: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 
   /// called when a new image is aviaable from the camera
   public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+    guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+    let width = CVPixelBufferGetWidth(pixelBuffer)
+    let height = CVPixelBufferGetHeight(pixelBuffer)
 
-    // make sure the orientation is correct
-    connection.videoOrientation = orientation
+    let cropRect = CGRect(
+        x: crop.origin.x * CGFloat(width),
+        y: crop.origin.y * CGFloat(height),
+        width: crop.width * CGFloat(width),
+        height: crop.height * CGFloat(height)
+    )
+    
+    let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+    let cropped = ciImage.cropped(to: cropRect)
 
-    // crop the incoming image, and send to whomever is interested
-    if let i = image(from: sampleBuffer, crop: crop) {
-      onNewImage(i)
+    if let cgImage = CIContext().createCGImage(cropped, from: cropped.extent) {
+      onNewImage(cgImage)
     }
   }
-  
-
-  // MARK: Util
-  
-  /// crop an image and return it as a CGImage
-  /// - Parameters:
-  ///     - buffer: image buffer from the camera
-  ///     - crop: region to crop to
-  /// - Returns: CGImage of the crop
-  private func image(from buffer: CMSampleBuffer, crop: CGRect?) -> CGImage? {
-    var image: CGImage?
-    
-    if let imageBuffer = CMSampleBufferGetImageBuffer(buffer) {
-      var ciimage = CIImage(cvPixelBuffer: imageBuffer)
-      resolution = CGSize(width: ciimage.extent.size.width, height: ciimage.extent.size.height)
-      if let c = crop?.intersection(CGRect(origin: CGPoint.zero, size: resolution!)) {
-        ciimage = ciimage.cropped(to: c)
-      }
-      
-      if let cgImage = CIContext.init(options: nil).createCGImage(ciimage, from: ciimage.extent) {
-        image = cgImage
-      }
-    }
-    
-    return image
-  }
-  
   
   // this makes the OCR work even under the iOS simulator
   #if targetEnvironment(simulator)

@@ -18,6 +18,7 @@ import W3WOcrSdk
 /// Interface for iOS' camera for the OCR SDK
 @available(macCatalyst 14.0, *)
 public class W3WOcrCamera: W3WVideoStream {
+  let id = UUID()
   
   // MARK: Vars
   
@@ -37,7 +38,7 @@ public class W3WOcrCamera: W3WVideoStream {
   var photoOutput: AVCapturePhotoOutput?
   
   /// A temporary delegate for photo capture to get a still image
-  private var photoCaptureDelegate: PhotoCaptureProcessor?
+  private let photoCaptureDelegate = PhotoCaptureProcessor()
 
   /// thread to be used to process IO
   private let thread = DispatchQueue(label: "background_queue", qos: .userInitiated, target: .global())
@@ -64,8 +65,6 @@ public class W3WOcrCamera: W3WVideoStream {
     
     // init the W3WOcrVideoStream parent class
     super.init()
-    
-    //connectInputAndOutput()
   }
   
   
@@ -79,8 +78,6 @@ public class W3WOcrCamera: W3WVideoStream {
     
     // init the W3WOcrVideoStream parent class
     super.init()
-    
-    //connectInputAndOutput()
   }
   
   
@@ -95,7 +92,7 @@ public class W3WOcrCamera: W3WVideoStream {
 #if targetEnvironment(simulator)
     imageProcessor.start()
 #else
-    thread.async { [weak self] in
+    thread.sync { [weak self] in
       self?.session?.startRunning()
     }
 #endif
@@ -134,12 +131,10 @@ public class W3WOcrCamera: W3WVideoStream {
     // if this is the simulator, then fake the real camera
 #if targetEnvironment(simulator)
     imageProcessor.stop()
-    disconnectInputAndOutput()
 #else
     
-    thread.async { [weak self] in
+    thread.sync { [weak self] in
       guard let self else { return }
-      self.disconnectInputAndOutput()
       self.session?.stopRunning()
       self.session = nil
     }
@@ -164,7 +159,8 @@ public class W3WOcrCamera: W3WVideoStream {
   /// - Parameters:
   ///     - crop: the region to crop images to, provided in camera coordinates
   public func set(crop: CGRect) {
-    imageProcessor.set(crop: CGRect(x: trunc(crop.origin.x), y: trunc(crop.origin.y), width: trunc(crop.size.width), height: trunc(crop.size.height)))
+    imageProcessor.set(crop: crop)
+    photoCaptureDelegate.crop = crop
   }
   
   
@@ -183,30 +179,9 @@ public class W3WOcrCamera: W3WVideoStream {
     
     if let r = imageProcessor.resolution {
       resolution = r
-    } else {
-      if let r = inputDimensions() {
-        resolution = r
-      }
     }
     
     return resolution
-  }
-  
-  
-  /// Returns the resolution of the active input device
-  /// - Returns: the resolution of the active input device
-  public func inputDimensions() -> CGSize? {
-    // get the video dimensions
-    if let formatDescription = input?.device.activeFormat.formatDescription {
-      let videoDimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
-      if imageProcessor.orientation == .portrait || imageProcessor.orientation == .portraitUpsideDown {
-        return CGSize(width: CGFloat(videoDimensions.height), height: CGFloat(videoDimensions.width))
-      } else {
-        return CGSize(width: CGFloat(videoDimensions.width), height: CGFloat(videoDimensions.height))
-      }
-    }
-    
-    return nil
   }
   
   
@@ -228,61 +203,41 @@ public class W3WOcrCamera: W3WVideoStream {
     }
     
     // connect the camera IO to the delegate
-    if let session = session {
-      if session.inputs.count == 0 {
-        //session.sessionPreset = preset
-
-        if session.canSetSessionPreset(.photo) {
-          session.sessionPreset = .photo
-          print("W3WOcrCamera Debug: Session preset set to .photo")
-        } else {
-          print("W3WOcrCamera Warning: Cannot set session preset to .photo. Falling back to default.")
-        }
-        
-        if let c = camera {
-          if let i = try? AVCaptureDeviceInput(device: c) {
-            input  = i
-            output = AVCaptureVideoDataOutput()
-            
-            if let cameraOutput = output {
-              if session.canAddInput(i) && session.canAddOutput(cameraOutput) {
-                session.addInput(i)
-                session.addOutput(cameraOutput)
-              }
+    if let session {
+      if session.canSetSessionPreset(.photo) {
+        session.sessionPreset = .photo
+        print("W3WOcrCamera Debug: Session preset set to .photo")
+      } else {
+        print("W3WOcrCamera Warning: Cannot set session preset to .photo. Falling back to default.")
+      }
+      
+      if let c = camera {
+        if let i = try? AVCaptureDeviceInput(device: c) {
+          input  = i
+          output = AVCaptureVideoDataOutput()
+          
+          if let cameraOutput = output {
+            if session.canAddInput(i) && session.canAddOutput(cameraOutput) {
+              session.addInput(i)
+              session.addOutput(cameraOutput)
             }
-            
-            // set the delegate and thread to use for camera output
-            output?.setSampleBufferDelegate(imageProcessor, queue: thread)
+          }
+          
+          // set the delegate and thread to use for camera output
+          output?.setSampleBufferDelegate(imageProcessor, queue: thread)
 
-            // Setup AVCapturePhotoOutput for still images
-            photoOutput = AVCapturePhotoOutput()
-            if let photoOutput = photoOutput {
-              photoOutput.isHighResolutionCaptureEnabled = true
-              if session.canAddOutput(photoOutput) {
-                session.addOutput(photoOutput)
-              }
+          // Setup AVCapturePhotoOutput for still images
+          photoOutput = AVCapturePhotoOutput()
+          if let photoOutput = photoOutput {
+            photoOutput.isHighResolutionCaptureEnabled = true
+            if session.canAddOutput(photoOutput) {
+              session.addOutput(photoOutput)
             }
           }
         }
       }
     }
     session?.commitConfiguration()
-  }
-  
-  
-  /// disconnects the camera and output to the session
-  func disconnectInputAndOutput() {
-      //print(#function, "START")
-      self.session?.beginConfiguration()
-      for input in self.session?.inputs ?? [] {
-        self.session?.removeInput(input)
-      }
-      
-      for output in self.session?.outputs ?? [] {
-        self.session?.removeOutput(output)
-      }
-      self.session?.commitConfiguration()
-      //print(#function, "STOP")
   }
   
   
@@ -315,14 +270,14 @@ public class W3WOcrCamera: W3WVideoStream {
       }
         
       // Create a temporary delegate for this capture
-      photoCaptureDelegate = PhotoCaptureProcessor { [weak self] cgImage in
-          // Clear the temporary delegate once the photo is processed
-          self?.photoCaptureDelegate = nil
-          completion(cgImage)
+    
+      photoCaptureDelegate.completionHandler = { [weak self] cgImage in
+        self?.photoCaptureDelegate.completionHandler = nil
+        completion(cgImage)
       }
-
+    
       // Capture the photo
-      photoOutput.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate!)
+      photoOutput.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate)
   }
   
   
