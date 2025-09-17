@@ -117,7 +117,7 @@ private extension W3WOcrScreen {
     let regionOfInterest = GeometryReader { geometry in
       Rectangle() // Opaque background
       
-      if viewModel.isPreviewing {
+      if viewModel.camera != nil {
         Rectangle() // Actual regionOfInterest
           .frame(width: ocrCropRect.width, height: ocrCropRect.height)
           .offset(x: ocrCropRect.minX, y: ocrCropRect.minY)

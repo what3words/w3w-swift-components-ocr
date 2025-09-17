@@ -190,11 +190,13 @@ private extension W3WOcrViewModel {
   /// start scanning
   func start() {
     guard let camera = W3WOcrCamera.get(camera: .back) else { return }
-    defer { self.camera = camera }
   
     firstLiveScanResultHappened = false
-    camera.start()
-    isPreviewing = true
+    camera.start {
+      W3WThread.runOnMain { [weak self] in
+        self?.camera = camera
+      }
+    }
     
     subscribe(to: $viewType) { [weak self] value in
       switch value {
@@ -217,7 +219,6 @@ private extension W3WOcrViewModel {
     camera?.stop()
     camera = nil
     ocr?.stop {}
-    isPreviewing = false
   }
 }
 
@@ -262,11 +263,11 @@ private extension W3WOcrViewModel {
     camera.captureStillImage { [weak self] image in
       self?.output.send(.captureButton(image))
       self?.isTakingPhoto = false
+      
+      // Stop the camera
+      self?.stop()
     }
     output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrPhotoCapture)))
-    
-    // Stop the camera
-    stop()
   }
   
   /// called by UI when the import button is pressed

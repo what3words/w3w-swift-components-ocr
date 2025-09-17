@@ -41,7 +41,7 @@ public class W3WOcrCamera: W3WVideoStream {
   private let photoCaptureDelegate = PhotoCaptureProcessor()
 
   /// thread to be used to process IO
-  private let thread = DispatchQueue(label: "background_queue", qos: .userInitiated, target: .global())
+  private let thread = DispatchQueue(label: "background_queue", qos: .userInitiated)
   
   /// delegate to capture the camera output
   let imageProcessor: W3WCameraImageProcessor! //() // AVCaptureVideoDataOutputSampleBufferDelegate needs to be a NSObject derivitive.  This class isn't, so we make a member object that conforms
@@ -85,15 +85,16 @@ public class W3WOcrCamera: W3WVideoStream {
   
   
   /// tell the camera to start producing images
-  public func start() {
-    connectInputAndOutput()
-    
+  public func start(completion: @escaping () -> Void = {}) {
     // if this is the simulator, then fake the real camera
 #if targetEnvironment(simulator)
     imageProcessor.start()
+    completion()
 #else
-    thread.sync { [weak self] in
+    thread.async { [weak self] in
+      self?.connectInputAndOutput()
       self?.session?.startRunning()
+      completion()
     }
 #endif
     startCountdown()
@@ -133,10 +134,9 @@ public class W3WOcrCamera: W3WVideoStream {
     imageProcessor.stop()
 #else
     
-    thread.sync { [weak self] in
-      guard let self else { return }
-      self.session?.stopRunning()
-      self.session = nil
+    thread.async { [weak self] in
+      self?.session?.stopRunning()
+      self?.session = nil
     }
 #endif
     

@@ -49,8 +49,8 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   }
  
   
-  override open func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
+  override open func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     viewModel.input.send(.startScanning)
   }
 }
