@@ -38,9 +38,6 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
   /// view model for the panel in the bottom sheet
   var panelViewModel: W3WPanelViewModel { get set }
   
-  /// indicates if there is a camera session running
-  var isPreviewing: Bool { get }
-  
   /// indicates if there is a photo being processed
   var isTakingPhoto: Bool { get }
   
