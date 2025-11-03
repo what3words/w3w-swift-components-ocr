@@ -8,6 +8,7 @@
 import SwiftUI
 import W3WSwiftThemes
 import W3WSwiftDesignSwiftUI
+import W3WSwiftAppTypes
 
 
 // hack to copy lock funtionality, the original is in
@@ -21,23 +22,22 @@ public extension View {
     _ value: Bool,
     alignment: Alignment = .topTrailing,
     offsetX: CGFloat = 0,
-    offsetY: CGFloat = 0,
-    lockColor: Color = .white
+    offsetY: CGFloat = 0
   ) -> some View {
-    self.cornerOverlay(
-      isVisible: value,
+    let isLockVisible = value && !W3WAppConstants.padlockConfig.isHidden
+    return self.cornerOverlay(
+      isVisible: isLockVisible,
       alignment: alignment,
       offsetX: offsetX,
       offsetY: offsetY,
       overlayView: {
-        // TODO: Add lock images when ready
         W3WIconImage(
           iconImage: .w3wLock,
           iconSize: 12,
-          color: lockColor
+          color: W3WAppConstants.padlockConfig.foregroundColor.suColor
         )
         .frame(width: 14, height: 14)
-        .background(W3WTheme.what3words.brandBase?.suColor)
+        .background(W3WAppConstants.padlockConfig.backgroundColor.suColor)
         .clipShape(.circle)
       })
   }
