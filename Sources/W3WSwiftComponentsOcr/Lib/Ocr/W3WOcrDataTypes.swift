@@ -124,6 +124,23 @@ public struct W3WOcrLanguage { //}: Hashable {
   public static let english = W3WOcrLanguage(name: "English", nativeName: "English", code: "en")
 }
 
+public extension W3WRfcLanguageProtocol {
+  /// convert W3WRfcLanguage to W3WOcrLanguage
+  func toW3WOcrLanguage() -> W3WOcrLanguage? {
+    guard let langCode, !langCode.isEmpty else { return nil }
+    return W3WOcrLanguage(name: LanguageUtils.getLanguageName(forLocale: langCode, inLocale: "en"),
+                          nativeName: LanguageUtils.getLanguageName(forLocale: langCode, inLocale: langCode),
+                          code: langCode)
+  }
+}
+
+extension W3WOcrLanguage: W3WRfcLanguageConvertable {
+  /// convert W3WOcrLanguage to any W3WRfcLanguageProtocol
+  public func toRfcLanguage() -> any W3WRfcLanguageProtocol {
+    return W3WRfcLanguage(from: code)
+  }
+}
+
 
 // as in the Sdk
 public struct W3WOcrSuggestion: W3WSuggestion {
