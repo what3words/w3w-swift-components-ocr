@@ -134,13 +134,13 @@ public extension W3WRfcLanguageProtocol {
   }
 }
 
+@available(iOS 13.0.0, *)
+@available(watchOS 6.0.0, *)
 extension W3WOcrLanguage: W3WRfcLanguageConvertable {
-  /// convert W3WOcrLanguage to any W3WRfcLanguageProtocol
-  public func toRfcLanguage() -> any W3WRfcLanguageProtocol {
+  public func toRfcLanguage() -> some W3WRfcLanguageProtocol {
     return W3WRfcLanguage(from: code)
   }
 }
-
 
 // as in the Sdk
 public struct W3WOcrSuggestion: W3WSuggestion {
