@@ -128,9 +128,13 @@ public extension W3WRfcLanguageProtocol {
   /// convert W3WRfcLanguage to W3WOcrLanguage
   func toW3WOcrLanguage() -> W3WOcrLanguage? {
     guard let langCode, !langCode.isEmpty else { return nil }
-    return W3WOcrLanguage(name: LanguageUtils.getLanguageName(forLocale: langCode, inLocale: "en"),
-                          nativeName: LanguageUtils.getLanguageName(forLocale: langCode, inLocale: langCode),
-                          code: langCode)
+    if let language = self as? W3WRfcLanguage {
+      return W3WOcrLanguage(name: language.name , nativeName: language.nativeName, code: langCode)
+    } else {
+      return W3WOcrLanguage(name: LanguageUtils.getLanguageName(forLocale: langCode, inLocale: "en"),
+                            nativeName: LanguageUtils.getLanguageName(forLocale: langCode, inLocale: langCode),
+                            code: langCode)
+    }
   }
 }
 
