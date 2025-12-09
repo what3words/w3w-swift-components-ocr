@@ -8,6 +8,7 @@
 import SwiftUI
 import W3WSwiftThemes
 import W3WSwiftDesignSwiftUI
+import W3WSwiftAppTypes
 
 
 /// styling the SwiftUI toggle
@@ -51,14 +52,14 @@ struct BorderedSwitchToggleStyle: ToggleStyle {
         .padding(4)
         .frame(maxWidth: .infinity, alignment: configuration.isOn ? .trailing : .leading)
       
-      if isLocked {
+      if isLocked, !W3WAppConstants.padlockConfig.isHidden {
         W3WIconImage(
           iconImage: .w3wLock,
           iconSize: 12,
-          color: W3WCoreColor.white.suColor
+          color: W3WAppConstants.padlockConfig.foregroundColor.suColor
         )
         .frame(width: 14, height: 14)
-        .background(W3WTheme.what3words.brandBase?.suColor)
+        .background(W3WAppConstants.padlockConfig.backgroundColor.suColor)
         .clipShape(.circle)
         .offset(x: 23.0, y: -13.0)
       }
