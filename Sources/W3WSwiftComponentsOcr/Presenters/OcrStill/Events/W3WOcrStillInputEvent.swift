@@ -25,13 +25,13 @@ public enum W3WOcrStillInputEvent: W3WAppEventConvertable {
   public func asAppEvent() -> W3WAppEvent {
     switch self {
       case .image(let image, let source):
-        return W3WAppEvent(name: "ocr.still.image", parameters: ["resolution": .text("\(image?.width ?? Int(0.0)),\(image?.height ?? Int(0.0))"), "source": .text(source.description)])
+        return W3WAppEvent(level: .analytic, name: "ocr.still.image", parameters: ["resolution": .text("\(image?.width ?? Int(0.0)),\(image?.height ?? Int(0.0))"), "source": .text(source.description)])
 
       case .isLoading:
-        return W3WAppEvent(name: "ocr.loading")
+        return W3WAppEvent(level: .analytic, name: "ocr.loading")
 
       case .notLoading:
-        return W3WAppEvent(name: "ocr.notLoading")
+        return W3WAppEvent(level: .analytic, name: "ocr.notLoading")
     }
   }
 }

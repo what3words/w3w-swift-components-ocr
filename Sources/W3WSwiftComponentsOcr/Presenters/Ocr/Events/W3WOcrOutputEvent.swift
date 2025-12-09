@@ -52,34 +52,34 @@ extension W3WOcrOutputEvent: W3WAppEventConvertable {
     switch self {
       
     case .error(let error):
-      return W3WAppEvent(name: "ocr.error", parameters: ["error": .error(error)])
+      return W3WAppEvent(level: .analytic, name: "ocr.error", parameters: ["error": .error(error)])
       
     case .detected(let suggestion):
-      return W3WAppEvent(name: "ocr.detected", parameters: ["suggestion": .suggestion(suggestion)])
+      return W3WAppEvent(level: .analytic, name: "ocr.detected", parameters: ["suggestion": .suggestion(suggestion)])
       
     case .selected(let suggestion):
-      return W3WAppEvent(name: "ocr.selected", parameters: ["suggestion": .suggestion(suggestion)])
+      return W3WAppEvent(level: .analytic, name: "ocr.selected", parameters: ["suggestion": .suggestion(suggestion)])
       
     case .importImage:
-      return W3WAppEvent(name: "ocr.importImage")
+      return W3WAppEvent(level: .analytic, name: "ocr.importImage")
       
     case .captureButton:
-      return W3WAppEvent(name: "ocr.captureButton")
+      return W3WAppEvent(level: .analytic, name: "ocr.captureButton")
       
     case .liveCaptureSwitch(let value):
-      return W3WAppEvent(name: "ocr.liveCaptureSwitch", parameters: ["value": .boolean(value)])
+      return W3WAppEvent(level: .analytic, name: "ocr.liveCaptureSwitch", parameters: ["value": .boolean(value)])
       
     case .saveSuggestions(let title, _):
-      return W3WAppEvent(name: "ocr.footerButton", parameters: ["action": .text(title)])
+      return W3WAppEvent(level: .analytic, name: "ocr.footerButton", parameters: ["action": .text(title)])
       
     case .shareSuggestion(let title, _):
-      return W3WAppEvent(name: "ocr.footerButton", parameters: ["action": .text(title)])
+      return W3WAppEvent(level: .analytic, name: "ocr.footerButton", parameters: ["action": .text(title)])
       
     case .viewSuggestions(let title, _):
-      return W3WAppEvent(name: "ocr.footerButton", parameters: ["action": .text(title)])
+      return W3WAppEvent(level: .analytic, name: "ocr.footerButton", parameters: ["action": .text(title)])
       
     case .dismiss:
-      return W3WAppEvent(name: "ocr.dismiss")
+      return W3WAppEvent(level: .analytic, name: "ocr.dismiss")
       
     case .analytic(let event):
       return event

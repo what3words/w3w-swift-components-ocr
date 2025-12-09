@@ -19,7 +19,7 @@ public enum W3WOcrInputEvent: String, W3WAppEventConvertable {
   case dismiss
   
   public func asAppEvent() -> W3WAppEvent {
-    return W3WAppEvent(name: W3WAppEventName(value: "ocr." + self.rawValue))
+    return W3WAppEvent(level: .analytic, name: W3WAppEventName(value: "ocr." + self.rawValue))
   }
   
 }

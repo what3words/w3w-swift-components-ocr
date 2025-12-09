@@ -161,26 +161,26 @@ private extension W3WOcrViewModel {
       
     case .setSelectionMode(let flag):
       let event: W3WAppEventName = flag ? .ocrResultSelect : .ocrResultDeselect
-      output.send(.analytic(W3WAppEvent(name: event)))
+      output.send(.analytic(W3WAppEvent(level: .analytic, name: event)))
       
     case .selectAllItems(let flag):
       let event: W3WAppEventName = flag ? .ocrResultSelectAll : .ocrResultDeselectAll
-      output.send(.analytic(W3WAppEvent(name: event)))
+      output.send(.analytic(W3WAppEvent(level: .analytic, name: event)))
       
     case .viewSuggestion(let suggestion):
       output.send(.selected(suggestion))
       
     case let .saveSuggestions(title, suggestions):
       output.send(.saveSuggestions(title: title, suggestions: suggestions))
-      output.send(.analytic(W3WAppEvent(name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: suggestions))])))
+      output.send(.analytic(W3WAppEvent(level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: suggestions))])))
 
     case let .shareSuggestion(title, suggestion):
       output.send(.shareSuggestion(title: title, suggestion: suggestion))
-      output.send(.analytic(W3WAppEvent(name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: [suggestion]))])))
+      output.send(.analytic(W3WAppEvent(level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: [suggestion]))])))
 
     case let .viewSuggestions(title, suggestions):
       output.send(.viewSuggestions(title: title, suggestions: suggestions))
-      output.send(.analytic(W3WAppEvent(name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: suggestions))])))
+      output.send(.analytic(W3WAppEvent(level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: suggestions))])))
     }
   }
 }
@@ -245,7 +245,7 @@ private extension W3WOcrViewModel {
         
         if !firstLiveScanResultHappened {
           firstLiveScanResultHappened = true
-          output.send(.analytic(W3WAppEvent(name: .ocrResultLiveScan)))
+          output.send(.analytic(W3WAppEvent(level: .analytic, name: .ocrResultLiveScan)))
         }
       }
     }
@@ -267,7 +267,7 @@ private extension W3WOcrViewModel {
       // Stop the camera
       self?.stop()
     }
-    output.send(.analytic(W3WAppEvent(name: .ocrPhotoCapture)))
+    output.send(.analytic(W3WAppEvent(level: .analytic, name: .ocrPhotoCapture)))
   }
   
   /// called by UI when the import button is pressed
@@ -275,7 +275,7 @@ private extension W3WOcrViewModel {
     output.send(.importImage)
 
     if !lockOnImportButton {
-      output.send(.analytic(W3WAppEvent(name: .ocrPhotoImport)))
+      output.send(.analytic(W3WAppEvent(level: .analytic, name: .ocrPhotoImport)))
       
       // Stop the camera
       stop()
@@ -290,7 +290,7 @@ private extension W3WOcrViewModel {
     guard !lockOnLiveSwitch else { return }
     
     let orcLive: W3WAppEventName = isLiveCaptureOn ? .ocrLiveScanOn : .ocrLiveScanOff
-    output.send(.analytic(W3WAppEvent(name: orcLive)))
+    output.send(.analytic(W3WAppEvent(level: .analytic, name: orcLive)))
   }
   
   
