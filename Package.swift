@@ -21,7 +21,7 @@ let package = Package(
       .package(url: "https://github.com/what3words/w3w-swift-core.git", branch: "staging"),
       .package(url: "https://github.com/what3words/w3w-swift-design.git", branch: "staging"),
       .package(url: "git@github.com:what3words/w3w-swift-design-swiftui.git", branch: "dev/v5.4.0"),
-      .package(url: "git@github.com:w3w-internal/w3w-swift-app-events.git", branch: "staging"),
+      .package(url: "git@github.com:w3w-internal/w3w-swift-app-events.git", branch: "dev/v5.6.0"),
       .package(url: "https://github.com/what3words/w3w-swift-presenters.git", branch: "dev/v5.4.0"),
       .package(url: "git@github.com:w3w-internal/w3w-swift-app-types.git", branch: "dev/v5.4.0"),
     ],
