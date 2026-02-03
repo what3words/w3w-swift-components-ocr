@@ -11,6 +11,7 @@ import W3WSwiftCore
 import W3WSwiftThemes
 import W3WSwiftPresenters
 import W3WSwiftAppEvents
+import W3WSwiftAppAnalytics
 
 
 /// model for the ocr view
@@ -43,8 +44,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   @Published public var lockOnLiveSwitch = true
 
   /// app events of rlogging / analytics
-  var events: W3WEvent<W3WAppEvent>?
-  
+  var eventTracker: W3WEventTrackingManager
+
   /// the ocr service
   public var ocr: W3WOcrProtocol?
   
@@ -79,12 +80,12 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
               liveScanLocked: W3WLive<Bool>,
               isProUser: W3WLive<Bool> = W3WLive<Bool>(true),
               translations: W3WTranslationsProtocol = W3WOcrTranslations(),
-              events: W3WEvent<W3WAppEvent>? = W3WEvent<W3WAppEvent>(),
+              eventTracker: W3WEventTrackingManager,
               language: W3WLive<W3WLanguage?>? = nil) {
     self.scheme         = .w3w
     self.theme          = theme ?? W3WLive<W3WTheme?>(.what3words)
     self.translations   = translations
-    self.events         = events
+    self.eventTracker   = eventTracker
     self.importLocked   = importLocked
     self.liveScanLocked = liveScanLocked
     self.ocr = ocr
@@ -161,26 +162,26 @@ private extension W3WOcrViewModel {
       
     case .setSelectionMode(let flag):
       let event: W3WAppEventName = flag ? .ocrResultSelect : .ocrResultDeselect
-      output.send(.analytic(W3WAppEvent(level: .analytic, name: event)))
+      output.send(.analytic(W3WAppEvent(name: event)))
       
     case .selectAllItems(let flag):
       let event: W3WAppEventName = flag ? .ocrResultSelectAll : .ocrResultDeselectAll
-      output.send(.analytic(W3WAppEvent(level: .analytic, name: event)))
+      output.send(.analytic(W3WAppEvent(name: event)))
       
     case .viewSuggestion(let suggestion):
       output.send(.selected(suggestion))
       
     case let .saveSuggestions(title, suggestions):
       output.send(.saveSuggestions(title: title, suggestions: suggestions))
-      output.send(.analytic(W3WAppEvent(level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: suggestions))])))
+      output.send(.analytic(W3WAppEvent(name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: suggestions))])))
 
     case let .shareSuggestion(title, suggestion):
       output.send(.shareSuggestion(title: title, suggestion: suggestion))
-      output.send(.analytic(W3WAppEvent(level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: [suggestion]))])))
+      output.send(.analytic(W3WAppEvent(name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: [suggestion]))])))
 
     case let .viewSuggestions(title, suggestions):
       output.send(.viewSuggestions(title: title, suggestions: suggestions))
-      output.send(.analytic(W3WAppEvent(level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: suggestions))])))
+      output.send(.analytic(W3WAppEvent(name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: suggestions))])))
     }
   }
 }
@@ -245,7 +246,7 @@ private extension W3WOcrViewModel {
         
         if !firstLiveScanResultHappened {
           firstLiveScanResultHappened = true
-          output.send(.analytic(W3WAppEvent(level: .analytic, name: .ocrResultLiveScan)))
+          output.send(.analytic(W3WAppEvent(name: .ocrResultLiveScan)))
         }
       }
     }
@@ -267,7 +268,7 @@ private extension W3WOcrViewModel {
       // Stop the camera
       self?.stop()
     }
-    output.send(.analytic(W3WAppEvent(level: .analytic, name: .ocrPhotoCapture)))
+    output.send(.analytic(W3WAppEvent(name: .ocrPhotoCapture)))
   }
   
   /// called by UI when the import button is pressed
@@ -275,7 +276,7 @@ private extension W3WOcrViewModel {
     output.send(.importImage)
 
     if !lockOnImportButton {
-      output.send(.analytic(W3WAppEvent(level: .analytic, name: .ocrPhotoImport)))
+      output.send(.analytic(W3WAppEvent(name: .ocrPhotoImport)))
       
       // Stop the camera
       stop()
@@ -290,7 +291,7 @@ private extension W3WOcrViewModel {
     guard !lockOnLiveSwitch else { return }
     
     let orcLive: W3WAppEventName = isLiveCaptureOn ? .ocrLiveScanOn : .ocrLiveScanOff
-    output.send(.analytic(W3WAppEvent(level: .analytic, name: orcLive)))
+    output.send(.analytic(W3WAppEvent(name: orcLive)))
   }
   
   
