@@ -24,7 +24,6 @@ let package = Package(
       .package(url: "git@github.com:w3w-internal/w3w-swift-app-events.git", branch: "dev/v5.6.0"),
       .package(url: "https://github.com/what3words/w3w-swift-presenters.git", branch: "dev/v5.6.0"),
       .package(url: "git@github.com:w3w-internal/w3w-swift-app-types.git", branch: "dev/v5.6.0"),
-      .package(url: "git@github.com:w3w-internal/w3w-swift-app-analytics.git", branch: "dev/v5.6.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -38,8 +37,7 @@ let package = Package(
               .product(name: "W3WSwiftDesignSwiftUI", package: "w3w-swift-design-swiftui"),
               .product(name: "W3WSwiftPresenters", package: "w3w-swift-presenters"),
               .product(name: "W3WSwiftAppEvents", package: "w3w-swift-app-events"),
-              .product(name: "W3WSwiftAppTypes", package: "w3w-swift-app-types"),
-              .product(name: "W3WSwiftAppAnalytics", package: "w3w-swift-app-analytics")
+              .product(name: "W3WSwiftAppTypes", package: "w3w-swift-app-types")
             ],
             resources: [.process("Resources")]
         ),
