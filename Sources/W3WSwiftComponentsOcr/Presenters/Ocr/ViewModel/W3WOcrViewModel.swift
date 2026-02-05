@@ -41,9 +41,6 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
 
   /// the binding to the lock on the live/still switch
   @Published public var lockOnLiveSwitch = true
-
-  /// app events of rlogging / analytics
-  var events: W3WEvent<W3WAppEvent>?
   
   /// the ocr service
   public var ocr: W3WOcrProtocol?
@@ -79,12 +76,10 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
               liveScanLocked: W3WLive<Bool>,
               isProUser: W3WLive<Bool> = W3WLive<Bool>(true),
               translations: W3WTranslationsProtocol = W3WOcrTranslations(),
-              events: W3WEvent<W3WAppEvent>? = W3WEvent<W3WAppEvent>(),
               language: W3WLive<W3WLanguage?>? = nil) {
     self.scheme         = .w3w
     self.theme          = theme ?? W3WLive<W3WTheme?>(.what3words)
     self.translations   = translations
-    self.events         = events
     self.importLocked   = importLocked
     self.liveScanLocked = liveScanLocked
     self.ocr = ocr
