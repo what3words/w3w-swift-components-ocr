@@ -12,8 +12,8 @@ public extension W3WAppEventName {
     
   // MARK: Ocr Events
   
-  static let proPaywallOcrPhotoImport: W3WAppEventName = "ocr.pro_paywall_ocr_photo_import" // non-Pro users  Defined under Paywall section.
-  static let proPaywallOcrLiveScan: W3WAppEventName   = "ocr.pro_paywall_ocr_live_scan"    // non-Pro users  Defined under Paywall section.
+  static let proPaywallOcrPhotoImport: W3WAppEventName = "pro_paywall_ocr_photo_import" // non-Pro users  Defined under Paywall section.
+  static let proPaywallOcrLiveScan: W3WAppEventName   = "pro_paywall_ocr_live_scan"    // non-Pro users  Defined under Paywall section.
   static let ocrPhotoImport: W3WAppEventName          = "ocr_photo_import"                // Pro users  Triggered when user clicks the import photo button while it is unlocked on the OCR main screen.
   //static let ocrLiveScan: W3WAppEventName             = "ocr.live_scan"                  // Pro users  Triggered when user clicks on Live Scan while it is unlocked on the OCR main screen.
   static let ocrLiveScanOff: W3WAppEventName          = "ocr_live_scan_off"             // Pro users  Triggered when user toggles on Live scan on the OCR main screen.
@@ -28,9 +28,9 @@ public extension W3WAppEventName {
   static let ocrResultDeselect: W3WAppEventName   = "ocr_result_deselect"       // Triggered when a user taps the ‘Select’ button again while already in ‘Select’ mode.
   static let ocrResultSelectAll: W3WAppEventName   = "ocr_result_select_all"    // Pro users  Triggered when user click 'Select All' on the OCR Results screen.
   static let ocrResultDeselectAll: W3WAppEventName  = "ocr_result_deselect_all" // Triggered when a user taps the ‘Select All’ button again while all results are already selected.
-  static let ocrSelectSave: W3WAppEventName         = "ocr.select_save"        // Pro users  Triggered when user clicks "Select", then selects three word addresses, then clicks "Save" on the OCR main screen.  three_word_address: array
-  static let ocrSelectShare: W3WAppEventName       = "ocr.select_share"       // Pro users  Triggered when user clicks "Select", then selects three word addresses, then clicks "Share" on the OCR main screen.  three_word_address: array
-  static let ocrSelectNavigate: W3WAppEventName   = "ocr.select_navigate"    // Pro users  Triggered when user clicks "Select", then selects three word addresses, then clicks "Map" on the OCR main screen.  three_word_address: array
+  static let ocrSelectSave: W3WAppEventName         = "ocr_select_save"        // Pro users  Triggered when user clicks "Select", then selects three word addresses, then clicks "Save" on the OCR main screen.  three_word_address: array
+  static let ocrSelectShare: W3WAppEventName       = "ocr_select_share"       // Pro users  Triggered when user clicks "Select", then selects three word addresses, then clicks "Share" on the OCR main screen.  three_word_address: array
+  static let ocrSelectNavigate: W3WAppEventName   = "ocr_select_navigate"    // Pro users  Triggered when user clicks "Select", then selects three word addresses, then clicks "Map" on the OCR main screen.  three_word_address: array
 
   static let ocrHeaderButton: W3WAppEventName = "ocr.header_button" // when one of the select buttons is tapped
   static let ocrFooterButton: W3WAppEventName = "ocr.footer_button" // when one of the select buttons is tapped
