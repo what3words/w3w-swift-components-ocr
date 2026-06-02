@@ -111,30 +111,35 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
     switch event {
     case .retry:
       output.send(.tryAgain)
-      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrTryAgain)))
+      output.send(.analytic(W3WAppEvent(name: .ocrTryAgain)))
       
     case .setSelectionMode(let flag):
       let event: W3WAppEventName = flag ? .ocrResultSelect : .ocrResultDeselect
-      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: event)))
+      output.send(.analytic(W3WAppEvent(name: event)))
       
     case .selectAllItems(let flag):
       let event: W3WAppEventName = flag ? .ocrResultSelectAll : .ocrResultDeselectAll
-      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: event)))
+      output.send(.analytic(W3WAppEvent(name: event)))
       
     case .viewSuggestion(let suggestion):
       output.send(.selected(suggestion))
       
     case let .saveSuggestions(title, suggestions):
       output.send(.saveSuggestions(title: title, suggestions: suggestions))
-      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: suggestions))])))
-      
+
+      output.send(.analytic(W3WAppEvent(name: .ocrSelectSave,
+                                        parameters: ["three_word_address": .any(makeWordsArray(suggestions: suggestions))])))
+
     case let .shareSuggestion(title, suggestion):
       output.send(.shareSuggestion(title: title, suggestion: suggestion))
-      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: [suggestion]))])))
-      
+
+      output.send(.analytic(W3WAppEvent(name: .ocrSelectShare,
+                                        parameters: ["three_word_address": .any(makeWordsArray(suggestions: [suggestion]))])))
+
     case let .viewSuggestions(title, suggestions):
       output.send(.viewSuggestions(title: title, suggestions: suggestions))
-      output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrFooterButton, parameters: ["button": .text(title), "words": .text(makeWordsString(suggestions: suggestions))])))
+      output.send(.analytic(W3WAppEvent(name: .ocrSelectNavigate,
+                                        parameters: ["three_word_address": .any(makeWordsArray(suggestions: suggestions))])))
     }
   }
   
@@ -159,13 +164,13 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
           }
           
           if suggestions.isEmpty {
-            output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrNoResultFound)))
+            output.send(.analytic(W3WAppEvent(name: .ocrNoResultFound)))
           } else {
             if case .camera = source {
-              output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoCapture)))
+              output.send(.analytic(W3WAppEvent(name: .ocrResultPhotoCapture)))
             }
             if case .photoLibrary = source {
-              output.send(.analytic(W3WAppEvent(type: Self.self, level: .analytic, name: .ocrResultPhotoImport)))
+              output.send(.analytic(W3WAppEvent(name: .ocrResultPhotoImport)))
             }
           }
           
@@ -178,14 +183,12 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   public func dismissButtonPressed() {
     output.send(.dismiss)
   }
-  
-  
+
   // MARK: Utility
-
-
-  func makeWordsString(suggestions: [W3WSuggestion]) -> String {
-    let retval = suggestions.compactMap { $0.words }
-    return "[\"" + retval.joined(separator: "\"],[\"") + "\"]"
+  func makeWordsArray(suggestions: [W3WSuggestion]) -> [String] {
+#if DEBUG
+    print("===> array of words: \(suggestions.compactMap { $0.words })")
+#endif
+    return suggestions.compactMap { $0.words }
   }
-
 }

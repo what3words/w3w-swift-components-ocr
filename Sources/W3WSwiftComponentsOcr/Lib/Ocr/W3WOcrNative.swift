@@ -313,6 +313,8 @@ public class W3WOcrNative: W3WOcrProtocol {
   func recognizeTextHandlerApi(request: VNRequest, error: Error?, info: @escaping (W3WOcrInfo) -> (), completion: @escaping ([W3WOcrSuggestion], W3WOcrError?) -> ()) {
     if let observations = request.results as? [VNRecognizedTextObservation] {
       
+      var scheduledAnyCalls = false
+      
       // prepare info on the values returned
       let frameInfo = W3WOcrInfo()
       frameInfo.droppedFrame = false
@@ -344,8 +346,8 @@ public class W3WOcrNative: W3WOcrProtocol {
           
           // check to see if it could be excatly a three word address
           if w3w.isPossible3wa(text: cleanedText) {
+            scheduledAnyCalls = true
             foundSomething(text: cleanedText, completion: completion)
-            
           } else {
             // otehrwise we scan the text to see if a 3wa is somewhere in it
             let twas = w3w.findPossible3wa(text: cleanedText)
@@ -355,12 +357,14 @@ public class W3WOcrNative: W3WOcrProtocol {
 
               // check for exact match
               if w3w.isPossible3wa(text: text) {
+                scheduledAnyCalls = true
                 foundSomething(text: text, completion: completion)
 
               // if the text was close, fix it up again and try again
               } else if w3w.didYouMean(text: text) {
-                let text = make3waFromAlmost3wa(text: text)
-                foundSomething(text: text, completion: completion)
+                let fixed = make3waFromAlmost3wa(text: text)
+                scheduledAnyCalls = true
+                foundSomething(text: fixed, completion: completion)
                 
               // nothing found
               } else {
@@ -385,6 +389,16 @@ public class W3WOcrNative: W3WOcrProtocol {
       
       // return geometry info about the frame to anyone interested
       info(frameInfo)
+      
+      if !scheduledAnyCalls {
+        completion([], nil)
+      }
+    } else {
+      if let err = error {
+        completion([], W3WOcrError.coreError(message: err.localizedDescription))
+      } else {
+        completion([], nil)
+      }
     }
   }
   
@@ -487,10 +501,12 @@ public class W3WOcrNative: W3WOcrProtocol {
         } else {
           // cache the result
           W3WOcrNative.suggestionCache[text] = (true, nil)
+          completion([], nil)
         }
       } else {
         // cache the result
         W3WOcrNative.suggestionCache[text] = (true, nil)
+        completion([], nil)
       }
       
     }
