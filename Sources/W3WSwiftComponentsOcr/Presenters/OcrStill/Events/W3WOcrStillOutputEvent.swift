@@ -43,25 +43,25 @@ extension W3WOcrStillOutputEvent: W3WAppEventConvertable {
     switch self {
       
     case .error(let error):
-      return W3WAppEvent(type: Self.self, name: "ocr.error", parameters: ["error": .error(error)])
+      return W3WAppEvent(name: "ocr.error", parameters: ["error": .error(error)])
       
     case .selected(let suggestion):
-      return W3WAppEvent(type: Self.self, name: "ocr.selected", parameters: ["suggestion": .suggestion(suggestion)])
+      return W3WAppEvent(name: "ocr.selected", parameters: ["suggestion": .suggestion(suggestion)])
       
     case .tryAgain:
-      return W3WAppEvent(type: Self.self, name: "ocr.tryAgain")
+      return W3WAppEvent(name: "ocr.tryAgain")
       
     case .saveSuggestions(let title, _):
-      return W3WAppEvent(type: Self.self, name: "ocr.footerButton", parameters: ["action": .text(title)])
+      return W3WAppEvent(name: "ocr.footerButton", parameters: ["action": .text(title)])
       
     case .shareSuggestion(let title, _):
-      return W3WAppEvent(type: Self.self, name: "ocr.footerButton", parameters: ["action": .text(title)])
+      return W3WAppEvent(name: "ocr.footerButton", parameters: ["action": .text(title)])
       
     case .viewSuggestions(let title, _):
-      return W3WAppEvent(type: Self.self, name: "ocr.footerButton", parameters: ["action": .text(title)])
+      return W3WAppEvent(name: "ocr.footerButton", parameters: ["action": .text(title)])
       
     case .dismiss:
-      return W3WAppEvent(type: Self.self, name: "ocr.dismiss")
+      return W3WAppEvent(name: "ocr.dismiss")
       
     case .analytic(let event):
       return event
