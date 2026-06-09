@@ -76,19 +76,19 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
               liveScanLocked: W3WLive<Bool>,
               isProUser: W3WLive<Bool> = W3WLive<Bool>(true),
               translations: W3WTranslationsProtocol = W3WOcrTranslations(),
-              language: W3WLive<W3WLanguage?>? = nil) {
+              rfcLanguage: W3WLive<(any W3WRfcLanguageProtocol)?>? = nil) {
     self.scheme         = .w3w
     self.theme          = theme ?? W3WLive<W3WTheme?>(.what3words)
     self.translations   = translations
     self.importLocked   = importLocked
     self.liveScanLocked = liveScanLocked
     self.ocr = ocr
-    
+
     self.panelViewModel = W3WPanelViewModel(
       mode: .live,
       isProUser: isProUser,
       theme: theme,
-      language: language,
+      rfcLanguage: rfcLanguage,
       translations: translations
     )
         

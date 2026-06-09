@@ -50,14 +50,14 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
               isProUser: W3WLive<Bool> = W3WLive<Bool>(true),
               translations: W3WTranslationsProtocol,
               theme: W3WLive<W3WTheme?>,
-              language: W3WLive<W3WLanguage?>? = nil) {
+              rfcLanguage: W3WLive<(any W3WRfcLanguageProtocol)?>? = nil) {
     self.ocr = ocr
     self.translations = translations
     self.panelViewModel = W3WPanelViewModel(
       mode: .singleShot,
       isProUser: isProUser,
       theme: theme,
-      language: language,
+      rfcLanguage: rfcLanguage,
       translations: translations
     )
     

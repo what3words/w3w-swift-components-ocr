@@ -21,7 +21,24 @@ extension What3Words: W3WUtilitiesProtocol { }
 
 
 @available(iOS 13.0, *)
-public class W3WOcrNative: W3WOcrProtocol {
+public class W3WOcrNative: W3WOcrProtocol, W3WExceptionalLanguageProtocol {
+  
+  // W3WLanguageLocale -> W3WRfcLanguage identifier
+  public let exceptionalCases: [String: String]  = [
+    "bs_oo_cy": "bs-Cyrl",
+    "bs_oo_la": "bs-Latn",
+    "zh_hk"   : "zh-Hant-HK",
+    "zh_tr"   : "zh-Hant-TW",
+    "zh_si"   : "zh-Hans",
+    "kk_cy"   : "kk-Cyrl",
+    "kk_la"   : "kk-Latn",
+    "mn_cy"   : "mn-Cyrl",
+    "mn_la"   : "mn-Latn",
+    "me_oo_cy": "sr-Cyrl-ME",
+    "me_oo_la": "sr-Latn-ME",
+    "sr_oo_cy"   : "sr-Cyrl-RS",
+    "sr_oo_la"   : "sr-Latn-RS"
+  ]
 
   /// languages to use for recognition
   var languages = ["en"]  // LiveType supports at least English, so this is hardcoded
@@ -87,46 +104,47 @@ public class W3WOcrNative: W3WOcrProtocol {
     // get a list of langauges from the system
     let temp = VNRecognizeTextRequest(completionHandler: { _, _ in })
     if #available(iOS 15.0, *) {
-      if let ocrLangauges = try? temp.supportedRecognitionLanguages() { //}, let w3wLanguages = languages {
+      if let ocrLangauges = try? temp.supportedRecognitionLanguages() {
         self.supportedLanguages = ocrLangauges
         //self.languagesQueried = true
       }
     }
-    
+     
     // temper that list by removing any languages w3w doesn't support
     self.w3w.availableLanguages() { languages, error in
       if let w3wLanguages = languages {
-        self.supportedLanguages = self.w3wSupported(ocrLangauges: self.supportedLanguages, w3wLangauges: w3wLanguages)
+        let cases = self.exceptionalCases
+        let rfcLanguages: [any W3WRfcLanguageProtocol] = w3wLanguages.map { w3wLanguage in
+          let code = cases[w3wLanguage.locale] ?? w3wLanguage.locale
+          return W3WRfcLanguage(from: code)
+        }
+        self.supportedLanguages = self.w3wSupported(ocrLanguages: self.supportedLanguages, rfcLanguages: rfcLanguages)
       }
     }
   }
-  
-  
+
+
   /// returns the union of the two lists
-  func w3wSupported(ocrLangauges: [String], w3wLangauges: [W3WLanguage]) -> [String] {
+  func w3wSupported(ocrLanguages: [String], rfcLanguages: [any W3WRfcLanguageProtocol]) -> [String] {
     var supported = [String]()
-    
-    for code in ocrLangauges {
-      if w3wSupported(code: code, langauges: w3wLangauges) {
-        supported.append(code)
+
+    for supportedCode in ocrLanguages {
+      if w3wSupported(code: supportedCode, rfcLanguages: rfcLanguages) {
+        supported.append(supportedCode)
       }
     }
-    
+
     return supported
   }
-  
-  
+
   /// checks if a language is in a language array
-  func w3wSupported(code: String, langauges: [W3WLanguage]) -> Bool {
-    for langauge in langauges {
-      if code.prefix(2) == langauge.code {
-        return true
-      }
-    }
-    
-    return false
-  }
-  
+   func w3wSupported(code: String, rfcLanguages: [any W3WRfcLanguageProtocol]) -> Bool {
+     // Convert once — the result doesn't depend on the loop element.
+     guard let convertedRfcLanguage = try? W3WRfcLanguage(from: code, iOSCompatible: true) else {
+       return false
+     }
+     return rfcLanguages.contains { convertedRfcLanguage.identifier.contains($0.identifier) }
+   }
   
   deinit {
   }
@@ -276,13 +294,12 @@ public class W3WOcrNative: W3WOcrProtocol {
         
         let ocrSuggestion = W3WOcrSuggestion(
           words: square.words,
-          country: W3WBaseCountry(code: square.country?.code ?? W3WBaseLanguage.english.code),
+          country: W3WBaseCountry(code: square.country?.code ?? W3WRfcLanguage.default.code ?? "en"),
           nearestPlace: square.nearestPlace,
           distanceToFocus: (distance == nil) ? nil : W3WBaseDistance(meters: distance ?? 0.0),
-          language: W3WBaseLanguage(locale: square.language?.locale ?? W3WBaseLanguage.english.locale))
+          language: W3WBaseLanguage(locale: square.language?.locale ?? W3WRfcLanguage.default.code ?? "en"))
         suggestions.append(ocrSuggestion)
       }
-      
       // condition removed to allow empty results through for "no results" feedback
       completion(suggestions, nil)
 
