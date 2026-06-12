@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import W3WSwiftCore
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
 #endif // W3WOcrSdk
@@ -24,7 +25,6 @@ public class W3WOcrHybrid: W3WOcrProtocol {
   
   var ocrs = [W3WOcrProtocol]()
   var currentOcrIndex = 0
-
   
   /// Initialises with multiple Ocr systems
   /// - Parameters:
@@ -73,6 +73,23 @@ public class W3WOcrHybrid: W3WOcrProtocol {
     // user asked for unsupported langage
     throw W3WOcrError.coreError(message: "Langauge not supported")
   }
+  
+  public func set(rfcLanguage: any W3WRfcLanguageProtocol) throws {
+    
+    // loop through available OCR systems in order
+    for i in 0..<ocrs.count {
+      let languages = ocrs[i].availableRfcLanguages()
+      
+      if languages.contains(where: { $0.isTheSameLanguage(to: rfcLanguage)}) {
+        try ocrs[i].set(rfcLanguage: rfcLanguage)
+        currentOcrIndex = i
+        return
+      }
+    }
+
+    // user asked for unsupported langage
+    throw W3WOcrError.coreError(message: "Langauge not supported")
+  }
 
 
   /// Returns a list of languages which is the union of the languages
@@ -87,6 +104,21 @@ public class W3WOcrHybrid: W3WOcrProtocol {
         let l = language.prefix(2)
         if !languages.contains(String(l)) {
           languages.append(String(l))
+        }
+      }
+    }
+    
+    return languages
+  }
+  
+  public func availableRfcLanguages() -> [any W3WRfcLanguageProtocol] {
+    var languages: [any W3WRfcLanguageProtocol] = .init()
+    
+    for ocr in ocrs {
+      let list = ocr.availableRfcLanguages()
+      for language in list {
+        if !languages.contains(where: { $0.identifier.contains(language.identifier) }) {
+          languages.append(language)
         }
       }
     }

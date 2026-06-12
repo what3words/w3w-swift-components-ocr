@@ -22,6 +22,10 @@ extension What3Words: W3WUtilitiesProtocol { }
 
 @available(iOS 13.0, *)
 public class W3WOcrNative: W3WOcrProtocol, W3WExceptionalLanguageProtocol {
+  public func availableRfcLanguages() -> [any W3WSwiftCore.W3WRfcLanguageProtocol] {
+    return supportedRfcLanguages
+  }
+  
   
   // W3WLanguageLocale -> W3WRfcLanguage identifier
   public let exceptionalCases: [String: String]  = [
@@ -41,19 +45,26 @@ public class W3WOcrNative: W3WOcrProtocol, W3WExceptionalLanguageProtocol {
   ]
 
   /// languages to use for recognition
-  var languages = ["en"]  // LiveType supports at least English, so this is hardcoded
+  var languages: [String] {
+    return rfcLanguages.map(\.shortIdentifier)
+  }
+  
+  var rfcLanguages: [any W3WRfcLanguageProtocol] = [W3WRfcLanguage.default]
   
   /// lastImageResolution
   var lastImageResolution = CGSize(width: 1.0, height: 1.0)
 
   /// the languages this supports
-  var supportedLanguages = [String]()
+//  var supportedLanguages = [String]()
+  
+  var supportedRfcLanguages: [any W3WRfcLanguageProtocol] = .init()
+  var supportedOcrRfcLanguages: [any W3WRfcLanguageProtocol] = .init()
   
   /// Create a new request to recognize text.
   var request: VNRecognizeTextRequest?
 
   /// what3words api/sdk
-  var w3w: W3WProtocolV4!
+  var w3w: W3WProtocolV4Wrapper!
   
   /// called when a new image frame is available from the camera
   var info: (W3WOcrInfo) -> () = { _ in }
@@ -86,44 +97,57 @@ public class W3WOcrNative: W3WOcrProtocol, W3WExceptionalLanguageProtocol {
   /// OCR system provided by Apple
   /// - Parameters:
   ///   - w3w: A refernce to the what3words API or the SDK
-  public init(_ w3w: W3WProtocolV4) {
+  public init(_ w3w: W3WProtocolV4Wrapper) {
     configure(w3w: w3w)
   }
   
   
 #if canImport(w3w)
   public init(sdk: What3Words) {
-    configure(w3w: sdk as! W3WProtocolV4)
+    configure(w3w: sdk as! W3WProtocolV4Wrapper)
   }
 #endif // w3w
 
   
-  func configure(w3w: W3WProtocolV4) {
+  func configure(w3w: W3WProtocolV4Wrapper) {
     self.w3w = w3w
     
     // get a list of langauges from the system
     let temp = VNRecognizeTextRequest(completionHandler: { _, _ in })
     if #available(iOS 15.0, *) {
       if let ocrLangauges = try? temp.supportedRecognitionLanguages() {
-        self.supportedLanguages = ocrLangauges
-        //self.languagesQueried = true
+        self.supportedOcrRfcLanguages = ocrLangauges.compactMap { try? W3WRfcLanguage(from: $0, iOSCompatible: true) }
       }
     }
      
     // temper that list by removing any languages w3w doesn't support
-    self.w3w.availableLanguages() { languages, error in
-      if let w3wLanguages = languages {
-        let cases = self.exceptionalCases
-        let rfcLanguages: [any W3WRfcLanguageProtocol] = w3wLanguages.map { w3wLanguage in
-          let code = cases[w3wLanguage.locale] ?? w3wLanguage.locale
-          return W3WRfcLanguage(from: code)
-        }
-        self.supportedLanguages = self.w3wSupported(ocrLanguages: self.supportedLanguages, rfcLanguages: rfcLanguages)
+    self.w3w.availableRfcLanguages { [weak self] rfcLanguages, error in
+      let ocrLangs = self?.supportedOcrRfcLanguages ?? []
+      if let rfcLanguages {
+        self?.supportedRfcLanguages = self?.equalLanguages(ocrLanguages: ocrLangs, rfcLanguages: rfcLanguages) ?? []
       }
     }
+    
+//    self.w3w.availableLanguages() { languages, error in
+//      if let w3wLanguages = languages {
+//        let cases = self.exceptionalCases
+//        let rfcLanguages: [any W3WRfcLanguageProtocol] = w3wLanguages.map { w3wLanguage in
+//          let code = cases[w3wLanguage.locale] ?? w3wLanguage.locale
+//          return W3WRfcLanguage(from: code)
+//        }
+//        self.supportedLanguages = self.w3wSupported(ocrLanguages: self.supportedLanguages, rfcLanguages: rfcLanguages)
+//        
+//        self.supportedRfcLanguages = self.rfcSupported(ocrLanguages: self.supportedLanguages, rfcLanguages: rfcLanguages)
+//      }
+//    }
   }
-
-
+  
+  func equalLanguages(ocrLanguages: [any W3WRfcLanguageProtocol], rfcLanguages: [any W3WRfcLanguageProtocol]) -> [any W3WRfcLanguageProtocol] {
+    ocrLanguages.filter { ocr in
+      rfcLanguages.contains { ocr.isEquivalent(to: $0) }
+    }
+  }
+  
   /// returns the union of the two lists
   func w3wSupported(ocrLanguages: [String], rfcLanguages: [any W3WRfcLanguageProtocol]) -> [String] {
     var supported = [String]()
@@ -137,6 +161,22 @@ public class W3WOcrNative: W3WOcrProtocol, W3WExceptionalLanguageProtocol {
     return supported
   }
 
+  
+//  /// returns the union of the two lists
+//  func rfcSupported(ocrLanguages: [String], rfcLanguages: [any W3WRfcLanguageProtocol]) -> [any W3WRfcLanguageProtocol] {
+//    var supported = [any W3WRfcLanguageProtocol]()
+//
+//    for supportedCode in ocrLanguages {
+//      if let rfcLanguage = rfcSupported(code: supportedCode, rfcLanguages: rfcLanguages) {
+//        supported.append(rfcLanguage)
+//      }
+//    }
+//
+//    return supported
+//  }
+  
+
+  
   /// checks if a language is in a language array
    func w3wSupported(code: String, rfcLanguages: [any W3WRfcLanguageProtocol]) -> Bool {
      // Convert once — the result doesn't depend on the loop element.
@@ -154,15 +194,18 @@ public class W3WOcrNative: W3WOcrProtocol, W3WExceptionalLanguageProtocol {
   /// - Parameters:
   ///     - language: a two letter ISO code for the language to use
   public func set(language: String) throws {
-    self.languages = [language]
+//    self.languages = [language]
   }
   
+  public func set(rfcLanguage: any W3WSwiftCore.W3WRfcLanguageProtocol) throws {
+    self.rfcLanguages = [rfcLanguage]
+  }
   
   /// Sets the languages to use for scanning.
   /// - Parameters:
   ///     - language: an array of two letter ISO code for the language to use
   func set(languages: [String]) throws {
-    self.languages = languages
+//    self.languages = languages
   }
   
   
@@ -173,7 +216,8 @@ public class W3WOcrNative: W3WOcrProtocol, W3WExceptionalLanguageProtocol {
 
   /// returns an array of  ISO 639-1 2 letter language codes indicating which langauges are supported
   public func availableLanguages() -> [String] {
-    return supportedLanguages
+//    return supportedLanguages
+    return []
   }
   
   
@@ -545,3 +589,4 @@ public class W3WOcrNative: W3WOcrProtocol, W3WExceptionalLanguageProtocol {
   }
   
 }
+

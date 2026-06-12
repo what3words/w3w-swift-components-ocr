@@ -13,6 +13,14 @@ import W3WSwiftCore
 
 
 public class W3WOcrSdkWrapper: W3WOcrProtocol {
+  public func set(rfcLanguage: any W3WSwiftCore.W3WRfcLanguageProtocol) throws {
+    try ocr.set(language: rfcLanguage.code!)
+  }
+  
+  public func availableRfcLanguages() -> [any W3WSwiftCore.W3WRfcLanguageProtocol] {
+    return ocr.availableLanguages().map { W3WRfcLanguage(from: $0.code) }
+  }
+  
   
   
   public func availableLanguages() -> [String] {

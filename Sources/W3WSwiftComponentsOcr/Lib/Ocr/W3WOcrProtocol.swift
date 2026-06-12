@@ -23,8 +23,12 @@ public protocol W3WOcrProtocol {
   func set(language: String) throws
 
   
+  func set(rfcLanguage: any W3WRfcLanguageProtocol) throws
+  
   /// returns an array of  ISO 639-1 2 letter language codes indicating which langauges are supported
   func availableLanguages() -> [String]
+  
+  func availableRfcLanguages() -> [any W3WRfcLanguageProtocol]
 
   
   /// scans an image for three word address
