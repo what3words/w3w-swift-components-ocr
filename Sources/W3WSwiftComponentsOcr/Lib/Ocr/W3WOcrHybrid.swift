@@ -48,32 +48,7 @@ public class W3WOcrHybrid: W3WOcrProtocol {
   /// among the provided OCR systems and use the first one that
   /// supports the language in question
   /// - Parameters:
-  ///     - language: a two letter ISO code for the language to use
-  public func set(language: String) throws {
-
-    // loop through available OCR systems in order
-    for i in 0..<ocrs.count {
-      let languages = ocrs[i].availableLanguages()
-      
-      // if an exact match of the requested langauge is found, set this ocr as current and set the language
-      if languages.contains(language) {
-        try ocrs[i].set(language: language)
-        currentOcrIndex = i
-        return
-      
-      // if there is a match for the the language group, but maybe not the dialect
-      } else if let lang = languages.first(where: { l in l.prefix(2) == language }) {
-        try ocrs[i].set(language: lang)
-        currentOcrIndex = i
-        return
-
-      }
-    }
-
-    // user asked for unsupported langage
-    throw W3WOcrError.coreError(message: "Langauge not supported")
-  }
-  
+  ///     - rfcLanguage: W3WRfcLanguage
   public func set(rfcLanguage: any W3WRfcLanguageProtocol) throws {
     
     // loop through available OCR systems in order
@@ -90,27 +65,10 @@ public class W3WOcrHybrid: W3WOcrProtocol {
     // user asked for unsupported langage
     throw W3WOcrError.coreError(message: "Langauge not supported")
   }
-
-
+  
   /// Returns a list of languages which is the union of the languages
   /// supported by all the Ocr systems available
-  /// - Returns: A string array of two letter ISO langauge codes
-  public func availableLanguages() -> [String] {
-    var languages = [String]()
-    
-    for ocr in ocrs {
-      let list = ocr.availableLanguages()
-      for language in list {
-        let l = language.prefix(2)
-        if !languages.contains(String(l)) {
-          languages.append(String(l))
-        }
-      }
-    }
-    
-    return languages
-  }
-  
+  /// - Returns: A string array of RfcLanguage
   public func availableRfcLanguages() -> [any W3WRfcLanguageProtocol] {
     var languages: [any W3WRfcLanguageProtocol] = .init()
     

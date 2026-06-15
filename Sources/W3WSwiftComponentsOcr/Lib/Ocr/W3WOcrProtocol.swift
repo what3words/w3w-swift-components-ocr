@@ -15,19 +15,11 @@ import W3WSwiftCore
 
 
 public protocol W3WOcrProtocol {
-
-
-  /// sets the language to use
-  /// - Parameters:
-  ///     - language: an ISO 639-1 2 letter language code
-  func set(language: String) throws
-
-  
+  /// set the RfcLanguage to use
   func set(rfcLanguage: any W3WRfcLanguageProtocol) throws
   
-  /// returns an array of  ISO 639-1 2 letter language codes indicating which langauges are supported
-  func availableLanguages() -> [String]
   
+  /// returns an array of  supported Rfc Languages
   func availableRfcLanguages() -> [any W3WRfcLanguageProtocol]
 
   

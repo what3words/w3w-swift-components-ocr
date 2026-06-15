@@ -54,9 +54,6 @@ public class W3WOcrNative: W3WOcrProtocol, W3WExceptionalLanguageProtocol {
   /// lastImageResolution
   var lastImageResolution = CGSize(width: 1.0, height: 1.0)
 
-  /// the languages this supports
-//  var supportedLanguages = [String]()
-  
   var supportedRfcLanguages: [any W3WRfcLanguageProtocol] = .init()
   var supportedOcrRfcLanguages: [any W3WRfcLanguageProtocol] = .init()
   
@@ -127,19 +124,6 @@ public class W3WOcrNative: W3WOcrProtocol, W3WExceptionalLanguageProtocol {
         self?.supportedRfcLanguages = self?.equalLanguages(ocrLanguages: ocrLangs, rfcLanguages: rfcLanguages) ?? []
       }
     }
-    
-//    self.w3w.availableLanguages() { languages, error in
-//      if let w3wLanguages = languages {
-//        let cases = self.exceptionalCases
-//        let rfcLanguages: [any W3WRfcLanguageProtocol] = w3wLanguages.map { w3wLanguage in
-//          let code = cases[w3wLanguage.locale] ?? w3wLanguage.locale
-//          return W3WRfcLanguage(from: code)
-//        }
-//        self.supportedLanguages = self.w3wSupported(ocrLanguages: self.supportedLanguages, rfcLanguages: rfcLanguages)
-//        
-//        self.supportedRfcLanguages = self.rfcSupported(ocrLanguages: self.supportedLanguages, rfcLanguages: rfcLanguages)
-//      }
-//    }
   }
   
   func equalLanguages(ocrLanguages: [any W3WRfcLanguageProtocol], rfcLanguages: [any W3WRfcLanguageProtocol]) -> [any W3WRfcLanguageProtocol] {
@@ -147,80 +131,15 @@ public class W3WOcrNative: W3WOcrProtocol, W3WExceptionalLanguageProtocol {
       rfcLanguages.contains { ocr.isEquivalent(to: $0) }
     }
   }
-  
-  /// returns the union of the two lists
-  func w3wSupported(ocrLanguages: [String], rfcLanguages: [any W3WRfcLanguageProtocol]) -> [String] {
-    var supported = [String]()
-
-    for supportedCode in ocrLanguages {
-      if w3wSupported(code: supportedCode, rfcLanguages: rfcLanguages) {
-        supported.append(supportedCode)
-      }
-    }
-
-    return supported
-  }
-
-  
-//  /// returns the union of the two lists
-//  func rfcSupported(ocrLanguages: [String], rfcLanguages: [any W3WRfcLanguageProtocol]) -> [any W3WRfcLanguageProtocol] {
-//    var supported = [any W3WRfcLanguageProtocol]()
-//
-//    for supportedCode in ocrLanguages {
-//      if let rfcLanguage = rfcSupported(code: supportedCode, rfcLanguages: rfcLanguages) {
-//        supported.append(rfcLanguage)
-//      }
-//    }
-//
-//    return supported
-//  }
-  
-
-  
-  /// checks if a language is in a language array
-   func w3wSupported(code: String, rfcLanguages: [any W3WRfcLanguageProtocol]) -> Bool {
-     // Convert once — the result doesn't depend on the loop element.
-     guard let convertedRfcLanguage = try? W3WRfcLanguage(from: code, iOSCompatible: true) else {
-       return false
-     }
-     return rfcLanguages.contains { convertedRfcLanguage.identifier.contains($0.identifier) }
-   }
-  
-  deinit {
-  }
-  
-  
-  /// Sets the language to use for scanning.
-  /// - Parameters:
-  ///     - language: a two letter ISO code for the language to use
-  public func set(language: String) throws {
-//    self.languages = [language]
-  }
-  
+  /// Sets the RfcLanguage to use for scanning.
   public func set(rfcLanguage: any W3WSwiftCore.W3WRfcLanguageProtocol) throws {
     self.rfcLanguages = [rfcLanguage]
   }
   
-  /// Sets the languages to use for scanning.
-  /// - Parameters:
-  ///     - language: an array of two letter ISO code for the language to use
-  func set(languages: [String]) throws {
-//    self.languages = languages
-  }
-  
-  
   public func set(focus: CLLocationCoordinate2D?) {
     self.focus = focus
   }
-  
 
-  /// returns an array of  ISO 639-1 2 letter language codes indicating which langauges are supported
-  public func availableLanguages() -> [String] {
-//    return supportedLanguages
-    return []
-  }
-  
-  
   /// scans an image for three word address
   /// - Parameters:
   ///     - image: the image to scan
