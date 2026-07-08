@@ -85,6 +85,7 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
           )
       }
       .disabled(viewModel.lockOnImportButton)
+      .w3wOcrTestTag(W3WOcrTestTags.importButton)
       .isLockedOcr(viewModel.lockOnImportButton, alignment: .topTrailing)
       .onTapGesture {
         if viewModel.lockOnImportButton {
@@ -117,6 +118,7 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
             viewModel.input.send(.trackCameraMode)
           }
         }
+        .w3wOcrTestTag(W3WOcrTestTags.liveScanToggle)
       Text(viewModel.translations.get(id: "ocr_live_scanButton"))
     }
   }

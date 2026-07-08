@@ -51,6 +51,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   
   override open func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    w3wOcrTestTag(W3WOcrTestTags.root)
     viewModel.input.send(.startScanning)
   }
 }

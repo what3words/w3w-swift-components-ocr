@@ -39,6 +39,7 @@ public extension View {
         .frame(width: 14, height: 14)
         .background(W3WAppConstants.padlockConfig.backgroundColor.suColor)
         .clipShape(.circle)
+        .w3wOcrTestTag(W3WOcrTestTags.importButtonLock)
       })
   }
 }

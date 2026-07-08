@@ -15,7 +15,9 @@ struct W3WSuOcrView: UIViewRepresentable {
   let previewCropHandler: (CGRect) -> Void
   
   func makeUIView(context: Context) -> UIView {
-    PreviewView(session: session, cropRect: cropRect, previewCropHandler: previewCropHandler)
+    let view = PreviewView(session: session, cropRect: cropRect, previewCropHandler: previewCropHandler)
+    view.w3wOcrTestTag(W3WOcrTestTags.viewfinder)
+    return view
   }
   
   func updateUIView(_ uiView: UIView, context: Context) {}

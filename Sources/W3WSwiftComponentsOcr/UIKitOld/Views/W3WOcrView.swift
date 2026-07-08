@@ -62,6 +62,8 @@ public class W3WOcrView: W3WOcrBasicView {
   override func configure() {
     super.configure()
     
+    w3wOcrTestTag(W3WOcrTestTags.viewfinder)
+    
     recalculateAndPositionLayers()
     
     layer.addSublayer(backgroundLayer)

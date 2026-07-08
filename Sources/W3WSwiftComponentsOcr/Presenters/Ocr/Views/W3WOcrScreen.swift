@@ -67,6 +67,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
           W3WCloseButtonX {
             viewModel.input.send(.dismiss)
           }
+          .w3wOcrTestTag(W3WOcrTestTags.backButton)
           .padding(.trailing, W3WPadding.heavy.value)
           .frame(maxWidth: .infinity, alignment: .trailing)
         }
@@ -96,6 +97,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         }) {
           W3WPanelScreen(viewModel: viewModel.panelViewModel)
             .animation(nil, value: hasSuggestions)
+            .w3wOcrTestTag(W3WOcrTestTags.resultsList)
         }
         .animation(.easeIn, value: hasSuggestions)
         .onReceive(viewModel.panelViewModel.hasSuggestions, perform: updateHasSuggestions)
