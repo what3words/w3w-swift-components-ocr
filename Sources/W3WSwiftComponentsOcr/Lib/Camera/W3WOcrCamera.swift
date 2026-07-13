@@ -36,9 +36,15 @@ public class W3WOcrCamera: W3WVideoStream {
   
   /// photo output tap (for still images)
   var photoOutput: AVCapturePhotoOutput?
-  
+
+  /// metadata output tap (for QR detection), only attached when `onQRCode` is set
+  var metadataOutput: AVCaptureMetadataOutput?
+
   /// A temporary delegate for photo capture to get a still image
   private let photoCaptureDelegate = PhotoCaptureProcessor()
+
+  /// delegate to capture metadata (QR) output, same NSObject-member pattern as `imageProcessor`
+  private let metadataProcessor = W3WCameraMetadataProcessor()
 
   /// thread to be used to process IO
   private let thread = DispatchQueue(label: "background_queue", qos: .userInitiated)
@@ -48,6 +54,19 @@ public class W3WOcrCamera: W3WVideoStream {
   
   /// called when Camera has started
   public var onCameraStarted: (() -> ())?
+
+  /// called when a QR code is detected in the camera feed
+  /// setting this before `start()` attaches an `AVCaptureMetadataOutput` for QR
+  /// to the capture session; leaving it nil keeps the session untouched.
+  /// detection runs in the system capture pipeline, callbacks only fire on a hit
+  /// (repeated sightings of the same code are suppressed while it stays in frame)
+  public var onQRCode: ((String) -> ())?
+
+  /// consulted per sighting while QR detection is attached; return false to drop
+  /// hits without delivering them (e.g. only detect while in live scan mode).
+  /// dropped sightings don't slide the duplicate-suppression window, so flipping
+  /// back to true delivers a code still in frame immediately
+  public var qrDetectionActive: () -> Bool = { true }
   
   // MARK: Init
   
@@ -236,11 +255,50 @@ public class W3WOcrCamera: W3WVideoStream {
           }
         }
       }
+
+      // Attach QR detection when requested; added after the video and photo
+      // outputs so they keep priority if the session rejects extra outputs.
+      // The session is recreated on every start, so this re-attaches each time.
+      connectMetadataOutput(session: session)
     }
     session?.commitConfiguration()
   }
   
   
+  /// adds an AVCaptureMetadataOutput for QR codes to the session when `onQRCode`
+  /// is set; must be called between beginConfiguration/commitConfiguration
+  private func connectMetadataOutput(session: AVCaptureSession) {
+    guard onQRCode != nil else {
+      print("W3WOcr QR: metadata output NOT attached — onQRCode not set on camera")
+      return
+    }
+
+    let metadata = AVCaptureMetadataOutput()
+    if session.canAddOutput(metadata) {
+      session.addOutput(metadata)
+
+      // metadataObjectTypes can only be set after the output joins a session
+      if metadata.availableMetadataObjectTypes.contains(.qr) {
+        metadata.metadataObjectTypes = [.qr]
+        metadata.setMetadataObjectsDelegate(metadataProcessor, queue: .main)
+        metadataProcessor.isActive = { [weak self] in
+          self?.qrDetectionActive() ?? false
+        }
+        metadataProcessor.onQRCode = { [weak self] payload in
+          self?.onQRCode?(payload)
+        }
+        metadataOutput = metadata
+        print("W3WOcrCamera Debug: QR metadata detection attached to session")
+      } else {
+        session.removeOutput(metadata)
+        print("W3WOcrCamera Warning: QR metadata detection unavailable on this session")
+      }
+    } else {
+      print("W3WOcrCamera Warning: Cannot add metadata output for QR detection")
+    }
+  }
+
+
   // MARK: - Capture Still Image
    
    /// Captures a still image and returns it as a CGImage.

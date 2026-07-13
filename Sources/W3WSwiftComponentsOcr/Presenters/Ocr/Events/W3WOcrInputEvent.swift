@@ -14,6 +14,9 @@ public enum W3WOcrInputEvent: String, W3WAppEventConvertable {
   case trackCameraMode
   case resetScanResult
   case startScanning
+  /// stops the camera and ocr engine without emitting a `dismiss` output,
+  /// for hosts that take over navigation themselves (e.g. QR hand-off)
+  case stopScanning
   case capturePhoto
   case importPhoto
   case dismiss
