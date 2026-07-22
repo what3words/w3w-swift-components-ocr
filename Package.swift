@@ -21,7 +21,8 @@ let package = Package(
       .package(url: "https://github.com/what3words/w3w-swift-design-swiftui.git", "1.5.0"..<"2.0.0"),
       .package(url: "https://github.com/w3w-internal/w3w-swift-app-events.git", "5.3.0"..<"6.0.0"),
       .package(url: "https://github.com/what3words/w3w-swift-presenters.git", "1.2.0"..<"2.0.0"),
-      .package(url: "https://github.com/w3w-internal/w3w-swift-app-types.git", "5.3.0"..<"6.0.0")
+      .package(url: "https://github.com/w3w-internal/w3w-swift-app-types.git", "5.3.0"..<"6.0.0"),
+      .package(url: "https://github.com/w3w-internal/w3w-swift-scanner.git", "1.0.0"..<"2.0.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -33,7 +34,8 @@ let package = Package(
               .product(name: "W3WSwiftDesignSwiftUI", package: "w3w-swift-design-swiftui"),
               .product(name: "W3WSwiftPresenters", package: "w3w-swift-presenters"),
               .product(name: "W3WSwiftAppEvents", package: "w3w-swift-app-events"),
-              .product(name: "W3WSwiftAppTypes", package: "w3w-swift-app-types")
+              .product(name: "W3WSwiftAppTypes", package: "w3w-swift-app-types"),
+              .product(name: "W3WSwiftScanner", package: "w3w-swift-scanner")
             ],
             resources: [.process("Resources")]
         ),
