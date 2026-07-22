@@ -87,12 +87,39 @@ public class W3WOcrCamera: W3WVideoStream {
   }
 
 
+  /// initialise with a specific device — legacy public API kept for source compatibility
+  @available(*, deprecated, message: "use W3WOcrCamera.get(camera:) instead")
+  public convenience init(camera: AVCaptureDevice?) {
+    self.init(core: W3WScannerCamera(camera: camera))
+  }
+
+
+  /// initialise without a device (simulator use) — legacy public API kept for source compatibility
+  @available(*, deprecated, message: "use W3WOcrCamera.get(camera:) instead")
+  override public convenience init() {
+    self.init(core: W3WScannerCamera())
+  }
+
+
   // MARK: Start / Stop
 
 
   /// tell the camera to start producing images
   public func start(completion: @escaping () -> Void = {}) {
-    core.start(completion: completion)
+    // the adapter derives explicit outputs from its own wiring: full OCR pipeline, plus
+    // QR metadata when a QR handler was set before start (the documented onQRCode contract)
+    var outputs = W3WScannerCamera.Outputs.ocr
+    if onQRCode != nil {
+      outputs.metadataTypes = [.qr]
+    }
+    core.start(outputs: outputs, completion: completion)
+  }
+
+
+  /// legacy public API kept for source compatibility — the unified core owns the AV session
+  @available(*, deprecated, message: "the capture session is created by start()")
+  public func startAvSystem() {
+    core.startAvSystem()
   }
 
 
@@ -159,12 +186,31 @@ public class W3WOcrCamera: W3WVideoStream {
   }
 
 
+  /// available cameras — legacy public API kept for source compatibility
+  @available(*, deprecated, message: "use W3WScannerCamera.list() instead")
+  public static func list() -> [W3WVideoStream] {
+    return W3WScannerCamera.list().map { W3WOcrCamera(core: $0) }
+  }
+
+
+  /// one façade per device position — a façade rewires `core.onNewImage` to itself, so a
+  /// second live façade over the same core would silently steal the engine's frame tap
+  private static var facades = [AVCaptureDevice.Position: W3WOcrCamera]()
+  private static let facadeLock = NSLock()
+
   /// get an instance of W3WOcrCamera for the desired position
   /// - Parameters:
   ///     - position: the camera to use, eg: .front, .back
   static public func get(camera position: AVCaptureDevice.Position) -> W3WOcrCamera? {
     guard let core = W3WScannerCamera.get(camera: position) else { return nil }
-    return W3WOcrCamera(core: core)
+    facadeLock.lock()
+    defer { facadeLock.unlock() }
+    if let existing = facades[position], existing.core === core {
+      return existing
+    }
+    let facade = W3WOcrCamera(core: core)
+    facades[position] = facade
+    return facade
   }
 
 }

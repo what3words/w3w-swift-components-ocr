@@ -201,7 +201,10 @@ private extension W3WOcrViewModel {
         self?.viewType == .video
       }
       camera.onQRCode = { [weak self] payload in
+        // payload can carry a login id — never log it in Release
+        #if DEBUG
         print("W3WOcr QR: payload delivered to view model output: \(payload)")
+        #endif
         self?.output.send(.didDetectQR(payload))
       }
       print("W3WOcr QR: detection wired in view model (viewType=\(viewType))")

@@ -56,7 +56,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
       W3WCameraPreview(
         session: viewModel.camera?.session,
         regionOfInterest: ocrCropRect,
-        readinessSettle: 1,
+        initialROIReportDelay: 1,
         onNormalizedROIChanged: { rect in viewModel.camera?.set(crop: rect) }
       )
       .id(viewModel.camera?.id) // To trigger session update when new camera is created
