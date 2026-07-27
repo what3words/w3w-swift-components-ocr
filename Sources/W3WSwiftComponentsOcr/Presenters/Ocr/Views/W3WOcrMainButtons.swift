@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import W3WSwiftAppAccessibilityIdentifiers
 import W3WSwiftDesign
 import W3WSwiftDesignSwiftUI
 
@@ -85,7 +86,7 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
           )
       }
       .disabled(viewModel.lockOnImportButton)
-      .w3wOcrTestTag(W3WOcrTestTags.importButton)
+      .w3wTestTag(W3WTestTags.Ocr.importButton)
       .isLockedOcr(viewModel.lockOnImportButton, alignment: .topTrailing)
       .onTapGesture {
         if viewModel.lockOnImportButton {
@@ -118,7 +119,7 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
             viewModel.input.send(.trackCameraMode)
           }
         }
-        .w3wOcrTestTag(W3WOcrTestTags.liveScanToggle)
+        .w3wTestTag(W3WTestTags.Ocr.liveScanToggle)
       Text(viewModel.translations.get(id: "ocr_live_scanButton"))
     }
   }

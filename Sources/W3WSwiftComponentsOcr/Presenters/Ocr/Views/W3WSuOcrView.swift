@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import W3WSwiftAppAccessibilityIdentifiers
 import AVFoundation
 import Combine
 
@@ -16,7 +17,7 @@ struct W3WSuOcrView: UIViewRepresentable {
   
   func makeUIView(context: Context) -> UIView {
     let view = PreviewView(session: session, cropRect: cropRect, previewCropHandler: previewCropHandler)
-    view.w3wOcrTestTag(W3WOcrTestTags.viewfinder)
+    view.w3wTestTag(W3WTestTags.Ocr.viewfinder)
     return view
   }
   
