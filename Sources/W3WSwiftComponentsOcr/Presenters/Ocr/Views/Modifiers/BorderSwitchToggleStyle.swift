@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import W3WSwiftAppAccessibilityIdentifiers
 import W3WSwiftThemes
 import W3WSwiftDesignSwiftUI
 import W3WSwiftAppTypes
@@ -63,7 +62,6 @@ struct BorderedSwitchToggleStyle: ToggleStyle {
         .background(W3WAppConstants.padlockConfig.backgroundColor.suColor)
         .clipShape(.circle)
         .offset(x: 23.0, y: -13.0)
-        .w3wTestTag(W3WTestTags.Ocr.liveScanLock)
       }
     }
     .frame(width: 51, height: 31) // The fixed size of our switch

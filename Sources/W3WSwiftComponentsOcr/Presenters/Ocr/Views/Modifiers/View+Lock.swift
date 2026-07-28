@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import W3WSwiftAppAccessibilityIdentifiers
 import W3WSwiftThemes
 import W3WSwiftDesignSwiftUI
 import W3WSwiftAppTypes
@@ -40,7 +39,6 @@ public extension View {
         .frame(width: 14, height: 14)
         .background(W3WAppConstants.padlockConfig.backgroundColor.suColor)
         .clipShape(.circle)
-        .w3wTestTag(W3WTestTags.Ocr.importButtonLock)
       })
   }
 }
