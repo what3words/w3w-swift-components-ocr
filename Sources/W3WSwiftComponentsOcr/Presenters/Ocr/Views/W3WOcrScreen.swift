@@ -50,14 +50,18 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   
   public var body: some View {
     ZStack {
-      // MT-9012 Rev 3: shared preview primitive from w3w-swift-scanner (replaces the
+      // shared preview primitive from w3w-swift-scanner (replaces the
       // hand-rolled W3WSuOcrView preview layer). The 1s readiness settle preserves the
       // previous timing — convert the OCR crop only after a frame has rendered.
       W3WCameraPreview(
         session: viewModel.camera?.session,
         regionOfInterest: ocrCropRect,
         initialROIReportDelay: 1,
-        onNormalizedROIChanged: { rect in viewModel.camera?.set(crop: rect) }
+        onNormalizedROIChanged: { rect in
+          viewModel.camera?.set(crop: rect)
+          // QR detection follows the same viewfinder box as the OCR crop
+          viewModel.camera?.setMetadataRegionOfInterest(rect)
+        }
       )
       .id(viewModel.camera?.id) // To trigger session update when new camera is created
       .overlay(ocrOverlay)

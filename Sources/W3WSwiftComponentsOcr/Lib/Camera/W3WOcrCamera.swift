@@ -158,6 +158,21 @@ public class W3WOcrCamera: W3WVideoStream {
   }
 
 
+  /// limits QR detection to a region of the frame, in normalized capture coordinates as
+  /// reported by `W3WCameraPreview.onNormalizedROIChanged`; nil detects across the full frame.
+  /// An unusable region is ignored rather than applied — see `metadataRegionOfInterest(from:)`
+  public func setMetadataRegionOfInterest(_ normalizedRect: CGRect?) {
+    guard let normalizedRect else {
+      core.setMetadataRegionOfInterest(nil)
+      return
+    }
+    guard let usable = W3WOcrQRDetection.metadataRegionOfInterest(from: normalizedRect) else {
+      return
+    }
+    core.setMetadataRegionOfInterest(usable)
+  }
+
+
   /// returns the current camera resolution, may change after the camera starts up
   /// - Returns: Camera resolution
   public func getResolution() -> CGSize? {

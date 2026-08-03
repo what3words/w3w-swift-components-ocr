@@ -51,7 +51,8 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// view model for the panel in the bottom sheet
   public var panelViewModel: W3WPanelViewModel
   
-  /// indicates if there is a camera session running
+  /// indicates if there is a camera session running. Informational: it follows start/stop, so it
+  /// is true even if the session failed to run (denied permission), and `pause()` doesn't clear it
   @Published public private(set) var isPreviewing = false
   
   /// indicates if there is a photo being processed
@@ -195,10 +196,11 @@ private extension W3WOcrViewModel {
     guard let camera = W3WOcrCamera.get(camera: .back) else { return }
 
     // set before start() so the metadata output is attached when the session is built;
-    // hits are only delivered while the user is in live scan mode
+    // hits are only delivered while the preview streams (see W3WOcrQRDetection)
     if detectQRCodes {
       camera.qrDetectionActive = { [weak self] in
-        self?.viewType == .video
+        guard let self else { return false }
+        return W3WOcrQRDetection.isAllowed(viewType: self.viewType, isTakingPhoto: self.isTakingPhoto)
       }
       camera.onQRCode = { [weak self] payload in
         // payload can carry a login id — never log it in Release
@@ -216,12 +218,14 @@ private extension W3WOcrViewModel {
     camera.start {
       W3WThread.runOnMain { [weak self] in
         self?.camera = camera
+        self?.isPreviewing = true
       }
     }
-    
+
     subscribe(to: $viewType) { [weak self] value in
-      if self?.detectQRCodes == true {
-        print("W3WOcr QR: viewType → \(value) — QR delivery \(value == .video ? "ACTIVE" : "inactive")")
+      if let self, detectQRCodes {
+        let active = W3WOcrQRDetection.isAllowed(viewType: value, isTakingPhoto: isTakingPhoto)
+        print("W3WOcr QR: viewType → \(value) — QR delivery \(active ? "ACTIVE" : "inactive")")
       }
       switch value {
       case .video:
@@ -242,6 +246,7 @@ private extension W3WOcrViewModel {
   func stop() {
     camera?.stop()
     camera = nil
+    isPreviewing = false
     ocr?.stop {}
   }
 }
@@ -284,12 +289,16 @@ private extension W3WOcrViewModel {
     guard let camera else { return }
     
     isTakingPhoto = true
+    // AVFoundation calls back off the main thread, and this touches @Published state
     camera.captureStillImage { [weak self] image in
-      self?.output.send(.captureButton(image))
-      self?.isTakingPhoto = false
-      
-      // Stop the camera
-      self?.stop()
+      W3WThread.runOnMain {
+        self?.output.send(.captureButton(image))
+
+        // what actually ends QR delivery is stop() clearing the camera's handlers; the flag is
+        // cleared after it so the gate never reads open while a session is still alive
+        self?.stop()
+        self?.isTakingPhoto = false
+      }
     }
     output.send(.analytic(W3WAppEvent(name: .ocrPhotoCapture)))
   }
