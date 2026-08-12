@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import W3WSwiftAppAccessibilityIdentifiers
 import CoreLocation
 import W3WSwiftCore
 import W3WSwiftThemes
@@ -51,6 +52,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   
   override open func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    w3wTestTag(W3WTestTags.Ocr.root)
     viewModel.input.send(.startScanning)
   }
 }

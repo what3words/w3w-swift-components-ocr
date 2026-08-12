@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import W3WSwiftAppAccessibilityIdentifiers
 import W3WSwiftCore
 import W3WSwiftDesign
 
@@ -134,7 +135,9 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
         cell.separatorInset = UIEdgeInsets(top: 0, left: .greatestFiniteMagnitude, bottom: 0, right: 0)
         return cell
       case .result(let item):
-          return self?.makeCell(item: item)
+          let cell = self?.makeCell(item: item)
+          cell?.w3wTestTag(W3WTestTags.Ocr.resultsListRow(indexPath.row))
+          return cell
       }
     }
     return dataSource
@@ -207,6 +210,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
       cell.set(scheme: theme?[.ocr]?.with(background: .clear))
       cell.separatorInset = .init(top: 0, left: W3WMargin.three.value, bottom: 0, right: 0)
       cell.sizeToFit()
+      cell.w3wTestTag(W3WTestTags.Ocr.resultsListRow(indexPath.row))
 
       return cell
     }

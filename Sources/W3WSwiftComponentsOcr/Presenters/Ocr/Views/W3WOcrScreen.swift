@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import W3WSwiftAppAccessibilityIdentifiers
 import Combine
 import W3WSwiftThemes
 import W3WSwiftPresenters
@@ -67,6 +68,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
           W3WCloseButtonX {
             viewModel.input.send(.dismiss)
           }
+          .w3wTestTag(W3WTestTags.Ocr.backButton)
           .padding(.trailing, W3WPadding.heavy.value)
           .frame(maxWidth: .infinity, alignment: .trailing)
         }
@@ -96,6 +98,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         }) {
           W3WPanelScreen(viewModel: viewModel.panelViewModel)
             .animation(nil, value: hasSuggestions)
+            .w3wTestTag(W3WTestTags.Ocr.resultsList)
         }
         .animation(.easeIn, value: hasSuggestions)
         .onReceive(viewModel.panelViewModel.hasSuggestions, perform: updateHasSuggestions)

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import W3WSwiftAppAccessibilityIdentifiers
 import W3WSwiftDesign
 import W3WSwiftCore
 import W3WSwiftThemes
@@ -71,6 +72,7 @@ open class W3WSuggessionsBottomSheet: W3WBottomSheetViewController {
     guard let w3wTableView = tableViewController.w3wTableView else {
       return
     }
+    w3wTableView.w3wTestTag(W3WTestTags.Ocr.resultsList)
     addChild(tableViewController)
     add(view: w3wTableView, position: .inset(by: UIEdgeInsets(top: W3WMargin.three.value, left: 0, bottom: 0, right: 0)))
     tableViewController.didMove(toParent: self)
