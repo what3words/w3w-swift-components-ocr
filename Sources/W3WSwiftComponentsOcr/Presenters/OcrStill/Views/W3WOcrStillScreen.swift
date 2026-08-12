@@ -72,7 +72,7 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
               W3WProgressView(color: W3WColor.w3wLabelsPrimaryBlackInverse.uiColor)
             } else {
               W3WPanelScreen(viewModel: viewModel.panelViewModel)
-                .w3wTestTag(W3WTestTags.Ocr.resultsList)
+                .w3wTestTagContainer(W3WTestTags.Ocr.resultsList)
             }
           }
       }

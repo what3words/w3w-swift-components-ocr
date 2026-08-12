@@ -98,7 +98,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         }) {
           W3WPanelScreen(viewModel: viewModel.panelViewModel)
             .animation(nil, value: hasSuggestions)
-            .w3wTestTag(W3WTestTags.Ocr.resultsList)
+            .w3wTestTagContainer(W3WTestTags.Ocr.resultsList)
         }
         .animation(.easeIn, value: hasSuggestions)
         .onReceive(viewModel.panelViewModel.hasSuggestions, perform: updateHasSuggestions)
