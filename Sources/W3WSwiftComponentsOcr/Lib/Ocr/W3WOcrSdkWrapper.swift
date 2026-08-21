@@ -14,24 +14,20 @@ import W3WSwiftCore
 
 public class W3WOcrSdkWrapper: W3WOcrProtocol {
   
-  
-  public func availableLanguages() -> [String] {
-    return ocr.availableLanguages().map { $0.code }
-  }
-  
-  
   var ocr: W3WOcr!
   
   public init(ocr: W3WOcr) {
     self.ocr = ocr
   }
- 
   
-  public func set(language: String) throws {
-    try ocr.set(language: language)
+  public func set(rfcLanguage: any W3WSwiftCore.W3WRfcLanguageProtocol) throws {
+    try ocr.set(language: rfcLanguage.code!)
   }
   
-  
+  public func availableRfcLanguages() -> [any W3WSwiftCore.W3WRfcLanguageProtocol] {
+    return ocr.availableLanguages().map { W3WRfcLanguage(from: $0.code) }
+  }
+ 
   public func autosuggest(image: CGImage, info: @escaping (W3WOcrInfo) -> (), completion: @escaping ([W3WOcrSuggestion], W3WOcrError?) -> ()) {
     ocr.autosuggest(image: image, info: info, completion: completion)
   }

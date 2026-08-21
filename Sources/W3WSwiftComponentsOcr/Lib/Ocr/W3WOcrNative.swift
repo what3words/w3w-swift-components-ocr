@@ -21,22 +21,47 @@ extension What3Words: W3WUtilitiesProtocol { }
 
 
 @available(iOS 13.0, *)
-public class W3WOcrNative: W3WOcrProtocol {
+public class W3WOcrNative: W3WOcrProtocol, W3WExceptionalLanguageProtocol {
+  public func availableRfcLanguages() -> [any W3WSwiftCore.W3WRfcLanguageProtocol] {
+    return supportedRfcLanguages
+  }
+  
+  
+  // W3WLanguageLocale -> W3WRfcLanguage identifier
+  public let exceptionalCases: [String: String]  = [
+    "bs_oo_cy": "bs-Cyrl",
+    "bs_oo_la": "bs-Latn",
+    "zh_hk"   : "zh-Hant-HK",
+    "zh_tr"   : "zh-Hant-TW",
+    "zh_si"   : "zh-Hans",
+    "kk_cy"   : "kk-Cyrl",
+    "kk_la"   : "kk-Latn",
+    "mn_cy"   : "mn-Cyrl",
+    "mn_la"   : "mn-Latn",
+    "me_oo_cy": "sr-Cyrl-ME",
+    "me_oo_la": "sr-Latn-ME",
+    "sr_oo_cy"   : "sr-Cyrl-RS",
+    "sr_oo_la"   : "sr-Latn-RS"
+  ]
 
   /// languages to use for recognition
-  var languages = ["en"]  // LiveType supports at least English, so this is hardcoded
+  var languages: [String] {
+    return rfcLanguages.map(\.shortIdentifier)
+  }
+  
+  var rfcLanguages: [any W3WRfcLanguageProtocol] = [W3WRfcLanguage.default]
   
   /// lastImageResolution
   var lastImageResolution = CGSize(width: 1.0, height: 1.0)
 
-  /// the languages this supports
-  var supportedLanguages = [String]()
+  var supportedRfcLanguages: [any W3WRfcLanguageProtocol] = .init()
+  var supportedOcrRfcLanguages: [any W3WRfcLanguageProtocol] = .init()
   
   /// Create a new request to recognize text.
   var request: VNRecognizeTextRequest?
 
   /// what3words api/sdk
-  var w3w: W3WProtocolV4!
+  var w3w: W3WProtocolV4Wrapper!
   
   /// called when a new image frame is available from the camera
   var info: (W3WOcrInfo) -> () = { _ in }
@@ -69,96 +94,52 @@ public class W3WOcrNative: W3WOcrProtocol {
   /// OCR system provided by Apple
   /// - Parameters:
   ///   - w3w: A refernce to the what3words API or the SDK
-  public init(_ w3w: W3WProtocolV4) {
+  public init(_ w3w: W3WProtocolV4Wrapper) {
     configure(w3w: w3w)
   }
   
   
 #if canImport(w3w)
   public init(sdk: What3Words) {
-    configure(w3w: sdk as! W3WProtocolV4)
+    configure(w3w: sdk as! W3WProtocolV4Wrapper)
   }
 #endif // w3w
 
   
-  func configure(w3w: W3WProtocolV4) {
+  func configure(w3w: W3WProtocolV4Wrapper) {
     self.w3w = w3w
     
     // get a list of langauges from the system
     let temp = VNRecognizeTextRequest(completionHandler: { _, _ in })
     if #available(iOS 15.0, *) {
-      if let ocrLangauges = try? temp.supportedRecognitionLanguages() { //}, let w3wLanguages = languages {
-        self.supportedLanguages = ocrLangauges
-        //self.languagesQueried = true
+      if let ocrLangauges = try? temp.supportedRecognitionLanguages() {
+        self.supportedOcrRfcLanguages = ocrLangauges.compactMap { try? W3WRfcLanguage(from: $0, iOSCompatible: true) }
       }
     }
-    
+     
     // temper that list by removing any languages w3w doesn't support
-    self.w3w.availableLanguages() { languages, error in
-      if let w3wLanguages = languages {
-        self.supportedLanguages = self.w3wSupported(ocrLangauges: self.supportedLanguages, w3wLangauges: w3wLanguages)
+    self.w3w.availableRfcLanguages { [weak self] rfcLanguages, error in
+      let ocrLangs = self?.supportedOcrRfcLanguages ?? []
+      if let rfcLanguages {
+        self?.supportedRfcLanguages = self?.equalLanguages(ocrLanguages: ocrLangs, rfcLanguages: rfcLanguages) ?? []
       }
     }
   }
   
-  
-  /// returns the union of the two lists
-  func w3wSupported(ocrLangauges: [String], w3wLangauges: [W3WLanguage]) -> [String] {
-    var supported = [String]()
-    
-    for code in ocrLangauges {
-      if w3wSupported(code: code, langauges: w3wLangauges) {
-        supported.append(code)
-      }
+  func equalLanguages(ocrLanguages: [any W3WRfcLanguageProtocol], rfcLanguages: [any W3WRfcLanguageProtocol]) -> [any W3WRfcLanguageProtocol] {
+    ocrLanguages.filter { ocr in
+      rfcLanguages.contains { ocr.isEquivalent(to: $0) }
     }
-    
-    return supported
   }
-  
-  
-  /// checks if a language is in a language array
-  func w3wSupported(code: String, langauges: [W3WLanguage]) -> Bool {
-    for langauge in langauges {
-      if code.prefix(2) == langauge.code {
-        return true
-      }
-    }
-    
-    return false
+  /// Sets the RfcLanguage to use for scanning.
+  public func set(rfcLanguage: any W3WSwiftCore.W3WRfcLanguageProtocol) throws {
+    self.rfcLanguages = [rfcLanguage]
   }
-  
-  
-  deinit {
-  }
-  
-  
-  /// Sets the language to use for scanning.
-  /// - Parameters:
-  ///     - language: a two letter ISO code for the language to use
-  public func set(language: String) throws {
-    self.languages = [language]
-  }
-  
-  
-  /// Sets the languages to use for scanning.
-  /// - Parameters:
-  ///     - language: an array of two letter ISO code for the language to use
-  func set(languages: [String]) throws {
-    self.languages = languages
-  }
-  
   
   public func set(focus: CLLocationCoordinate2D?) {
     self.focus = focus
   }
-  
 
-  /// returns an array of  ISO 639-1 2 letter language codes indicating which langauges are supported
-  public func availableLanguages() -> [String] {
-    return supportedLanguages
-  }
-  
-  
   /// scans an image for three word address
   /// - Parameters:
   ///     - image: the image to scan
@@ -276,13 +257,12 @@ public class W3WOcrNative: W3WOcrProtocol {
         
         let ocrSuggestion = W3WOcrSuggestion(
           words: square.words,
-          country: W3WBaseCountry(code: square.country?.code ?? W3WBaseLanguage.english.code),
+          country: W3WBaseCountry(code: square.country?.code ?? W3WRfcLanguage.default.code ?? "en"),
           nearestPlace: square.nearestPlace,
           distanceToFocus: (distance == nil) ? nil : W3WBaseDistance(meters: distance ?? 0.0),
-          language: W3WBaseLanguage(locale: square.language?.locale ?? W3WBaseLanguage.english.locale))
+          language: W3WBaseLanguage(locale: square.language?.locale ?? W3WRfcLanguage.default.code ?? "en"))
         suggestions.append(ocrSuggestion)
       }
-      
       // condition removed to allow empty results through for "no results" feedback
       completion(suggestions, nil)
 
@@ -528,3 +508,4 @@ public class W3WOcrNative: W3WOcrProtocol {
   }
   
 }
+

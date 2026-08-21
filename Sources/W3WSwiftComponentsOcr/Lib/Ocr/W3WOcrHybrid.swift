@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import W3WSwiftCore
 #if canImport(W3WOcrSdk)
 import W3WOcrSdk
 #endif // W3WOcrSdk
@@ -24,7 +25,6 @@ public class W3WOcrHybrid: W3WOcrProtocol {
   
   var ocrs = [W3WOcrProtocol]()
   var currentOcrIndex = 0
-
   
   /// Initialises with multiple Ocr systems
   /// - Parameters:
@@ -48,45 +48,35 @@ public class W3WOcrHybrid: W3WOcrProtocol {
   /// among the provided OCR systems and use the first one that
   /// supports the language in question
   /// - Parameters:
-  ///     - language: a two letter ISO code for the language to use
-  public func set(language: String) throws {
-
+  ///     - rfcLanguage: W3WRfcLanguage
+  public func set(rfcLanguage: any W3WRfcLanguageProtocol) throws {
+    
     // loop through available OCR systems in order
     for i in 0..<ocrs.count {
-      let languages = ocrs[i].availableLanguages()
+      let languages = ocrs[i].availableRfcLanguages()
       
-      // if an exact match of the requested langauge is found, set this ocr as current and set the language
-      if languages.contains(language) {
-        try ocrs[i].set(language: language)
+      if languages.contains(where: { $0.isTheSameLanguage(to: rfcLanguage)}) {
+        try ocrs[i].set(rfcLanguage: rfcLanguage)
         currentOcrIndex = i
         return
-      
-      // if there is a match for the the language group, but maybe not the dialect
-      } else if let lang = languages.first(where: { l in l.prefix(2) == language }) {
-        try ocrs[i].set(language: lang)
-        currentOcrIndex = i
-        return
-
       }
     }
 
     // user asked for unsupported langage
     throw W3WOcrError.coreError(message: "Langauge not supported")
   }
-
-
+  
   /// Returns a list of languages which is the union of the languages
   /// supported by all the Ocr systems available
-  /// - Returns: A string array of two letter ISO langauge codes
-  public func availableLanguages() -> [String] {
-    var languages = [String]()
+  /// - Returns: A string array of RfcLanguage
+  public func availableRfcLanguages() -> [any W3WRfcLanguageProtocol] {
+    var languages: [any W3WRfcLanguageProtocol] = .init()
     
     for ocr in ocrs {
-      let list = ocr.availableLanguages()
+      let list = ocr.availableRfcLanguages()
       for language in list {
-        let l = language.prefix(2)
-        if !languages.contains(String(l)) {
-          languages.append(String(l))
+        if !languages.contains(where: { $0.identifier.contains(language.identifier) }) {
+          languages.append(language)
         }
       }
     }
