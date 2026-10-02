@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import W3WSwiftDesignSwiftUI
 import Combine
 import W3WSwiftThemes
 import W3WSwiftPresenters
@@ -75,7 +76,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
             .get(size: W3WIconSize(value: CGSize(width: 128, height: 21.0)))
           )
           
-          W3WCloseButtonX {
+          W3WSUCloseButton {
             viewModel.input.send(.dismiss)
           }
           .padding(.trailing, W3WPadding.heavy.value)
