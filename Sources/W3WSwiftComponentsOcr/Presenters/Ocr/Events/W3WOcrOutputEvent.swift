@@ -42,7 +42,10 @@ public enum W3WOcrOutputEvent {
   
   /// the close button was tapped
   case dismiss
-  
+
+  /// a QR code was detected in the camera feed (raw payload string)
+  case didDetectQR(String)
+
   /// pass though any analytic events
   case analytic(W3WAppEvent)
 }
@@ -80,7 +83,11 @@ extension W3WOcrOutputEvent: W3WAppEventConvertable {
       
     case .dismiss:
       return W3WAppEvent(name: "ocr.dismiss")
-      
+
+    // deliberately payload-free: QR contents can carry identifiers
+    case .didDetectQR:
+      return W3WAppEvent(name: "ocr.didDetectQR")
+
     case .analytic(let event):
       return event
     }
