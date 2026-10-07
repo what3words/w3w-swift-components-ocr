@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import W3WSwiftAppAccessibilityIdentifiers
 import Combine
 import W3WSwiftThemes
 import W3WSwiftPresenters
@@ -64,6 +63,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
           viewModel.camera?.setMetadataRegionOfInterest(rect)
         }
       )
+      .accessibilityIdentifier(viewModel.accessibilityIds?.viewfinder ?? "")
       .id(viewModel.camera?.id) // To trigger session update when new camera is created
       .overlay(ocrOverlay)
       .edgesIgnoringSafeArea(.all)
@@ -79,7 +79,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
           W3WCloseButtonX {
             viewModel.input.send(.dismiss)
           }
-          .w3wTestTag(W3WTestTags.Ocr.backButton)
+          .accessibilityIdentifier(viewModel.accessibilityIds?.backButton ?? "")
           .padding(.trailing, W3WPadding.heavy.value)
           .frame(maxWidth: .infinity, alignment: .trailing)
         }
@@ -111,7 +111,8 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         }) {
           W3WPanelScreen(viewModel: viewModel.panelViewModel)
             .animation(nil, value: hasSuggestions)
-            .w3wTestTagContainer(W3WTestTags.Ocr.resultsList)
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier(viewModel.accessibilityIds?.resultsList ?? "")
         }
         .animation(.easeIn, value: hasSuggestions)
         .onReceive(viewModel.panelViewModel.hasSuggestions, perform: updateHasSuggestions)
