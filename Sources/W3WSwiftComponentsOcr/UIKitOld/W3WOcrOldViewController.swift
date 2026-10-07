@@ -90,8 +90,11 @@ open class W3WOcrOldViewController: W3WViewController {
   public var uniqueOcrSuggestions: Set<String> = []
   
   // MARK: - UI properties
+  /// accessibility identifiers for UI automation; set before the view loads
+  public var accessibilityIds = W3WOcrAccessibilityIds()
+
   open lazy var bottomSheet: W3WSuggessionsBottomSheet = {
-    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme, translations: translations)
+    let bottomSheet = W3WSuggessionsBottomSheet(theme: theme, translations: translations, accessibilityIds: accessibilityIds)
     return bottomSheet
   }()
   
@@ -184,7 +187,9 @@ open class W3WOcrOldViewController: W3WViewController {
   
   /// assign the `W3WOcrScannerView` to `view` when the time comes
   public override func loadView() {
-    view = W3WOcrView()
+    let scanView = W3WOcrView()
+    scanView.accessibilityIds = accessibilityIds
+    view = scanView
     view.backgroundColor = theme?[.ocr]?.colors?.background?.uiColor
   }
   

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import W3WSwiftAppAccessibilityIdentifiers
 import W3WSwiftCore
 import W3WSwiftDesign
 
@@ -21,9 +20,12 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
   public var onDragging: (() -> ())?
   
   var translations: W3WTranslationsProtocol
+
+  let accessibilityIds: W3WOcrAccessibilityIds
   
-  public init(theme: W3WTheme?, translations: W3WTranslationsProtocol) {
+  public init(theme: W3WTheme?, translations: W3WTranslationsProtocol, accessibilityIds: W3WOcrAccessibilityIds = W3WOcrAccessibilityIds()) {
     self.translations = translations
+    self.accessibilityIds = accessibilityIds
     super.init(theme: theme)
   }
   
@@ -136,7 +138,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
         return cell
       case .result(let item):
           let cell = self?.makeCell(item: item)
-          cell?.w3wTestTag(W3WTestTags.Ocr.resultsListRow(indexPath.row))
+          cell?.ocrAccessibilityId(self?.accessibilityIds.resultsListRow?(indexPath.row))
           return cell
       }
     }
@@ -210,7 +212,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
       cell.set(scheme: theme?[.ocr]?.with(background: .clear))
       cell.separatorInset = .init(top: 0, left: W3WMargin.three.value, bottom: 0, right: 0)
       cell.sizeToFit()
-      cell.w3wTestTag(W3WTestTags.Ocr.resultsListRow(indexPath.row))
+      cell.ocrAccessibilityId(accessibilityIds.resultsListRow?(indexPath.row))
 
       return cell
     }

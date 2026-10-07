@@ -52,4 +52,12 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
 
   /// the binding to the lock on the live/still switch
   var lockOnLiveSwitch: Bool { get set }
+
+  /// accessibility identifiers for UI automation
+  var accessibilityIds: W3WOcrAccessibilityIds { get }
+}
+
+
+public extension W3WOcrViewModelProtocol {
+  var accessibilityIds: W3WOcrAccessibilityIds { W3WOcrAccessibilityIds() }
 }

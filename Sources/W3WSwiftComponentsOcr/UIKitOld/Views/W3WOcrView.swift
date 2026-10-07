@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import W3WSwiftAppAccessibilityIdentifiers
 import UIKit
 import W3WSwiftCore
 import W3WSwiftThemes
@@ -44,6 +43,12 @@ public class W3WOcrView: W3WOcrBasicView {
 #endif
   
   
+  /// accessibility identifiers for UI automation; only `viewfinder` applies to this view
+  public var accessibilityIds = W3WOcrAccessibilityIds() {
+    didSet { ocrAccessibilityId(accessibilityIds.viewfinder) }
+  }
+
+
   // MARK: Init
   
   
@@ -61,8 +66,6 @@ public class W3WOcrView: W3WOcrBasicView {
   
   override func configure() {
     super.configure()
-    
-    w3wTestTag(W3WTestTags.Ocr.viewfinder)
     
     recalculateAndPositionLayers()
     

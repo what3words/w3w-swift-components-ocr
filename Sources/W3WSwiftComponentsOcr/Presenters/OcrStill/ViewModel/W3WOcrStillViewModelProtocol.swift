@@ -38,6 +38,14 @@ public protocol W3WOcrStillViewModelProtocol: ObservableObject {
   /// the view model for the bottom sheet panel
   var panelViewModel: W3WPanelViewModel { get set }
   
+  /// accessibility identifiers for UI automation
+  var accessibilityIds: W3WOcrAccessibilityIds { get }
+
   /// called by UI when the dismiss button is pressed
   func dismissButtonPressed()
+}
+
+
+public extension W3WOcrStillViewModelProtocol {
+  var accessibilityIds: W3WOcrAccessibilityIds { W3WOcrAccessibilityIds() }
 }
