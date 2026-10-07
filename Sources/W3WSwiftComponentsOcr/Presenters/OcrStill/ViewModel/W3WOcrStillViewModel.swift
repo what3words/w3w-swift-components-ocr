@@ -46,7 +46,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   public var panelViewModel: W3WPanelViewModel
 
   /// accessibility identifiers for UI automation
-  public let accessibilityIds: W3WOcrAccessibilityIds
+  public let accessibilityIds: W3WOcrAccessibilityIds?
   
   /// a view mdoel for still image ocr
   public init(ocr: W3WOcrProtocol,
@@ -54,7 +54,7 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
               translations: W3WTranslationsProtocol,
               theme: W3WLive<W3WTheme?>,
               language: W3WLive<W3WLanguage?>? = nil,
-              accessibilityIds: W3WOcrAccessibilityIds = W3WOcrAccessibilityIds()) {
+              accessibilityIds: W3WOcrAccessibilityIds? = nil) {
     self.ocr = ocr
     self.accessibilityIds = accessibilityIds
     self.translations = translations

@@ -85,7 +85,7 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
           )
       }
       .disabled(viewModel.lockOnImportButton)
-      .ocrAccessibilityId(viewModel.lockOnImportButton ? viewModel.accessibilityIds.importButtonLock : viewModel.accessibilityIds.importButton)
+      .ocrAccessibilityId(viewModel.lockOnImportButton ? viewModel.accessibilityIds?.importButtonLock : viewModel.accessibilityIds?.importButton)
       .isLockedOcr(viewModel.lockOnImportButton, alignment: .topTrailing)
       .onTapGesture {
         if viewModel.lockOnImportButton {
@@ -118,7 +118,7 @@ struct W3WOcrMainButtons<ViewModel: W3WOcrViewModelProtocol>: View {
             viewModel.input.send(.trackCameraMode)
           }
         }
-        .ocrAccessibilityId(viewModel.lockOnLiveSwitch ? viewModel.accessibilityIds.liveScanLock : viewModel.accessibilityIds.liveScanToggle)
+        .ocrAccessibilityId(viewModel.lockOnLiveSwitch ? viewModel.accessibilityIds?.liveScanLock : viewModel.accessibilityIds?.liveScanToggle)
       Text(viewModel.translations.get(id: "ocr_live_scanButton"))
     }
   }

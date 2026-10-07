@@ -63,7 +63,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
           viewModel.camera?.setMetadataRegionOfInterest(rect)
         }
       )
-      .ocrAccessibilityId(viewModel.accessibilityIds.viewfinder)
+      .ocrAccessibilityId(viewModel.accessibilityIds?.viewfinder)
       .id(viewModel.camera?.id) // To trigger session update when new camera is created
       .overlay(ocrOverlay)
       .edgesIgnoringSafeArea(.all)
@@ -79,7 +79,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
           W3WCloseButtonX {
             viewModel.input.send(.dismiss)
           }
-          .ocrAccessibilityId(viewModel.accessibilityIds.backButton)
+          .ocrAccessibilityId(viewModel.accessibilityIds?.backButton)
           .padding(.trailing, W3WPadding.heavy.value)
           .frame(maxWidth: .infinity, alignment: .trailing)
         }
@@ -111,7 +111,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         }) {
           W3WPanelScreen(viewModel: viewModel.panelViewModel)
             .animation(nil, value: hasSuggestions)
-            .ocrAccessibilityContainerId(viewModel.accessibilityIds.resultsList)
+            .ocrAccessibilityContainerId(viewModel.accessibilityIds?.resultsList)
         }
         .animation(.easeIn, value: hasSuggestions)
         .onReceive(viewModel.panelViewModel.hasSuggestions, perform: updateHasSuggestions)

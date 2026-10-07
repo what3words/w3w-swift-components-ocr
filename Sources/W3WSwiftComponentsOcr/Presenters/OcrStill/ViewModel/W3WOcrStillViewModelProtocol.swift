@@ -39,7 +39,7 @@ public protocol W3WOcrStillViewModelProtocol: ObservableObject {
   var panelViewModel: W3WPanelViewModel { get set }
   
   /// accessibility identifiers for UI automation
-  var accessibilityIds: W3WOcrAccessibilityIds { get }
+  var accessibilityIds: W3WOcrAccessibilityIds? { get }
 
   /// called by UI when the dismiss button is pressed
   func dismissButtonPressed()
@@ -47,5 +47,5 @@ public protocol W3WOcrStillViewModelProtocol: ObservableObject {
 
 
 public extension W3WOcrStillViewModelProtocol {
-  var accessibilityIds: W3WOcrAccessibilityIds { W3WOcrAccessibilityIds() }
+  var accessibilityIds: W3WOcrAccessibilityIds? { nil }
 }

@@ -91,7 +91,7 @@ open class W3WOcrOldViewController: W3WViewController {
   
   // MARK: - UI properties
   /// accessibility identifiers for UI automation; set before the view loads
-  public var accessibilityIds = W3WOcrAccessibilityIds()
+  public var accessibilityIds: W3WOcrAccessibilityIds?
 
   open lazy var bottomSheet: W3WSuggessionsBottomSheet = {
     let bottomSheet = W3WSuggessionsBottomSheet(theme: theme, translations: translations, accessibilityIds: accessibilityIds)

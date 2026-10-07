@@ -74,7 +74,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   let detectQRCodes: Bool
 
   /// accessibility identifiers for UI automation
-  public let accessibilityIds: W3WOcrAccessibilityIds
+  public let accessibilityIds: W3WOcrAccessibilityIds?
 
   /// model for the ocr view
   public init(ocr: W3WOcrProtocol,
@@ -85,7 +85,7 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
               translations: W3WTranslationsProtocol = W3WOcrTranslations(),
               language: W3WLive<W3WLanguage?>? = nil,
               detectQRCodes: Bool = false,
-              accessibilityIds: W3WOcrAccessibilityIds = W3WOcrAccessibilityIds()) {
+              accessibilityIds: W3WOcrAccessibilityIds? = nil) {
     self.scheme         = .w3w
     self.theme          = theme ?? W3WLive<W3WTheme?>(.what3words)
     self.translations   = translations

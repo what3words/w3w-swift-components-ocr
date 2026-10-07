@@ -51,7 +51,7 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   
   override open func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    view.ocrAccessibilityId(viewModel.accessibilityIds.root)
+    view.ocrAccessibilityId(viewModel.accessibilityIds?.root)
     viewModel.input.send(.startScanning)
   }
 }

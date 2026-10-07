@@ -54,10 +54,10 @@ public protocol W3WOcrViewModelProtocol: ObservableObject {
   var lockOnLiveSwitch: Bool { get set }
 
   /// accessibility identifiers for UI automation
-  var accessibilityIds: W3WOcrAccessibilityIds { get }
+  var accessibilityIds: W3WOcrAccessibilityIds? { get }
 }
 
 
 public extension W3WOcrViewModelProtocol {
-  var accessibilityIds: W3WOcrAccessibilityIds { W3WOcrAccessibilityIds() }
+  var accessibilityIds: W3WOcrAccessibilityIds? { nil }
 }
