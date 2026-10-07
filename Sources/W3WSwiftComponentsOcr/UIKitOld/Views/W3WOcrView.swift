@@ -45,7 +45,7 @@ public class W3WOcrView: W3WOcrBasicView {
   
   /// accessibility identifiers for UI automation; only `viewfinder` applies to this view
   public var accessibilityIds: W3WOcrAccessibilityIds? {
-    didSet { ocrAccessibilityId(accessibilityIds?.viewfinder) }
+    didSet { accessibilityIdentifier = accessibilityIds?.viewfinder }
   }
 
 
