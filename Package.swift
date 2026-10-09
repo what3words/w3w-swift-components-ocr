@@ -17,8 +17,8 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-      .package(url: "https://github.com/what3words/w3w-swift-design.git", branch: "bug/MT-9543-bar-buttons"),
-      .package(url: "https://github.com/what3words/w3w-swift-design-swiftui.git", branch: "bug/MT-9543-bar-buttons"),
+      .package(url: "https://github.com/what3words/w3w-swift-design.git", "1.4.0"..<"2.0.0"),
+      .package(url: "https://github.com/what3words/w3w-swift-design-swiftui.git", "1.9.0"..<"2.0.0"),
       .package(url: "https://github.com/w3w-internal/w3w-swift-app-events.git", "5.3.0"..<"6.0.0"),
       .package(url: "https://github.com/what3words/w3w-swift-presenters.git", "1.2.0"..<"2.0.0"),
       .package(url: "https://github.com/w3w-internal/w3w-swift-app-types.git", "5.3.0"..<"6.0.0"),
