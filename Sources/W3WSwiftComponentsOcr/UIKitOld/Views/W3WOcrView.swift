@@ -1,4 +1,3 @@
-//
 //  W3WOcrView.swift
 //  OcrRefactor
 //
@@ -132,7 +131,9 @@ public class W3WOcrView: W3WOcrBasicView {
 #if targetEnvironment(simulator)
       if frameCount > 5 {
         frameCount = 0
-        if let cgimage = camera?.imageProcessor.fakeImages.makeRandomThreeWordAddressImage(rect: crop) {
+        // the camera's frame pipeline lives in w3w-swift-scanner now; this sim-only debug
+        // path fakes its image directly
+        if let cgimage = W3WOcrFakeImages().makeRandomThreeWordAddressImage(rect: crop) {
           debugImage.image = UIImage(cgImage: cgimage)
         }
       } else {

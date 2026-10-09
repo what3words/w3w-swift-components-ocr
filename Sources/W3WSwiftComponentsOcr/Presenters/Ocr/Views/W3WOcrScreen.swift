@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import W3WSwiftDesignSwiftUI
 import Combine
 import W3WSwiftThemes
 import W3WSwiftPresenters
+import W3WSwiftScanner
 
 /// the main ocr swiftui screen
 public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
@@ -49,9 +51,19 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   
   public var body: some View {
     ZStack {
-      W3WSuOcrView(session: viewModel.camera?.session, cropRect: ocrCropRect) { rect in
-        viewModel.camera?.set(crop: rect)
-      }
+      // shared preview primitive from w3w-swift-scanner (replaces the
+      // hand-rolled W3WSuOcrView preview layer). The 1s readiness settle preserves the
+      // previous timing — convert the OCR crop only after a frame has rendered.
+      W3WCameraPreview(
+        session: viewModel.camera?.session,
+        regionOfInterest: ocrCropRect,
+        initialROIReportDelay: 1,
+        onNormalizedROIChanged: { rect in
+          viewModel.camera?.set(crop: rect)
+          // QR detection follows the same viewfinder box as the OCR crop
+          viewModel.camera?.setMetadataRegionOfInterest(rect)
+        }
+      )
       .id(viewModel.camera?.id) // To trigger session update when new camera is created
       .overlay(ocrOverlay)
       .edgesIgnoringSafeArea(.all)
@@ -64,7 +76,7 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
             .get(size: W3WIconSize(value: CGSize(width: 128, height: 21.0)))
           )
           
-          W3WCloseButtonX {
+          W3WSUCloseButton {
             viewModel.input.send(.dismiss)
           }
           .padding(.trailing, W3WPadding.heavy.value)
@@ -75,9 +87,11 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         // Placeholder for OCR view rect
         Color.clear
           .aspectRatio(contentMode: .fit)
+          // ocrCropRect feeds W3WCameraPreview, which converts it to the normalized camera
+          // crop — setting the camera crop directly here would pass view-space points where
+          // normalized coordinates are expected
           .onRectChange { rect in
             ocrCropRect = rect
-            viewModel.camera?.set(crop: rect)
           }
           .overlay(W3WCornerMarkers(lineLength: 60, lineWidth: 6))
           .padding(.horizontal, W3WMargin.four.value)
