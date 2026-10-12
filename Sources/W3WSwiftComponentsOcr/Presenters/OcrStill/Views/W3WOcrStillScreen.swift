@@ -68,7 +68,7 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
             contentHeight - imageHeight - W3WPadding.bold.value
           ])) {
             if viewModel.isLoading {
-              W3WProgressView(color: W3WColor.w3wLabelsPrimaryBlackInverse.uiColor)
+              W3WProgressView()
             } else {
               W3WPanelScreen(viewModel: viewModel.panelViewModel)
             }
