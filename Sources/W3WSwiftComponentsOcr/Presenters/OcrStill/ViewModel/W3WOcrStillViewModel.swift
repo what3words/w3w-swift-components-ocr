@@ -44,14 +44,19 @@ public class W3WOcrStillViewModel: W3WOcrStillViewModelProtocol, W3WEventSubscri
   
   /// the view model for the bottom sheet panel
   public var panelViewModel: W3WPanelViewModel
+
+  /// accessibility identifiers for UI automation
+  public let accessibilityIds: W3WOcrAccessibilityIds?
   
   /// a view mdoel for still image ocr
   public init(ocr: W3WOcrProtocol,
               isProUser: W3WLive<Bool> = W3WLive<Bool>(true),
               translations: W3WTranslationsProtocol,
               theme: W3WLive<W3WTheme?>,
-              language: W3WLive<W3WLanguage?>? = nil) {
+              language: W3WLive<W3WLanguage?>? = nil,
+              accessibilityIds: W3WOcrAccessibilityIds? = nil) {
     self.ocr = ocr
+    self.accessibilityIds = accessibilityIds
     self.translations = translations
     self.panelViewModel = W3WPanelViewModel(
       mode: .singleShot,

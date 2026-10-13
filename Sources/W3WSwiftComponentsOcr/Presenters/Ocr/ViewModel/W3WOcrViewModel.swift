@@ -73,6 +73,9 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
   /// enables QR code detection on the camera feed; hits arrive as `.didDetectQR` output events
   let detectQRCodes: Bool
 
+  /// accessibility identifiers for UI automation
+  public let accessibilityIds: W3WOcrAccessibilityIds?
+
   /// model for the ocr view
   public init(ocr: W3WOcrProtocol,
               theme: W3WLive<W3WTheme?>? = nil,
@@ -81,13 +84,15 @@ public class W3WOcrViewModel: W3WOcrViewModelProtocol, W3WEventSubscriberProtoco
               isProUser: W3WLive<Bool> = W3WLive<Bool>(true),
               translations: W3WTranslationsProtocol = W3WOcrTranslations(),
               language: W3WLive<W3WLanguage?>? = nil,
-              detectQRCodes: Bool = false) {
+              detectQRCodes: Bool = false,
+              accessibilityIds: W3WOcrAccessibilityIds? = nil) {
     self.scheme         = .w3w
     self.theme          = theme ?? W3WLive<W3WTheme?>(.what3words)
     self.translations   = translations
     self.importLocked   = importLocked
     self.liveScanLocked = liveScanLocked
     self.detectQRCodes  = detectQRCodes
+    self.accessibilityIds = accessibilityIds
     self.ocr = ocr
     
     self.panelViewModel = W3WPanelViewModel(
