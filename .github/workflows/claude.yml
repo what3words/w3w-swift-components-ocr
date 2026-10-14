@@ -1,0 +1,106 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened, ready_for_review ]
+  issue_comment:
+    types: [ created ]
+  pull_request_review_comment:
+    types: [ created ]
+
+permissions: {}
+
+jobs:
+  review:
+    name: Review with Claude
+    runs-on: gha-internal-amd64
+    timeout-minutes: 15
+
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+
+    # Skip drafts, fork PRs, unauthorised @claude triggers, and non-@claude
+    # comments. Must evaluate BEFORE the concurrency group below — otherwise
+    # bot-posted inline comments would cancel the in-progress review.
+    if: |
+      (github.event_name == 'pull_request'
+        && github.event.pull_request.draft == false
+        && github.event.pull_request.head.repo.full_name == github.repository) ||
+      (github.event_name == 'issue_comment'
+        && github.event.issue.pull_request
+        && github.event.issue.state == 'open'
+        && contains(fromJson('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
+        && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment'
+        && github.event.pull_request.state == 'open'
+        && github.event.pull_request.head.repo.full_name == github.repository
+        && contains(fromJson('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
+        && contains(github.event.comment.body, '@claude'))
+
+    # Job-level (not workflow-level) so the if: above runs first.
+    concurrency:
+      group: claude-review-${{ github.event.pull_request.number || github.event.issue.number }}
+      cancel-in-progress: true
+
+    steps:
+      # Comment-triggered events don't expose the PR head SHA, and checkout
+      # defaults to main. Resolve the SHA here, and reject fork PRs that the
+      # if: guard couldn't catch (issue_comment payload lacks head.repo).
+      - name: Resolve PR head SHA and reject fork PRs
+        id: pr-head
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUM: ${{ github.event.pull_request.number || github.event.issue.number }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            SHA="$PR_HEAD_SHA"
+          else
+            META="$(gh pr view "$PR_NUM" --repo "$REPO" --json headRefOid,isCrossRepository)"
+            if [ "$(printf '%s' "$META" | jq -r '.isCrossRepository')" = "true" ]; then
+              echo "::notice::PR #${PR_NUM} is from a fork — skipping review."
+              exit 0
+            fi
+            SHA="$(printf '%s' "$META" | jq -r '.headRefOid')"
+          fi
+          if ! [[ "$SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::Could not resolve a valid PR head SHA (got: '${SHA}')"
+            exit 1
+          fi
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+
+      # persist-credentials: false keeps the GITHUB_TOKEN out of .git/config.
+      # if: gates the fork-skip path — empty sha means resolve step exited early.
+      - name: Checkout repository
+        if: steps.pr-head.outputs.sha != ''
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v5.x
+        with:
+          ref: ${{ steps.pr-head.outputs.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Claude code review
+        if: steps.pr-head.outputs.sha != ''
+        uses: w3w-internal/actions/claude-review@v1.7.0
+        with:
+          post_inline_comments: "false"
+          model: "claude-opus-4-6"
+          # Pin the shared-guidance version. Bump deliberately: this is the
+          # single line that moves this repo onto a new marketplace release.
+          marketplace_ref: "main"
+          # Naming plugins here makes CI independent of .claude/settings.json:
+          # this input WINS over that file's enabledPlugins. The trade-off is
+          # that the list now exists in two places and can drift — see
+          # .claude/README.md. Keep it identical to settings.json unless CI is
+          # deliberately meant to load a different set.
+          plugins: |
+            w3w-core@w3w
+            lang-swift@w3w
+            team-ios@w3w
+    
