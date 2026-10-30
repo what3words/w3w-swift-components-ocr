@@ -22,6 +22,15 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
   /// main view model
   @ObservedObject var viewModel: ViewModel
   
+  /// when compact, the close button goes to the system navigation bar, e.g. so it sits in the vertical bar
+  var usesSystemNavigationBar = false
+  @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+  
+  init(viewModel: ViewModel, usesSystemNavigationBar: Bool = false) {
+    self.viewModel = viewModel
+    self.usesSystemNavigationBar = usesSystemNavigationBar
+  }
+  
   /// The dynamically measured height of the entire screen content,
   /// captured using `.onHeightChange(_:for: .content)`
   @State private var contentHeight: CGFloat = 0
@@ -76,11 +85,13 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
             .get(size: W3WIconSize(value: CGSize(width: 128, height: 21.0)))
           )
           
-          W3WSUCloseButton {
-            viewModel.input.send(.dismiss)
+          if !showsSystemNavigationBar {
+            W3WSUCloseButton {
+              viewModel.input.send(.dismiss)
+            }
+            .padding(.trailing, W3WPadding.heavy.value)
+            .frame(maxWidth: .infinity, alignment: .trailing)
           }
-          .padding(.trailing, W3WPadding.heavy.value)
-          .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .padding(.vertical, W3WPadding.light.value)
         
@@ -120,7 +131,24 @@ public struct W3WOcrScreen<ViewModel: W3WOcrViewModelProtocol>: View {
         .edgesIgnoringSafeArea(.top)
     )
     .layoutDirectionFromAppearance()
-    .navigationBarHidden(true) // Fix unwanted navigation bar on iOS 15
+    .navigationBarHidden(!showsSystemNavigationBar) // Fix unwanted navigation bar on iOS 15
+    .toolbar {
+      if showsSystemNavigationBar {
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button {
+            viewModel.input.send(.dismiss)
+          } label: {
+            Image(systemName: "xmark")
+          }
+        }
+      }
+    }
+    // over the camera, so no bar background
+    .toolbarBackground(.hidden, for: .navigationBar)
+  }
+  
+  private var showsSystemNavigationBar: Bool {
+    usesSystemNavigationBar && horizontalSizeClass == .compact
   }
 }
 

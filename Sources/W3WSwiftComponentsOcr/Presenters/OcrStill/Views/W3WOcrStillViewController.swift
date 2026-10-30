@@ -33,12 +33,14 @@ open class W3WOcrStillViewController<ViewModel: W3WOcrStillViewModelProtocol>: W
   /// - Parameters:
   ///     - viewModel: the viewmodel for the view
   ///     - theme: the theme stream
-  public init(viewModel: ViewModel, keepAlive: [Any?] = []) {
+  /// - Parameter usesSystemNavigationBar: when compact, put the title and back button in the system navigation bar,
+  ///   e.g. so the back button sits in the vertical bar
+  public init(viewModel: ViewModel, keepAlive: [Any?] = [], usesSystemNavigationBar: Bool = false) {
     self.keepAlive = keepAlive
     self.viewModel = viewModel
 
     // the ocr screen for still image
-    let ocrScreen = W3WOcrStillScreen(viewModel: viewModel, initialHeight: buttonsHeight)
+    let ocrScreen = W3WOcrStillScreen(viewModel: viewModel, initialHeight: buttonsHeight, usesSystemNavigationBar: usesSystemNavigationBar)
 
     // initialise the swiftui vie using the uikit view
     super.init(rootView: ocrScreen)

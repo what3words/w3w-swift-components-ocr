@@ -32,12 +32,14 @@ open class W3WOcrViewController<ViewModel: W3WOcrViewModelProtocol>: W3WHostingV
   /// - Parameters:
   ///     - viewModel: the viewmodel for the view
   ///     - theme: the theme stream
-  public init(viewModel: ViewModel, keepAlive: [Any?] = []) {
+  ///     - usesSystemNavigationBar: when compact, put the close button in the system navigation bar, e.g. so it sits
+  ///       in the vertical bar
+  public init(viewModel: ViewModel, keepAlive: [Any?] = [], usesSystemNavigationBar: Bool = false) {
     self.keepAlive = keepAlive
     self.viewModel = viewModel
     
     // make the SwitUI representable view for the UIKit view
-    let ocrScreen = W3WOcrScreen(viewModel: viewModel)
+    let ocrScreen = W3WOcrScreen(viewModel: viewModel, usesSystemNavigationBar: usesSystemNavigationBar)
 
     // start 'er up
     super.init(rootView: ocrScreen)
