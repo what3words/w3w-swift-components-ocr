@@ -20,9 +20,12 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
   public var onDragging: (() -> ())?
   
   var translations: W3WTranslationsProtocol
+
+  let accessibilityIds: W3WOcrAccessibilityIds?
   
-  public init(theme: W3WTheme?, translations: W3WTranslationsProtocol) {
+  public init(theme: W3WTheme?, translations: W3WTranslationsProtocol, accessibilityIds: W3WOcrAccessibilityIds? = nil) {
     self.translations = translations
+    self.accessibilityIds = accessibilityIds
     super.init(theme: theme)
   }
   
@@ -134,7 +137,9 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
         cell.separatorInset = UIEdgeInsets(top: 0, left: .greatestFiniteMagnitude, bottom: 0, right: 0)
         return cell
       case .result(let item):
-          return self?.makeCell(item: item)
+          let cell = self?.makeCell(item: item)
+          cell?.accessibilityIdentifier = self?.accessibilityIds?.resultsListRow?(indexPath.row)
+          return cell
       }
     }
     return dataSource
@@ -207,6 +212,7 @@ public class W3WBottomSheetTableViewController: W3WTableViewController<W3WSugges
       cell.set(scheme: theme?[.ocr]?.with(background: .clear))
       cell.separatorInset = .init(top: 0, left: W3WMargin.three.value, bottom: 0, right: 0)
       cell.sizeToFit()
+      cell.accessibilityIdentifier = accessibilityIds?.resultsListRow?(indexPath.row)
 
       return cell
     }

@@ -71,6 +71,8 @@ public struct W3WOcrStillScreen<ViewModel: W3WOcrStillViewModelProtocol>: View {
               W3WProgressView()
             } else {
               W3WPanelScreen(viewModel: viewModel.panelViewModel)
+                .accessibilityElement(children: .contain)
+                .accessibilityIdentifier(viewModel.accessibilityIds?.resultsList ?? "")
             }
           }
       }
